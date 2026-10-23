@@ -59,6 +59,9 @@ cp .env.example .env        # (recomendado) defina SITE_PASSWORD
 ```
 Ou use o workflow `.github/workflows/build-apk.yml` (GitHub Actions) e baixe o APK em *Artifacts*. O app é **100% offline**: os 224 medicamentos, doses, segurança, calculadoras e o texto das referências vão dentro do APK, e o `patch_android.sh` remove a permissão INTERNET (só abrir um link usa o navegador do aparelho, que precisa de conexão). Itens: lista, filtros, detalhe por faixa etária, favoritos, calculadoras, referências com link. **App único com dois módulos:** a tela inicial deixa escolher entre **PosologiaPED** e **FarmaGestão** (itens, curva ABC, pedido semanal PADRÃO/PEDIDO, importação da planilha do hospital (colada) ou da lista de exemplo, backup JSON compatível com o app web). No Android, exportar/importar usa a área de transferência (copiar/colar CSV e JSON), sem arquivos. No app, a lista tem busca e filtros por classe terapêutica e classe farmacológica. A cesta, a comparação, a aba Qualquer medicamento e a aba Minha lista existem só na versão web. O APK sai assinado com chave de depuração (instalação direta, não Play Store).
 
+## Versões
+A versão vigente está em `VERSION` (SemVer) e o histórico em [CHANGELOG.md](CHANGELOG.md). Para lançar uma nova: edite `VERSION`, descreva no CHANGELOG, rode `python3 tools/release.py` (sincroniza pubspec, package.json e catálogo e gera `farmacia-hospitalar-integrada-vX.Y.Z.zip`, com a pasta interna também versionada) e marque com `git tag -a vX.Y.Z`.
+
 ## Estrutura
 ```
 guia/        PosologiaPED, versão web (app.js, calc.js, style.css, build.py, test.js)
