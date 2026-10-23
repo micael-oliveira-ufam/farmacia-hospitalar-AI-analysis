@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Minha conta · Farmácia Hospitalar Integrada</title><link rel="icon" href="/icon.svg"><link rel="stylesheet" href="/shared/ui.css"></head>
+<body><main class="wrap narrow">
+  <h1>Minha conta</h1>
+  <div id="msg" role="alert"></div>
+  <div class="card" id="box">Carregando…</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+    <button class="btn" id="out">Sair</button><button class="btn danger" id="del">Excluir minha conta</button>
+  </div>
+  <footer class="foot"><a href="/termos">Termos e privacidade</a></footer>
+</main>
+<script src="/shared/site.js"></script>
+<script>
+var msg = document.getElementById("msg"), q = new URLSearchParams(location.search);
+var fd = function (s) { return new Date(s * 1000).toLocaleDateString("pt-BR"); };
+function show(t, k) { msg.innerHTML = '<div class="msg ' + k + '"></div>'; msg.firstChild.textContent = t; }
+if (q.get("assinatura") === "ok") show("Assinatura confirmada. Obrigado!", "ok");
+FHI.me.then(function (me) {
+  if (!me) return location.replace("/entrar?next=/conta");
+  var p = me.plan, s = { trial: "Demonstração gratuita", active: "Assinatura ativa", past_due: "Pagamento pendente", expired: "Demonstração encerrada", canceled: "Assinatura cancelada" }[p.status];
+  var h = '<dl class="kv"><dt>Nome</dt><dd></dd><dt>E-mail</dt><dd></dd><dt>Plano</dt><dd>' + s + '</dd>';
+  if (p.status === "trial") h += "<dt>Termina em</dt><dd>" + fd(p.trialEndsAt) + " (" + p.daysLeft + (p.daysLeft === 1 ? " dia" : " dias") + ")</dd>";
+  if (p.renewsAt) h += "<dt>" + (p.cancelAtPeriodEnd ? "Acesso até" : "Próxima cobrança") + "</dt><dd>" + fd(p.renewsAt) + "</dd>";
+  h += "<dt>Valor</dt><dd>R$ 29,99 por mês</dd></dl><div style='margin-top:16px;display:flex;gap:10px;flex-wrap:wrap'>";
+  h += p.status === "active" || p.status === "past_due" ? '<button class="btn pri" id="portal">Gerenciar assinatura e cartão</button>' : '<a class="btn pri" href="/assinar">Assinar por R$ 29,99/mês</a>';
+  if (p.access) h += '<a class="btn" href="/">Ir aos módulos</a>';
+  document.getElementById("box").innerHTML = h + "</div>";
+  var dd = document.querySelectorAll("#box dd"); dd[0].textContent = me.user.nome; dd[1].textContent = me.user.email;
+  var pb = document.getElementById("portal");
+  if (pb) pb.onclick = function () { pb.disabled = true; FHI.api("/api/billing/portal").then(function (j) { location.href = j.url; }).catch(function (e) { pb.disabled = false; show(e.message, "err"); }); };
+});
+document.getElementById("out").onclick = function () { FHI.api("/api/auth/logout").then(function () { try { localStorage.removeItem("fhi_ent"); } catch (e) {} location.href = "/"; }); };
+document.getElementById("del").onclick = function () {
+  var s = prompt("Para excluir a conta de forma definitiva, digite sua senha:");
+  if (!s) return;
+  FHI.api("/api/account/delete", { senha: s }).then(function () { try { localStorage.removeItem("fhi_ent"); } catch (e) {} location.href = "/"; }).catch(function (e) { show(e.message, "err"); });
+};
+</script></body></html>

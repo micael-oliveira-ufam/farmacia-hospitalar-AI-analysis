@@ -21,15 +21,17 @@ RUN apk add --no-cache nodejs \
 
 # 3) Servidor
 FROM node:22-alpine AS runtime
-ENV NODE_ENV=production PORT=8080 PUBLIC_DIR=/app/public
+ENV NODE_ENV=production PORT=8080 PUBLIC_DIR=/app/public DATA_DIR=/app/data
 WORKDIR /app
 COPY server/package.json server/package-lock.json ./
 RUN npm ci --omit=dev --no-audit --no-fund
-COPY server/server.js ./
+COPY server/server.js server/db.js server/auth.js server/billing.js ./
 COPY server/landing ./public/landing
 COPY --from=abc /abc/dist ./public/abc
 COPY --from=guia /out/index.html /out/manifest.json /out/sw.js /out/icon.svg ./public/guia/
+RUN mkdir -p /app/data && chown node:node /app/data
 USER node
+VOLUME /app/data
 EXPOSE 8080
 HEALTHCHECK --interval=15s --timeout=3s --start-period=5s --retries=3 \
   CMD wget -qO- http://127.0.0.1:8080/healthz >/dev/null || exit 1

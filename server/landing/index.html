@@ -5,62 +5,52 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Farmácia Hospitalar Integrada</title>
 <meta name="description" content="Farmácia Hospitalar Integrada: FarmaGestão (estoque e curva ABC) e PosologiaPED (posologia pediátrica), para qualquer hospital, com destaque para hospitais pediátricos.">
-<meta name="theme-color" content="#0B6B70">
+<meta name="theme-color" content="#12808A">
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" href="/icon.svg">
-<style>
-:root{--bg:#F6F9FA;--surface:#fff;--ink:#14272B;--muted:#556A70;--line:#D8E3E6;--brand:#0B6B70;--brand2:#2563eb;--warn-bg:#FFF7E0;--warn-line:#E8C766}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0F1A1C;--surface:#16262A;--ink:#E7F0F2;--muted:#9DB3B8;--line:#27393D;--warn-bg:#2B2410;--warn-line:#6B5A22}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-.wrap{max-width:960px;margin:0 auto;padding:32px 16px 48px}
-.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
-h1{font-size:clamp(28px,5vw,40px);line-height:1.15;margin:6px 0 8px}
-.lede{color:var(--muted);max-width:60ch;margin:0 0 24px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
-.tile{display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;text-decoration:none;color:inherit;transition:transform .12s,border-color .12s}
-.tile:hover,.tile:focus-visible{transform:translateY(-2px);border-color:var(--brand);outline:none}
-.tile:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 35%,transparent)}
-.ico{width:44px;height:44px;border-radius:10px;display:grid;place-items:center;color:#fff;font-size:22px;font-weight:800}
-.t1 .ico{background:var(--brand)}.t2 .ico{background:var(--brand2)}
-.tile h2{margin:4px 0 0;font-size:22px}
-.tile p{margin:0;color:var(--muted)}
-.tile ul{margin:4px 0 0;padding-left:18px;color:var(--muted);font-size:14px}
-.pill{display:inline-block;font-size:11px;font-weight:700;vertical-align:middle;margin-left:6px;padding:2px 8px;border-radius:999px;background:#E6F4EA;color:#14532d;border:1px solid #86c9a0}
-.go{margin-top:auto;font-weight:700;color:var(--brand)}.t2 .go{color:var(--brand2)}
-.warn{margin-top:24px;background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:12px 14px;font-size:14px}
-footer{margin-top:20px;font-size:13px;color:var(--muted)}
-a.plain{color:inherit}
-</style>
+<link rel="stylesheet" href="/shared/ui.css">
 </head>
 <body>
 <main class="wrap">
   <div class="eyebrow">Plataforma para qualquer hospital · foco em hospitais pediátricos</div>
   <h1>Farmácia Hospitalar Integrada</h1>
-  <p class="lede">Dois módulos no mesmo lugar: gestão de estoque com curva ABC e posologia pediátrica. Escolha um; você volta a esta página a qualquer momento pelo link “Início”.</p>
+  <p class="lede">Escolha o módulo que vai usar. Você volta a esta tela a qualquer momento pelo ícone de casa na barra superior.</p>
+  <div id="status"></div>
   <div class="grid">
-    <a class="tile t2" href="estoque/">
-      <div class="ico" aria-hidden="true">F</div>
+    <a class="tile ped" href="/guia/">
+      <img src="/icons/ped.svg" alt="" width="64" height="64">
+      <h2>PosologiaPED <span class="pill">Foco pediátrico</span></h2>
+      <p>Posologia para hospitais pediátricos: doses por faixa etária (neonatos, lactentes e crianças em destaque), alertas pediátricos e calculadoras, com referência e hiperlink em cada informação.</p>
+      <ul><li>Navegue por classe terapêutica e farmacológica</li><li><b>Minha lista:</b> use o elenco do seu hospital</li><li>Cálculo por peso e por m²</li></ul>
+      <span class="go">Abrir PosologiaPED →</span>
+    </a>
+    <a class="tile gestao" href="/estoque/">
+      <img src="/icons/gestao.svg" alt="" width="64" height="64">
       <h2>FarmaGestão</h2>
       <p>Estoque e Curva ABC: classificação A/B/C, estoque de emergência e pedido semanal (PADRÃO e PEDIDO).</p>
       <ul><li>Importa a planilha do seu hospital ou uma lista de exemplo</li><li>Exporta Excel; backup e restauração em JSON</li><li>Link para a monografia no PosologiaPED</li></ul>
       <span class="go">Abrir FarmaGestão →</span>
     </a>
-    <a class="tile t1" href="guia/">
-      <div class="ico" aria-hidden="true">P</div>
-      <h2>PosologiaPED <span class="pill">Foco pediátrico</span></h2>
-      <p>Posologia para hospitais pediátricos: doses por faixa etária (neonatos, lactentes e crianças em destaque), alertas pediátricos e calculadoras clínicas, com referência e hiperlink em cada informação.</p>
-      <ul><li>Alerta pediátrico antes da dose e cálculo por peso e por m²</li><li><b>Minha lista:</b> use o elenco do seu hospital</li><li><b>Qualquer medicamento:</b> fontes e calculadora de regime</li></ul>
-      <span class="go">Abrir PosologiaPED →</span>
-    </a>
   </div>
-  <div class="warn"><b>Apoio à decisão, não prescrição.</b> O conteúdo de doses foi compilado por IA a partir das fontes citadas e precisa de revisão por farmacêutico responsável, com atenção redobrada em neonatos e prematuros. Não registre dados de pacientes. A plataforma não pertence a nenhum hospital: a lista incluída é apenas um exemplo.</div>
-  <footer>Funciona offline depois da primeira visita com internet. Os dados do estoque ficam no seu navegador. <a class="plain" href="guia/">Como os dados foram obtidos (aba Sobre)</a>.</footer>
+  <div class="card" id="offer" style="margin-top:18px;display:flex;gap:16px;align-items:center;flex-wrap:wrap" hidden>
+    <div style="flex:1 1 260px"><b>7 dias de demonstração grátis, sem cartão.</b><div class="muted small">Depois, <b>R$ 29,99 por mês</b> com cancelamento a qualquer momento. O cartão é digitado na página segura do provedor de pagamento.</div></div>
+    <a class="btn pri" href="/entrar?aba=cadastro">Criar conta e testar</a>
+  </div>
+  <div class="msg warn" style="margin-top:18px"><b>Apoio à decisão, não prescrição.</b> O conteúdo de doses foi compilado por IA a partir das fontes citadas e precisa de revisão por farmacêutico responsável, com atenção redobrada em neonatos e prematuros. Não registre dados de pacientes. A plataforma não pertence a nenhum hospital: a lista incluída é apenas um exemplo.</div>
+  <footer class="foot">Funciona offline depois da primeira visita com internet (a conta é verificada a cada 7 dias). Os dados do estoque ficam no seu navegador. <a href="/termos">Termos e privacidade</a>.</footer>
 </main>
+<script src="/shared/site.js"></script>
 <script>
-// Instala os três módulos para uso offline: basta abrir esta página uma vez com internet.
+FHI.me.then(function (me) {
+  var s = document.getElementById("status");
+  if (!me) { document.getElementById("offer").hidden = false; return; }
+  var p = me.plan;
+  s.innerHTML = '<div class="msg ' + (p.access ? "ok" : "err") + '">' + (p.status === "trial" ? "Demonstração ativa: " + p.daysLeft + (p.daysLeft === 1 ? " dia restante. " : " dias restantes. ") + '<a href="/assinar">Assinar por R$ 29,99/mês</a>'
+    : p.access ? "Assinatura ativa. Bom trabalho!" : 'Sua demonstração terminou. <a href="/assinar">Assine para continuar</a>') + "</div>";
+});
+// Instala os módulos para uso offline: basta abrir esta página uma vez com internet.
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
-  const reg = (u, scope) => navigator.serviceWorker.register(u, { scope }).catch(() => {});
+  var reg = function (u, scope) { navigator.serviceWorker.register(u, { scope: scope }).catch(function () {}); };
   reg('/sw.js', '/'); reg('/guia/sw.js', '/guia/'); reg('/estoque/sw.js', '/estoque/');
 }
 </script>

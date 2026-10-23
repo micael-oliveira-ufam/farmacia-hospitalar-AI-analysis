@@ -16,7 +16,7 @@ fs.writeFileSync(path.join(pub, 'guia', 'index.html'), 'GUIA');
 fs.writeFileSync(path.join(pub, 'abc', 'index.html'), 'ABC');
 
 test('estáticos, SPA fallback e healthz', async () => {
-  const s = await listen(createApp({ PUBLIC_DIR: pub }));
+  const s = await listen(createApp({ AUTH_REQUIRED: '0', DATA_DIR: ':memory:', PUBLIC_DIR: pub }));
   assert.equal(await (await fetch(base(s) + '/guia/')).text(), 'GUIA');
   assert.equal(await (await fetch(base(s) + '/')).text(), 'HOME');
   assert.equal(await (await fetch(base(s) + '/estoque/')).text(), 'ABC');
@@ -27,13 +27,13 @@ test('estáticos, SPA fallback e healthz', async () => {
 });
 
 test('rota /api não existe mais (sem IA)', async () => {
-  const s = await listen(createApp({ PUBLIC_DIR: pub }));
+  const s = await listen(createApp({ AUTH_REQUIRED: '0', DATA_DIR: ':memory:', PUBLIC_DIR: pub }));
   const r = await fetch(base(s) + '/api/ai/generate', { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{"prompt":"x"}' });
   assert.equal(r.status, 404); stop(s);
 });
 
 test('senha do site (Basic) protege tudo, exceto healthz', async () => {
-  const s = await listen(createApp({ PUBLIC_DIR: pub, SITE_PASSWORD: 'senha-forte' }));
+  const s = await listen(createApp({ AUTH_REQUIRED: '0', DATA_DIR: ':memory:', PUBLIC_DIR: pub, SITE_PASSWORD: 'senha-forte' }));
   assert.equal((await fetch(base(s) + '/guia/')).status, 401);
   assert.equal((await fetch(base(s) + '/healthz')).status, 200);
   const h = u => ({ headers: { authorization: 'Basic ' + Buffer.from('u:' + u).toString('base64') } });

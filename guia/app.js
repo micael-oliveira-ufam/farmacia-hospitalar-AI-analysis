@@ -11,7 +11,7 @@ const fmt=(v,d)=>Number.isFinite(v)?v.toLocaleString("pt-BR",{maximumFractionDig
 const store={get(k,def){try{const v=localStorage.getItem(k);return v==null?def:JSON.parse(v)}catch(e){return def}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 
 /* ---------- estado ---------- */
-const st={tab:"meds",age:store.get("icam-age","ped"),theme:store.get("icam-theme","light"),
+const st={tab:"meds",age:store.get("icam-age","ped"),
   fav:new Set(store.get("icam-fav",[])),cart:new Set(store.get("icam-cart",[])),cmp:[],favOnly:false,
   mode:"tc",tc:"",fc:"",sec:"",flag:"",letter:"",more:false,dr:0};
 if(!AGE[st.age])st.age="ped";
@@ -99,8 +99,6 @@ function copy(txt){const ok=()=>toast("Copiado para a área de transferência");
   function fb(){const a=document.createElement("textarea");a.value=txt;document.body.appendChild(a);a.select();try{document.execCommand("copy");ok()}catch(e){toast("Não foi possível copiar")}a.remove()}}
 
 /* ---------- tema ---------- */
-function applyTheme(){const r=document.documentElement;if(st.theme==="auto")r.removeAttribute("data-theme");else r.setAttribute("data-theme",st.theme);
-  const b=$("#theme");if(b)b.textContent="Tema: "+({light:"claro",dark:"escuro",auto:"automático"})[st.theme]}
 
 /* ---------- classes ---------- */
 const TCS=[...new Set(ITEMS.map(i=>M[i.key].tc))].sort((a,b)=>a.localeCompare(b,"pt"));
@@ -315,7 +313,7 @@ function init(){
   const vias=["EV","IM","SC","VO","oral","tópica","inalat","oftálm","retal","vaginal","intratecal","epidural"];
   vias.forEach(v=>{const o=document.createElement("option");o.value=norm(v);o.textContent="Via: "+v;$("#via").appendChild(o)});
   $("#mat").innerHTML=CAT.materiais.map(m=>"<li>"+esc(m)+"</li>").join("");
-  renderCalcs();renderRefs();applyTheme();initMine();
+  renderCalcs();renderRefs();initMine();
   $$("#age button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.a===st.age));
   $("#tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
     if(b.dataset.more){st.more=!st.more;renderTabs();return}
@@ -352,7 +350,6 @@ function init(){
   window.addEventListener("popstate",()=>closeDrawer(true));
   $("#out").addEventListener("click",e=>{if(e.target.id==="goany"){$("#any-pt").value=$("#q").value.trim();st.tab="any";renderTabs();renderAny();window.scrollTo({top:0})}});
   $("#csvview").addEventListener("click",()=>copy(csvOf(view)));
-  $("#theme").addEventListener("click",()=>{st.theme=({light:"dark",dark:"auto",auto:"light"})[st.theme];store.set("icam-theme",st.theme);applyTheme()});
   const pb=$("#print");if(pb)pb.addEventListener("click",()=>window.print());
   renderTabs();renderMeds();
   const hm=location.hash.match(/caf=([^&]+)/);if(hm){const it=ITEMS.find(i=>i.code===decodeURIComponent(hm[1]));if(it)openItem(it)}

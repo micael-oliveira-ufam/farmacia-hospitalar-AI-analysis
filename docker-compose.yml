@@ -10,6 +10,9 @@ services:
         required: false
     environment:
       PORT: "8080"
+      DATA_DIR: /app/data
+    volumes:
+      - fhi-data:/app/data      # contas e assinaturas (SQLite); faça backup deste volume
     expose:
       - "8080"
     ports:
@@ -42,3 +45,6 @@ services:
     depends_on:
       app:
         condition: service_healthy
+
+volumes:
+  fhi-data:

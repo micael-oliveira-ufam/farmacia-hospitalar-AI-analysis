@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'models.dart';
 import 'launcher.dart';
+import 'account.dart';
 
 void main() => runApp(const GuiaApp());
 
@@ -13,8 +14,8 @@ class GuiaApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF0B6B70), brightness: Brightness.light),
-          scaffoldBackgroundColor: const Color(0xFFF8FAFB),
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF12808A), brightness: Brightness.light),
+          scaffoldBackgroundColor: const Color(0xFFF4F8F8),
         ),
         home: const Loader(),
       );
@@ -38,7 +39,11 @@ class _LoaderState extends State<Loader> {
             return Scaffold(body: Center(child: Padding(padding: const EdgeInsets.all(24), child: Text('Erro ao carregar o catálogo: ${snap.error}'))));
           }
           if (!snap.hasData) return const Scaffold(body: Center(child: CircularProgressIndicator()));
-          return Launcher(catalog: snap.data!.$1, prefs: snap.data!.$2);
+          final cat = snap.data!.$1, prefs = snap.data!.$2;
+          return AccountGate(
+            prefs: prefs,
+            builder: (ctx, api, st, signOut, refresh) => Launcher(catalog: cat, prefs: prefs, api: api, account: st, onSignOut: signOut, onRefresh: refresh),
+          );
         },
       );
 }

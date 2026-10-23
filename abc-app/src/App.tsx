@@ -618,7 +618,7 @@ export default function App() {
           
           <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-200">
             <div className="text-center mb-8 space-y-4">
-              <span className="text-lg font-black tracking-[0.25em] text-slate-500">UFAM</span>
+              <img src="/icons/gestao.svg" alt="" width={64} height={64} className="mx-auto" />
               <div>
                 <h1 className="text-3xl font-bold text-slate-900">FarmaGestão</h1>
                 <p className="text-slate-500 mt-2">Estoque e Curva ABC para farmácia hospitalar · parte da Farmácia Hospitalar Integrada</p>
@@ -745,9 +745,7 @@ export default function App() {
               {/* Logo & Main Title Section */}
               <div className="flex-1 p-6 flex flex-col md:flex-row md:items-center gap-6 border-b md:border-b-0 md:border-r border-slate-100">
                 <div className="flex items-center gap-5">
-                  <div className="bg-slate-50 p-3 rounded-2xl border border-slate-100">
-                    <span className="text-lg font-black tracking-[0.25em] text-slate-500">UFAM</span>
-                  </div>
+                  <img src="/icons/gestao.svg" alt="" width={56} height={56} className="rounded-2xl" />
                   <div>
                     <h1 className="text-2xl font-black tracking-tight text-slate-900 leading-tight">
                       FarmaGestão
@@ -1696,12 +1694,7 @@ export default function App() {
         <footer className="max-w-7xl mx-auto mt-12 pt-12 border-t border-slate-200 pb-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
             <div className="space-y-4">
-              <span className="text-lg font-black tracking-[0.25em] text-slate-500">UFAM</span>
-              <p className="text-xs text-slate-400 font-medium leading-relaxed max-w-xs">
-                Universidade Federal do Amazonas<br />
-                Faculdade de Ciências Farmacêuticas<br />
-                Pós-Graduação em Assistência Farmacêutica
-              </p>
+              <p className="text-xs text-slate-400 font-medium leading-relaxed max-w-xs">FarmaGestão · módulo de estoque e curva ABC da Farmácia Hospitalar Integrada.</p>
             </div>
             
             <div className="space-y-4">
