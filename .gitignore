@@ -1,0 +1,8 @@
+node_modules/
+dist/
+dist_guia/
+pkg/
+__pycache__/
+*.zip
+*.png
+.env
