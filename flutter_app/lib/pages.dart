@@ -79,38 +79,53 @@ class _MedsPageState extends State<MedsPage> {
   String q = '';
   String cls = 'all';
   String tc = '', fc = '';
-  static const filters = {
-    'all': 'Todos',
-    'pa': 'Alerta pediátrico',
-    'mav': 'Alta vigilância',
-    'nef': 'Nefro',
-    'hep': 'Hepato',
-    'ctl': 'Controlados',
-    'fav': 'Favoritos',
-  };
+  final _ctl = TextEditingController();
+  bool get browse => tc.isEmpty && q.isEmpty && cls == 'all';
 
   bool _match(Item it) {
     final c = widget.catalog;
     final m = c.mono[it.key]!, s = c.safety[it.key]!;
     if (tc.isNotEmpty && m.tc != tc) return false;
     if (fc.isNotEmpty && m.fc != fc) return false;
-    switch (cls) {
-      case 'mav':
-        if (s.ismp.isEmpty) return false;
-      case 'nef':
-        if (s.nef == 0) return false;
-      case 'hep':
-        if (s.hep == 0) return false;
-      case 'pa':
-        if ((m.pa ?? '').isEmpty) return false;
-      case 'ctl':
-        if (!controlledSections.contains(it.sec)) return false;
-      case 'fav':
-        if (!widget.favs.contains(it.id)) return false;
-    }
+    if (cls == 'fav' && !widget.favs.contains(it.id)) return false;
     if (q.isEmpty) return true;
     final hay = norm('${it.code} ${it.desc} ${m.name} ${m.cls} ${m.tc} ${m.fc} ${m.en} ${s.ae}');
     return hay.contains(norm(q));
+  }
+
+  String _n(Catalog c, String t) {
+    final n = c.items.where((i) => c.mono[i.key]!.tc == t).length;
+    return '$n ${n == 1 ? 'item' : 'itens'}';
+  }
+
+  void _openList(String src) => Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) => HospitalListPage(catalog: widget.catalog, source: src, age: widget.age, favs: widget.favs, onFav: widget.onFav)));
+
+  Widget _browseGrid(Catalog c, List<String> tcs) {
+    return ListView(padding: const EdgeInsets.fromLTRB(12, 4, 12, 16), children: [
+      const Padding(padding: EdgeInsets.fromLTRB(2, 8, 0, 8), child: Text('Escolha uma classe', style: TextStyle(fontWeight: FontWeight.w700, color: Colors.black54))),
+      GridView.count(
+        crossAxisCount: 2,
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        mainAxisSpacing: 8,
+        crossAxisSpacing: 8,
+        childAspectRatio: 2.3,
+        children: [
+          if (widget.favs.isNotEmpty)
+            _ClassTile('★ Meus favoritos', '${widget.favs.length} ${widget.favs.length == 1 ? 'item' : 'itens'}', 45, () => setState(() => cls = 'fav')),
+          for (var i = 0; i < tcs.length; i++)
+            _ClassTile(tcs[i], _n(c, tcs[i]), (i * 47 + 160) % 360, () => setState(() {
+                  tc = tcs[i];
+                  fc = '';
+                })),
+        ],
+      ),
+      const Padding(padding: EdgeInsets.fromLTRB(2, 18, 0, 8), child: Text('Listas do hospital', style: TextStyle(fontWeight: FontWeight.w700, color: Colors.black54))),
+      FilledButton.tonalIcon(onPressed: () => _openList('icam'), icon: const Icon(Icons.playlist_add), label: const Text('Importar lista do ICAM')),
+      const SizedBox(height: 8),
+      FilledButton.tonalIcon(onPressed: () => _openList('cod'), icon: const Icon(Icons.playlist_add), label: const Text('Importar lista da Policlínica Codajás')),
+    ]);
   }
 
   @override
@@ -124,73 +139,185 @@ class _MedsPageState extends State<MedsPage> {
         padding: const EdgeInsets.fromLTRB(12, 10, 12, 4),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           TextField(
-            decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.search), hintText: 'Buscar nome, código do item, classe, efeito', border: OutlineInputBorder(), isDense: true),
+            controller: _ctl,
+            decoration: const InputDecoration(prefixIcon: Icon(Icons.search), hintText: 'Buscar medicamento', border: OutlineInputBorder(), isDense: true),
             onChanged: (v) => setState(() => q = v.trim()),
           ),
-          const SizedBox(height: 8),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: SegmentedButton<String>(
-              showSelectedIcon: false,
-              segments: kAges.entries.map((e) => ButtonSegment<String>(value: e.key, label: Text(e.value))).toList(),
-              selected: {widget.age},
-              onSelectionChanged: (s) => widget.onAge(s.first),
+          if (!browse)
+            Row(children: [
+              TextButton.icon(
+                  onPressed: () => setState(() {
+                        tc = '';
+                        fc = '';
+                        q = '';
+                        cls = 'all';
+                        _ctl.clear();
+                      }),
+                  icon: const Icon(Icons.arrow_back),
+                  label: const Text('Classes')),
+              Expanded(child: Text(tc.isNotEmpty ? tc : (cls == 'fav' ? 'Favoritos' : 'Resultados'), style: const TextStyle(fontWeight: FontWeight.w700), overflow: TextOverflow.ellipsis)),
+              Text('${list.length} ${list.length == 1 ? 'item' : 'itens'}', style: const TextStyle(fontSize: 12, color: Colors.black54)),
+            ]),
+          if (tc.isNotEmpty && fcs.length > 1)
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(children: [
+                for (final f in fcs)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 6),
+                    child: ChoiceChip(label: Text(f), selected: fc == f, onSelected: (v) => setState(() => fc = v ? f : '')),
+                  ),
+              ]),
             ),
-          ),
-          const SizedBox(height: 8),
-          DropdownButtonFormField<String>(
-            isExpanded: true,
-            decoration: const InputDecoration(labelText: 'Classe terapêutica', border: OutlineInputBorder(), isDense: true),
-            value: tc,
-            items: [
-              const DropdownMenuItem(value: '', child: Text('Todas as classes terapêuticas')),
-              ...tcs.map((t) => DropdownMenuItem(value: t, child: Text('$t (${c.items.where((i) => c.mono[i.key]!.tc == t).length})', overflow: TextOverflow.ellipsis))),
-            ],
-            onChanged: (v) => setState(() { tc = v ?? ''; fc = ''; }),
-          ),
-          const SizedBox(height: 8),
-          DropdownButtonFormField<String>(
-            isExpanded: true,
-            decoration: const InputDecoration(labelText: 'Classe farmacológica', border: OutlineInputBorder(), isDense: true),
-            value: fcs.contains(fc) ? fc : '',
-            items: [
-              const DropdownMenuItem(value: '', child: Text('Todas as classes farmacológicas')),
-              ...fcs.map((f) => DropdownMenuItem(value: f, child: Text(f, overflow: TextOverflow.ellipsis))),
-            ],
-            onChanged: (v) => setState(() => fc = v ?? ''),
-          ),
-          const SizedBox(height: 6),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: filters.entries
-                  .map((e) => Padding(
-                        padding: const EdgeInsets.only(right: 6),
-                        child: ChoiceChip(label: Text(e.value), selected: cls == e.key, onSelected: (_) => setState(() => cls = e.key)),
-                      ))
-                  .toList(),
-            ),
-          ),
-          Text('${list.length} de ${c.items.length} itens', style: const TextStyle(fontSize: 12, color: Colors.black54)),
         ]),
       ),
       Expanded(
-        child: list.isEmpty
-            ? const Center(child: Text('Nenhum medicamento encontrado.'))
-            : ListView.builder(
-                padding: const EdgeInsets.fromLTRB(12, 4, 12, 12),
-                itemCount: list.length,
-                itemBuilder: (context, i) => _MedTile(
-                  item: list[i],
-                  catalog: c,
-                  age: widget.age,
-                  fav: widget.favs.contains(list[i].id),
-                  onFav: () => widget.onFav(list[i].id),
-                ),
-              ),
+        child: browse
+            ? _browseGrid(c, tcs)
+            : list.isEmpty
+                ? const Center(child: Text('Nenhum medicamento encontrado.'))
+                : ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(12, 4, 12, 12),
+                    itemCount: list.length,
+                    itemBuilder: (context, i) => _MedTile(
+                      item: list[i],
+                      catalog: c,
+                      age: widget.age,
+                      fav: widget.favs.contains(list[i].id),
+                      onFav: () => widget.onFav(list[i].id),
+                    ),
+                  ),
       ),
     ]);
+  }
+}
+
+class _ClassTile extends StatelessWidget {
+  final String title, sub;
+  final int hue;
+  final VoidCallback onTap;
+  const _ClassTile(this.title, this.sub, this.hue, this.onTap);
+  @override
+  Widget build(BuildContext context) {
+    final col = HSLColor.fromAHSL(1, hue.toDouble(), 0.55, 0.5).toColor();
+    return Material(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: const BorderSide(color: Color(0xFFD9E2E5))),
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: onTap,
+        child: Row(children: [
+          Container(width: 5, color: col),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
+                Text(title, maxLines: 2, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13.5, height: 1.2)),
+                Text(sub, style: const TextStyle(fontSize: 12, color: Colors.black54)),
+              ]),
+            ),
+          ),
+        ]),
+      ),
+    );
+  }
+}
+
+/// Lista do hospital (ICAM ou Policlinica Codajas) cruzada com as monografias do guia.
+class HospitalListPage extends StatefulWidget {
+  final Catalog catalog;
+  final String source; // 'icam' | 'cod'
+  final String age;
+  final Set<int> favs;
+  final void Function(int) onFav;
+  const HospitalListPage({super.key, required this.catalog, required this.source, required this.age, required this.favs, required this.onFav});
+  @override
+  State<HospitalListPage> createState() => _HospitalListPageState();
+}
+
+class _HospitalListPageState extends State<HospitalListPage> {
+  String title = '';
+  List<(String, Item?)> rows = [];
+  bool loading = true;
+  String filter = 'all';
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    final c = widget.catalog;
+    if (widget.source == 'icam') {
+      title = 'Lista do ICAM';
+      rows = [for (final i in c.items) (i.desc, i)];
+    } else {
+      final l = await CodajasList.load();
+      title = l.nome;
+      final keys = [for (final e in c.mono.entries) (norm(e.value.name.split(RegExp(r'[\d(]')).first.trim()), e.key)].where((k) => k.$1.length >= 4).toList()
+        ..sort((a, b) => b.$1.length.compareTo(a.$1.length));
+      rows = [for (final it in l.itens) (it.name, _find(c, keys, norm(it.name)))];
+    }
+    if (mounted) setState(() => loading = false);
+  }
+
+  Item? _find(Catalog c, List<(String, String)> keys, String d) {
+    for (final k in keys) {
+      if (' $d '.contains(' ${k.$1} ')) {
+        for (final i in c.items) {
+          if (i.key == k.$2) return i;
+        }
+      }
+    }
+    return null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ok = rows.where((r) => r.$2 != null).length;
+    final show = rows.where((r) => filter == 'all' || (filter == 'ok' ? r.$2 != null : r.$2 == null)).toList();
+    return Scaffold(
+      appBar: AppBar(title: Text(title.isEmpty ? 'Lista' : title), toolbarHeight: 48),
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(children: [
+              Padding(
+                padding: const EdgeInsets.all(12),
+                child: Text('${rows.length} itens, $ok com monografia no guia. A associação é automática, pelo nome: confira sal, associação e apresentação.',
+                    style: const TextStyle(fontSize: 12.5, color: Colors.black54)),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(children: [
+                  for (final f in const {'all': 'Todos', 'ok': 'Com monografia', 'no': 'Sem monografia'}.entries)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 6),
+                      child: ChoiceChip(label: Text(f.value), selected: filter == f.key, onSelected: (_) => setState(() => filter = f.key)),
+                    ),
+                ]),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: show.length,
+                  itemBuilder: (ctx, i) {
+                    final r = show[i];
+                    final it = r.$2;
+                    return ListTile(
+                      title: Text(r.$1, style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w600)),
+                      subtitle: it == null ? const Text('Sem monografia no guia') : Text('Guia: ${widget.catalog.mono[it.key]!.name}', maxLines: 1, overflow: TextOverflow.ellipsis),
+                      trailing: it == null ? null : const Icon(Icons.chevron_right),
+                      onTap: it == null
+                          ? null
+                          : () => Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => DetailPage(catalog: widget.catalog, item: it, age: widget.age, fav: widget.favs.contains(it.id), onFav: () => widget.onFav(it.id)))),
+                    );
+                  },
+                ),
+              ),
+            ]),
+    );
   }
 }
 

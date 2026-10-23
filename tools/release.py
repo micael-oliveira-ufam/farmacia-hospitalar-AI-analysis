@@ -14,7 +14,7 @@ for pj in ('abc-app/package.json','server/package.json'):
     sub(pj,r'^(\s*)"version":\s*"[^"]*"',r'\1"version": "%s"'%v)
 subprocess.run([sys.executable,'mkcat.py'],cwd=os.path.join(R,'tools'),check=True,stdout=subprocess.DEVNULL)
 for d in ('abc-app/public/data','flutter_app/assets'):
-    open(os.path.join(R,d,'catalog.json'),'wb').write(open(os.path.join(R,'data/catalog.json'),'rb').read())
+    for f in ('catalog.json','codajas.json'): open(os.path.join(R,d,f),'wb').write(open(os.path.join(R,'data',f),'rb').read())
 print('versão',v,'sincronizada (pubspec +%d, package.json x2, catalog.meta.versao)'%build)
 if '--no-zip' in sys.argv:sys.exit()
 name=f'farmacia-hospitalar-integrada-v{v}';out=os.path.join(R,name+'.zip')

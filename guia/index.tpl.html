@@ -13,34 +13,20 @@
 <!--ACCOUNT-->
 <div class="wrap">
 <header class="top">
-  <div class="toprow"><span class="eyebrow">Farmácia Hospitalar Integrada</span>
-    <span class="row"><button class="btn" id="print" type="button">Imprimir</button></span></div>
   <div class="brand"><h1>PosologiaPED</h1><span class="bdg ped">Hospitais pediátricos</span></div>
-  <p class="lede">Encontre o medicamento, veja a dose por faixa etária (neonatos, lactentes e crianças em destaque) e confira alertas, cálculo por peso e fontes com hiperlink.</p>
   <details class="warn"><summary><b>Apoio à decisão, não prescrição.</b> Doses precisam de revisão farmacêutica. <u>Ler mais</u></summary>Pediatria exige conferência rigorosa de peso, idade gestacional/pós-natal e função renal e hepática. Os valores foram compilados das fontes citadas e <b>precisam de revisão por farmacêutico responsável</b> antes do uso assistencial. Confirme dose, diluição e via na bula vigente e nos protocolos da instituição. Adultos e idosos aparecem só como referência.</details>
 </header>
 <nav class="tabs" id="tabs" aria-label="Seções"></nav>
 
 <section class="panel" id="p-meds">
   <div class="searchbox" role="search">
-    <input id="q" type="search" placeholder="Digite o nome, classe ou efeito adverso…" aria-label="Buscar medicamento" autocomplete="off" enterkeyhint="search">
+    <input id="q" type="search" placeholder="Buscar medicamento…" aria-label="Buscar medicamento" autocomplete="off" enterkeyhint="search">
     <button class="btn clearq" id="clearq" type="button" aria-label="Limpar busca" hidden>✕</button>
   </div>
-  <div class="agebar"><span class="agelbl">Doses para:</span>
-    <div class="seg" role="group" aria-label="Faixa etária em destaque" id="age">
-      <button type="button" class="ped" data-a="neo">Neonato</button><button type="button" class="ped" data-a="ped">Lactente / criança</button><button type="button" data-a="adu">Adulto</button><button type="button" data-a="ido">Idoso</button>
-    </div>
-  </div>
-  <div class="chips" id="chips" aria-label="Filtros rápidos"></div>
-  <details class="morefilters"><summary>Mais filtros</summary>
-    <div class="row"><select id="via" aria-label="Via de administração"><option value="">Todas as vias</option></select>
-    <button class="btn" id="csvview" type="button">Copiar lista atual (CSV)</button></div>
-  </details>
   <div id="browse"></div>
   <div id="crumb" class="crumb" hidden></div>
   <div id="out"></div>
   <details class="matbox"><summary>Outros itens da lista (materiais, sem posologia)</summary><ul class="mat" id="mat"></ul></details>
-  <div class="legend"><span class="bdg mav">Alta vigilância</span> ISMP Brasil 2019 · <span class="bdg n2">Nefrotóxico</span><span class="bdg n1">Nefro: atenção</span> · <span class="bdg h2">Hepatotóxico</span><span class="bdg h1">Hepato: atenção</span> · “atenção” é escala interna (ver Sobre) · <span class="bdg tcb">Classe terapêutica</span> grupo de uso · <span class="bdg fcb">Classe farmacológica</span> mecanismo/família</div>
 </section>
 
 <section class="panel" id="p-any" hidden>
@@ -69,13 +55,15 @@
 </section>
 
 <section class="panel" id="p-mine" hidden>
-  <h2 class="sec-h">Minha lista <small>a lista de medicamentos do seu hospital</small></h2>
-  <p class="note">Cole a lista do seu hospital (uma linha por item: <b>código;descrição</b>, ou só a descrição). O guia sugere a monografia correspondente <b>pelo nome</b> e você confirma. Itens sem correspondência levam às fontes (aba Qualquer medicamento). A lista fica só neste navegador.</p>
-  <div class="card">
-    <textarea id="mine-txt" rows="6" placeholder="123;Amoxicilina 250 mg/5 mL suspensão&#10;124;Dipirona 500 mg/mL gotas&#10;125;Soro fisiológico 0,9% 500 mL" style="width:100%;font:inherit;padding:8px;border:1px solid var(--line);border-radius:6px;background:var(--surface);color:var(--ink)"></textarea>
-    <div class="row"><button class="btn pri" id="mine-go" type="button">Usar esta lista</button><button class="btn" id="mine-ex" type="button">Preencher com a lista de exemplo</button><button class="btn" id="mine-csv" type="button">Copiar resultado (CSV)</button><button class="btn" id="mine-clear" type="button">Limpar</button></div>
-  </div>
+  <h2 class="sec-h">Minha lista</h2>
+  <div class="listbtns"><button class="btn pri" id="imp-icam" type="button">Importar lista do ICAM</button><button class="btn pri" id="imp-cod" type="button">Importar lista da Policlínica Codajás</button></div>
+  <p class="note" id="mine-info"></p>
   <div id="mine-out"></div>
+  <details class="matbox"><summary>Colar a lista do meu hospital</summary>
+    <p class="note">Uma linha por item: <b>código;descrição</b> (ou só a descrição). O guia sugere a monografia pelo nome e você confirma. A lista fica só neste navegador.</p>
+    <textarea id="mine-txt" rows="6" placeholder="123;Amoxicilina 250 mg/5 mL suspensão&#10;124;Dipirona 500 mg/mL gotas"></textarea>
+    <div class="row"><button class="btn pri" id="mine-go" type="button">Usar esta lista</button><button class="btn" id="mine-csv" type="button">Copiar resultado (CSV)</button><button class="btn" id="mine-clear" type="button">Limpar</button></div>
+  </details>
 </section>
 
 <section class="panel" id="p-calc" hidden>
@@ -122,7 +110,7 @@
 </div>
 <div id="drawer" class="drawer" hidden><div class="dr-back" data-close></div>
   <aside class="dr-panel" role="dialog" aria-modal="true" aria-label="Detalhe do medicamento"><div class="dr-top"><button class="btn" id="dr-close" type="button" data-close>← Voltar à lista</button></div><div id="dr-body"></div></aside></div>
-<script>window.CATALOG=/*CATALOG*/;</script>
+<script>window.CATALOG=/*CATALOG*/;window.LISTAS=/*LISTAS*/;</script>
 <script>/*CALC*/</script>
 <script>/*APP*/</script>
 <script>document.getElementById("ver").textContent=window.CATALOG.meta.versao;</script>

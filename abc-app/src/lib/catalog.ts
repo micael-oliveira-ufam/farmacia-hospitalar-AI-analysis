@@ -9,6 +9,10 @@ export interface Catalog {
 let cache: Promise<Catalog | null> | null = null;
 export const loadCatalog = () => (cache ??= fetch(`${import.meta.env.BASE_URL}data/catalog.json`).then(r => (r.ok ? r.json() : null)).catch(() => null));
 
+export interface CodajasItem { name: string; activeUsers: number; unitCost: number }
+let cacheC: Promise<{ nome: string; itens: CodajasItem[] } | null> | null = null;
+export const loadCodajas = () => (cacheC ??= fetch(`${import.meta.env.BASE_URL}data/codajas.json`).then(r => (r.ok ? r.json() : null)).catch(() => null));
+
 export const GUIDE_URL = (import.meta.env.VITE_GUIDE_URL as string | undefined) ?? '/guia/';
 export const guideLink = (code: string) => `${GUIDE_URL}#caf=${encodeURIComponent(code)}`;
 

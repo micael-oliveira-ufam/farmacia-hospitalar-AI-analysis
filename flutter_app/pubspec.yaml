@@ -1,7 +1,7 @@
 name: farmacia_integrada
 description: "Farmácia Hospitalar Integrada (Android, offline) - PosologiaPED (posologia pediátrica) e FarmaGestão (estoque e curva ABC)."
 publish_to: "none"
-version: 4.2.0+40200
+version: 4.3.0+40300
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -22,3 +22,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/catalog.json
+    - assets/codajas.json

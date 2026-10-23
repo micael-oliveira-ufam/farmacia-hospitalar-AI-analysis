@@ -54,7 +54,7 @@ import { cn } from './lib/utils';
 
 // Camada de dados (local por padrão; Firebase opcional) e IA via servidor
 import { localStore, localAuth, loadBackends, exportBackup, importBackup, USE_FIREBASE, type Store, type AuthApi, type AppUser } from './data/store';
-import { loadCatalog, type Catalog } from './lib/catalog';
+import { loadCodajas, loadCatalog, type Catalog } from './lib/catalog';
 import { WeeklyOrder } from './components/WeeklyOrder';
 import { Methodology } from './components/Methodology';
 import { CatalogBadges } from './components/CatalogBadges';
@@ -507,18 +507,37 @@ export default function App() {
   const importIcam = async () => {
     if (!hospitalId) return;
     const cat = catalog ?? await loadCatalog();
-    if (!cat) { alert('Lista de exemplo não encontrada (data/catalog.json).'); return; }
+    if (!cat) { alert('Lista do ICAM não encontrada (data/catalog.json).'); return; }
     const have = new Set(medications.map(m => m.cafCode).filter(Boolean));
     const novos = cat.items.filter(i => !have.has(i.code));
-    if (!novos.length) { alert('Todos os itens da lista de exemplo já estão importados.'); return; }
-    if (!window.confirm(`Importar ${novos.length} itens da lista de exemplo para "${hospitalName}"? Depois informe consumo, custo e estoque. (Para usar a lista do seu hospital, importe uma planilha.)`)) return;
+    if (!novos.length) { alert('Todos os itens da lista do ICAM já estão importados.'); return; }
+    if (!window.confirm(`Importar ${novos.length} itens da lista do ICAM para "${hospitalName}"? Depois informe consumo, custo e estoque.`)) return;
     setIsSaving(true);
     try {
       await store.addMany(hospitalId, novos.map(i => ({
         name: i.desc, cafCode: i.code, pharmaceuticalForm: cat.sec[i.sec] || '', concentration: i.mgml ? `${i.mgml} mg/mL` : '',
         annualConsumption: 0, unitCost: 0, leadTimeDays: 7, maxMonthlyConsumption: 0, activeUsers: 0, currentInventory: null,
       })));
-      alert(`${novos.length} itens da lista de exemplo importados.`);
+      alert(`${novos.length} itens da lista do ICAM importados.`);
+    } catch (error) { handleFirestoreError(error, OperationType.CREATE, 'medications'); }
+    finally { setIsSaving(false); }
+  };
+
+  const importCodajas = async () => {
+    if (!hospitalId) return;
+    const lista = await loadCodajas();
+    if (!lista) { alert('Lista da Policlínica Codajás não encontrada (data/codajas.json).'); return; }
+    const have = new Set(medications.map(m => m.name.trim().toLowerCase()));
+    const novos = lista.itens.filter(i => !have.has(i.name.trim().toLowerCase()));
+    if (!novos.length) { alert('Todos os itens da lista da Policlínica Codajás já estão importados.'); return; }
+    if (!window.confirm(`Importar ${novos.length} itens da lista da Policlínica Codajás para "${hospitalName}"? Usuários ativos por mês e custo unitário vêm da lista; confira o custo dos itens com valor zero.`)) return;
+    setIsSaving(true);
+    try {
+      await store.addMany(hospitalId, novos.map(i => ({
+        name: i.name, pharmaceuticalForm: '', concentration: '', activeUsers: i.activeUsers || 0, annualConsumption: (i.activeUsers || 0) * 12,
+        unitCost: i.unitCost || 0, leadTimeDays: 7, maxMonthlyConsumption: 0, currentInventory: null,
+      })));
+      alert(`${novos.length} itens da Policlínica Codajás importados.`);
     } catch (error) { handleFirestoreError(error, OperationType.CREATE, 'medications'); }
     finally { setIsSaving(false); }
   };
@@ -826,7 +845,12 @@ export default function App() {
                 <button onClick={importIcam} disabled={isSaving}
                   className="flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-xl transition-all font-bold text-xs border border-blue-200 disabled:opacity-50">
                   <Database size={14} />
-                  Importar lista de exemplo (224 itens)
+                  Importar lista do ICAM (224 itens)
+                </button>
+                <button onClick={importCodajas} disabled={isSaving}
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-xl transition-all font-bold text-xs border border-blue-200 disabled:opacity-50">
+                  <Database size={14} />
+                  Importar lista da Policlínica Codajás (188 itens)
                 </button>
                 {store.mode === 'local' && (<>
                   <button onClick={doBackup} className="px-3 py-2 bg-white hover:bg-slate-50 text-slate-700 rounded-xl font-bold text-xs border border-slate-200 shadow-sm">Backup</button>

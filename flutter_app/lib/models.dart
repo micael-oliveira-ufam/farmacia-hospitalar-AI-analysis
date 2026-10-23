@@ -108,3 +108,26 @@ class Catalog {
     return r;
   }
 }
+
+/// Item da lista da Policlinica Codajas (assets/codajas.json).
+class CodajasItem {
+  final String name;
+  final double activeUsers, unitCost;
+  CodajasItem(this.name, this.activeUsers, this.unitCost);
+}
+
+class CodajasList {
+  final String nome;
+  final List<CodajasItem> itens;
+  CodajasList(this.nome, this.itens);
+  static Future<CodajasList> load() async {
+    final j = jsonDecode(await rootBundle.loadString('assets/codajas.json')) as Map<String, dynamic>;
+    return CodajasList(
+      (j['nome'] ?? 'Policlínica Codajás') as String,
+      (j['itens'] as List).map((e) {
+        final x = e as Map<String, dynamic>;
+        return CodajasItem(x['name'] as String, ((x['activeUsers'] ?? 0) as num).toDouble(), ((x['unitCost'] ?? 0) as num).toDouble());
+      }).toList(),
+    );
+  }
+}

@@ -6,6 +6,9 @@ def build(pwa):
     t=rd('index.tpl.html')
     t=t.replace('/*CSS*/',rd('style.css')).replace('/*CALC*/',rd('calc.js')).replace('/*APP*/',rd('app.js'))
     t=t.replace('/*CATALOG*/',json.dumps(cat,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
+    cod=json.load(open(os.path.join(S,'data/codajas.json'),encoding='utf8'))
+    listas={'codajas':{'nome':cod['nome'],'itens':[i['name'] for i in cod['itens']]}}
+    t=t.replace('/*LISTAS*/',json.dumps(listas,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     t=t.replace('<!--ACCOUNT-->','<script src="/shared/account.js" data-module="ped" defer></script>' if pwa else '')
     t=t.replace('<!--PWA-->','<link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg">' if pwa else '')
     return t

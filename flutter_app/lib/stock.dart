@@ -193,7 +193,7 @@ class _ItemsTabState extends State<_ItemsTab> {
             ? const Center(
                 child: Padding(
                   padding: EdgeInsets.all(24),
-                  child: Text('Nenhum item ainda. Use o botão + ou vá em "Dados" para importar a lista de exemplo (224 itens) ou colar a planilha do seu hospital.',
+                  child: Text('Nenhum item ainda. Use o botão + ou vá em "Dados" para importar a lista do ICAM ou da Policlínica Codajás ou colar a planilha do seu hospital.',
                       textAlign: TextAlign.center)))
             : ListView.separated(
                 itemCount: list.length,
@@ -543,14 +543,38 @@ class _DataTab extends StatelessWidget {
   final Catalog catalog;
   const _DataTab({required this.store, required this.catalog});
 
+  Future<void> _importCodajas(BuildContext context) async {
+    final CodajasList lista;
+    try {
+      lista = await CodajasList.load();
+    } catch (_) {
+      if (context.mounted) _snack(context, 'Não foi possível ler a lista da Policlínica Codajás.');
+      return;
+    }
+    final have = store.meds.map((m) => m.name.toLowerCase()).toSet();
+    final novos = lista.itens.where((i) => !have.contains(i.name.toLowerCase())).toList();
+    if (novos.isEmpty) {
+      if (context.mounted) _snack(context, 'Todos os itens da Policlínica Codajás já estão cadastrados.');
+      return;
+    }
+    if (!context.mounted) return;
+    final ok = await _confirm(context, 'Importar lista da Policlínica Codajás', 'Adicionar ${novos.length} itens com usuários ativos e custo unitário? Depois informe o estoque de cada um.');
+    if (ok != true) return;
+    store.addMany([
+      for (final i in novos)
+        Med(id: store.newId(), name: i.name, annual: i.activeUsers * 12, unitCost: i.unitCost)
+    ]);
+    if (context.mounted) _snack(context, '${novos.length} itens importados.');
+  }
+
   Future<void> _importIcam(BuildContext context) async {
     final have = store.meds.map((m) => m.caf).where((x) => x.isNotEmpty).toSet();
     final novos = catalog.items.where((i) => !have.contains(i.code)).toList();
     if (novos.isEmpty) {
-      _snack(context, 'Todos os itens da lista de exemplo já estão cadastrados.');
+      _snack(context, 'Todos os itens da lista do ICAM já estão cadastrados.');
       return;
     }
-    final ok = await _confirm(context, 'Importar lista de exemplo', 'Adicionar ${novos.length} itens? Depois informe consumo, custo e estoque de cada um.');
+    final ok = await _confirm(context, 'Importar lista do ICAM', 'Adicionar ${novos.length} itens? Depois informe consumo, custo e estoque de cada um.');
     if (ok != true) return;
     store.addMany([
       for (final i in novos)
@@ -642,7 +666,8 @@ class _DataTab extends StatelessWidget {
       const Text('Seus dados ficam só neste aparelho (sem internet, sem conta).', style: TextStyle(fontWeight: FontWeight.w700)),
       const Text('Não registre dados de pacientes. Faça backup de vez em quando.', style: TextStyle(fontSize: 12)),
       const SizedBox(height: 10),
-      btn(Icons.playlist_add, 'Importar lista de exemplo (${catalog.items.length} itens)', () => _importIcam(context)),
+      btn(Icons.playlist_add, 'Importar lista do ICAM (${catalog.items.length} itens)', () => _importIcam(context)),
+      btn(Icons.playlist_add, 'Importar lista da Policlínica Codajás', () => _importCodajas(context)),
       btn(Icons.content_paste, 'Importar planilha colada (CSV)', () => _importCsv(context)),
       btn(Icons.copy_all, 'Copiar planilha da curva ABC e do pedido (CSV)', () async {
         await Clipboard.setData(ClipboardData(text: resultsCsv(store.rows)));

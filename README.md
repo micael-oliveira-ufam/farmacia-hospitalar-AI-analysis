@@ -86,3 +86,7 @@ scripts/     start/stop/link, sync-catalog
 `node guia/test.js` · `cd abc-app && npm test` · `cd server && npm test` · `cd flutter_app && flutter test`
 
 Atribuição: verificações de DOI/metadados feitas segundo o PubMed (NCBI/NLM).
+
+## Listas de hospital (4.3.0)
+
+O guia (PosologiaPED) e a curva ABC (FarmaGestão), na web e no app, têm os botões **Importar lista do ICAM** e **Importar lista da Policlínica Codajás** (`data/catalog.json` e `data/codajas.json`). No guia a lista é cruzada com as monografias pelo nome, de forma automática: confira sempre sal, associação e apresentação.

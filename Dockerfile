@@ -7,7 +7,7 @@ WORKDIR /abc
 COPY abc-app/package.json abc-app/package-lock.json ./
 RUN npm ci --no-audit --no-fund
 COPY abc-app/ ./
-COPY data/catalog.json public/data/catalog.json
+COPY data/catalog.json data/codajas.json public/data/
 RUN npm test && npx vite build --base=/estoque/
 
 # 2) Guia de doses (arquivo HTML único gerado a partir de data/catalog.json)

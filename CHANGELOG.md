@@ -2,6 +2,13 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.3.0 - 2026-10-23
+
+- **PosologiaPED simplificado**: a tela inicial mostra apenas a busca e as **classes terapêuticas como botões**; ao tocar, vem a lista de medicamentos (uma linha cada) e, ao tocar no item, o detalhe com dose usual/máxima da faixa etária escolhida (botões Neonato, Lactente/criança, Adulto, Idoso) e o restante em seções recolhidas (efeitos adversos, rim/fígado, todas as faixas, cálculo por peso, fontes).
+- Abas: Medicamentos e Calculadoras em destaque; Minha lista, Qualquer medicamento, Cesta, Comparar, Referências e Sobre em "Mais". Tema escuro e filtros extras removidos.
+- **Botões "Importar lista do ICAM" e "Importar lista da Policlínica Codajás"** no guia (web e app) e na curva ABC (web e app). A lista da Policlínica Codajás (188 itens, com usuários ativos e custo unitário) vai em `data/codajas.json`. No guia, a associação com monografias é automática pelo nome e precisa de conferência.
+- Flutter: grade de classes, tela de lista do hospital e botão de importação no FarmaGestão (apenas verificação de sintaxe, sem compilar).
+
 ## 4.2.0 — 2026-10-22
 - **Novo:** contas com cadastro (e-mail e senha) e **7 dias de demonstração grátis, sem cartão**.
 - **Novo:** assinatura de **R$ 29,99 por mês** via Stripe Checkout (cartão digitado na página do Stripe; o servidor não recebe dados de cartão), portal para trocar cartão e cancelar, webhook opcional e página `/conta`, `/assinar`, `/entrar`, `/termos`.
