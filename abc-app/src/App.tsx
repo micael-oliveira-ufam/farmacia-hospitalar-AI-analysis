@@ -54,7 +54,7 @@ import { cn } from './lib/utils';
 
 // Camada de dados (local por padrão; Firebase opcional) e IA via servidor
 import { localStore, localAuth, loadBackends, exportBackup, importBackup, USE_FIREBASE, type Store, type AuthApi, type AppUser } from './data/store';
-import { loadCodajas, loadCatalog, type Catalog } from './lib/catalog';
+import { loadCodajas, loadCatalog, HOME_URL, GUIDE_URL, type Catalog } from './lib/catalog';
 import { WeeklyOrder } from './components/WeeklyOrder';
 import { Methodology } from './components/Methodology';
 import { CatalogBadges } from './components/CatalogBadges';
@@ -637,7 +637,7 @@ export default function App() {
           
           <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-200">
             <div className="text-center mb-8 space-y-4">
-              <img src="/icons/gestao.svg" alt="" width={64} height={64} className="mx-auto" />
+              <img src={`${import.meta.env.BASE_URL}icon-gestao.svg`} alt="" width={64} height={64} className="mx-auto" />
               <div>
                 <h1 className="text-3xl font-bold text-slate-900">FarmaGestão</h1>
                 <p className="text-slate-500 mt-2">Estoque e Curva ABC para farmácia hospitalar · parte da Farmácia Hospitalar Integrada</p>
@@ -764,7 +764,7 @@ export default function App() {
               {/* Logo & Main Title Section */}
               <div className="flex-1 p-6 flex flex-col md:flex-row md:items-center gap-6 border-b md:border-b-0 md:border-r border-slate-100">
                 <div className="flex items-center gap-5">
-                  <img src="/icons/gestao.svg" alt="" width={56} height={56} className="rounded-2xl" />
+                  <img src={`${import.meta.env.BASE_URL}icon-gestao.svg`} alt="" width={56} height={56} className="rounded-2xl" />
                   <div>
                     <h1 className="text-2xl font-black tracking-tight text-slate-900 leading-tight">
                       FarmaGestão
@@ -774,8 +774,8 @@ export default function App() {
                 </div>
                 
                 <div className="flex flex-wrap items-center gap-2">
-                  <a href="/" className="px-3 py-1 text-[11px] font-black text-slate-600 border border-slate-200 rounded-full hover:bg-slate-50">← Início</a>
-                  <a href="/guia/" className="px-3 py-1 text-[11px] font-black text-blue-700 border border-blue-200 rounded-full hover:bg-blue-50">PosologiaPED</a>
+                  <a href={HOME_URL} className="px-3 py-1 text-[11px] font-black text-slate-600 border border-slate-200 rounded-full hover:bg-slate-50">← Início</a>
+                  <a href={GUIDE_URL} className="px-3 py-1 text-[11px] font-black text-blue-700 border border-blue-200 rounded-full hover:bg-blue-50">PosologiaPED</a>
                 </div>
                 <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-full w-fit">
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />

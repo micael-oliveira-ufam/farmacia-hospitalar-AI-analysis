@@ -2,6 +2,13 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.4.0 - 2026-10-28
+
+- **Triagem de prescrição** (aba "Triagem" do PosologiaPED, web e app): informe faixa etária, ClCr e insuficiência hepática, adicione os medicamentos e veja alertas por gravidade: interações medicamentosas (44 regras: opioide+benzodiazepínico, ceftriaxona+cálcio em neonatos, hipercalemia, QT, valproato+meropenem, nefrotoxicidade etc.), duplicidade de princípio ativo/classe, função renal/hepática, alertas pediátricos, alta vigilância e controlados. Botão "Copiar parecer".
+- Integração com o **NoHarm.ai**: o repositório `noharm-ai/backend` (MIT) é um servidor Flask + PostgreSQL multi-hospital e não roda no navegador nem no GitHub Pages. Por isso a triagem usa **lógica própria, inspirada nas categorias de alerta do NoHarm**, sem copiar código nem dados dele. Crédito em README, NOTICE e na tela.
+- **GitHub Pages**: `tools/build_pages.sh` gera o site estático (`_site/`: início, /guia/, /estoque/) sem servidor, conta ou Stripe; `.github/workflows/pages.yml` publica automaticamente a cada push na `main`.
+- Regras em `data/interacoes.json` (gerado por `tools/mkint.py`; conteúdo compilado por IA, exige revisão farmacêutica).
+
 ## 4.3.0 - 2026-10-23
 
 - **PosologiaPED simplificado**: a tela inicial mostra apenas a busca e as **classes terapêuticas como botões**; ao tocar, vem a lista de medicamentos (uma linha cada) e, ao tocar no item, o detalhe com dose usual/máxima da faixa etária escolhida (botões Neonato, Lactente/criança, Adulto, Idoso) e o restante em seções recolhidas (efeitos adversos, rim/fígado, todas as faixas, cálculo por peso, fontes).

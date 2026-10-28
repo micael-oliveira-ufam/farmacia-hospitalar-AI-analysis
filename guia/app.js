@@ -233,26 +233,46 @@ function runCalc(card){const c=CALCS.find(x=>x.id===card.dataset.c),f=$("form",c
   c.f.forEach(x=>{const e=f.elements[x[0]];v[x[0]]=(x[2]?e.value:parseFloat(String(e.value).replace(",",".")))});
   const r=c.run(v);$(".out",f).innerHTML=r||'<span class="note">Preencha os campos.</span>'}
 
-/* ---------- cesta: checagem de risco ---------- */
+/* ---------- triagem de prescrição (cesta) ---------- */
+const PT=Object.assign({age:"adu",crcl:"",hep:false},store.get("ped-pt",{}));
+const TAGE={neo:"Neonato",ped:"Criança",adu:"Adulto",ido:"Idoso"};
+const SEVC={2:"grave",1:"aten",0:"info"};
+function drugOf(i){const m=M[i.key],s=S[i.key];return {id:i.id,name:i.desc,c:m.c,pa:m.pa||"",ismp:s.ismp,nef:s.nef,nefN:s.nefN,hep:s.hep,hepN:s.hepN,ctl:CTRL.has(i.sec)}}
+function triagem(){const items=[...st.cart].map(i=>byId.get(i)).filter(Boolean);
+  const crcl=PT.crcl===""||isNaN(parseFloat(PT.crcl))?null:parseFloat(PT.crcl);
+  const p={age:PT.age,crcl:crcl,hepatic:PT.hep};
+  return {items,p,alerts:Triagem.analyze(items.map(drugOf),p,window.INTER)}}
+function srcLinks(a){const F=window.INTER.fontes;return a.ref.map(k=>{const r=F[k]||R[k];if(!r)return "";return '<a class="lk" href="'+esc(r.u)+'" target="_blank" rel="noopener noreferrer" title="'+esc(r.t)+'">'+esc(k==="BULA"?"Bula":k==="LEX"?"Lexicomp":k==="FDATAB"?"FDA (CYP)":k==="CREDMEDS"?"CredibleMeds":k==="DRUGS"?"Drugs.com":k)+"</a>"}).join(" ")}
+function alertsHtml(){const t=triagem();if(!t.items.length)return "";
+  const al=t.alerts,nG=al.filter(a=>a.sev===2).length,nA=al.filter(a=>a.sev===1).length;
+  return '<div class="tri-sum '+(nG?"g":nA?"a":"o")+'"><b>'+(nG?nG+(nG>1?" alertas graves":" alerta grave"):nA?"Nenhum alerta grave":"Nenhum alerta pelas regras")+"</b>"+(nA?" · "+nA+" de atenção":"")+" · "+t.items.length+(t.items.length===1?" item":" itens")+"</div>"
+   +al.map(a=>'<article class="tri-al '+SEVC[a.sev]+'"><header><span class="sv">'+Triagem.SEV[a.sev]+"</span><h3>"+esc(a.titulo)+'</h3></header><p class="tri-d">'+a.drugs.map(d=>esc(d.name.split(/[\d(,]/)[0].trim())).join(" + ")+"</p><p>"+esc(a.mec)+"</p><p><b>Conduta sugerida:</b> "+esc(a.cond)+'</p><p class="refchips">'+srcLinks(a)+"</p></article>").join("")
+   +(t.items.length>=2&&!al.some(a=>a.tipo==="interacao")?'<p class="note">Nenhuma interação encontrada <b>nas '+window.INTER.regras.length+' regras cadastradas</b>. Isso não exclui interações não cobertas: confira também em <a href="https://www.drugs.com/drug_interactions.html" target="_blank" rel="noopener noreferrer">Drugs.com</a> ou Lexicomp.</p>':"")}
+function renderAlerts(){const e=$("#tri-al");if(e)e.innerHTML=alertsHtml()}
 function renderCart(){
   const items=[...st.cart].map(i=>byId.get(i)).filter(Boolean);
   const box=$("#cartbox");
-  if(!items.length){box.innerHTML='<p class="empty">A cesta está vazia. Na aba Medicamentos, use “+ Cesta” para montar uma prescrição ou lista a ser checada.</p>';return}
-  const mav=items.filter(i=>S[i.key].ismp), nef=items.filter(i=>S[i.key].nef), hep=items.filter(i=>S[i.key].hep), ctl=items.filter(i=>CTRL.has(i.sec));
-  const byClass={};items.forEach(i=>{const c=M[i.key].c;(byClass[c]=byClass[c]||[]).push(i)});
-  const dup=Object.entries(byClass).filter(([c,a])=>a.length>1);
-  const nm=a=>a.map(i=>esc(M[i.key].n.split(/[\d(]/)[0].trim())).join(", ");
-  let h='<ul class="res">'
-   +'<li>'+(mav.length?'<b class="over">'+mav.length+' medicamento(s) de alta vigilância (ISMP Brasil):</b> '+nm(mav)+". Exigir dupla checagem independente.":"Nenhum medicamento da lista de alta vigilância.")+"</li>"
-   +'<li>'+(nef.length>=2?'<b>'+nef.length+' itens com atenção/toxicidade renal:</b> '+nm(nef)+". Verifique função renal, hidratação e a soma de nefrotoxinas.":nef.length?'1 item com atenção renal: '+nm(nef)+".":"Nenhum item marcado para atenção renal.")+"</li>"
-   +'<li>'+(hep.length>=2?'<b>'+hep.length+' itens com atenção/toxicidade hepática:</b> '+nm(hep)+". Verifique função hepática e hepatotoxinas associadas.":hep.length?'1 item com atenção hepática: '+nm(hep)+".":"Nenhum item marcado para atenção hepática.")+"</li>"
-   +(dup.length?dup.map(([c,a])=>'<li><b>Mesma classe/função ('+esc(c)+'):</b> '+nm(a)+". Possível duplicidade terapêutica — confirme a intenção.</li>").join(""):"<li>Sem itens da mesma classe na cesta.</li>")
-   +(ctl.length?'<li><b>Controlados:</b> '+nm(ctl)+". Exigem receituário e registro conforme a Portaria SVS/MS 344/98 "+refChip("P344")+".</li>":"")
-   +"</ul>"
-   +'<p class="warn"><b>Esta checagem NÃO avalia interações medicamentosas</b> nem dose. Ela só usa as classificações deste guia (ISMP, nefro/hepato, classe). Para interações, consulte uma base específica, p. ex. <a href="https://www.drugs.com/drug_interactions.html" target="_blank" rel="noopener noreferrer">Drugs.com Interaction Checker</a> ou UpToDate Lexidrug '+refChip("LEX")+".</p>"
-   +'<div class="list">'+items.map(i=>'<div class="card"><div class="card-h"><span class="code">'+(/^s\//.test(i.code)?"sem código":"Cód. "+esc(i.code))+'</span><span class="name">'+esc(i.desc)+'</span><span class="acts"><button class="btn" data-a="cart" data-id="'+i.id+'" aria-pressed="true">Remover</button></span></div></div>').join("")+"</div>"
-   +'<div class="row" style="margin-top:10px"><button class="btn pri" id="cartcsv">Copiar lista (CSV)</button><button class="btn" id="cartclear">Limpar cesta</button></div>';
-  box.innerHTML=h}
+  const pt='<div class="tri-pt"><div class="seg" id="tri-age" role="group" aria-label="Faixa etária do paciente">'+Object.keys(TAGE).map(a=>'<button type="button" data-tage="'+a+'" aria-pressed="'+(PT.age===a)+'">'+TAGE[a]+"</button>").join("")+'</div>'
+   +'<label class="fld">ClCr (mL/min) <input id="tri-crcl" inputmode="decimal" placeholder="opcional" value="'+esc(PT.crcl)+'"></label>'
+   +'<label class="chk"><input type="checkbox" id="tri-hep"'+(PT.hep?" checked":"")+'> Insuficiência hepática</label></div>'
+   +'<div class="searchbox tri-add"><input id="tri-q" type="search" placeholder="Adicionar medicamento à triagem" autocomplete="off"></div><div id="tri-res" class="rows" hidden></div>';
+  let h=pt+'<div id="tri-al"></div>';
+  if(!items.length)h+='<p class="empty">Adicione os medicamentos da prescrição para checar interações, duplicidades e alertas por idade e função renal/hepática.</p>';
+  else h+='<h3 class="sub-h">Itens da prescrição</h3><div class="rows">'+items.map(i=>'<div class="mrow" data-id="'+i.id+'"><span class="mname">'+esc(i.desc)+'</span><button class="btn" data-a="cart" data-id="'+i.id+'" aria-pressed="true">Remover</button></div>').join("")+"</div>"
+   +'<div class="row" style="margin-top:10px"><button class="btn pri" id="tri-rep">Copiar parecer</button><button class="btn" id="cartcsv">Copiar lista (CSV)</button><button class="btn" id="cartclear">Limpar</button></div>';
+  h+='<p class="warn">Triagem de <b>apoio</b>, não prescrição nem parecer. Cobre apenas os medicamentos deste guia e as '+window.INTER.regras.length+' regras cadastradas (compiladas por IA, revisão farmacêutica obrigatória). Não avalia dose total nem alergias. Inspirada nas categorias de alerta do <a href="https://github.com/noharm-ai" target="_blank" rel="noopener noreferrer">NoHarm.ai</a> (licença MIT); nenhum código ou dado do NoHarm foi copiado.</p>';
+  box.innerHTML=h;renderAlerts()}
+function triInit(){const box=$("#cartbox");
+  box.addEventListener("click",e=>{
+    const g=e.target.closest("[data-tage]");if(g){PT.age=g.dataset.tage;store.set("ped-pt",PT);$$("#tri-age button").forEach(x=>x.setAttribute("aria-pressed",x===g));renderAlerts();return}
+    const a=e.target.closest("[data-addtri]");if(a){st.cart.add(+a.dataset.addtri);persist();renderTabs();return}
+    if(e.target.id==="tri-rep"){const t=triagem();copy(Triagem.report(t.alerts,t.p,t.items.map(i=>i.desc)))}});
+  box.addEventListener("input",e=>{
+    if(e.target.id==="tri-crcl"){PT.crcl=e.target.value.trim();store.set("ped-pt",PT);renderAlerts();return}
+    if(e.target.id==="tri-q"){const q=norm(e.target.value.trim()),r=$("#tri-res");if(q.length<2){r.hidden=true;r.innerHTML="";return}
+      const hit=ITEMS.filter(i=>!st.cart.has(i.id)&&HAY[i.id].name.includes(q)).slice(0,6);r.hidden=!hit.length;
+      r.innerHTML=hit.map(i=>'<button class="ri" type="button" data-addtri="'+i.id+'"><span class="ri-main"><span class="ri-name">'+esc(i.desc)+'</span></span><span class="ri-go" aria-hidden="true">+</span></button>').join("")}});
+  box.addEventListener("change",e=>{if(e.target.id==="tri-hep"){PT.hep=e.target.checked;store.set("ped-pt",PT);renderAlerts()}})}
 
 /* ---------- comparar ---------- */
 function renderCmp(){
@@ -271,7 +291,7 @@ function renderRefs(){
    +ks.map(k=>'<li id="ref-'+k+'"><b class="lv">['+refNum[k]+"] "+k+"</b> "+esc(R[k].t)+' <a class="lk" href="'+esc(R[k].u)+'" target="_blank" rel="noopener noreferrer">abrir</a> <span class="lv '+(R[k].l==="ok"?"ok":"")+'" title="'+esc(LV[R[k].l][2])+'">'+LV[R[k].l][0]+"</span></li>").join("")+"</ol>"}
 
 /* ---------- navegação ---------- */
-const TABS=[["meds","Medicamentos"],["calc","Calculadoras"],["mine","Minha lista"],["any","Qualquer medicamento"],["cart","Cesta"],["cmp","Comparar"],["refs","Referências"],["about","Sobre"]];
+const TABS=[["meds","Medicamentos"],["calc","Calculadoras"],["mine","Minha lista"],["any","Qualquer medicamento"],["cart","Triagem"],["cmp","Comparar"],["refs","Referências"],["about","Sobre"]];
 const PRIM=["meds","calc"],SHORT={};
 function renderTabs(){
   const lab=t=>t[0]==="cart"&&st.cart.size?t[1]+'<span class="n">'+st.cart.size+"</span>":t[0]==="cmp"&&st.cmp.length?t[1]+'<span class="n">'+st.cmp.length+"</span>":t[1];
@@ -295,7 +315,7 @@ function onAction(e){const b=e.target.closest("button[data-a]");if(!b)return;con
 }
 function init(){
   $("#mat").innerHTML=CAT.materiais.map(m=>"<li>"+esc(m)+"</li>").join("");
-  renderCalcs();renderRefs();initMine();
+  renderCalcs();renderRefs();initMine();triInit();
   $("#tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
     if(b.dataset.more){st.more=!st.more;renderTabs();return}
     st.tab=b.dataset.t;st.more=false;renderTabs();window.scrollTo({top:0})});

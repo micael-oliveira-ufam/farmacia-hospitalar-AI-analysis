@@ -207,3 +207,16 @@ nav.tabs [aria-selected=true],nav.tabs [aria-selected=true]:hover{background:var
 .mrow{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:11px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
 .mrow:last-child{border-bottom:0}.mname{font-weight:600}.macts{display:flex;gap:8px;flex-wrap:wrap}
 @media (max-width:560px){.bigdose{grid-template-columns:1fr}}
+
+/* ---- 4.4.0: triagem ---- */
+.tri-pt{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:6px 0 10px}
+.tri-pt .fld{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--muted)}.tri-pt .fld input{width:90px;padding:7px 9px;border:1px solid var(--line);border-radius:10px;font:inherit}
+.chk{display:flex;gap:6px;align-items:center;font-size:14px}
+.tri-add{margin:6px 0}.tri-sum{padding:10px 14px;border-radius:var(--r);font-size:14.5px;margin:10px 0;border:1px solid var(--line);background:var(--surface)}
+.tri-sum.g{background:var(--alert-soft);border-color:#E6B3AD;color:#7C1D12}.tri-sum.a{background:var(--ped-bg);border-color:var(--ped-line);color:var(--ped-ink)}.tri-sum.o{background:#E8F6EE;border-color:#B5DEC6;color:#0F5A38}
+.tri-al{border:1px solid var(--line);border-left-width:6px;border-radius:var(--r);background:var(--surface);padding:10px 14px;margin:10px 0;box-shadow:var(--sh)}
+.tri-al.grave{border-left-color:var(--alert)}.tri-al.aten{border-left-color:var(--ped-line)}.tri-al.info{border-left-color:var(--accent)}
+.tri-al header{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.tri-al h3{margin:0;font-size:15.5px}
+.tri-al .sv{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.tri-al.grave .sv{background:var(--alert);color:#fff}.tri-al.aten .sv{background:var(--ped-bg);color:var(--ped-ink);border:1px solid var(--ped-line)}
+.tri-al p{margin:6px 0;font-size:14px}.tri-al .tri-d{font-weight:650}

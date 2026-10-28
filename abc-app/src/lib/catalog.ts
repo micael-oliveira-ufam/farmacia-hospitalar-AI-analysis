@@ -13,6 +13,7 @@ export interface CodajasItem { name: string; activeUsers: number; unitCost: numb
 let cacheC: Promise<{ nome: string; itens: CodajasItem[] } | null> | null = null;
 export const loadCodajas = () => (cacheC ??= fetch(`${import.meta.env.BASE_URL}data/codajas.json`).then(r => (r.ok ? r.json() : null)).catch(() => null));
 
+export const HOME_URL = (import.meta.env.VITE_HOME_URL as string | undefined) ?? '/';
 export const GUIDE_URL = (import.meta.env.VITE_GUIDE_URL as string | undefined) ?? '/guia/';
 export const guideLink = (code: string) => `${GUIDE_URL}#caf=${encodeURIComponent(code)}`;
 

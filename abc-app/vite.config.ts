@@ -12,7 +12,7 @@ function offlineSw(): Plugin {
     configResolved(c) { base = c.base; },
     generateBundle(_o, bundle) {
       const files = Object.keys(bundle).filter(f => !f.endsWith('.map'));
-      const list = ['./', 'index.html', 'manifest.json', 'icon.svg', 'data/catalog.json', 'data/codajas.json', ...files];
+      const list = ['./', 'index.html', 'manifest.json', 'icon.svg', 'icon-gestao.svg', 'data/catalog.json', 'data/codajas.json', ...files];
       const version = Date.now().toString(36);
       this.emitFile({ type: 'asset', fileName: 'sw.js', source: `const V='abc-${version}';
 const FILES=${JSON.stringify([...new Set(list)])};

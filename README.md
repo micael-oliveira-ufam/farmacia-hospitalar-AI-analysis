@@ -90,3 +90,15 @@ Atribuição: verificações de DOI/metadados feitas segundo o PubMed (NCBI/NLM)
 ## Listas de hospital (4.3.0)
 
 O guia (PosologiaPED) e a curva ABC (FarmaGestão), na web e no app, têm os botões **Importar lista do ICAM** e **Importar lista da Policlínica Codajás** (`data/catalog.json` e `data/codajas.json`). No guia a lista é cruzada com as monografias pelo nome, de forma automática: confira sempre sal, associação e apresentação.
+
+## GitHub Pages (sem servidor)
+
+1. Crie um repositório no GitHub e envie este projeto (branch `main`).
+2. Em **Settings → Pages → Build and deployment → Source**, escolha **GitHub Actions**.
+3. O workflow `.github/workflows/pages.yml` roda os testes, executa `tools/build_pages.sh` e publica em `https://<usuario>.github.io/<repositorio>/`.
+
+Para gerar localmente: `tools/build_pages.sh _site` e sirva a pasta com qualquer servidor estático. No Pages **não há conta, assinatura nem Stripe** (isso exige o servidor Express/Docker); os dados ficam só no navegador. Funciona offline depois da primeira visita.
+
+## Triagem de prescrição e NoHarm.ai
+
+A aba **Triagem** cruza os medicamentos da prescrição com 44 regras de interação (`data/interacoes.json`), duplicidades, função renal/hepática e faixa etária. Ela é inspirada nas categorias de alerta do [NoHarm.ai](https://github.com/noharm-ai) (licença MIT), mas **não usa código nem dados do NoHarm**: o backend deles é um servidor Flask + PostgreSQL de triagem de prescrições reais de cada hospital e não roda em site estático. Para usar o NoHarm de verdade, a instituição precisa de uma instância própria ou contratada. As regras são compiladas por IA e exigem revisão farmacêutica; não substituem Lexicomp/Micromedex.

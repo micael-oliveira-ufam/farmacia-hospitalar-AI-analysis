@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'calc.dart';
 import 'models.dart';
 import 'util.dart';
+import 'triagem.dart';
 
 const kAges = {'neo': 'Neonatos', 'ped': 'Lactentes e crianças', 'adu': 'Adultos (ref.)', 'ido': 'Idosos (ref.)'};
 const kAgeFull = {
@@ -42,6 +43,7 @@ class _HomeState extends State<Home> {
     final pages = <Widget>[
       MedsPage(catalog: widget.catalog, favs: favs, age: age, onFav: toggleFav, onAge: setAge),
       CalcPage(catalog: widget.catalog),
+      TriagemPage(catalog: widget.catalog),
       RefsPage(catalog: widget.catalog),
       AboutPage(catalog: widget.catalog),
     ];
@@ -54,6 +56,7 @@ class _HomeState extends State<Home> {
         destinations: const [
           NavigationDestination(icon: Icon(Icons.medication_outlined), label: 'Medicamentos'),
           NavigationDestination(icon: Icon(Icons.calculate_outlined), label: 'Calculadoras'),
+          NavigationDestination(icon: Icon(Icons.fact_check_outlined), label: 'Triagem'),
           NavigationDestination(icon: Icon(Icons.menu_book_outlined), label: 'Referências'),
           NavigationDestination(icon: Icon(Icons.info_outline), label: 'Sobre'),
         ],
