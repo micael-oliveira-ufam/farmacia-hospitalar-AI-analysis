@@ -8,3 +8,4 @@ cp data/codajas.json abc-app/public/data/codajas.json
 cp data/codajas.json flutter_app/assets/codajas.json
 echo "catalog.json sincronizado."
 cp data/interacoes.json flutter_app/assets/interacoes.json
+cp data/dose.json flutter_app/assets/dose.json

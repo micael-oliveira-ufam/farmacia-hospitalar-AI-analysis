@@ -4,6 +4,7 @@ import 'calc.dart';
 import 'models.dart';
 import 'util.dart';
 import 'triagem.dart';
+import 'dose.dart';
 
 const kAges = {'neo': 'Neonatos', 'ped': 'Lactentes e crianças', 'adu': 'Adultos (ref.)', 'ido': 'Idosos (ref.)'};
 const kAgeFull = {
@@ -42,6 +43,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     final pages = <Widget>[
       MedsPage(catalog: widget.catalog, favs: favs, age: age, onFav: toggleFav, onAge: setAge),
+      DosePage(catalog: widget.catalog),
       CalcPage(catalog: widget.catalog),
       TriagemPage(catalog: widget.catalog),
       RefsPage(catalog: widget.catalog),
@@ -55,6 +57,7 @@ class _HomeState extends State<Home> {
         onDestinationSelected: (i) => setState(() => tab = i),
         destinations: const [
           NavigationDestination(icon: Icon(Icons.medication_outlined), label: 'Medicamentos'),
+          NavigationDestination(icon: Icon(Icons.vaccines_outlined), label: 'Dose'),
           NavigationDestination(icon: Icon(Icons.calculate_outlined), label: 'Calculadoras'),
           NavigationDestination(icon: Icon(Icons.fact_check_outlined), label: 'Triagem'),
           NavigationDestination(icon: Icon(Icons.menu_book_outlined), label: 'Referências'),

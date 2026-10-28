@@ -72,6 +72,42 @@
   <div class="cgrid" id="cgrid"></div>
 </section>
 
+<section class="panel" id="p-dose" hidden>
+  <h2 class="sec-h">Dose do paciente</h2>
+  <p class="note">Informe os dados do paciente uma vez: a dose mínima, a recomendada e a máxima de cada medicamento já saem calculadas, com aviso de subdose e superdose.</p>
+  <div class="dz-pac">
+    <div class="dz-row">
+      <label class="fld">Idade <input id="dz-idade" inputmode="decimal" placeholder="ex.: 5"></label>
+      <label class="fld">Unidade <select id="dz-un"><option value="anos">anos</option><option value="meses">meses</option><option value="dias">dias</option></select></label>
+      <div class="fld"><span>Sexo</span><div class="seg" id="dz-sexo" role="group" aria-label="Sexo"><button type="button" data-sx="F" aria-pressed="false">Feminino</button><button type="button" data-sx="M" aria-pressed="false">Masculino</button></div></div>
+      <label class="fld">Peso (kg) <input id="dz-peso" inputmode="decimal" placeholder="ex.: 18"></label>
+    </div>
+    <details class="dz-more"><summary>Função renal e outros dados (opcional)</summary>
+      <div class="dz-row">
+        <label class="fld">Altura (cm) <input id="dz-alt" inputmode="decimal" placeholder="para TFG pediátrica"></label>
+        <label class="fld">Creatinina (mg/dL) <input id="dz-scr" inputmode="decimal" placeholder="opcional"></label>
+        <output id="dz-tfg" class="note"></output>
+      </div>
+    </details>
+    <div class="dz-row">
+      <label class="fld">Função renal <select id="dz-renal"></select></label>
+      <label class="fld">Função hepática <select id="dz-hep"></select></label>
+    </div>
+    <div class="dz-chk">
+      <label class="chk" id="dz-w-gest" hidden><input type="checkbox" id="dz-gest"> Gestante/lactante</label>
+      <label class="chk" id="dz-w-prem" hidden><input type="checkbox" id="dz-prem"> Prematuro</label>
+      <label class="chk"><input type="checkbox" id="dz-desid"> Desidratação</label>
+      <label class="chk"><input type="checkbox" id="dz-desn"> Desnutrição</label>
+      <label class="chk"><input type="checkbox" id="dz-outra"> Outra condição grave de saúde</label>
+    </div>
+  </div>
+  <h3 class="sub-h">Medicamento</h3>
+  <div class="searchbox"><input id="dz-q" type="search" placeholder="Buscar medicamento (ex.: amoxicilina)" autocomplete="off"></div>
+  <div id="dz-res" class="rows" hidden></div>
+  <div id="dz-sel"></div>
+  <div id="dz-out"></div>
+</section>
+
 <section class="panel" id="p-cart" hidden>
   <h2 class="sec-h">Triagem de prescrição</h2>
   <div id="cartbox"></div>
@@ -110,8 +146,9 @@
 </div>
 <div id="drawer" class="drawer" hidden><div class="dr-back" data-close></div>
   <aside class="dr-panel" role="dialog" aria-modal="true" aria-label="Detalhe do medicamento"><div class="dr-top"><button class="btn" id="dr-close" type="button" data-close>← Voltar à lista</button></div><div id="dr-body"></div></aside></div>
-<script>window.CATALOG=/*CATALOG*/;window.LISTAS=/*LISTAS*/;window.INTER=/*INTER*/;</script>
+<script>window.CATALOG=/*CATALOG*/;window.LISTAS=/*LISTAS*/;window.INTER=/*INTER*/;window.DOSE=/*DOSE*/;</script>
 <script>/*TRIAGEM*/</script>
+<script>/*DOSEJS*/</script>
 <script>/*CALC*/</script>
 <script>/*APP*/</script>
 <script>document.getElementById("ver").textContent=window.CATALOG.meta.versao;</script>

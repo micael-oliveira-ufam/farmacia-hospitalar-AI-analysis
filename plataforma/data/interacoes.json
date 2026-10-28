@@ -185,6 +185,11 @@
    "t": "Bulas dos medicamentos envolvidos (DailyMed/FDA e Bulário ANVISA)",
    "u": "https://dailymed.nlm.nih.gov/dailymed/",
    "l": "inst"
+  },
+  "ICAM": {
+   "t": "Base de interações do repositório ICAM (compilada por IA; revisão farmacêutica obrigatória)",
+   "u": "https://github.com/micael-oliveira-ufam/farmacia-hospitalar-AI-analysis/blob/claude/drug-interaction-evaluation-tool-i05nue/data/interacoes.json",
+   "l": "inst"
   }
  },
  "regras": [
@@ -760,6 +765,654 @@
    "ref": [
     "LEX",
     "BULA"
+   ]
+  },
+  {
+   "id": "icam-amicacina-gentamicina",
+   "a": "gentamicina",
+   "b": "amicacina",
+   "sev": 2,
+   "titulo": "Gentamicina + amicacina",
+   "mec": "Associação de dois aminoglicosídeos não é recomendada; risco somado de nefro/ototoxicidade.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-furosemida-vancomicina",
+   "a": "vancomicina",
+   "b": "furosemida",
+   "sev": 1,
+   "titulo": "Vancomicina + furosemida",
+   "mec": "Risco aumentado de ototoxicidade e nefrotoxicidade.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-anfotericina_b_lipossomal-gentamicina",
+   "a": "gentamicina",
+   "b": "anfotericina b lipossomal",
+   "sev": 2,
+   "titulo": "Gentamicina + anfotericina b lipossomal",
+   "mec": "Risco somado de nefrotoxicidade grave pela associação de aminoglicosídeo e anfotericina B.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-anfotericina_b_lipossomal-vancomicina",
+   "a": "vancomicina",
+   "b": "anfotericina b lipossomal",
+   "sev": 2,
+   "titulo": "Vancomicina + anfotericina b lipossomal",
+   "mec": "Risco somado de nefrotoxicidade grave.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-polimixina_b-vancomicina",
+   "a": "polimixina b",
+   "b": "vancomicina",
+   "sev": 1,
+   "titulo": "Polimixina b + vancomicina",
+   "mec": "Risco aumentado de nefrotoxicidade.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-fenitoina-valproato_de_sodio",
+   "a": "fenitoina",
+   "b": "valproato de sodio",
+   "sev": 1,
+   "titulo": "Fenitoina + valproato de sodio",
+   "mec": "Valproato desloca a fenitoína de sua ligação proteica e inibe seu metabolismo, podendo elevar a fração livre/toxicidade. Ajustar dose e monitorar níveis séricos.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-fenobarbital-valproato_de_sodio",
+   "a": "fenobarbital",
+   "b": "valproato de sodio",
+   "sev": 1,
+   "titulo": "Fenobarbital + valproato de sodio",
+   "mec": "Valproato inibe o metabolismo do fenobarbital, aumentando seus níveis séricos e risco de sedação excessiva.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-carbamazepina-valproato_de_sodio",
+   "a": "carbamazepina",
+   "b": "valproato de sodio",
+   "sev": 1,
+   "titulo": "Carbamazepina + valproato de sodio",
+   "mec": "Interação bidirecional complexa: pode alterar níveis séricos de ambos os anticonvulsivantes. Monitorar clinicamente e com níveis séricos.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-claritromicina-valproato_de_sodio",
+   "a": "claritromicina",
+   "b": "valproato de sodio",
+   "sev": 1,
+   "titulo": "Claritromicina + valproato de sodio",
+   "mec": "Macrolídeos são inibidores enzimáticos e podem alterar o metabolismo de outros fármacos; monitorar níveis e efeitos adversos.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-fenitoina-omeprazol",
+   "a": "omeprazol",
+   "b": "fenitoina",
+   "sev": 0,
+   "titulo": "Omeprazol + fenitoina",
+   "mec": "Omeprazol pode inibir o metabolismo da fenitoína (CYP2C19), aumentando seus níveis séricos.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-fenobarbital-midazolam_injetavel",
+   "a": "fenobarbital",
+   "b": "midazolam injetavel",
+   "sev": 2,
+   "titulo": "Fenobarbital + midazolam injetavel",
+   "mec": "Associação de depressores do SNC com risco aumentado de depressão respiratória e sedação profunda.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-midazolam_injetavel-morfina",
+   "a": "midazolam injetavel",
+   "b": "morfina",
+   "sev": 2,
+   "titulo": "Midazolam injetavel + morfina",
+   "mec": "Risco aumentado de depressão respiratória e sedação profunda pela associação de benzodiazepínico e opioide.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-fentanil-midazolam_injetavel",
+   "a": "midazolam injetavel",
+   "b": "fentanil",
+   "sev": 2,
+   "titulo": "Midazolam injetavel + fentanil",
+   "mec": "Risco aumentado de depressão respiratória e sedação profunda pela associação de benzodiazepínico e opioide.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-midazolam_injetavel-tramadol",
+   "a": "midazolam injetavel",
+   "b": "tramadol",
+   "sev": 2,
+   "titulo": "Midazolam injetavel + tramadol",
+   "mec": "Risco aumentado de depressão respiratória e sedação; associação com opioides deve ser monitorada de perto.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-dexmedetomidina-midazolam_injetavel",
+   "a": "midazolam injetavel",
+   "b": "dexmedetomidina",
+   "sev": 1,
+   "titulo": "Midazolam injetavel + dexmedetomidina",
+   "mec": "Efeito sedativo aditivo; risco de sedação excessiva, hipotensão e bradicardia.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-midazolam_injetavel-propofol",
+   "a": "midazolam injetavel",
+   "b": "propofol",
+   "sev": 1,
+   "titulo": "Midazolam injetavel + propofol",
+   "mec": "Efeito sedativo/depressor respiratório aditivo; ajustar doses sob monitorização contínua.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-morfina-tramadol",
+   "a": "morfina",
+   "b": "tramadol",
+   "sev": 2,
+   "titulo": "Morfina + tramadol",
+   "mec": "Associação de opioides aumenta risco de depressão respiratória e sedação; geralmente não recomendada.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-fentanil-morfina",
+   "a": "morfina",
+   "b": "fentanil",
+   "sev": 2,
+   "titulo": "Morfina + fentanil",
+   "mec": "Associação de opioides aumenta risco de depressão respiratória e sedação; geralmente não recomendada.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-azitromicina-ondansetrona",
+   "a": "azitromicina",
+   "b": "ondansetrona",
+   "sev": 1,
+   "titulo": "Azitromicina + ondansetrona",
+   "mec": "Risco aditivo de prolongamento do intervalo QT. Considerar ECG se uso prolongado ou fatores de risco associados.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-claritromicina-ondansetrona",
+   "a": "claritromicina",
+   "b": "ondansetrona",
+   "sev": 1,
+   "titulo": "Claritromicina + ondansetrona",
+   "mec": "Risco aditivo de prolongamento do intervalo QT.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-azitromicina-claritromicina",
+   "a": "azitromicina",
+   "b": "claritromicina",
+   "sev": 1,
+   "titulo": "Azitromicina + claritromicina",
+   "mec": "Uso concomitante de dois macrolídeos não é recomendado; risco somado de prolongamento de QT e efeitos adversos gastrointestinais.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-azitromicina-haloperidol",
+   "a": "azitromicina",
+   "b": "haloperidol",
+   "sev": 1,
+   "titulo": "Azitromicina + haloperidol",
+   "mec": "Risco aditivo de prolongamento do intervalo QT.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-haloperidol-ondansetrona",
+   "a": "haloperidol",
+   "b": "ondansetrona",
+   "sev": 1,
+   "titulo": "Haloperidol + ondansetrona",
+   "mec": "Risco aditivo de prolongamento do intervalo QT.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-metadona-ondansetrona",
+   "a": "metadona",
+   "b": "ondansetrona",
+   "sev": 1,
+   "titulo": "Metadona + ondansetrona",
+   "mec": "Risco aditivo de prolongamento do intervalo QT.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-azitromicina-metadona",
+   "a": "azitromicina",
+   "b": "metadona",
+   "sev": 1,
+   "titulo": "Azitromicina + metadona",
+   "mec": "Risco aditivo de prolongamento do intervalo QT.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-haloperidol-metadona",
+   "a": "metadona",
+   "b": "haloperidol",
+   "sev": 2,
+   "titulo": "Metadona + haloperidol",
+   "mec": "Risco somado de prolongamento acentuado do intervalo QT e torsades de pointes.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-domperidona-ondansetrona",
+   "a": "domperidona",
+   "b": "ondansetrona",
+   "sev": 1,
+   "titulo": "Domperidona + ondansetrona",
+   "mec": "Risco aditivo de prolongamento do intervalo QT.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-claritromicina-domperidona",
+   "a": "domperidona",
+   "b": "claritromicina",
+   "sev": 2,
+   "titulo": "Domperidona + claritromicina",
+   "mec": "Claritromicina inibe o metabolismo (CYP3A4) da domperidona, aumentando risco de prolongamento de QT; associação não recomendada.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-prednisolona-tenoxicam_po_injetavel",
+   "a": "tenoxicam po injetavel",
+   "b": "prednisolona",
+   "sev": 1,
+   "titulo": "Tenoxicam po injetavel + prednisolona",
+   "mec": "Associação de AINE com corticosteroide aumenta o risco de sangramento e ulceração gastrointestinal.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-dexametasona-tenoxicam_po_injetavel",
+   "a": "tenoxicam po injetavel",
+   "b": "dexametasona",
+   "sev": 1,
+   "titulo": "Tenoxicam po injetavel + dexametasona",
+   "mec": "Associação de AINE com corticosteroide aumenta o risco de sangramento e ulceração gastrointestinal.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-gentamicina-ibuprofeno",
+   "a": "ibuprofeno",
+   "b": "gentamicina",
+   "sev": 1,
+   "titulo": "Ibuprofeno + gentamicina",
+   "mec": "AINEs podem reduzir a perfusão renal e potencializar a nefrotoxicidade dos aminoglicosídeos.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-enoxaparina_sodica-ibuprofeno",
+   "a": "ibuprofeno",
+   "b": "enoxaparina sodica",
+   "sev": 1,
+   "titulo": "Ibuprofeno + enoxaparina sodica",
+   "mec": "AINEs aumentam o risco de sangramento em pacientes anticoagulados.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-acido_acetilsalicilico-enoxaparina_sodica",
+   "a": "acido acetilsalicilico",
+   "b": "enoxaparina sodica",
+   "sev": 2,
+   "titulo": "Acido acetilsalicilico + enoxaparina sodica",
+   "mec": "Risco aumentado de sangramento pela associação de antiagregante plaquetário e anticoagulante.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-ceftriaxona-sulfato_de_magnesio",
+   "a": "ceftriaxona",
+   "b": "sulfato de magnesio",
+   "sev": 0,
+   "titulo": "Ceftriaxona + sulfato de magnesio",
+   "mec": "Não misturar na mesma via/solução; ceftriaxona não deve ser administrada com soluções contendo cálcio ou outros sais divalentes na mesma linha EV, especialmente em neonatos.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-dexametasona-furosemida",
+   "a": "furosemida",
+   "b": "dexametasona",
+   "sev": 0,
+   "titulo": "Furosemida + dexametasona",
+   "mec": "Corticosteroides podem potencializar a perda de potássio induzida pelo diurético de alça; monitorar eletrólitos.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-furosemida-hidrocortisona",
+   "a": "furosemida",
+   "b": "hidrocortisona",
+   "sev": 0,
+   "titulo": "Furosemida + hidrocortisona",
+   "mec": "Corticosteroides podem potencializar a perda de potássio induzida pelo diurético de alça; monitorar eletrólitos.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-furosemida-metilprednisolona",
+   "a": "furosemida",
+   "b": "metilprednisolona",
+   "sev": 0,
+   "titulo": "Furosemida + metilprednisolona",
+   "mec": "Corticosteroides podem potencializar a perda de potássio induzida pelo diurético de alça; monitorar eletrólitos.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-furosemida-salbutamol",
+   "a": "salbutamol",
+   "b": "furosemida",
+   "sev": 0,
+   "titulo": "Salbutamol + furosemida",
+   "mec": "Risco somado de hipocalemia; monitorar eletrólitos em uso concomitante frequente.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-brometo_de_ipratropio-salbutamol",
+   "a": "salbutamol",
+   "b": "brometo de ipratropio",
+   "sev": 0,
+   "titulo": "Salbutamol + brometo de ipratropio",
+   "mec": "Associação sinérgica intencional (broncodilatação); não é uma interação de risco, apenas atenção a taquicardia/tremor aditivos.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-captopril-losartana_potassica",
+   "a": "captopril",
+   "b": "losartana potassica",
+   "sev": 1,
+   "titulo": "Captopril + losartana potassica",
+   "mec": "Duplo bloqueio do sistema renina-angiotensina; risco aumentado de hipercalemia, hipotensão e disfunção renal, sem benefício clínico adicional comprovado.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-fentanil-propofol",
+   "a": "propofol",
+   "b": "fentanil",
+   "sev": 1,
+   "titulo": "Propofol + fentanil",
+   "mec": "Efeito sedativo e depressor respiratório/cardiovascular aditivo; ajustar doses sob monitorização contínua.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-morfina-propofol",
+   "a": "propofol",
+   "b": "morfina",
+   "sev": 1,
+   "titulo": "Propofol + morfina",
+   "mec": "Efeito sedativo e depressor respiratório/cardiovascular aditivo; ajustar doses sob monitorização contínua.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-atracurio-suxametonio",
+   "a": "suxametonio",
+   "b": "atracurio",
+   "sev": 0,
+   "titulo": "Suxametonio + atracurio",
+   "mec": "Verificar indicação: uso sequencial de bloqueadores neuromusculares deve seguir protocolo de intubação (não administrar simultaneamente sem indicação).",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-morfina-naloxona",
+   "a": "naloxona",
+   "b": "morfina",
+   "sev": 0,
+   "titulo": "Naloxona + morfina",
+   "mec": "Naloxona reverte o efeito analgésico da morfina; uso intencional apenas em reversão de intoxicação/depressão respiratória, não como coadjuvante de rotina.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-fentanil-naloxona",
+   "a": "naloxona",
+   "b": "fentanil",
+   "sev": 0,
+   "titulo": "Naloxona + fentanil",
+   "mec": "Naloxona reverte o efeito analgésico do fentanil; uso intencional apenas em reversão de intoxicação/depressão respiratória.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-flumazenil-midazolam_injetavel",
+   "a": "flumazenil",
+   "b": "midazolam injetavel",
+   "sev": 0,
+   "titulo": "Flumazenil + midazolam injetavel",
+   "mec": "Flumazenil reverte o efeito sedativo do midazolam; uso intencional em reversão, pode precipitar convulsões em uso crônico de benzodiazepínicos.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-rocuronio-sugamadex",
+   "a": "sugamadex",
+   "b": "rocuronio",
+   "sev": 0,
+   "titulo": "Sugamadex + rocuronio",
+   "mec": "Sugamadex reverte especificamente o bloqueio neuromuscular do rocurônio; uso intencional, não uma interação adversa.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-clorpromazina-haloperidol",
+   "a": "clorpromazina",
+   "b": "haloperidol",
+   "sev": 1,
+   "titulo": "Clorpromazina + haloperidol",
+   "mec": "Associação de dois antipsicóticos aumenta risco de sedação excessiva, hipotensão e prolongamento de QT.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-haloperidol-risperidona",
+   "a": "risperidona",
+   "b": "haloperidol",
+   "sev": 1,
+   "titulo": "Risperidona + haloperidol",
+   "mec": "Associação de dois antipsicóticos aumenta risco de efeitos extrapiramidais e sedação.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-lamotrigina-valproato_de_sodio",
+   "a": "lamotrigina",
+   "b": "valproato de sodio",
+   "sev": 2,
+   "titulo": "Lamotrigina + valproato de sodio",
+   "mec": "Valproato inibe o metabolismo da lamotrigina, aumentando muito o risco de rash grave (síndrome de Stevens-Johnson); exige titulação muito mais lenta e cautelosa.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-carbamazepina-lamotrigina",
+   "a": "lamotrigina",
+   "b": "carbamazepina",
+   "sev": 1,
+   "titulo": "Lamotrigina + carbamazepina",
+   "mec": "Carbamazepina induz o metabolismo da lamotrigina, reduzindo seus níveis séricos; pode exigir ajuste de dose.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-clobazam-valproato_de_sodio",
+   "a": "clobazam",
+   "b": "valproato de sodio",
+   "sev": 0,
+   "titulo": "Clobazam + valproato de sodio",
+   "mec": "Valproato pode aumentar níveis do metabólito ativo do clobazam; monitorar sedação.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-fluoxetina-haloperidol",
+   "a": "fluoxetina",
+   "b": "haloperidol",
+   "sev": 1,
+   "titulo": "Fluoxetina + haloperidol",
+   "mec": "Fluoxetina inibe o metabolismo do haloperidol (CYP2D6), podendo aumentar seus níveis séricos e efeitos extrapiramidais.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
+   ]
+  },
+  {
+   "id": "icam-carbamazepina-metadona",
+   "a": "metadona",
+   "b": "carbamazepina",
+   "sev": 1,
+   "titulo": "Metadona + carbamazepina",
+   "mec": "Carbamazepina induz o metabolismo da metadona, podendo reduzir seu efeito analgésico.",
+   "cond": "Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.",
+   "ref": [
+    "ICAM"
    ]
   }
  ],

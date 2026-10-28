@@ -220,3 +220,27 @@ nav.tabs [aria-selected=true],nav.tabs [aria-selected=true]:hover{background:var
 .tri-al .sv{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
 .tri-al.grave .sv{background:var(--alert);color:#fff}.tri-al.aten .sv{background:var(--ped-bg);color:var(--ped-ink);border:1px solid var(--ped-line)}
 .tri-al p{margin:6px 0;font-size:14px}.tri-al .tri-d{font-weight:650}
+
+/* ---- 4.5.0: dose do paciente ---- */
+.dz-pac{border:1px solid var(--line);border-radius:var(--r);background:var(--surface);padding:12px;display:grid;gap:10px;box-shadow:var(--sh)}
+.dz-row{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.dz-row .fld,.dz-pac .fld{display:grid;gap:4px;font-size:12.5px;color:var(--muted);font-weight:600}
+.dz-pac input:not([type=checkbox]),.dz-pac select,.dz-out input,#p-dose .fld input,#p-dose .fld select{padding:9px 10px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:15px;color:var(--ink);background:var(--surface);max-width:100%}
+.dz-pac input[inputmode]{width:110px}
+.dz-chk{display:flex;flex-wrap:wrap;gap:6px 16px}
+.dz-more summary{cursor:pointer;font-weight:650;font-size:13.5px;color:var(--accent)}
+.dz-med{border:1px solid var(--line);border-radius:var(--r);padding:12px;background:var(--surface);margin:10px 0;display:grid;gap:6px}
+.dz-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0}
+.dz-card{border:1px solid var(--line);border-radius:var(--r);padding:12px;background:var(--surface);display:grid;gap:3px;text-align:center}
+.dz-card.rec{background:var(--accent-soft);border:2px solid var(--accent)}
+.dz-card .k{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.dz-card b{font-size:21px;line-height:1.2}.dz-card .u{font-weight:650;color:var(--accent)}.dz-card small{color:var(--muted);font-size:12px}
+.dz-al{border-left:5px solid var(--ped-line);background:var(--ped-bg);color:var(--ped-ink);border-radius:10px;padding:9px 12px;margin:7px 0;font-size:14px}
+.dz-al.g{border-left-color:var(--alert);background:var(--alert-soft);color:#6B1A10}
+.dz-ev{border-radius:var(--r);padding:12px 14px;margin:10px 0;font-size:14.5px;border:1px solid var(--line)}
+.dz-ev.ok{background:#E8F6EE;border-color:#B5DEC6;color:#0F5A38}.dz-ev.a{background:var(--ped-bg);border-color:var(--ped-line);color:var(--ped-ink)}.dz-ev.g{background:var(--alert-soft);border-color:#E6B3AD;color:#6B1A10}
+.dz-ev ul{margin:6px 0 0 18px;padding:0}.dz-ev li{margin:4px 0}
+@media (max-width:560px){.dz-cards{grid-template-columns:1fr}.dz-pac input[inputmode]{width:96px}}
+.rows[hidden],.dz-more[hidden]{display:none}
+#dz-sexo{display:inline-flex;flex-wrap:nowrap}#dz-sexo button{padding:8px 12px;white-space:nowrap}
+.dz-row .fld{flex:1 1 140px}.dz-row .fld select,.dz-row .fld input{width:100%}

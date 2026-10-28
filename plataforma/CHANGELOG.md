@@ -2,6 +2,15 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.5.0 - 2026-10-28
+
+- **Calculadora do ICAM unificada ao PosologiaPED** (aba "Dose do paciente", web e app): idade, sexo, peso e condições de saúde (insuficiência renal e hepática, gestação/lactação, prematuridade, desidratação, desnutrição, outra condição grave), com TFG estimada (Schwartz/Cockcroft-Gault) a partir da creatinina. Mostra **dose mínima, recomendada e máxima** por administração (mg e mL/comprimidos), por dia e em mg/kg/dia, limitadas pelos tetos diários; número de frascos/ampolas; classificação operacional (controlado/Portaria 344, dose unitária, uso coletivo).
+- **Dose prescrita**: avisa **subdose** e **superdose** (e a versão importante de cada), explica o motivo e os **riscos** (por classe e, quando há monografia, efeitos graves e alerta de alta vigilância).
+- Nas condições informadas, a dose recomendada passa a ser a **conservadora** (limite inferior da faixa) quando o medicamento tem alerta renal/hepático, em neonatos e prematuros, com aviso para confirmar o ajuste.
+- Botão "Dose do paciente" na ficha de cada medicamento; 98 regras de interação na Triagem (as 44 originais + 54 da base do ICAM).
+- GitHub Pages: o módulo separado `/calculadora/` foi retirado; tudo fica no PosologiaPED.
+- Dados: `data/dose.json` (gerado por `tools/mkdose.py` a partir de `data/icam_medicamentos.json`).
+
 ## 4.4.0 - 2026-10-28
 
 - **Triagem de prescrição** (aba "Triagem" do PosologiaPED, web e app): informe faixa etária, ClCr e insuficiência hepática, adicione os medicamentos e veja alertas por gravidade: interações medicamentosas (44 regras: opioide+benzodiazepínico, ceftriaxona+cálcio em neonatos, hipercalemia, QT, valproato+meropenem, nefrotoxicidade etc.), duplicidade de princípio ativo/classe, função renal/hepática, alertas pediátricos, alta vigilância e controlados. Botão "Copiar parecer".

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Gera o site estático para o GitHub Pages em ./_site (sem servidor, sem conta, sem Stripe).
-# Uso: tools/build_pages.sh [diretorio_saida] [pasta_da_calculadora_existente]
+# Uso: tools/build_pages.sh [diretorio_saida]
 set -euo pipefail
 cd "$(dirname "$0")/.."
 OUT="$(realpath -m "${1:-_site}")"
@@ -22,17 +22,5 @@ cp server/landing/icon.svg "$OUT/icon.svg"
 sed 's#/shared/bar.css#bar.css#' server/landing/shared/ui.css > "$OUT/shared/ui.css"
 cp server/landing/shared/bar.css "$OUT/shared/bar.css"
 cp server/landing/icons/ped.svg server/landing/icons/gestao.svg "$OUT/icons/"
-# 4) Opcional: ferramenta estática já existente (ex.: calculadora ICAM) publicada em /calculadora/
-EXTRA="${2:-}"
-if [ -n "$EXTRA" ]; then
-  mkdir -p "$OUT/calculadora"
-  cp -r "$EXTRA"/index.html "$EXTRA"/static "$EXTRA"/data "$OUT/calculadora/"
-  python3 - "$OUT/index.html" <<'PY'
-import sys
-p=sys.argv[1];s=open(p,encoding='utf8').read()
-tile='<a class="tile" href="calculadora/"><h2>Calculadora de doses ICAM</h2><p>Avaliação de prescrição, interações, dose por peso, frascos/ampolas e bulário do formulário do ICAM.</p><span class="go">Abrir calculadora →</span></a>'
-open(p,'w',encoding='utf8').write(s.replace('<!--EXTRA-->',tile))
-PY
-fi
 touch "$OUT/.nojekyll"
 echo "ok: $OUT"

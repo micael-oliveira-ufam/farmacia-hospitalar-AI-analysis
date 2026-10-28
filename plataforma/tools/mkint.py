@@ -90,6 +90,38 @@ R=[
 ]
 G["calcio"]=["gluconato de calcio","cloreto de calcio"]
 G["ibp"]=["omeprazol","pantoprazol"]
+# --- interacoes da base ICAM (data/icam_interacoes.json): ids -> principio ativo; so entram pares ainda nao cobertos
+import re,unicodedata
+def _n(t): return ''.join(c for c in unicodedata.normalize('NFD',t) if unicodedata.category(c)!='Mn').lower()
+def _ing(t): return re.sub(r'\s+',' ',re.sub(r'[^a-z0-9+ ]',' ',_n(re.split(r'[\d(]',t)[0]))).strip()
+_ic={x['id']:x for x in json.load(open(os.path.join(ROOT,'data','icam_medicamentos.json'),encoding='utf8'))}
+_cat=json.load(open(os.path.join(ROOT,'data','catalog.json'),encoding='utf8'))
+_names=[_ing(m['n']) for m in _cat['mono'].values()]
+def _tok(i):
+    if i not in _ic: return None
+    t=_ing(re.sub(r'\(.*?\)','',_ic[i]['nome']))
+    t={'aas':'acido acetilsalicilico','gliconato de calcio':'gluconato de calcio','remifentanila':'remifentanil','hidroxizine':'hidroxizina'}.get(t,t)
+    # token = nome do ingrediente que exista como palavra inteira no catalogo; senao, primeira palavra
+    cand=[n for n in _names if (' '+n+' ').find(' '+t+' ')>=0 or t.startswith(n+' ')]
+    return min(cand,key=len) if cand else t.split(' ')[0]
+def _expand(spec):
+    return G[spec[1:]] if spec and spec[0]=='@' else [spec]
+def _covered(a,b):
+    for x in R:
+        if x.get('min'): continue
+        A=_expand(x['a']);B=_expand(x['b']) if x['b'] else []
+        if (a in A and b in B) or (b in A and a in B): return True
+    return False
+_SEV={'grave':2,'moderada':1,'leve':0}
+_seen=set();_nadd=0
+for it in json.load(open(os.path.join(ROOT,'data','icam_interacoes.json'),encoding='utf8')):
+    ta,tb=[_tok(i) for i in it['medicamentos']]
+    if not ta or not tb or ta==tb or _covered(ta,tb): continue
+    k=tuple(sorted((ta,tb)))
+    if k in _seen: continue
+    _seen.add(k);_nadd+=1
+    R.append(r('icam-'+'-'.join(k).replace(' ','_'),ta,tb,_SEV[it['gravidade']],ta.capitalize()+' + '+tb,it['descricao'],'Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.',['ICAM']))
+F['ICAM']={"t":"Base de interações do repositório ICAM (compilada por IA; revisão farmacêutica obrigatória)","u":"https://github.com/micael-oliveira-ufam/farmacia-hospitalar-AI-analysis/blob/claude/drug-interaction-evaluation-tool-i05nue/data/interacoes.json","l":"inst"}
 # o grupo QT e uma regra de grupo (min 2)
 for x in R:
     if x["id"]=="qt": x["b"]=None; x["min"]=2

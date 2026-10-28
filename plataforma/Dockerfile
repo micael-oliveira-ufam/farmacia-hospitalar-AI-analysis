@@ -18,6 +18,7 @@ COPY guia/ guia/
 RUN apk add --no-cache nodejs \
  && node guia/test.js \
  && node guia/triagem.test.js \
+ && node guia/dose.test.js \
  && python3 guia/build.py /out
 
 # 3) Servidor

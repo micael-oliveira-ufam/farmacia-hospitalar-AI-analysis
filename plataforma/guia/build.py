@@ -5,13 +5,15 @@ cat=json.load(open(os.path.join(S,'data/catalog.json'),encoding='utf8'))
 PAGES=len(sys.argv)>2 and sys.argv[2]=='pages'
 def build(pwa):
     t=rd('index.tpl.html')
-    t=t.replace('/*CSS*/',rd('style.css')).replace('/*CALC*/',rd('calc.js')).replace('/*APP*/',rd('app.js')).replace('/*TRIAGEM*/',rd('triagem.js'))
+    t=t.replace('/*CSS*/',rd('style.css')).replace('/*CALC*/',rd('calc.js')).replace('/*APP*/',rd('app.js')).replace('/*TRIAGEM*/',rd('triagem.js')).replace('/*DOSEJS*/',rd('dose.js'))
     t=t.replace('/*CATALOG*/',json.dumps(cat,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     cod=json.load(open(os.path.join(S,'data/codajas.json'),encoding='utf8'))
     listas={'codajas':{'nome':cod['nome'],'itens':[i['name'] for i in cod['itens']]}}
     t=t.replace('/*LISTAS*/',json.dumps(listas,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     inter=json.load(open(os.path.join(S,'data/interacoes.json'),encoding='utf8'))
     t=t.replace('/*INTER*/',json.dumps(inter,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
+    dose=json.load(open(os.path.join(S,'data/dose.json'),encoding='utf8'))
+    t=t.replace('/*DOSE*/',json.dumps(dose,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     t=t.replace('<!--ACCOUNT-->','<script src="/shared/account.js" data-module="ped" defer></script>' if (pwa and not PAGES) else '')
     t=t.replace('<!--HOME-->','<a class="homelnk" href="../">← Início</a>' if (pwa and PAGES) else '')
     t=t.replace('<!--PWA-->','<link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg">' if pwa else '')

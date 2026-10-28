@@ -140,7 +140,7 @@ function drawerHtml(it){
    +'<details><summary>Todas as faixas etárias</summary><div class="tbl"><table><thead><tr><th>Faixa</th><th>Dose usual</th><th>Dose máxima</th></tr></thead><tbody>'+rows+"</tbody></table></div></details>"
    +'<details><summary>Calcular dose por peso</summary><form class="calc-form" onsubmit="return false"><label class="fld">Peso (kg)<input inputmode="decimal" name="p" placeholder="ex.: 12"></label><label class="fld">Dose (mg/kg)<input inputmode="decimal" name="d" placeholder="ex.: 15"></label><label class="fld">Dose máx. (mg)<input inputmode="decimal" name="x" placeholder="opcional"></label><label class="fld">Concentração (mg/mL)<input inputmode="decimal" name="c" value="'+(c?fmt(c):"")+'" placeholder="opcional"></label><output class="out" aria-live="polite">Informe peso e dose em mg/kg.</output><span class="formula">dose (mg) = peso × mg/kg, limitada à dose máxima; volume (mL) = mg ÷ concentração</span></form></details>'
    +'<details><summary>Fontes e links</summary><ol class="refs">'+m.rr.map(k=>'<li>'+esc(R[k].t)+' <a class="lk" href="'+esc(R[k].u)+'" target="_blank" rel="noopener noreferrer">abrir</a> <span class="lv '+(R[k].l==="ok"?"ok":"")+'">'+LV[R[k].l][0]+"</span></li>").join("")+'</ol><div class="links"><span class="note">Pesquisar em:</span> '+drugLinks(it)+"</div></details>"
-   +'<div class="acts2"><button class="btn" data-a="fav" aria-pressed="'+fav+'">'+(fav?"★ Favorito":"☆ Favoritar")+'</button><button class="btn" data-a="cart" aria-pressed="'+inC+'">'+(inC?"Na cesta":"+ Cesta")+'</button><button class="btn" data-a="cmp" aria-pressed="'+inK+'">Comparar</button></div></div>'}
+   +'<div class="acts2">'+(DOSEBY[it.key]?'<button class="btn pri" data-dz="'+DOSEBY[it.key].id+'">Dose do paciente</button>':"")+'<button class="btn" data-a="fav" aria-pressed="'+fav+'">'+(fav?"★ Favorito":"☆ Favoritar")+'</button><button class="btn" data-a="cart" aria-pressed="'+inC+'">'+(inC?"Na cesta":"+ Cesta")+'</button><button class="btn" data-a="cmp" aria-pressed="'+inK+'">Comparar</button></div></div>'}
 const num=(f,k)=>parseFloat(String(f.elements[k].value).replace(",","."));
 function calcDose(f){const p=num(f,"p"),d=num(f,"d"),x=num(f,"x"),c=num(f,"c"),o=$(".out",f);
   if(!(p>0&&d>0)){o.textContent="Informe peso e dose em mg/kg.";return}
@@ -274,6 +274,88 @@ function triInit(){const box=$("#cartbox");
       r.innerHTML=hit.map(i=>'<button class="ri" type="button" data-addtri="'+i.id+'"><span class="ri-main"><span class="ri-name">'+esc(i.desc)+'</span></span><span class="ri-go" aria-hidden="true">+</span></button>').join("")}});
   box.addEventListener("change",e=>{if(e.target.id==="tri-hep"){PT.hep=e.target.checked;store.set("ped-pt",PT);renderAlerts()}})}
 
+/* ---------- dose do paciente ---------- */
+const DZ={sel:null,ap:0,iv:null,last:null,pac:Object.assign({idade:"",un:"anos",sexo:"",peso:"",alt:"",scr:"",renal:"normal",hep:"normal",gest:false,prem:false,desid:false,desn:false,outra:false},store.get("ped-pac",{})),presc:""};
+const DOSEBY={};window.DOSE.itens.forEach(d=>d.mono.forEach(k=>{if(!DOSEBY[k])DOSEBY[k]=d}));
+const dnum=v=>{const n=parseFloat(String(v).replace(",","."));return isFinite(n)?n:NaN};
+function dzPac(){const p=DZ.pac,idade=dnum(p.idade),peso=dnum(p.peso);
+  const ia=isFinite(idade)?Dose.idadeEmAnos(idade,p.un):NaN;
+  return {idadeAnos:ia,idadeTxt:(p.idade||"-")+" "+p.un,sexo:p.sexo,peso:peso,altura:dnum(p.alt),scr:dnum(p.scr),renal:p.renal,hepatica:p.hep,gestante:p.gest&&p.sexo==="F",prematuro:p.prem,desidratacao:p.desid,desnutricao:p.desn,outra:p.outra}}
+function dzCtx(d){const k=d.mono[0];return k?{m:M[k],s:S[k]}:null}
+function dzSyncForm(){const p=DZ.pac,pc=dzPac();
+  $("#dz-idade").value=p.idade;$("#dz-un").value=p.un;$("#dz-peso").value=p.peso;$("#dz-alt").value=p.alt;$("#dz-scr").value=p.scr;
+  $("#dz-renal").value=p.renal;$("#dz-hep").value=p.hep;
+  $$("#dz-sexo button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.sx===p.sexo));
+  ["gest","prem","desid","desn","outra"].forEach(k=>{$("#dz-"+k).checked=!!p[k]});
+  $("#dz-w-gest").hidden=!(p.sexo==="F"&&pc.idadeAnos>=10);$("#dz-w-prem").hidden=!(pc.idadeAnos<=1);
+  const t=Dose.tfg(pc);$("#dz-tfg").textContent=t!=null?"TFG estimada: "+t+" mL/min"+(pc.idadeAnos<18?"/1,73 m² (Schwartz)":" (Cockcroft-Gault)"):""}
+function dzSave(){store.set("ped-pac",DZ.pac)}
+function dzResult(){
+  const pc=dzPac(),d=DZ.sel&&window.DOSE.itens.find(x=>x.id===DZ.sel);
+  if(!d){$("#dz-out").innerHTML="";return}
+  const miss=[];if(!(pc.idadeAnos>=0))miss.push("a idade");if(!(pc.peso>0))miss.push("o peso");
+  if(miss.length){$("#dz-out").innerHTML='<p class="empty">Informe '+miss.join(" e ")+" do paciente para calcular a dose.</p>";DZ.last=null;return}
+  const pr=dnum(DZ.presc);let r;
+  try{r=Dose.calcular(d,pc,dzCtx(d),{ap:DZ.ap,intervalo:DZ.iv,prescrita:isFinite(pr)?pr:null})}catch(e){$("#dz-out").innerHTML='<p class="empty">'+esc(e.message)+"</p>";return}
+  DZ.last={r,pc,d};
+  let h="";
+  const badges=[d.ctl?'<span class="bdg tcb" style="--h:0">Controlado'+(d.p344?" · lista "+esc(String(d.p344).split(" ")[0]):"")+"</span>":"",d.du?'<span class="bdg fcb">Requer dose unitária</span>':"",d.fd?'<span class="bdg fcb">Farmacêutico define frascos</span>':"",d.col?'<span class="bdg fcb">Uso coletivo</span>':""].filter(Boolean).join(" ");
+  if(badges)h+='<p class="dr-sub">'+badges+"</p>";
+  if(r.doses){
+    const card=(k,t,cls)=>{const x=r.doses[k];return '<div class="dz-card '+cls+'"><span class="k">'+t+'</span><b>'+Dose.fmtQ(x.mg)+' mg</b><span class="u">'+(x.u?"= "+Dose.fmtQ(x.u.q)+" "+esc(x.u.un):"")+'</span><small>'+Dose.fmtQ(x.dia)+" mg/dia · "+fmt(x.kgDia)+" mg/kg/dia"+(x.capped?" · limitada pelo teto":"")+"</small></div>"};
+    h+='<h3 class="sub-h">Dose por administração (a cada '+r.intervalo+' h, '+fmt(r.dosesDia)+'×/dia)</h3><div class="dz-cards">'+card("min","Mínima","")+card("rec",r.conservadora?"Recomendada (conservadora)":"Recomendada","rec")+card("max","Máxima","")+"</div>";
+    h+='<p class="note">A recomendada é o ponto médio da faixa de referência de '+fmt(d.min)+(d.max!==d.min?"–"+fmt(d.max):"")+' mg/kg/dose'+(r.conservadora?"; nas condições informadas ela foi reduzida para o limite inferior da faixa":"")+". Peso usado: "+fmt(pc.peso)+" kg."+"</p>";
+    if(r.frascos)h+='<p class="note"><b>Frascos/ampolas ('+esc(r.frascos.forma)+'):</b> '+r.frascos.n+" por dose recomendada (sobra de "+fmt(r.frascos.sobra)+" "+r.frascos.un+").</p>";
+  }
+  if(r.avisos.length)h+='<h3 class="sub-h">Avisos para este paciente</h3>'+r.avisos.map(a=>'<div class="dz-al '+(a.sev===2?"g":"a")+'">'+esc(a.txt)+"</div>").join("");
+  if(r.obs)h+='<p class="note"><b>Observações:</b> '+esc(r.obs)+"</p>";
+  const it=d.mono[0]&&ITEMS.find(i=>i.key===d.mono[0]);
+  h+='<div class="acts2">'+(it?'<button class="btn" data-open="'+it.id+'">Ver monografia completa</button>':"")+'<button class="btn" id="dz-copy">Copiar parecer</button></div>';
+  h+='<h3 class="sub-h">Conferir dose prescrita</h3><label class="fld">Dose prescrita (mg por administração) <input id="dz-presc" inputmode="decimal" placeholder="ex.: 250" value="'+esc(DZ.presc)+'"></label><div id="dz-eval"></div>';
+  $("#dz-out").innerHTML=h;dzEval()}
+function dzEval(){const e=$("#dz-eval");if(!e||!DZ.last)return;
+  const pc=DZ.last.pc,d=DZ.last.d,pr=dnum(DZ.presc);
+  if(!isFinite(pr)||pr<=0){e.innerHTML="";DZ.last.r.avaliacao=null;return}
+  const r=Dose.calcular(d,pc,dzCtx(d),{ap:DZ.ap,intervalo:DZ.iv,prescrita:pr});DZ.last.r=r;const a=r.avaliacao;
+  if(!a){e.innerHTML='<div class="dz-al a">Sem faixa de referência cadastrada: avalie clinicamente.</div>';return}
+  const lab={adequada:"Dose dentro da faixa",subdose:"SUBDOSE",subdose_importante:"SUBDOSE IMPORTANTE",superdose:"SUPERDOSE",superdose_importante:"SUPERDOSE IMPORTANTE"}[a.status];
+  const cls=a.status==="adequada"&&!a.motivos.length?"ok":a.status.startsWith("super")?"g":"a";
+  e.innerHTML='<div class="dz-ev '+cls+'"><b>'+lab+"</b> · "+fmt(a.mg)+" mg a cada "+r.intervalo+" h = "+fmt(a.kgDose)+" mg/kg/dose, "+fmt(a.kgDia)+" mg/kg/dia, "+fmt(a.mgDia)+" mg/dia"
+   +(a.motivos.length?"<ul>"+a.motivos.map(x=>"<li>"+esc(x)+"</li>").join("")+"</ul>":"")
+   +(a.status!=="adequada"?"<ul>"+a.riscos.map(x=>"<li>"+esc(x)+"</li>").join("")+"</ul>":'<p class="note">Dentro do mínimo e do máximo da faixa de referência.'+(a.motivos.length?"":" Confirme sempre com o prescritor.")+"</p>")+"</div>"}
+function dzSelect(id){DZ.sel=id;DZ.ap=0;DZ.presc="";const d=window.DOSE.itens.find(x=>x.id===id);DZ.iv=d?Dose.intervaloPadrao(d):null;
+  const box=$("#dz-sel");
+  if(!d){box.innerHTML="";dzResult();return}
+  const ivs=Dose.intervalosPermitidos(d);
+  box.innerHTML='<div class="dz-med"><b>'+esc(d.n)+'</b><span class="note">'+esc(d.c)+" · "+esc(d.v.join(", "))+'</span><div class="dz-row"><label class="fld">Apresentação <select id="dz-ap">'+d.ap.map((p,i)=>'<option value="'+i+'">'+esc(p.f)+"</option>").join("")+'</select></label><label class="fld">Intervalo <select id="dz-iv">'+ivs.map(h=>'<option value="'+h+'"'+(h===DZ.iv?" selected":"")+">a cada "+h+" h</option>").join("")+"</select></label></div></div>";
+  dzResult()}
+function dzReadForm(){const p=DZ.pac;p.idade=$("#dz-idade").value;p.un=$("#dz-un").value;p.peso=$("#dz-peso").value;p.alt=$("#dz-alt").value;p.scr=$("#dz-scr").value;p.renal=$("#dz-renal").value;p.hep=$("#dz-hep").value;
+  ["gest","prem","desid","desn","outra"].forEach(k=>{p[k]=$("#dz-"+k).checked});}
+function initDose(){
+  $("#dz-renal").innerHTML=Object.entries(Dose.RENAL).map(([k,v])=>'<option value="'+k+'">'+v+"</option>").join("");
+  $("#dz-hep").innerHTML=Object.entries(Dose.HEPA).map(([k,v])=>'<option value="'+k+'">'+v+"</option>").join("");
+  dzSyncForm();
+  const p=$("#p-dose");
+  p.addEventListener("input",e=>{const id=e.target.id;
+    if(id==="dz-q"){const q=norm(e.target.value.trim()),r=$("#dz-res");if(q.length<2){r.hidden=true;r.innerHTML="";return}
+      const hit=window.DOSE.itens.filter(d=>norm(d.n+" "+d.c).includes(q)).slice(0,8);r.hidden=!hit.length;
+      r.innerHTML=hit.map(d=>'<button class="ri" type="button" data-dzpick="'+esc(d.id)+'"><span class="ri-main"><span class="ri-name">'+esc(d.n)+'</span><span class="ri-sub">'+esc(d.c)+(d.min==null?" · sem faixa em mg/kg":"")+'</span></span><span class="ri-go" aria-hidden="true">›</span></button>').join("");return}
+    if(id==="dz-presc"){DZ.presc=e.target.value;dzEval();return}
+    if(/^dz-(idade|un|peso|alt|scr|renal|hep|gest|prem|desid|desn|outra)$/.test(id)){
+      dzReadForm();
+      if(/^dz-(idade|un|peso|alt|scr)$/.test(id)){const t=Dose.tfg(dzPac()),rr=Dose.renalDeTfg(t);if(rr&&DZ.pac.renal!=="dialise"){DZ.pac.renal=rr;$("#dz-renal").value=rr}}
+      dzSave();dzSyncForm();dzResult()}});
+  p.addEventListener("change",e=>{const id=e.target.id;
+    if(id==="dz-ap"){DZ.ap=+e.target.value;dzResult()}
+    else if(id==="dz-iv"){DZ.iv=+e.target.value;dzResult()}
+    else if(/^dz-(un|renal|hep|gest|prem|desid|desn|outra)$/.test(id)){dzReadForm();dzSave();dzSyncForm();dzResult()}});
+  p.addEventListener("click",e=>{
+    const sx=e.target.closest("[data-sx]");if(sx){DZ.pac.sexo=sx.dataset.sx;dzSave();dzSyncForm();dzResult();return}
+    const pk=e.target.closest("[data-dzpick]");if(pk){$("#dz-q").value="";$("#dz-res").hidden=true;dzSelect(pk.dataset.dzpick);return}
+    if(e.target.id==="dz-copy"&&DZ.last)copy(Dose.parecer(DZ.last.r,DZ.last.pc,{}))});
+}
+function openDose(id){st.tab="dose";st.more=false;renderTabs();dzSelect(id);window.scrollTo({top:0})}
+
 /* ---------- comparar ---------- */
 function renderCmp(){
   const box=$("#cmpbox");
@@ -291,8 +373,8 @@ function renderRefs(){
    +ks.map(k=>'<li id="ref-'+k+'"><b class="lv">['+refNum[k]+"] "+k+"</b> "+esc(R[k].t)+' <a class="lk" href="'+esc(R[k].u)+'" target="_blank" rel="noopener noreferrer">abrir</a> <span class="lv '+(R[k].l==="ok"?"ok":"")+'" title="'+esc(LV[R[k].l][2])+'">'+LV[R[k].l][0]+"</span></li>").join("")+"</ol>"}
 
 /* ---------- navegação ---------- */
-const TABS=[["meds","Medicamentos"],["calc","Calculadoras"],["mine","Minha lista"],["any","Qualquer medicamento"],["cart","Triagem"],["cmp","Comparar"],["refs","Referências"],["about","Sobre"]];
-const PRIM=["meds","calc"],SHORT={};
+const TABS=[["meds","Medicamentos"],["dose","Dose do paciente"],["calc","Calculadoras"],["mine","Minha lista"],["any","Qualquer medicamento"],["cart","Triagem"],["cmp","Comparar"],["refs","Referências"],["about","Sobre"]];
+const PRIM=["meds","dose","calc"],SHORT={dose:"Dose"};
 function renderTabs(){
   const lab=t=>t[0]==="cart"&&st.cart.size?t[1]+'<span class="n">'+st.cart.size+"</span>":t[0]==="cmp"&&st.cmp.length?t[1]+'<span class="n">'+st.cmp.length+"</span>":t[1];
   const inMore=!PRIM.includes(st.tab),nm=st.cart.size+st.cmp.length;
@@ -315,7 +397,7 @@ function onAction(e){const b=e.target.closest("button[data-a]");if(!b)return;con
 }
 function init(){
   $("#mat").innerHTML=CAT.materiais.map(m=>"<li>"+esc(m)+"</li>").join("");
-  renderCalcs();renderRefs();initMine();triInit();
+  renderCalcs();renderRefs();initMine();triInit();initDose();
   $("#tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
     if(b.dataset.more){st.more=!st.more;renderTabs();return}
     st.tab=b.dataset.t;st.more=false;renderTabs();window.scrollTo({top:0})});
@@ -344,6 +426,7 @@ function init(){
   $("#any-refs").innerHTML=refChip("ANSEL")+" "+refChip("ANV");
   document.addEventListener("click",e=>{
     const o=e.target.closest("[data-open]");if(o){e.preventDefault();const it=byId.get(+o.dataset.open);if(it)openItem(it);return}
+    const dz=e.target.closest("[data-dz]");if(dz){closeDrawer();openDose(dz.dataset.dz);return}
     if(e.target.closest("[data-close]")){closeDrawer();return}
     if(e.target.closest("#out,#cartbox,#cmpbox,#drawer"))onAction(e)});
   document.addEventListener("keydown",e=>{if(e.key==="Escape"){if(st.dr)closeDrawer();else if(st.more){st.more=false;renderTabs()}}});
