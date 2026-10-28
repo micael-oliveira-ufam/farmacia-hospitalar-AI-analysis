@@ -1,3 +1,20 @@
+# Farmácia Hospitalar Integrada (plataforma) e Calculadora ICAM
+
+Este repositório publica, via **GitHub Pages**, um site único sem servidor com:
+
+| Página | O que é | Código |
+|---|---|---|
+| `/` | Início: escolha do módulo | `plataforma/pages/` |
+| `/guia/` | **PosologiaPED**: guia de posologia pediátrica por classe terapêutica, calculadoras e **Triagem** de prescrição (interações, duplicidades, função renal/hepática) | `plataforma/guia/` |
+| `/estoque/` | **FarmaGestão**: estoque e curva ABC, com importação das listas do ICAM e da Policlínica Codajás | `plataforma/abc-app/` |
+| `/calculadora/` | **Calculadora de doses ICAM** (a ferramenta original deste repositório, descrita abaixo) | raiz do repositório |
+
+O site é gerado a cada push pelo workflow `.github/workflows/pages.yml` (`plataforma/tools/build_pages.sh`). Não há conta, assinatura nem servidor: os dados ficam no navegador e tudo funciona offline depois da primeira visita. Detalhes, versões e créditos (a triagem é inspirada no [NoHarm.ai](https://github.com/noharm-ai), MIT, sem copiar código) estão em `plataforma/README.md`, `plataforma/CHANGELOG.md` e `plataforma/NOTICE.md`.
+
+> Doses, classes e regras de interação foram compiladas por IA e **exigem revisão por farmacêutico responsável**. Apoio à decisão, não prescrição.
+
+---
+
 # Cálculo de Medicamentos — ICAM
 
 Ferramenta web **estática** (HTML + CSS + JavaScript, sem backend) para

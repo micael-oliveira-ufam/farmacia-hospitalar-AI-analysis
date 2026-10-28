@@ -1,0 +1,767 @@
+{
+ "versao": 1,
+ "aviso": "Conteudo compilado por IA; exige revisao farmaceutica. Nao substitui Lexicomp/Micromedex.",
+ "grupos": {
+  "opioide": [
+   "morfina",
+   "fentanil",
+   "metadona",
+   "tramadol",
+   "remifentanil"
+  ],
+  "benzo": [
+   "midazolam",
+   "diazepam",
+   "lorazepam",
+   "clonazepam",
+   "clobazam"
+  ],
+  "sedativo": [
+   "fenobarbital",
+   "clorpromazina",
+   "prometazina",
+   "hidroxizina",
+   "dexmedetomidina"
+  ],
+  "aine": [
+   "ibuprofeno",
+   "tenoxicam",
+   "acido acetilsalicilico"
+  ],
+  "anticoag": [
+   "enoxaparina",
+   "heparina"
+  ],
+  "ieca_bra": [
+   "captopril",
+   "losartana"
+  ],
+  "k_poup": [
+   "espironolactona",
+   "cloreto de potassio"
+  ],
+  "aminoglic": [
+   "gentamicina",
+   "amicacina",
+   "tobramicina"
+  ],
+  "bnm": [
+   "atracurio",
+   "rocuronio",
+   "pancuronio",
+   "suxametonio"
+  ],
+  "pot_bnm": [
+   "gentamicina",
+   "amicacina",
+   "tobramicina",
+   "polimixina b",
+   "clindamicina",
+   "sulfato de magnesio"
+  ],
+  "qt": [
+   "haloperidol",
+   "clorpromazina",
+   "ondansetrona",
+   "metadona",
+   "azitromicina",
+   "claritromicina",
+   "ciprofloxacino",
+   "fluconazol",
+   "domperidona",
+   "fluoxetina",
+   "risperidona",
+   "hidroxizina"
+  ],
+  "sero": [
+   "fluoxetina",
+   "tramadol",
+   "linezolida",
+   "metadona",
+   "ondansetrona",
+   "fentanil"
+  ],
+  "cyp3a4_inib": [
+   "claritromicina",
+   "fluconazol"
+  ],
+  "cyp3a4_subs": [
+   "midazolam",
+   "fentanil"
+  ],
+  "indutores": [
+   "fenitoina",
+   "fenobarbital",
+   "carbamazepina"
+  ],
+  "corticoide": [
+   "dexametasona",
+   "prednisona",
+   "prednisolona",
+   "metilprednisolona",
+   "hidrocortisona"
+  ],
+  "cations": [
+   "carbonato de calcio",
+   "hidroxido de aluminio",
+   "sulfato ferroso"
+  ],
+  "antipsic": [
+   "haloperidol",
+   "clorpromazina",
+   "risperidona"
+  ],
+  "procinetico": [
+   "metoclopramida",
+   "bromoprida",
+   "domperidona"
+  ],
+  "betabloq": [
+   "propranolol",
+   "carvedilol"
+  ],
+  "adren": [
+   "epinefrina",
+   "norepinefrina",
+   "dopamina"
+  ],
+  "nefrotox_aa": [
+   "vancomicina",
+   "anfotericina b",
+   "polimixina b",
+   "contraste"
+  ],
+  "calcio": [
+   "gluconato de calcio",
+   "cloreto de calcio"
+  ],
+  "ibp": [
+   "omeprazol",
+   "pantoprazol"
+  ]
+ },
+ "fontes": {
+  "FDABZD": {
+   "t": "FDA. Drug Safety Communication: benzodiazepines (boxed warning, uso com opioides)",
+   "u": "https://www.fda.gov/media/142368/download",
+   "l": "ok"
+  },
+  "FDATAB": {
+   "t": "FDA. Drug Development and Drug Interactions: Table of Substrates, Inhibitors and Inducers",
+   "u": "https://www.fda.gov/drugs/drug-interactions-labeling/drug-development-and-drug-interactions-table-substrates-inhibitors-and-inducers",
+   "l": "inst"
+  },
+  "CREDMEDS": {
+   "t": "CredibleMeds. Lista de medicamentos com risco de QT/Torsades",
+   "u": "https://crediblemeds.org/",
+   "l": "inst"
+  },
+  "DRUGS": {
+   "t": "Drugs.com. Drug Interactions Checker",
+   "u": "https://www.drugs.com/drug_interactions.html",
+   "l": "inst"
+  },
+  "LEX": {
+   "t": "Lexicomp (Wolters Kluwer). Drug Interactions",
+   "u": "https://www.wolterskluwer.com/en/solutions/lexicomp",
+   "l": "inst"
+  },
+  "NEFRO": {
+   "t": "Perazella MA. Pharmacology behind common drug nephrotoxicities. CJASN 2018",
+   "u": "https://doi.org/10.2215/CJN.00150118",
+   "l": "ok"
+  },
+  "KDIGO": {
+   "t": "KDIGO. Clinical Practice Guideline for Acute Kidney Injury",
+   "u": "https://kdigo.org/guidelines/acute-kidney-injury/",
+   "l": "inst"
+  },
+  "ISMP": {
+   "t": "ISMP Brasil. Medicamentos potencialmente perigosos de uso hospitalar",
+   "u": "https://ismp-brasil.org/wp-content/uploads/2024/06/BOLETIM-ISMP-FEVEREIRO-2024-MPP-HOSPITALAR.pdf",
+   "l": "ok"
+  },
+  "BULA": {
+   "t": "Bulas dos medicamentos envolvidos (DailyMed/FDA e Bulário ANVISA)",
+   "u": "https://dailymed.nlm.nih.gov/dailymed/",
+   "l": "inst"
+  }
+ },
+ "regras": [
+  {
+   "id": "opi-benzo",
+   "a": "@opioide",
+   "b": "@benzo",
+   "sev": 2,
+   "titulo": "Opioide + benzodiazepínico",
+   "mec": "Depressão respiratória e do SNC aditiva (alerta em tarja/bula do FDA).",
+   "cond": "Evitar se possível; se necessário, menor dose e menor tempo, monitorar sedação, FR e SpO2.",
+   "ref": [
+    "FDABZD",
+    "BULA"
+   ]
+  },
+  {
+   "id": "opi-sed",
+   "a": "@opioide",
+   "b": "@sedativo",
+   "sev": 1,
+   "titulo": "Opioide + sedativo/neuroléptico",
+   "mec": "Sedação e depressão respiratória aditivas.",
+   "cond": "Monitorar nível de consciência e FR; ajustar doses.",
+   "ref": [
+    "LEX",
+    "BULA"
+   ]
+  },
+  {
+   "id": "benzo-fenob",
+   "a": "@benzo",
+   "b": "fenobarbital",
+   "sev": 1,
+   "titulo": "Benzodiazepínico + fenobarbital",
+   "mec": "Depressão do SNC aditiva; o fenobarbital também induz o metabolismo de alguns benzodiazepínicos.",
+   "cond": "Monitorar sedação e FR.",
+   "ref": [
+    "LEX",
+    "BULA"
+   ]
+  },
+  {
+   "id": "aine-anticoag",
+   "a": "@aine",
+   "b": "@anticoag",
+   "sev": 2,
+   "titulo": "AINE/AAS + anticoagulante",
+   "mec": "Risco aumentado de sangramento (efeito antiplaquetário e lesão gástrica).",
+   "cond": "Evitar associação quando possível; proteção gástrica e monitorar sinais de sangramento.",
+   "ref": [
+    "LEX",
+    "BULA"
+   ]
+  },
+  {
+   "id": "aine-ieca",
+   "a": "@aine",
+   "b": "@ieca_bra",
+   "sev": 1,
+   "titulo": "AINE + IECA/BRA",
+   "mec": "Redução do efeito anti-hipertensivo e risco de lesão renal aguda, sobretudo com desidratação.",
+   "cond": "Monitorar creatinina, diurese e pressão; evitar em desidratação.",
+   "ref": [
+    "NEFRO",
+    "KDIGO"
+   ]
+  },
+  {
+   "id": "aine-diur",
+   "a": "@aine",
+   "b": "furosemida",
+   "sev": 1,
+   "titulo": "AINE + furosemida",
+   "mec": "Reduz o efeito diurético e aumenta o risco de lesão renal.",
+   "cond": "Monitorar diurese, creatinina e volemia.",
+   "ref": [
+    "NEFRO",
+    "LEX"
+   ]
+  },
+  {
+   "id": "hiperk-1",
+   "a": "@ieca_bra",
+   "b": "@k_poup",
+   "sev": 2,
+   "titulo": "IECA/BRA + espironolactona/KCl",
+   "mec": "Hipercalemia (redução da excreção de potássio).",
+   "cond": "Monitorar potássio e creatinina; revisar necessidade de reposição de potássio.",
+   "ref": [
+    "LEX",
+    "BULA"
+   ]
+  },
+  {
+   "id": "hiperk-2",
+   "a": "espironolactona",
+   "b": "cloreto de potassio",
+   "sev": 2,
+   "titulo": "Espironolactona + cloreto de potássio",
+   "mec": "Hipercalemia.",
+   "cond": "Evitar reposição de rotina; dosar potássio antes e durante.",
+   "ref": [
+    "LEX",
+    "BULA"
+   ]
+  },
+  {
+   "id": "hiperk-3",
+   "a": "sulfametoxazol",
+   "b": "@k_poup",
+   "sev": 2,
+   "titulo": "Sulfametoxazol-trimetoprim + espironolactona/KCl",
+   "mec": "O trimetoprim reduz a excreção renal de potássio: hipercalemia.",
+   "cond": "Monitorar potássio, sobretudo em pacientes com função renal reduzida.",
+   "ref": [
+    "LEX",
+    "BULA"
+   ]
+  },
+  {
+   "id": "hiperk-4",
+   "a": "sulfametoxazol",
+   "b": "@ieca_bra",
+   "sev": 2,
+   "titulo": "Sulfametoxazol-trimetoprim + IECA/BRA",
+   "mec": "Hipercalemia e piora de função renal.",
+   "cond": "Monitorar potássio e creatinina.",
+   "ref": [
+    "LEX",
+    "BULA"
+   ]
+  },
+  {
+   "id": "tram-fluox",
+   "a": "tramadol",
+   "b": "fluoxetina",
+   "sev": 2,
+   "titulo": "Tramadol + fluoxetina",
+   "mec": "Síndrome serotoninérgica e convulsões; a fluoxetina inibe o CYP2D6 e reduz a ativação do tramadol.",
+   "cond": "Evitar quando possível; monitorar sinais de toxicidade serotoninérgica.",
+   "ref": [
+    "FDATAB",
+    "BULA"
+   ]
+  },
+  {
+   "id": "lzd-sero",
+   "a": "linezolida",
+   "b": "@sero",
+   "sev": 2,
+   "titulo": "Linezolida + serotoninérgico",
+   "mec": "A linezolida é inibidora fraca e reversível da MAO: risco de síndrome serotoninérgica.",
+   "cond": "Evitar ou monitorar de perto (agitação, tremor, hipertermia, clônus).",
+   "ref": [
+    "BULA",
+    "LEX"
+   ]
+  },
+  {
+   "id": "lzd-adren",
+   "a": "linezolida",
+   "b": "@adren",
+   "sev": 1,
+   "titulo": "Linezolida + vasopressor adrenérgico",
+   "mec": "Possível resposta pressora exagerada pela inibição da MAO.",
+   "cond": "Titular o vasopressor com cautela e monitorar PA.",
+   "ref": [
+    "BULA",
+    "LEX"
+   ]
+  },
+  {
+   "id": "qt",
+   "a": "@qt",
+   "b": null,
+   "sev": 2,
+   "titulo": "Associação de fármacos que prolongam o QT",
+   "mec": "Efeito aditivo no intervalo QT; risco de Torsades de pointes, maior com hipocalemia/hipomagnesemia.",
+   "cond": "Checar ECG (QTc), K+ e Mg2+; considerar alternativa sem efeito no QT.",
+   "ref": [
+    "CREDMEDS",
+    "BULA"
+   ],
+   "min": 2
+  },
+  {
+   "id": "cyp-mid",
+   "a": "@cyp3a4_inib",
+   "b": "@cyp3a4_subs",
+   "sev": 2,
+   "titulo": "Inibidor de CYP3A4 + midazolam/fentanil",
+   "mec": "Aumento da concentração e do tempo de ação do substrato: sedação prolongada e depressão respiratória.",
+   "cond": "Reduzir dose, monitorar sedação e respiração.",
+   "ref": [
+    "FDATAB",
+    "BULA"
+   ]
+  },
+  {
+   "id": "ind-cort",
+   "a": "@indutores",
+   "b": "@corticoide",
+   "sev": 1,
+   "titulo": "Indutor enzimático + corticoide",
+   "mec": "Indução do metabolismo reduz o efeito do corticoide.",
+   "cond": "Considerar aumento de dose do corticoide conforme resposta.",
+   "ref": [
+    "FDATAB",
+    "LEX"
+   ]
+  },
+  {
+   "id": "fen-flu",
+   "a": "fenitoina",
+   "b": "fluconazol",
+   "sev": 2,
+   "titulo": "Fenitoína + fluconazol",
+   "mec": "Aumento da concentração de fenitoína (inibição do CYP2C9/2C19) e risco de toxicidade.",
+   "cond": "Dosar fenitoína e monitorar sinais de toxicidade (nistagmo, ataxia).",
+   "ref": [
+    "FDATAB",
+    "BULA"
+   ]
+  },
+  {
+   "id": "fen-metro",
+   "a": "fenitoina",
+   "b": "metronidazol",
+   "sev": 1,
+   "titulo": "Fenitoína + metronidazol",
+   "mec": "Pode aumentar a concentração de fenitoína.",
+   "cond": "Monitorar nível sérico e toxicidade.",
+   "ref": [
+    "LEX",
+    "BULA"
+   ]
+  },
+  {
+   "id": "fen-smx",
+   "a": "fenitoina",
+   "b": "sulfametoxazol",
+   "sev": 1,
+   "titulo": "Fenitoína + sulfametoxazol-trimetoprim",
+   "mec": "Pode aumentar a concentração de fenitoína.",
+   "cond": "Monitorar nível sérico e toxicidade.",
+   "ref": [
+    "LEX",
+    "BULA"
+   ]
+  },
+  {
+   "id": "cbz-clari",
+   "a": "carbamazepina",
+   "b": "@cyp3a4_inib",
+   "sev": 2,
+   "titulo": "Carbamazepina + claritromicina/fluconazol",
+   "mec": "Inibição do CYP3A4 eleva a carbamazepina: tontura, diplopia, ataxia.",
+   "cond": "Evitar ou reduzir dose e dosar carbamazepina.",
+   "ref": [
+    "FDATAB",
+    "BULA"
+   ]
+  },
+  {
+   "id": "vpa-ltg",
+   "a": "valproato",
+   "b": "lamotrigina",
+   "sev": 2,
+   "titulo": "Valproato + lamotrigina",
+   "mec": "O valproato dobra a meia-vida da lamotrigina e aumenta o risco de erupção cutânea grave (Stevens-Johnson).",
+   "cond": "Usar esquema de dose reduzida e titulação lenta conforme a bula; orientar sobre rash.",
+   "ref": [
+    "BULA",
+    "LEX"
+   ]
+  },
+  {
+   "id": "vpa-cbp",
+   "a": "valproato",
+   "b": "meropenem",
+   "sev": 2,
+   "titulo": "Valproato + meropenem",
+   "mec": "Os carbapenêmicos reduzem de forma acentuada o nível do valproato, com risco de perda de controle das crises.",
+   "cond": "Evitar associação; usar outro antimicrobiano ou outro antiepiléptico.",
+   "ref": [
+    "BULA",
+    "LEX"
+   ]
+  },
+  {
+   "id": "vpa-tpm",
+   "a": "valproato",
+   "b": "topiramato",
+   "sev": 1,
+   "titulo": "Valproato + topiramato",
+   "mec": "Risco de hiperamonemia e encefalopatia.",
+   "cond": "Monitorar estado mental e amônia se houver letargia ou vômitos.",
+   "ref": [
+    "BULA",
+    "LEX"
+   ]
+  },
+  {
+   "id": "vpa-fenob",
+   "a": "valproato",
+   "b": "fenobarbital",
+   "sev": 1,
+   "titulo": "Valproato + fenobarbital",
+   "mec": "O valproato eleva a concentração do fenobarbital: sedação excessiva.",
+   "cond": "Monitorar sedação e nível sérico.",
+   "ref": [
+    "BULA",
+    "LEX"
+   ]
+  },
+  {
+   "id": "vpa-aas",
+   "a": "valproato",
+   "b": "acido acetilsalicilico",
+   "sev": 1,
+   "titulo": "Valproato + AAS",
+   "mec": "O AAS desloca o valproato da albumina e eleva a fração livre; efeito antiplaquetário soma-se.",
+   "cond": "Monitorar toxicidade e sangramento.",
+   "ref": [
+    "BULA",
+    "LEX"
+   ]
+  },
+  {
+   "id": "aa-nef",
+   "a": "@aminoglic",
+   "b": "@nefrotox_aa",
+   "sev": 2,
+   "titulo": "Aminoglicosídeo + outro nefrotóxico",
+   "mec": "Nefrotoxicidade e ototoxicidade aditivas.",
+   "cond": "Monitorar creatinina, diurese e níveis séricos; manter hidratação; menor duração possível.",
+   "ref": [
+    "NEFRO",
+    "KDIGO"
+   ]
+  },
+  {
+   "id": "aa-furo",
+   "a": "@aminoglic",
+   "b": "furosemida",
+   "sev": 1,
+   "titulo": "Aminoglicosídeo + furosemida",
+   "mec": "Ototoxicidade e nefrotoxicidade potencializadas.",
+   "cond": "Monitorar audição, função renal e eletrólitos.",
+   "ref": [
+    "LEX",
+    "BULA"
+   ]
+  },
+  {
+   "id": "vanc-pip",
+   "a": "vancomicina",
+   "b": "piperacilina",
+   "sev": 2,
+   "titulo": "Vancomicina + piperacilina-tazobactam",
+   "mec": "Maior incidência de lesão renal aguda do que com outros betalactâmicos.",
+   "cond": "Considerar alternativa (p.ex. cefepima/meropenem conforme indicação) ou monitorar creatinina diariamente.",
+   "ref": [
+    "NEFRO",
+    "KDIGO"
+   ]
+  },
+  {
+   "id": "bnm-pot",
+   "a": "@bnm",
+   "b": "@pot_bnm",
+   "sev": 2,
+   "titulo": "Bloqueador neuromuscular + potenciador",
+   "mec": "Aminoglicosídeos, polimixina, clindamicina e magnésio potencializam o bloqueio neuromuscular e podem prolongar a paralisia.",
+   "cond": "Monitorar a função neuromuscular (TOF); ter reversor disponível.",
+   "ref": [
+    "LEX",
+    "BULA"
+   ]
+  },
+  {
+   "id": "cef-ca",
+   "a": "ceftriaxona",
+   "b": "@calcio",
+   "sev": 2,
+   "titulo": "Ceftriaxona + cálcio IV",
+   "mec": "Precipitação de ceftriaxona-cálcio com casos fatais em neonatos. Contraindicada em neonato (≤ 28 dias) com cálcio IV. Em outras idades, não administrar simultaneamente na mesma via.",
+   "cond": "Neonato: não usar com cálcio IV. Demais: vias separadas e lavagem entre as infusões.",
+   "ref": [
+    "BULA",
+    "LEX"
+   ],
+   "so": "neo"
+  },
+  {
+   "id": "cef-ca2",
+   "a": "ceftriaxona",
+   "b": "@calcio",
+   "sev": 1,
+   "titulo": "Ceftriaxona + cálcio IV",
+   "mec": "Risco de precipitação quando infundidas pela mesma via.",
+   "cond": "Não misturar nem infundir simultaneamente na mesma via; lavar o acesso entre as infusões.",
+   "ref": [
+    "BULA",
+    "LEX"
+   ]
+  },
+  {
+   "id": "cipro-cat",
+   "a": "ciprofloxacino",
+   "b": "@cations",
+   "sev": 1,
+   "titulo": "Ciprofloxacino oral + cálcio/alumínio/ferro",
+   "mec": "Quelação reduz muito a absorção do antibiótico (relevante na via oral).",
+   "cond": "Separar: ciprofloxacino 2 h antes ou 6 h depois do cátion.",
+   "ref": [
+    "BULA",
+    "LEX"
+   ]
+  },
+  {
+   "id": "cipro-cort",
+   "a": "ciprofloxacino",
+   "b": "@corticoide",
+   "sev": 1,
+   "titulo": "Quinolona + corticoide",
+   "mec": "Risco aumentado de tendinopatia e ruptura de tendão.",
+   "cond": "Orientar para suspender e avaliar em caso de dor em tendão.",
+   "ref": [
+    "BULA",
+    "LEX"
+   ]
+  },
+  {
+   "id": "lev-cat",
+   "a": "levotiroxina",
+   "b": "@cations",
+   "sev": 1,
+   "titulo": "Levotiroxina + cálcio/alumínio/ferro",
+   "mec": "Reduz a absorção da levotiroxina.",
+   "cond": "Separar por pelo menos 4 horas; reavaliar TSH.",
+   "ref": [
+    "BULA",
+    "LEX"
+   ]
+  },
+  {
+   "id": "fe-ibp",
+   "a": "sulfato ferroso",
+   "b": "@ibp",
+   "sev": 1,
+   "titulo": "Sulfato ferroso + inibidor de bomba de prótons",
+   "mec": "A redução da acidez gástrica diminui a absorção do ferro oral.",
+   "cond": "Reavaliar necessidade do IBP ou resposta ao ferro.",
+   "ref": [
+    "LEX",
+    "BULA"
+   ]
+  },
+  {
+   "id": "ins-bb",
+   "a": "insulina",
+   "b": "@betabloq",
+   "sev": 1,
+   "titulo": "Insulina + betabloqueador",
+   "mec": "Pode mascarar sinais adrenérgicos da hipoglicemia e prolongá-la.",
+   "cond": "Monitorar glicemia com mais frequência.",
+   "ref": [
+    "BULA",
+    "LEX"
+   ]
+  },
+  {
+   "id": "ins-cort",
+   "a": "insulina",
+   "b": "@corticoide",
+   "sev": 1,
+   "titulo": "Insulina + corticoide",
+   "mec": "Os corticoides causam hiperglicemia e elevam a necessidade de insulina.",
+   "cond": "Monitorar glicemia e ajustar a insulina.",
+   "ref": [
+    "BULA",
+    "LEX"
+   ]
+  },
+  {
+   "id": "prop-salb",
+   "a": "propranolol",
+   "b": "salbutamol",
+   "sev": 2,
+   "titulo": "Propranolol + salbutamol",
+   "mec": "Betabloqueador não seletivo antagoniza o broncodilatador e pode causar broncoespasmo.",
+   "cond": "Evitar propranolol em asma/broncoespasmo; considerar betabloqueador cardiosseletivo se indicado.",
+   "ref": [
+    "BULA",
+    "LEX"
+   ]
+  },
+  {
+   "id": "prop-epi",
+   "a": "propranolol",
+   "b": "epinefrina",
+   "sev": 2,
+   "titulo": "Propranolol + epinefrina",
+   "mec": "Hipertensão grave com bradicardia reflexa; a epinefrina pode perder o efeito beta.",
+   "cond": "Monitorar PA e FC; cautela na anafilaxia em uso de betabloqueador.",
+   "ref": [
+    "BULA",
+    "LEX"
+   ]
+  },
+  {
+   "id": "antipsic-proc",
+   "a": "@antipsic",
+   "b": "@procinetico",
+   "sev": 1,
+   "titulo": "Antipsicótico + procinético",
+   "mec": "Risco aditivo de sintomas extrapiramidais e síndrome neuroléptica maligna.",
+   "cond": "Evitar a associação, sobretudo em crianças; monitorar sinais extrapiramidais.",
+   "ref": [
+    "BULA",
+    "LEX"
+   ]
+  },
+  {
+   "id": "cort-aine",
+   "a": "@corticoide",
+   "b": "@aine",
+   "sev": 1,
+   "titulo": "Corticoide + AINE/AAS",
+   "mec": "Risco aumentado de úlcera e sangramento gastrointestinal.",
+   "cond": "Considerar proteção gástrica e menor tempo de uso.",
+   "ref": [
+    "LEX",
+    "BULA"
+   ]
+  },
+  {
+   "id": "seg-ond",
+   "a": "ondansetrona",
+   "b": "tramadol",
+   "sev": 1,
+   "titulo": "Ondansetrona + tramadol",
+   "mec": "Pode reduzir o efeito analgésico do tramadol e aumentar o risco serotoninérgico.",
+   "cond": "Monitorar analgesia e sinais de toxicidade.",
+   "ref": [
+    "LEX",
+    "BULA"
+   ]
+  },
+  {
+   "id": "fluox-sang",
+   "a": "fluoxetina",
+   "b": "@anticoag",
+   "sev": 1,
+   "titulo": "Fluoxetina + anticoagulante",
+   "mec": "Aumento do risco de sangramento (ISRS prejudica a agregação plaquetária).",
+   "cond": "Monitorar sinais de sangramento.",
+   "ref": [
+    "LEX",
+    "BULA"
+   ]
+  },
+  {
+   "id": "mag-ca",
+   "a": "sulfato de magnesio",
+   "b": "gluconato de calcio",
+   "sev": 1,
+   "titulo": "Sulfato de magnésio + gluconato de cálcio",
+   "mec": "O cálcio antagoniza o magnésio (usado como antídoto da toxicidade por Mg).",
+   "cond": "Esperado se houver intoxicação por Mg; fora disso, confirmar a intenção.",
+   "ref": [
+    "LEX",
+    "BULA"
+   ]
+  }
+ ],
+ "credito": "Logica de triagem inspirada no NoHarm.ai (https://github.com/noharm-ai, licenca MIT). Nenhum codigo ou dado do NoHarm foi copiado."
+}

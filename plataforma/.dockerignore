@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+**/dist_guia
+.env
+.git
+flutter_app
+docs
+*.png
+*.zip

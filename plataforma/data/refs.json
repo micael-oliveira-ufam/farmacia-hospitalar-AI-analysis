@@ -1,0 +1,322 @@
+{
+ "LEX": {
+  "t": "Taketomo CK, Hodding JH, Kraus DM. Pediatric & Neonatal Dosage Handbook. 29ª ed. Hudson (OH): Wolters Kluwer; 2022 (conteúdo atual: UpToDate Lexidrug).",
+  "u": "https://www.wolterskluwer.com/en/solutions/lexicomp",
+  "l": "inst"
+ },
+ "BNFC": {
+  "t": "Paediatric Formulary Committee. BNF for Children 2023–2024. London: BMJ Group, Pharmaceutical Press, RCPCH; 2023.",
+  "u": "https://bnfc.nice.org.uk/",
+  "l": "inst"
+ },
+ "BNF": {
+  "t": "Joint Formulary Committee. British National Formulary (BNF) 86. London: BMJ Group and Pharmaceutical Press; 2023.",
+  "u": "https://bnf.nice.org.uk/",
+  "l": "inst"
+ },
+ "FTN": {
+  "t": "Brasil. Ministério da Saúde. Formulário Terapêutico Nacional 2010: Rename 2010. 2ª ed. Brasília: MS; 2010.",
+  "u": "https://www.google.com/search?q=Formul%C3%A1rio%20Terap%C3%AAutico%20Nacional%202010%20Rename%20Minist%C3%A9rio%20da%20Sa%C3%BAde%20bvsms",
+  "l": "busca"
+ },
+ "ANV": {
+  "t": "Agência Nacional de Vigilância Sanitária (ANVISA). Bulário Eletrônico – bula do profissional do medicamento de referência. Disponível em: consultas.anvisa.gov.br/#/bulario/.",
+  "u": "https://consultas.anvisa.gov.br/#/bulario/",
+  "l": "ok"
+ },
+ "HL": {
+  "t": "Johns Hopkins Hospital; Kleinman K, McDaniel L, Molloy M (eds.). The Harriet Lane Handbook. 23ª ed. Philadelphia: Elsevier; 2023.",
+  "u": "https://www.google.com/search?q=Harriet%20Lane%20Handbook%2023rd%20edition%20Elsevier",
+  "l": "busca"
+ },
+ "WHOC": {
+  "t": "World Health Organization. WHO Model Formulary for Children 2010. Geneva: WHO; 2010.",
+  "u": "https://www.who.int/publications/i/item/9789241547659",
+  "l": "inst"
+ },
+ "SANF": {
+  "t": "Gilbert DN, Chambers HF, Saag MS, et al. The Sanford Guide to Antimicrobial Therapy 2024. 54ª ed. Sperryville (VA): Antimicrobial Therapy; 2024.",
+  "u": "https://www.sanfordguide.com/",
+  "l": "inst"
+ },
+ "REDB": {
+  "t": "American Academy of Pediatrics. Red Book: 2024–2027 Report of the Committee on Infectious Diseases. 33ª ed. Itasca (IL): AAP; 2024.",
+  "u": "https://publications.aap.org/redbook",
+  "l": "inst"
+ },
+ "MSINF": {
+  "t": "Brasil. Ministério da Saúde. Guia de Manejo e Tratamento de Influenza 2023. Brasília: MS; 2023.",
+  "u": "https://www.google.com/search?q=Guia%20de%20Manejo%20e%20Tratamento%20de%20Influenza%202023%20Minist%C3%A9rio%20da%20Sa%C3%BAde",
+  "l": "busca"
+ },
+ "MSIST": {
+  "t": "Brasil. Ministério da Saúde. Protocolo Clínico e Diretrizes Terapêuticas para Atenção Integral às Pessoas com Infecções Sexualmente Transmissíveis (IST). Brasília: MS; 2022.",
+  "u": "https://www.google.com/search?q=PCDT%20Infec%C3%A7%C3%B5es%20Sexualmente%20Transmiss%C3%ADveis%202022%20Minist%C3%A9rio%20da%20Sa%C3%BAde%20gov.br",
+  "l": "busca"
+ },
+ "SBCFR": {
+  "t": "Sociedade Brasileira de Cardiologia. Diretrizes Brasileiras para o Diagnóstico, Tratamento e Prevenção da Febre Reumática. Arq Bras Cardiol. 2009;93(3 supl. 4):1-18.",
+  "u": "https://pubmed.ncbi.nlm.nih.gov/20976376/",
+  "l": "ok"
+ },
+ "AHA": {
+  "t": "Topjian AA, Raymond TT, Atkins D, et al. Part 4: Pediatric Basic and Advanced Life Support – 2020 AHA Guidelines for CPR and ECC. Circulation. 2020;142(16 suppl 2):S469-S523.",
+  "u": "https://doi.org/10.1161/CIR.0000000000000901",
+  "l": "doi"
+ },
+ "ACLS": {
+  "t": "Panchal AR, Bartos JA, Cabañas JG, et al. Part 3: Adult Basic and Advanced Life Support – 2020 AHA Guidelines for CPR and ECC. Circulation. 2020;142(16 suppl 2):S366-S468.",
+  "u": "https://doi.org/10.1161/CIR.0000000000000916",
+  "l": "doi"
+ },
+ "NRP": {
+  "t": "Aziz K, Lee HC, Escobedo MB, et al. Part 5: Neonatal Resuscitation – 2020 AHA/AAP Guidelines. Circulation. 2020;142(16 suppl 2):S524-S550.",
+  "u": "https://doi.org/10.1161/CIR.0000000000000902",
+  "l": "doi"
+ },
+ "SSC": {
+  "t": "Evans L, Rhodes A, Alhazzani W, et al. Surviving Sepsis Campaign: International Guidelines for Management of Sepsis and Septic Shock 2021. Crit Care Med. 2021;49(11):e1063-e1143.",
+  "u": "https://doi.org/10.1097/CCM.0000000000005337",
+  "l": "doi"
+ },
+ "SSCP": {
+  "t": "Weiss SL, Peters MJ, Alhazzani W, et al. Surviving Sepsis Campaign International Guidelines for the Management of Septic Shock and Sepsis-Associated Organ Dysfunction in Children. Pediatr Crit Care Med. 2020;21(2):e52-e106.",
+  "u": "https://doi.org/10.1097/PCC.0000000000002198",
+  "l": "doi"
+ },
+ "GINA": {
+  "t": "Global Initiative for Asthma. Global Strategy for Asthma Management and Prevention. GINA; atualizações anuais (consultar a edição vigente).",
+  "u": "https://ginasthma.org/reports/",
+  "l": "inst"
+ },
+ "NAEPP": {
+  "t": "National Asthma Education and Prevention Program. Expert Panel Report 3: Guidelines for the Diagnosis and Management of Asthma. NHLBI; 2007.",
+  "u": "https://www.nhlbi.nih.gov/resources/guidelines-diagnosis-and-management-asthma-full-report-2007",
+  "l": "inst"
+ },
+ "ISPAD": {
+  "t": "Glaser N, Fritsch M, Priyambada L, et al. ISPAD Clinical Practice Consensus Guidelines 2022: Diabetic ketoacidosis and hyperglycemic hyperosmolar state. Pediatr Diabetes. 2022;23(7):835-856.",
+  "u": "https://doi.org/10.1111/pedi.13406",
+  "l": "doi"
+ },
+ "SBD": {
+  "t": "Sociedade Brasileira de Diabetes. Diretriz da Sociedade Brasileira de Diabetes – Edição 2024 (insulinoterapia e cetoacidose). São Paulo: SBD; 2024.",
+  "u": "https://diretriz.diabetes.org.br/",
+  "l": "inst"
+ },
+ "AES": {
+  "t": "Glauser T, Shinnar S, Gloss D, et al. Evidence-Based Guideline: Treatment of Convulsive Status Epilepticus in Children and Adults. Epilepsy Curr. 2016;16(1):48-61.",
+  "u": "https://doi.org/10.5698/1535-7597-16.1.48",
+  "l": "ok"
+ },
+ "VANCO": {
+  "t": "Rybak MJ, Le J, Lodise TP, et al. Therapeutic monitoring of vancomycin for serious MRSA infections: a revised consensus guideline (ASHP/IDSA/PIDS/SIDP). Am J Health Syst Pharm. 2020;77(11):835-864.",
+  "u": "https://doi.org/10.1093/ajhp/zxaa036",
+  "l": "doi"
+ },
+ "POLI": {
+  "t": "Tsuji BT, Pogue JM, Zavascki AP, et al. International Consensus Guidelines for the Optimal Use of the Polymyxins. Pharmacotherapy. 2019;39(1):10-39.",
+  "u": "https://doi.org/10.1002/phar.2209",
+  "l": "ok"
+ },
+ "IDSA": {
+  "t": "Pappas PG, Kauffman CA, Andes DR, et al. Clinical Practice Guideline for the Management of Candidiasis: 2016 Update by the IDSA. Clin Infect Dis. 2016;62(4):e1-e50.",
+  "u": "https://doi.org/10.1093/cid/civ933",
+  "l": "ok"
+ },
+ "CRASH": {
+  "t": "CRASH-2 trial collaborators. Effects of tranexamic acid on death, vascular occlusive events, and blood transfusion in trauma patients with significant haemorrhage. Lancet. 2010;376(9734):23-32.",
+  "u": "https://doi.org/10.1016/S0140-6736(10)60835-5",
+  "l": "doi"
+ },
+ "WOMAN": {
+  "t": "WOMAN Trial Collaborators. Effect of early tranexamic acid administration on mortality, hysterectomy, and other morbidities in women with post-partum haemorrhage. Lancet. 2017;389(10084):2105-2116.",
+  "u": "https://doi.org/10.1016/S0140-6736(17)30638-4",
+  "l": "ok"
+ },
+ "MSDIA": {
+  "t": "Brasil. Ministério da Saúde. Manejo do paciente com diarreia (cartaz – Planos A, B e C). Brasília: MS; 2023.",
+  "u": "https://www.google.com/search?q=Manejo%20do%20paciente%20com%20diarreia%20cartaz%20Minist%C3%A9rio%20da%20Sa%C3%BAde%20Planos%20A%20B%20C",
+  "l": "busca"
+ },
+ "ACR": {
+  "t": "American College of Radiology. ACR Manual on Contrast Media. Reston (VA): ACR; 2023.",
+  "u": "https://www.acr.org/Clinical-Resources/Contrast-Manual",
+  "l": "inst"
+ },
+ "MSGAR": {
+  "t": "Brasil. Ministério da Saúde. Manual de Gestação de Alto Risco. Brasília: MS; 2022.",
+  "u": "https://www.google.com/search?q=Manual%20de%20Gesta%C3%A7%C3%A3o%20de%20Alto%20Risco%20Minist%C3%A9rio%20da%20Sa%C3%BAde%202022",
+  "l": "busca"
+ },
+ "AAPK": {
+  "t": "American Academy of Pediatrics Committee on Fetus and Newborn. Controversies concerning vitamin K and the newborn. Pediatrics. 2003;112(1):191-192 (reafirmado 2022).",
+  "u": "https://doi.org/10.1542/peds.112.1.191",
+  "l": "doi"
+ },
+ "CHEST": {
+  "t": "Monagle P, Chan AKC, Goldenberg NA, et al. Antithrombotic therapy in neonates and children: ACCP Evidence-Based Clinical Practice Guidelines (9th ed). Chest. 2012;141(2 Suppl):e737S-e801S.",
+  "u": "https://doi.org/10.1378/chest.11-2308",
+  "l": "ok"
+ },
+ "AAPHAS": {
+  "t": "Flynn JT, Kaelber DC, Baker-Smith CM, et al. Clinical Practice Guideline for Screening and Management of High Blood Pressure in Children and Adolescents. Pediatrics. 2017;140(3):e20171904.",
+  "u": "https://doi.org/10.1542/peds.2017-1904",
+  "l": "doi"
+ },
+ "TROT": {
+  "t": "van Trotsenburg P, Stoupa A, Léger J, et al. Congenital Hypothyroidism: A 2020–2021 Consensus Guidelines Update (ENDO-European Reference Network). Thyroid. 2021;31(3):387-419.",
+  "u": "https://doi.org/10.1089/thy.2020.0717",
+  "l": "doi"
+ },
+ "PAH": {
+  "t": "Abman SH, Hansmann G, Archer SL, et al. Pediatric Pulmonary Hypertension: Guidelines from the AHA and ATS. Circulation. 2015;132(21):2037-2099.",
+  "u": "https://doi.org/10.1161/CIR.0000000000000329",
+  "l": "doi"
+ },
+ "MSFE": {
+  "t": "Brasil. Ministério da Saúde. Programa Nacional de Suplementação de Ferro: manual de condutas gerais. Brasília: MS; 2013.",
+  "u": "https://www.google.com/search?q=Manual%20de%20condutas%20gerais%20Programa%20Nacional%20de%20Suplementa%C3%A7%C3%A3o%20de%20Ferro%202013%20Minist%C3%A9rio%20da%20Sa%C3%BAde",
+  "l": "busca"
+ },
+ "WHOHEL": {
+  "t": "World Health Organization. Guideline: Preventive chemotherapy to control soil-transmitted helminth infections in at-risk population groups. Geneva: WHO; 2017.",
+  "u": "https://www.google.com/search?q=WHO%20guideline%20preventive%20chemotherapy%20soil-transmitted%20helminth%202017",
+  "l": "busca"
+ },
+ "MSLV": {
+  "t": "Brasil. Ministério da Saúde. Manual de Vigilância e Controle da Leishmaniose Visceral. Brasília: MS; 2014 (atualizações de tratamento em Guia de Vigilância em Saúde, 6ª ed., 2023).",
+  "u": "https://www.google.com/search?q=Manual%20de%20Vigil%C3%A2ncia%20e%20Controle%20da%20Leishmaniose%20Visceral%20Minist%C3%A9rio%20da%20Sa%C3%BAde",
+  "l": "busca"
+ },
+ "NASP": {
+  "t": "Tabbers MM, DiLorenzo C, Berger MY, et al. Evaluation and treatment of functional constipation in infants and children: ESPGHAN/NASPGHAN recommendations. J Pediatr Gastroenterol Nutr. 2014;58(2):258-274.",
+  "u": "https://doi.org/10.1097/MPG.0000000000000266",
+  "l": "doi"
+ },
+ "EMAMET": {
+  "t": "European Medicines Agency. Metoclopramide-containing medicines – Article 31 referral: restrictions on use (EMA/13239/2014). Londres: EMA; 2013.",
+  "u": "https://www.google.com/search?q=EMA%20metoclopramide%20article%2031%20referral%20restrictions%20on%20use%202013",
+  "l": "busca"
+ },
+ "EMADOM": {
+  "t": "European Medicines Agency. Domperidone-containing medicines – Article 31 referral (EMA/465179/2014). Londres: EMA; 2014.",
+  "u": "https://www.google.com/search?q=EMA%20domperidone%20article%2031%20referral%202014",
+  "l": "busca"
+ },
+ "EMAHYD": {
+  "t": "European Medicines Agency. Hydroxyzine-containing medicines – Article 31 referral: new measures to minimise risk of QT prolongation (EMA/180505/2015). Londres: EMA; 2015.",
+  "u": "https://www.google.com/search?q=EMA%20hydroxyzine%20article%2031%20referral%20QT%20prolongation%202015",
+  "l": "busca"
+ },
+ "FDATRA": {
+  "t": "U.S. Food and Drug Administration. Drug Safety Communication: FDA restricts use of prescription codeine pain and cough medicines and tramadol pain medicines in children. Silver Spring: FDA; 20 abr. 2017.",
+  "u": "https://www.google.com/search?q=FDA%20Drug%20Safety%20Communication%20restricts%20codeine%20tramadol%20children%202017",
+  "l": "busca"
+ },
+ "AHAKAW": {
+  "t": "McCrindle BW, Rowley AH, Newburger JW, et al. Diagnosis, Treatment, and Long-Term Management of Kawasaki Disease: AHA Scientific Statement. Circulation. 2017;135(17):e927-e999.",
+  "u": "https://doi.org/10.1161/CIR.0000000000000484",
+  "l": "doi"
+ },
+ "ASPEN": {
+  "t": "Corkins MR (ed.). The ASPEN Pediatric Nutrition Support Core Curriculum. 2ª ed. Silver Spring: ASPEN; 2015.",
+  "u": "https://www.google.com/search?q=ASPEN%20Pediatric%20Nutrition%20Support%20Core%20Curriculum%202nd%20edition",
+  "l": "busca"
+ },
+ "NICE": {
+  "t": "National Institute for Health and Care Excellence. Intravenous fluid therapy in children and young people in hospital (NG29). London: NICE; 2015 (atual. 2020).",
+  "u": "https://www.nice.org.uk/guidance/ng29",
+  "l": "inst"
+ },
+ "MIL": {
+  "t": "Gropper MA (ed.). Miller's Anesthesia. 9ª ed. Philadelphia: Elsevier; 2020.",
+  "u": "https://www.google.com/search?q=Miller%27s%20Anesthesia%209th%20edition%20Elsevier",
+  "l": "busca"
+ },
+ "CDCINF": {
+  "t": "Centers for Disease Control and Prevention. Influenza Antiviral Medications: Summary for Clinicians. Atlanta: CDC; 2024.",
+  "u": "https://www.cdc.gov/flu/hcp/antivirals/summary-clinicians.html",
+  "l": "inst"
+ },
+ "SBPFE": {
+  "t": "Sociedade Brasileira de Pediatria. Consenso sobre anemia ferropriva: atualização – destaques 2021. Rio de Janeiro: SBP; 2021.",
+  "u": "https://www.google.com/search?q=SBP%20Consenso%20anemia%20ferropriva%20atualiza%C3%A7%C3%A3o%20destaques%202021",
+  "l": "busca"
+ },
+ "ISMP": {
+  "t": "Instituto para Práticas Seguras no Uso de Medicamentos (ISMP Brasil). Medicamentos potencialmente perigosos de uso hospitalar – lista atualizada 2019. Boletim ISMP Brasil. 2019;8(1):1-9.",
+  "u": "https://ismp-brasil.org/wp-content/uploads/2024/06/BOLETIM-ISMP-FEVEREIRO-2019.pdf",
+  "l": "ok"
+ },
+ "LTOX": {
+  "t": "National Institute of Diabetes and Digestive and Kidney Diseases. LiverTox: Clinical and Research Information on Drug-Induced Liver Injury. Bethesda (MD): NIDDK; 2012– (atualização contínua).",
+  "u": "https://www.ncbi.nlm.nih.gov/books/NBK547852/",
+  "l": "inst"
+ },
+ "NEFRO": {
+  "t": "Perazella MA. Pharmacology behind Common Drug Nephrotoxicities. Clin J Am Soc Nephrol. 2018;13(12):1897-1908.",
+  "u": "https://doi.org/10.2215/CJN.00150118",
+  "l": "ok"
+ },
+ "P344": {
+  "t": "Brasil. ANVISA. Portaria SVS/MS nº 344, de 12 de maio de 1998 (controle especial).",
+  "u": "https://www.google.com/search?q=Portaria+SVS%2FMS+344+1998",
+  "l": "busca"
+ },
+ "MOST": {
+  "t": "Mosteller RD. Simplified calculation of body-surface area. N Engl J Med. 1987;317(17):1098.",
+  "u": "https://doi.org/10.1056/NEJM198710223171717",
+  "l": "doi"
+ },
+ "CG": {
+  "t": "Cockcroft DW, Gault MH. Prediction of creatinine clearance from serum creatinine. Nephron. 1976;16(1):31-41.",
+  "u": "https://doi.org/10.1159/000180580",
+  "l": "doi"
+ },
+ "SCHW": {
+  "t": "Schwartz GJ, Muñoz A, Schneider MF, et al. New equations to estimate GFR in children with CKD. J Am Soc Nephrol. 2009;20(3):629-637.",
+  "u": "https://doi.org/10.1681/ASN.2008030287",
+  "l": "ok"
+ },
+ "CKDEPI": {
+  "t": "Inker LA, Eneanya ND, Coresh J, et al. New creatinine- and cystatin C-based equations to estimate GFR without race. N Engl J Med. 2021;385(19):1737-1749.",
+  "u": "https://doi.org/10.1056/NEJMoa2102953",
+  "l": "ok"
+ },
+ "HS": {
+  "t": "Holliday MA, Segar WE. The maintenance need for water in parenteral fluid therapy. Pediatrics. 1957;19(5):823-832.",
+  "u": "https://pubmed.ncbi.nlm.nih.gov/13431307/",
+  "l": "doi"
+ },
+ "KDIGO": {
+  "t": "KDIGO Acute Kidney Injury Work Group. KDIGO Clinical Practice Guideline for Acute Kidney Injury. Kidney Int Suppl. 2012;2(1):1-138.",
+  "u": "https://kdigo.org/guidelines/acute-kidney-injury/",
+  "l": "inst"
+ },
+ "ABCP": {
+  "t": "Devnani M, Gupta AK, Nigah R. ABC and VED analysis of the pharmacy store of a tertiary care teaching, research and referral healthcare institute of India. J Young Pharm. 2010;2(2):201-205.",
+  "u": "https://doi.org/10.4103/0975-1483.63170",
+  "l": "ok"
+ },
+ "MSH": {
+  "t": "Management Sciences for Health. MDS-3: Managing Access to Medicines and Health Technologies. Arlington (VA): MSH; 2012.",
+  "u": "https://msh.org/resources/mds-3-managing-access-to-medicines-and-health-technologies/",
+  "l": "inst"
+ },
+ "MSAF": {
+  "t": "Brasil. Ministério da Saúde. Assistência Farmacêutica na Atenção Básica: instruções técnicas sobre a gestão do ciclo logístico. Brasília: MS.",
+  "u": "https://www.google.com/search?q=Assist%C3%AAncia%20Farmac%C3%AAutica%20na%20Aten%C3%A7%C3%A3o%20B%C3%A1sica%20instru%C3%A7%C3%B5es%20t%C3%A9cnicas%20gest%C3%A3o%20estoque%20Minist%C3%A9rio%20da%20Sa%C3%BAde%20bvsms",
+  "l": "busca"
+ },
+ "ANSEL": {
+  "t": "Ansel HC. Pharmaceutical Calculations. 15ª ed. Philadelphia: Wolters Kluwer.",
+  "u": "https://www.google.com/search?q=Ansel%20Pharmaceutical%20Calculations%2015th%20edition",
+  "l": "busca"
+ },
+ "FDABZD": {
+  "t": "U.S. Food and Drug Administration. Drug Safety Communication: FDA requiring Boxed Warning updated to improve safe use of benzodiazepine drug class. 23 set. 2020.",
+  "u": "https://www.fda.gov/media/142368/download",
+  "l": "ok"
+ }
+}

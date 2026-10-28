@@ -1,0 +1,40 @@
+name: GitHub Pages
+on:
+  push:
+    branches: [claude/drug-interaction-evaluation-tool-i05nue, main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: plataforma/abc-app/package-lock.json
+      - name: Testes da plataforma
+        run: node plataforma/guia/test.js && node plataforma/guia/triagem.test.js
+      - name: Testes da calculadora ICAM
+        run: node tests/test_calculos.js
+      - name: Gerar site estático (início + PosologiaPED + FarmaGestão + calculadora ICAM)
+        run: plataforma/tools/build_pages.sh "$GITHUB_WORKSPACE/_site" "$GITHUB_WORKSPACE"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

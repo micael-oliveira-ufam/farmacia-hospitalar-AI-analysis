@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Entrar · Farmácia Hospitalar Integrada</title><link rel="icon" href="/icon.svg"><link rel="stylesheet" href="/shared/ui.css"></head>
+<body><main class="wrap narrow">
+  <h1>Sua conta</h1>
+  <p class="lede">Crie a conta e use <b>7 dias grátis</b>, sem cartão. Depois, R$ 29,99 por mês.</p>
+  <div class="seg" role="tablist"><button role="tab" id="t-in" aria-selected="true">Entrar</button><button role="tab" id="t-up" aria-selected="false">Criar conta</button></div>
+  <div class="card">
+    <div id="msg" role="alert"></div>
+    <form id="f" novalidate>
+      <label class="field" id="l-nome" hidden>Nome<input name="nome" autocomplete="name" maxlength="80"></label>
+      <label class="field">E-mail<input name="email" type="email" autocomplete="email" required></label>
+      <label class="field">Senha <span class="small" id="hint" hidden>(mínimo 8 caracteres)</span><input name="senha" type="password" autocomplete="current-password" required></label>
+      <label class="chk" id="l-aceite" hidden><input type="checkbox" name="aceite"><span>Li e aceito os <a href="/termos" target="_blank">termos de uso e a política de privacidade</a>.</span></label>
+      <button class="btn pri" id="go" style="width:100%">Entrar</button>
+    </form>
+  </div>
+  <footer class="foot">Esqueceu a senha? A recuperação por e-mail ainda não está disponível; fale com o administrador do serviço.</footer>
+</main>
+<script src="/shared/site.js"></script>
+<script>
+var up = false, f = document.getElementById("f"), msg = document.getElementById("msg");
+function mode(u) {
+  up = u; document.getElementById("t-in").setAttribute("aria-selected", !u); document.getElementById("t-up").setAttribute("aria-selected", u);
+  ["l-nome", "l-aceite", "hint"].forEach(function (i) { document.getElementById(i).hidden = !u; });
+  document.getElementById("go").textContent = u ? "Criar conta e começar os 7 dias" : "Entrar";
+  f.senha.autocomplete = u ? "new-password" : "current-password"; msg.innerHTML = "";
+}
+document.getElementById("t-in").onclick = function () { mode(false); };
+document.getElementById("t-up").onclick = function () { mode(true); };
+if (new URLSearchParams(location.search).get("aba") === "cadastro") mode(true);
+FHI.me.then(function (me) { if (me) location.replace(FHI.safeNext()); });
+f.onsubmit = function (e) {
+  e.preventDefault(); var b = document.getElementById("go"); b.disabled = true; msg.innerHTML = "";
+  var body = { email: f.email.value, senha: f.senha.value };
+  if (up) { body.nome = f.nome.value; body.aceite = f.aceite.checked; }
+  FHI.api(up ? "/api/auth/register" : "/api/auth/login", body).then(function () { location.replace(FHI.safeNext()); })
+    .catch(function (er) { b.disabled = false; msg.innerHTML = '<div class="msg err"></div>'; msg.firstChild.textContent = er.message; });
+};
+</script></body></html>

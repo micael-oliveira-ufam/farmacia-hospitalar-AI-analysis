@@ -1,0 +1,14 @@
+node_modules/
+dist/
+dist_guia/
+pkg/
+__pycache__/
+*.zip
+*.png
+.env
+e2e_*.js
+shot_*.js
+t2.js
+patch_abc.py
+server/data/
+_site/

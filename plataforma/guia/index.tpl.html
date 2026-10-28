@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PosologiaPED · Posologia pediátrica hospitalar</title>
+<meta name="description" content="PosologiaPED: posologia pediátrica hospitalar (neonatos, lactentes e crianças), segurança e calculadoras clínicas, com referência e link em cada informação. Parte da Farmácia Hospitalar Integrada.">
+<meta name="theme-color" content="#12808A">
+<!--PWA-->
+<style>/*CSS*/</style>
+</head>
+<body>
+<!--ACCOUNT-->
+<div class="wrap">
+<header class="top">
+  <div class="brand"><!--HOME--><h1>PosologiaPED</h1><span class="bdg ped">Hospitais pediátricos</span></div>
+  <details class="warn"><summary><b>Apoio à decisão, não prescrição.</b> Doses precisam de revisão farmacêutica. <u>Ler mais</u></summary>Pediatria exige conferência rigorosa de peso, idade gestacional/pós-natal e função renal e hepática. Os valores foram compilados das fontes citadas e <b>precisam de revisão por farmacêutico responsável</b> antes do uso assistencial. Confirme dose, diluição e via na bula vigente e nos protocolos da instituição. Adultos e idosos aparecem só como referência.</details>
+</header>
+<nav class="tabs" id="tabs" aria-label="Seções"></nav>
+
+<section class="panel" id="p-meds">
+  <div class="searchbox" role="search">
+    <input id="q" type="search" placeholder="Buscar medicamento…" aria-label="Buscar medicamento" autocomplete="off" enterkeyhint="search">
+    <button class="btn clearq" id="clearq" type="button" aria-label="Limpar busca" hidden>✕</button>
+  </div>
+  <div id="browse"></div>
+  <div id="crumb" class="crumb" hidden></div>
+  <div id="out"></div>
+  <details class="matbox"><summary>Outros itens da lista (materiais, sem posologia)</summary><ul class="mat" id="mat"></ul></details>
+</section>
+
+<section class="panel" id="p-any" hidden>
+  <h2 class="sec-h">Qualquer medicamento <small>inclusive os que não estão na lista carregada</small></h2>
+  <p class="note">Digite o nome de qualquer fármaco. O PosologiaPED não tem monografia própria fora da lista carregada, então ele <b>leva você às fontes primárias</b> (bula, formulário pediátrico, literatura) e oferece uma calculadora de regime em que <b>você informa a dose da fonte</b> e confere tetos.</p>
+  <div class="card" id="anybox">
+    <div class="row"><label class="fld" style="flex:2 1 220px">Nome do medicamento (português)<input id="any-pt" type="search" placeholder="ex.: ivermectina" autocomplete="off"></label>
+    <label class="fld" style="flex:2 1 220px">Nome internacional / inglês (opcional)<input id="any-en" type="search" placeholder="ex.: ivermectin" autocomplete="off"></label></div>
+    <div id="any-hit"></div><div id="any-links"></div>
+  </div>
+  <div class="card" id="anycalc" style="margin-top:12px">
+    <h3 style="margin:0">Calculadora de regime por peso</h3>
+    <p class="note" style="margin:0">Use a dose <b>copiada da fonte</b> (bula, BNFc, formulário). A conta é aritmética: ela não valida se a dose é adequada.</p>
+    <form class="calc-form" onsubmit="return false" style="margin:0">
+      <label class="fld">Peso (kg)<input inputmode="decimal" name="p"></label>
+      <label class="fld">Dose (mg/kg/dose)<input inputmode="decimal" name="d"></label>
+      <label class="fld">Doses por dia<input inputmode="decimal" name="n" value="1"></label>
+      <label class="fld">Dose máx. por tomada (mg)<input inputmode="decimal" name="mx"></label>
+      <label class="fld">Dose máx. por dia (mg)<input inputmode="decimal" name="md"></label>
+      <label class="fld">Concentração (mg/mL, opcional)<input inputmode="decimal" name="c"></label>
+      <output class="out" aria-live="polite"><span class="note">Preencha peso e dose.</span></output>
+    </form>
+    <div class="formula">mg/dose = peso × mg/kg (limitado ao máximo por tomada) · mg/dia = mg/dose × doses/dia · mL = mg ÷ (mg/mL)</div>
+    <div class="refchips"><span>Fonte do método:</span><span id="any-refs"></span></div>
+  </div>
+</section>
+
+<section class="panel" id="p-mine" hidden>
+  <h2 class="sec-h">Minha lista</h2>
+  <div class="listbtns"><button class="btn pri" id="imp-icam" type="button">Importar lista do ICAM</button><button class="btn pri" id="imp-cod" type="button">Importar lista da Policlínica Codajás</button></div>
+  <p class="note" id="mine-info"></p>
+  <div id="mine-out"></div>
+  <details class="matbox"><summary>Colar a lista do meu hospital</summary>
+    <p class="note">Uma linha por item: <b>código;descrição</b> (ou só a descrição). O guia sugere a monografia pelo nome e você confirma. A lista fica só neste navegador.</p>
+    <textarea id="mine-txt" rows="6" placeholder="123;Amoxicilina 250 mg/5 mL suspensão&#10;124;Dipirona 500 mg/mL gotas"></textarea>
+    <div class="row"><button class="btn pri" id="mine-go" type="button">Usar esta lista</button><button class="btn" id="mine-csv" type="button">Copiar resultado (CSV)</button><button class="btn" id="mine-clear" type="button">Limpar</button></div>
+  </details>
+</section>
+
+<section class="panel" id="p-calc" hidden>
+  <h2 class="sec-h">Calculadoras clínicas <small>fórmula e fonte em cada cartão</small></h2>
+  <p class="note">Os resultados são auxiliares. Cada fórmula tem testes automáticos no pacote do projeto (arquivo test.js) e cita a publicação de origem.</p>
+  <div class="cgrid" id="cgrid"></div>
+</section>
+
+<section class="panel" id="p-cart" hidden>
+  <h2 class="sec-h">Triagem de prescrição</h2>
+  <div id="cartbox"></div>
+</section>
+
+<section class="panel" id="p-cmp" hidden>
+  <h2 class="sec-h">Comparar medicamentos</h2>
+  <div id="cmpbox"></div>
+</section>
+
+<section class="panel" id="p-refs" hidden>
+  <h2 class="sec-h">Referências <small>todas com hiperlink</small></h2>
+  <div id="refsbox"></div>
+</section>
+
+<section class="panel" id="p-about" hidden>
+  <h2 class="sec-h">Sobre este guia</h2>
+  <div class="card">
+    <h3 style="margin:0">Para quem é</h3>
+    <p>O PosologiaPED é voltado a <b>hospitais pediátricos</b>: a faixa etária padrão é pediatria (lactentes e crianças), neonatos têm seleção própria, os alertas pediátricos aparecem antes das doses e as calculadoras pediátricas vêm primeiro. Doses de adultos e idosos são mostradas apenas como referência. O site não pertence a nenhum hospital e deve funcionar em qualquer um: use a aba <b>Minha lista</b> para trabalhar com o elenco da sua instituição.</p>
+    <h3>Como os dados foram obtidos</h3>
+    <p>A lista de exemplo (224 itens, 16 seções) foi transcrita de um PDF escaneado de uma lista institucional usada apenas como <b>exemplo</b>. As posologias, efeitos adversos e alertas foram <b>compilados pelo assistente de IA a partir do conhecimento das fontes citadas</b> (formulários nacionais e internacionais, bulas, diretrizes). Não houve consulta item a item às páginas dos compêndios pagos (Lexicomp/Lexidrug, Harriet Lane, Sanford, Red Book), por isso <b>toda dose deve ser conferida por um farmacêutico</b> contra a fonte citada antes do uso, com atenção redobrada em neonatos e prematuros.</p>
+    <h3>Classificações de segurança</h3>
+    <ul>
+      <li><b>Alta vigilância:</b> classes e fármacos da lista “Medicamentos potencialmente perigosos de uso hospitalar – 2019” do ISMP Brasil (documento conferido durante a elaboração).</li>
+      <li><b>Nefrotóxico (2) / Nefro: atenção (1) e Hepatotóxico (2) / Hepato: atenção (1):</b> escala <u>interna e não oficial</u>, criada para triagem rápida. “Tóxico” indica dano renal/hepático descrito como relevante nas fontes de apoio (Perazella 2018 e LiverTox); “atenção” indica necessidade de ajuste ou monitoramento. Não substitui avaliação clínica.</li>
+      <li><b>Controlados:</b> seções da lista institucional de controle especial (Portaria SVS/MS 344/98).</li>
+    </ul>
+    <h3>Níveis de verificação dos links</h3>
+    <p>Veja a aba Referências. Links “busca” abrem uma pesquisa porque não foi possível confirmar um endereço direto. Os links por medicamento (DailyMed, PubMed, BNFc, Bulário Anvisa, LiverTox) são <b>pesquisas</b> pelo nome internacional, e não páginas verificadas de cada fármaco.</p>
+    <h3>Privacidade</h3>
+    <p>Favoritos, cesta e tema ficam apenas no seu navegador. Nenhum dado de paciente é enviado a servidores.</p>
+  </div>
+  <footer class="foot">PosologiaPED · Farmácia Hospitalar Integrada · versão <span id="ver"></span> · gerado a partir de data/catalog.json</footer>
+</section>
+</div>
+<div id="drawer" class="drawer" hidden><div class="dr-back" data-close></div>
+  <aside class="dr-panel" role="dialog" aria-modal="true" aria-label="Detalhe do medicamento"><div class="dr-top"><button class="btn" id="dr-close" type="button" data-close>← Voltar à lista</button></div><div id="dr-body"></div></aside></div>
+<script>window.CATALOG=/*CATALOG*/;window.LISTAS=/*LISTAS*/;window.INTER=/*INTER*/;</script>
+<script>/*TRIAGEM*/</script>
+<script>/*CALC*/</script>
+<script>/*APP*/</script>
+<script>document.getElementById("ver").textContent=window.CATALOG.meta.versao;</script>
+</body>
+</html>

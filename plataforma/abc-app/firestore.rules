@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Connection test document
+    match /test/{testId} {
+      allow read: if true;
+    }
+
+    // 3. Global Helpers
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // 2. Validation Blueprint
+    function isValidMedication(data) {
+      return data.keys().hasAll(['name', 'hospitalId', 'annualConsumption', 'unitCost', 'leadTimeDays', 'createdAt']) &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 500 &&
+             data.hospitalId is string && data.hospitalId.size() > 0 && data.hospitalId.size() <= 128 &&
+             data.annualConsumption is number &&
+             data.unitCost is number &&
+             data.leadTimeDays is number &&
+             data.createdAt is string &&
+             (!('pharmaceuticalForm' in data) || data.pharmaceuticalForm is string) &&
+             (!('concentration' in data) || data.concentration is string) &&
+             (!('maxMonthlyConsumption' in data) || data.maxMonthlyConsumption is number) &&
+             (!('activeUsers' in data) || data.activeUsers is number) &&
+             (!('currentInventory' in data) || data.currentInventory == null || data.currentInventory is number) &&
+             (!('manualClassification' in data) || data.manualClassification == null || data.manualClassification in ['A', 'B', 'C']) &&
+             (!('updatedAt' in data) || data.updatedAt is string);
+    }
+
+    match /medications/{medicationId} {
+      // Allow public reading so the dashboard can load even before login
+      allow list, get: if true;
+
+      // Only authenticated users can write/modify
+      allow create: if isSignedIn() && 
+                      isValidId(medicationId) &&
+                      isValidMedication(incoming());
+      
+      // update
+      allow update: if isSignedIn() && 
+                      isValidMedication(incoming()) &&
+                      // Ensure immutable fields
+                      incoming().hospitalId == existing().hospitalId &&
+                      incoming().createdAt == existing().createdAt &&
+                      (
+                        // Allow updates to mutable fields
+                        incoming().diff(existing()).affectedKeys().hasOnly([
+                          'name', 'pharmaceuticalForm', 'concentration', 
+                          'annualConsumption', 'unitCost', 'leadTimeDays', 
+                          'maxMonthlyConsumption', 'activeUsers', 'currentInventory', 
+                          'manualClassification', 'updatedAt'
+                        ])
+                      );
+      
+      // delete
+      allow delete: if isSignedIn();
+    }
+  }
+}

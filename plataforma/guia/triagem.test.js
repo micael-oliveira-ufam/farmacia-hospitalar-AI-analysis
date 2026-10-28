@@ -1,0 +1,25 @@
+const T=require('./triagem.js'),D=require('../data/interacoes.json'),C=require('../data/catalog.json');
+let fail=0;const ok=(n,c)=>{console.log((c?'ok ':'FALHOU ')+n);if(!c)fail++};
+const find=(k)=>{const it=C.items.find(i=>i.key===k||C.mono[i.key].n.toLowerCase().startsWith(k));if(!it)throw new Error('sem item '+k);return it};
+const toD=it=>{const m=C.mono[it.key],s=C.safety[it.key];return {id:it.id,name:it.desc,c:m.c,pa:m.pa||'',ismp:s.ismp,nef:s.nef,nefN:s.nefN,hep:s.hep,hepN:s.hepN,ctl:['cinj','canest','cgts','ccp'].includes(it.sec)}};
+const run=(ks,p)=>T.analyze(ks.map(k=>toD(find(k))),p||{age:'ped'},D);
+const has=(al,t)=>al.some(a=>a.titulo.includes(t));
+ok('opioide+benzo grave',run(['morfina','midazolam']).some(a=>a.titulo==='Opioide + benzodiazepínico'&&a.sev===2));
+ok('ceftriaxona+cálcio neonato grave',run(['ceftriaxona','gluconato'],{age:'neo'}).some(a=>a.titulo.startsWith('Ceftriaxona + cálcio')&&a.sev===2));
+ok('ceftriaxona+cálcio pediátrico atenção e sem duplicar',(()=>{const a=run(['ceftriaxona','gluconato']).filter(a=>a.titulo.startsWith('Ceftriaxona'));return a.length===1&&a[0].sev===1})());
+ok('neonato não duplica regra geral',run(['ceftriaxona','gluconato'],{age:'neo'}).filter(a=>a.titulo.startsWith('Ceftriaxona')).length===1);
+ok('hipercalemia IECA+KCl',has(run(['captopril','cloreto de potássio 10%']),'IECA/BRA + espironolactona/KCl'));
+ok('QT precisa de 2',!has(run(['haloperidol 5']),'QT')&&has(run(['haloperidol 5','ondansetrona']),'QT'));
+ok('valproato+meropenem',has(run(['valproato','meropenem']),'Valproato + meropenem'));
+ok('sem regra: nada indevido',run(['paracetamol','amoxicilina']).filter(a=>a.tipo==='interacao').length===0);
+ok('renal ClCr 20',has(run(['gentamicina','vancomicina'],{age:'adu',crcl:20}),'Função renal reduzida'));
+ok('hepática',has(run(['paracetamol','valproato'],{age:'adu',hepatic:true}),'hepática'));
+ok('duplicidade mesmo princípio',has(run(['dipirona 500 mg comprimido','dipirona 500 mg/ml gotas']),'duplicidade'));
+ok('aminoglicosídeo+BNM',has(run(['gentamicina','rocurônio']),'Bloqueador neuromuscular'));
+ok('relatório',T.report(run(['morfina','midazolam']),{age:'ped'},['a','b']).includes('GRAVE'));
+// integridade dos dados
+const toks=new Set();Object.values(D.grupos).flat().forEach(t=>toks.add(t));D.regras.forEach(r=>{[r.a,r.b].forEach(s=>{if(s&&s[0]!=='@')toks.add(s)});[r.a,r.b].forEach(s=>{if(s&&s[0]==='@'&&!D.grupos[s.slice(1)]){console.log('grupo inexistente',s);fail++}});r.ref.forEach(k=>{if(!D.fontes[k]){console.log('fonte inexistente',k);fail++}})});
+const names=Object.values(C.mono).map(m=>T.ingOf(m.n));
+const miss=[...toks].filter(t=>!names.some(n=>(' '+n+' ').includes(' '+t+' ')));
+console.log('tokens sem monografia no catálogo (regras dormentes):',miss.join(', ')||'nenhum');
+if(fail){console.log(fail+' falha(s)');process.exit(1)}console.log('triagem: todos os testes passaram');

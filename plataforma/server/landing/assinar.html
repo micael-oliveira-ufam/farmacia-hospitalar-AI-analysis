@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Assinar · Farmácia Hospitalar Integrada</title><link rel="icon" href="/icon.svg"><link rel="stylesheet" href="/shared/ui.css"></head>
+<body><main class="wrap narrow">
+  <h1>Assinatura</h1>
+  <div id="st"></div>
+  <div class="card">
+    <div class="price">R$ 29,99 <small>por mês</small></div>
+    <ul class="ticks">
+      <li>PosologiaPED: posologia pediátrica com classes, alertas e calculadoras</li>
+      <li>FarmaGestão: estoque, curva ABC e pedido semanal</li>
+      <li>Uso offline no navegador e no aplicativo Android</li>
+      <li>Cancele quando quiser, pela página da conta</li>
+    </ul>
+    <div id="msg" role="alert"></div>
+    <button class="btn pri" id="go" style="width:100%">Assinar com cartão de crédito</button>
+    <p class="muted small" style="margin:12px 0 0"><b>Pagamento seguro:</b> você digita o número do cartão na página do <b>Stripe</b>, que processa a cobrança. Os dados do cartão <b>não passam pelo nosso servidor</b> e nunca são armazenados por nós. A cobrança é recorrente mensal até o cancelamento.</p>
+  </div>
+  <footer class="foot"><a href="/conta">Minha conta</a> · <a href="/termos">Termos e privacidade</a></footer>
+</main>
+<script src="/shared/site.js"></script>
+<script>
+var q = new URLSearchParams(location.search), msg = document.getElementById("msg");
+if (q.get("cancelado")) msg.innerHTML = '<div class="msg warn">Pagamento cancelado. Nenhuma cobrança foi feita.</div>';
+if (q.get("erro")) msg.innerHTML = '<div class="msg err">Não foi possível confirmar o pagamento. Se foi cobrado, aguarde alguns minutos e abra “Minha conta”.</div>';
+FHI.me.then(function (me) {
+  if (!me) return location.replace("/entrar?aba=cadastro&next=/assinar");
+  var p = me.plan, st = document.getElementById("st");
+  if (p.status === "active") { st.innerHTML = '<div class="msg ok">Você já tem uma assinatura ativa. <a href="/conta">Gerenciar</a></div>'; document.getElementById("go").hidden = true; }
+  else if (p.status === "trial") st.innerHTML = '<div class="msg warn">Sua demonstração tem ' + p.daysLeft + (p.daysLeft === 1 ? " dia" : " dias") + ' restantes. Você pode assinar agora ou depois.</div>';
+  else st.innerHTML = '<div class="msg err">Sua demonstração terminou. Assine para voltar a usar os módulos.</div>';
+});
+document.getElementById("go").onclick = function () {
+  var b = this; b.disabled = true; msg.innerHTML = "";
+  FHI.api("/api/billing/checkout").then(function (j) { location.href = j.url; })
+    .catch(function (e) { b.disabled = false; msg.innerHTML = '<div class="msg err"></div>'; msg.firstChild.textContent = e.message; });
+};
+</script></body></html>
