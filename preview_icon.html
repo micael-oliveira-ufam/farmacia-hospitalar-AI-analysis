@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Preview – Ícone do App</title>
+<style>
+  body { background: #f0f0f0; font-family: sans-serif; display:flex; flex-direction:column; align-items:center; padding: 40px; gap: 32px; }
+  h1 { color: #1a3fa0; }
+  .grid { display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; }
+  .box { text-align: center; }
+  .box small { display: block; margin-top: 6px; color: #555; font-size: 12px; }
+  img { border-radius: 22%; box-shadow: 0 4px 16px rgba(0,0,0,0.18); }
+  .dark { background: #222; padding: 20px; border-radius: 12px; }
+</style>
+</head>
+<body>
+<h1>Ícone — Farmácia Hospitalar Integrada</h1>
+
+<div class="grid">
+  <div class="box">
+    <img src="flutter_app/assets/icon_app.svg" width="192" height="192">
+    <small>SVG master (192px)</small>
+  </div>
+  <div class="box">
+    <img src="flutter_app/assets/icon_512.png" width="192" height="192">
+    <small>PNG 512px</small>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="box">
+    <img src="flutter_app/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" width="48" height="48">
+    <small>mdpi 48px</small>
+  </div>
+  <div class="box">
+    <img src="flutter_app/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" width="72" height="72">
+    <small>hdpi 72px</small>
+  </div>
+  <div class="box">
+    <img src="flutter_app/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" width="96" height="96">
+    <small>xhdpi 96px</small>
+  </div>
+  <div class="box">
+    <img src="flutter_app/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" width="144" height="144">
+    <small>xxhdpi 144px</small>
+  </div>
+  <div class="box">
+    <img src="flutter_app/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="192" height="192">
+    <small>xxxhdpi 192px</small>
+  </div>
+</div>
+
+<div class="dark">
+  <div class="grid" style="margin:0">
+    <div class="box">
+      <img src="flutter_app/assets/icon_app.svg" width="120" height="120">
+      <small style="color:#aaa">Fundo escuro</small>
+    </div>
+  </div>
+</div>
+
+<p style="color:#888;font-size:13px">Autores: Micael Davi Lima de Oliveira & Elias de Souza Barros (UFAM/FCF)</p>
+</body>
+</html>

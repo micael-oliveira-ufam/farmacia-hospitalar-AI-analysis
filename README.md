@@ -91,6 +91,10 @@ Atribuição: verificações de DOI/metadados feitas segundo o PubMed (NCBI/NLM)
 
 O guia (PosologiaPED) e a curva ABC (FarmaGestão), na web e no app, têm os botões **Importar lista do ICAM** e **Importar lista da Policlínica Codajás** (`data/catalog.json` e `data/codajas.json`). No guia a lista é cruzada com as monografias pelo nome, de forma automática: confira sempre sal, associação e apresentação.
 
+## Dose do paciente (calculadora ICAM unificada)
+
+A aba **Dose do paciente** substitui a calculadora ICAM separada. Informe idade, sexo, peso e condições (renal, hepática etc.), escolha o medicamento e veja a dose mínima, a recomendada (ponto médio da faixa; conservadora quando há alerta renal/hepático, neonato ou prematuro) e a máxima. Ao digitar a dose prescrita, o sistema avisa subdose ou superdose e lista os riscos. As faixas (mg/kg/dose, tetos diários) vêm da base do ICAM (`data/icam_medicamentos.json`), compilada por IA: **revisão farmacêutica obrigatória**. A base é pediátrica; em adultos a dose é limitada pelo teto cadastrado.
+
 ## GitHub Pages (sem servidor)
 
 1. Crie um repositório no GitHub e envie este projeto (branch `main`).
