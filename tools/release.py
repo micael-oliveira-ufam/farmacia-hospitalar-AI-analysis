@@ -25,6 +25,6 @@ with zipfile.ZipFile(out,'w',zipfile.ZIP_DEFLATED) as z:
     for dp,dn,fn in os.walk(R):
         dn[:]=[d for d in dn if d not in SKIP]
         for f in fn:
-            if f.endswith(('.zip','.png','.pyc')) or f in('patch_abc.py','t2.js') or f.startswith(('e2e_','shot_')):continue
+            if f.endswith(('.zip','.pyc')) or f in('patch_abc.py','t2.js') or f.startswith(('e2e_','shot_')):continue
             full=os.path.join(dp,f);z.write(full,os.path.join(name,os.path.relpath(full,R)))
 print('pacote:',out)
