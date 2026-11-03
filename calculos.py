@@ -26,9 +26,54 @@ def carregar_medicamentos() -> dict:
     return {m["id"]: m for m in lista}
 
 
+_SEV_LABEL = {0: "leve", 1: "moderada", 2: "grave", 3: "grave"}
+
+
 def carregar_interacoes() -> list:
+    """Carrega e normaliza interacoes.json.
+
+    Suporta dois formatos:
+    - Lista plana (legado): [{medicamentos, gravidade, descricao}, ...]
+    - Objeto com regras (novo): {grupos, regras: [{a, b, sev, titulo, mec, cond}, ...]}
+    """
     with open(DATA_DIR / "interacoes.json", encoding="utf-8") as f:
-        return json.load(f)
+        raw = json.load(f)
+
+    if isinstance(raw, list):
+        return raw  # formato legado — retorna direto
+
+    # Formato novo: expande grupos e converte para lista plana
+    grupos: dict[str, list[str]] = {
+        k: v for k, v in raw.get("grupos", {}).items()
+    }
+    regras = raw.get("regras", [])
+    resultado: list[dict] = []
+
+    for regra in regras:
+        a_raw: str = regra["a"]
+        b_raw: str = regra["b"]
+
+        membros_a: list[str] = grupos.get(a_raw.lstrip("@"), [a_raw]) if a_raw.startswith("@") else [a_raw]
+        membros_b: list[str] = grupos.get(b_raw.lstrip("@"), [b_raw]) if b_raw.startswith("@") else [b_raw]
+
+        gravidade = _SEV_LABEL.get(int(regra.get("sev", 1)), "moderada")
+        descricao = regra.get("titulo", "")
+        mec = regra.get("mec", "")
+        cond = regra.get("cond", "")
+        if mec:
+            descricao += f" — {mec}"
+        if cond:
+            descricao += f" Conduta: {cond}"
+
+        for med_a in membros_a:
+            for med_b in membros_b:
+                resultado.append({
+                    "medicamentos": [med_a, med_b],
+                    "gravidade": gravidade,
+                    "descricao": descricao,
+                })
+
+    return resultado
 
 
 # ---------------------------------------------------------------------------

@@ -354,8 +354,8 @@ class _DosePageState extends State<DosePage> {
         if (!r.semFaixa) ...[
           const SizedBox(height: 10),
           TextField(controller: prescC, keyboardType: const TextInputType.numberWithOptions(decimal: true), decoration: const InputDecoration(labelText: 'Dose prescrita (mg por administração)', border: OutlineInputBorder(), isDense: true), onChanged: (_) => setState(() {})),
-          if (pr != null && pr > 0) ...() {
-            final e = avaliar(sel!, p, r, pr, c);
+          if (pr != null && pr > 0 && r != null) ...() {
+            final e = avaliar(sel!, p, r!, pr, c);
             return [
               Container(
                 margin: const EdgeInsets.only(top: 8),
