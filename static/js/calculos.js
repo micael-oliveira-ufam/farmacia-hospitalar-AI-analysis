@@ -11,6 +11,133 @@
 
   const ORDEM_GRAVIDADE = { grave: 3, moderada: 2, leve: 1 };
 
+  const SEV_LABEL = { 0: "leve", 1: "moderada", 2: "grave", 3: "grave" };
+
+  // Mapa de aliases: IDs genéricos do interacoes.json → IDs reais do sistema.
+  const ALIAS_IDS = {
+    "ibuprofeno": ["ibuprofeno_comp", "ibuprofeno_gts"],
+    "prednisolona": ["prednisolona_susp"],
+    "prednisona": ["prednisona"],
+    "dexametasona": ["dexametasona_inj", "dexametasona_elixir", "dexametasona_creme"],
+    "metilprednisolona": ["metilprednisolona"],
+    "hidrocortisona": ["hidrocortisona"],
+    "diazepam": ["diazepam_comp", "diazepam_inj"],
+    "midazolam injetavel": ["midazolam"],
+    "insulina": ["insulina_regular", "insulina_nph"],
+    "ciprofloxacino": ["ciprofloxacino_comp", "ciprofloxacino_inj"],
+    "claritromicina": ["claritromicina_susp", "claritromicina_inj"],
+    "azitromicina": ["azitromicina_comp", "azitromicina_susp"],
+    "metoclopramida": ["metoclopramida_gts", "metoclopramida_inj"],
+    "bromoprida": ["bromoprida_gts", "bromoprida_inj"],
+    "fenobarbital": ["fenobarbital_comp", "fenobarbital_inj", "fenobarbital_susp"],
+    "carbamazepina": ["carbamazepina_comp", "carbamazepina_susp"],
+    "valproato": ["valproato_xarope"],
+    "valproato de sodio": ["valproato_xarope"],
+    "clonazepam": ["clonazepam_comp", "clonazepam_gts"],
+    "haloperidol": ["haloperidol_comp", "haloperidol_gts", "haloperidol_inj"],
+    "losartana potassica": ["losartana"],
+    "enoxaparina sodica": ["enoxaparina"],
+    "heparina": ["heparina_sodica"],
+    "fluconazol": ["fluconazol_comp", "fluconazol_inj"],
+    "omeprazol": ["omeprazol_comp", "omeprazol_inj"],
+    "metronidazol": ["metronidazol_comp", "metronidazol_inj"],
+    "sulfametoxazol": ["sulfametoxazol_trimetoprima_susp", "sulfametoxazol_trimetoprima_inj"],
+    "piperacilina": ["piperacilina_tazobactam"],
+    "salbutamol": ["salbutamol_nebulizacao", "salbutamol_spray", "salbutamol_xarope", "salbutamol_inj"],
+    "brometo de ipratropio": ["brometo_ipratropio"],
+    "tobramicina": ["tobramicina_oftalmica"],
+    "polimixina b": ["polimixina_b"],
+    "anfotericina b": ["anfotericina_b"],
+    "anfotericina b lipossomal": ["anfotericina_lipossomal"],
+    "hidroxizina": ["hidroxizine"],
+    "hidroxido de aluminio": ["hidroxido_aluminio"],
+    "cloreto de potassio": ["cloreto_potassio_10", "cloreto_potassio_xarope"],
+    "gluconato de calcio": ["gliconato_calcio"],
+    "carbonato de calcio": ["carbonato_calcio"],
+    "sulfato de magnesio": ["sulfato_magnesio"],
+    "sulfato ferroso": ["sulfato_ferroso"],
+    "acido acetilsalicilico": ["aas"],
+    "remifentanil": ["remifentanila"],
+    "tenoxicam po injetavel": ["tenoxicam"],
+    "contraste": ["contraste_nao_ionico", "contraste_meglumina"],
+  };
+
+  function _expandirId(medId) {
+    return ALIAS_IDS[medId] || [medId];
+  }
+
+  /**
+   * Normaliza interacoes.json para lista plana compatível com verificarInteracoes().
+   * Suporta formato legado (array) e novo formato (objeto com grupos/regras).
+   * medicamentosDb: objeto {id: medicamento} para filtrar pares inválidos.
+   */
+  function normalizarInteracoes(raw, medicamentosDb) {
+    if (Array.isArray(raw)) return raw; // formato legado
+
+    const medicamentosValidos = new Set(Object.keys(medicamentosDb || {}));
+
+    // Expande aliases dentro dos grupos
+    const gruposRaw = raw.grupos || {};
+    const grupos = {};
+    for (const [nome, membros] of Object.entries(gruposRaw)) {
+      const expandidos = [];
+      for (const m of membros) {
+        for (const alias of _expandirId(m)) expandidos.push(alias);
+      }
+      grupos[nome] = expandidos;
+    }
+
+    const regras = raw.regras || [];
+    const resultado = [];
+    const vistos = new Set();
+
+    function adicionar(medA, medB, gravidade, descricao) {
+      if (medicamentosValidos.size > 0 &&
+          (!medicamentosValidos.has(medA) || !medicamentosValidos.has(medB))) return;
+      const par = [medA, medB].sort().join("||");
+      if (vistos.has(par)) return;
+      vistos.add(par);
+      resultado.push({ medicamentos: [medA, medB], gravidade, descricao });
+    }
+
+    for (const regra of regras) {
+      const aRaw = regra.a;
+      const bRaw = regra.b;
+      if (!aRaw) continue;
+
+      const membrosA = aRaw.startsWith("@")
+        ? (grupos[aRaw.slice(1)] || [])
+        : _expandirId(aRaw);
+
+      const gravidade = SEV_LABEL[parseInt(regra.sev ?? 1, 10)] || "moderada";
+      let descricao = regra.titulo || "";
+      if (regra.mec) descricao += ` — ${regra.mec}`;
+      if (regra.cond) descricao += ` Conduta: ${regra.cond}`;
+
+      if (bRaw === null || bRaw === undefined) {
+        // Regra intragrupo: todos os pares dentro de membrosA
+        for (let i = 0; i < membrosA.length; i++) {
+          for (let j = i + 1; j < membrosA.length; j++) {
+            adicionar(membrosA[i], membrosA[j], gravidade, descricao);
+          }
+        }
+        continue;
+      }
+
+      const membrosB = bRaw.startsWith("@")
+        ? (grupos[bRaw.slice(1)] || [])
+        : _expandirId(bRaw);
+
+      for (const medA of membrosA) {
+        for (const medB of membrosB) {
+          adicionar(medA, medB, gravidade, descricao);
+        }
+      }
+    }
+
+    return resultado;
+  }
+
   function round(valor, casas) {
     const fator = Math.pow(10, casas);
     return Math.round((valor + Number.EPSILON) * fator) / fator;
@@ -149,5 +276,6 @@
     calcularDoseUnitaria,
     calcularNumeroFrascos,
     verificarInteracoes,
+    normalizarInteracoes,
   };
 })(window);
