@@ -9,6 +9,12 @@ if [ ! -f android/app/build.gradle ] && [ ! -f android/app/build.gradle.kts ]; t
   flutter create --platforms=android --org app.farmaciaintegrada --project-name farmacia_integrada .
 fi
 cp -r tool/icons/res/. android/app/src/main/res/
+# O template do flutter create pede -Xmx8G ao daemon do Gradle; em Docker com pouca RAM o daemon
+# é morto pelo sistema ("daemon disappeared"). Limite configurável por GRADLE_HEAP (padrão 3G).
+GRADLE_HEAP="${GRADLE_HEAP:-3G}"
+if [ -f android/gradle.properties ]; then
+  sed -i "s/^org.gradle.jvmargs=.*/org.gradle.jvmargs=-Xmx${GRADLE_HEAP} -XX:MaxMetaspaceSize=1G -XX:ReservedCodeCacheSize=512m -XX:+HeapDumpOnOutOfMemoryError/" android/gradle.properties
+fi
 rm -f test/widget_test.dart
 bash tool/patch_android.sh
 flutter pub get
