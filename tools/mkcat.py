@@ -8,6 +8,11 @@ from en import EN
 import classes
 d=js("{M,S,ITEMS,SEC,MATERIAIS}")
 refs=json.load(open(os.path.join(ROOT,'data','refs.json'),encoding='utf8'))
+farma_path=os.path.join(ROOT,'data','farma.json')
+if os.path.exists(farma_path):
+    farma=json.load(open(farma_path,encoding='utf8'))
+    for k,m in d['M'].items():
+        if k in farma: m.update(farma[k])
 used=set()
 for k,m in d['M'].items():
     m['en']=EN[k]; used|=set(m['r'])
