@@ -11,26 +11,16 @@ concurrency:
   group: pages
   cancel-in-progress: true
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: abc-app/package-lock.json
-      - run: node guia/test.js && node guia/triagem.test.js && node guia/dose.test.js
-      - run: tools/build_pages.sh _site
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v4
+      - name: Upload site pré-compilado
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: plataforma
       - id: deployment
         uses: actions/deploy-pages@v4
