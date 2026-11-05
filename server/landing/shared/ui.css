@@ -60,3 +60,14 @@ footer.foot{margin-top:28px;font-size:13px;color:var(--muted)}
 .tile p{margin:0;color:var(--muted)}
 .tile ul{margin:4px 0 0;padding-left:18px;color:var(--muted);font-size:14px}
 .tile .go{margin-top:auto;font-weight:700;color:var(--accent)}.tile.gestao .go{color:var(--blue)}
+/* autores (página inicial) */
+.byline{margin:-10px 0 20px;font-size:14px;color:var(--muted)}
+.byline a{font-weight:700;white-space:nowrap}
+.authors{margin-top:22px}
+.authors h2{margin:0 0 4px}
+.authors .sub{margin:0 0 14px;color:var(--muted);font-size:14px}
+.authors-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.author{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:16px 18px}
+.author .av{flex:none;width:46px;height:46px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-weight:800;font-size:17px;letter-spacing:.02em}
+.author b{display:block;font-size:16px;line-height:1.3}
+.author span.r{display:block;font-size:13.5px;color:var(--muted);margin-top:3px}

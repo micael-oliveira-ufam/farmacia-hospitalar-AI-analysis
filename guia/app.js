@@ -120,6 +120,25 @@ function doseHtml(it){const m=M[it.key];
   if(st.age==="ido")return '<div class="bigdose"><div><span class="k">Idosos (referência)</span><p>'+esc(m.ido||"—")+"</p></div></div>";
   const d=m[st.age],ped=st.age==="neo"||st.age==="ped";
   return '<div class="bigdose'+(ped?" ped":"")+'"><div><span class="k">Dose usual</span><p>'+esc(d[0])+'</p></div><div><span class="k">Dose máxima</span><p>'+esc(d[1])+"</p></div></div>"}
+
+/* ---------- posologia por faixa etaria e mecanismo (data/posologia.json) ---------- */
+const PO=window.POSO||{itens:{},extras:[],bandas:{}};
+const poFor=it=>{const d=DOSEBY[it.key];return d&&PO.itens[d.id]?PO.itens[d.id]:null};
+const poQ=x=>x==null?"":String(Math.round(x*1000)/1000).replace(".",",");
+function poTable(rec){if(!rec)return"";
+  const rows=Object.keys(PO.bandas).filter(b=>rec.b[b]).map(b=>{const v=rec.b[b],nm=esc(PO.bandas[b]),ped=b==="pre"||b==="neo"||b==="lac"||b==="cri"?" pedrow":"";
+    if(v.nr)return'<tr class="'+ped+'"><td>'+nm+'</td><td colspan="4" class="nr">'+esc(v.nr)+"</td></tr>";
+    if(v.desc)return'<tr class="'+ped+'"><td>'+nm+'</td><td colspan="4">'+esc(v.desc)+"</td></tr>";
+    const u=esc(v[3]),iv=v[4]&&v[4].length?"a cada "+v[4].join("/")+" h":"";
+    const lim=[v[7]!=null?"dose máx. absoluta "+poQ(v[7])+" "+u.split("/")[0]:"",v[8]!=null?"máx. diária absoluta "+poQ(v[8])+" "+u.split("/")[0]:"",v[5]!=null?"teto diário "+poQ(v[5])+" "+u.replace(/\/(kg|dia|h|min)$/,""):""].filter(Boolean).join(" · ");
+    return'<tr class="'+ped+'"><td>'+nm+'</td><td>'+poQ(v[0])+'</td><td><b>'+poQ(v[1])+'</b></td><td>'+poQ(v[2])+'</td><td>'+u+(iv?"<br><small>"+iv+"</small>":"")+"</td></tr>"
+     +(v[6]||lim?'<tr class="ponote"><td></td><td colspan="4"><small>'+esc(v[6]||"")+(lim?(v[6]?" · ":"")+esc(lim):"")+"</small></td></tr>":"")});
+  return'<div class="tbl"><table class="potbl"><thead><tr><th>Faixa etária</th><th>Mínima</th><th>Recomendada</th><th>Máxima</th><th>Unidade / intervalo</th></tr></thead><tbody>'+rows.join("")+"</tbody></table></div>"+(rec.nota?'<p class="note">'+esc(rec.nota)+"</p>":"")+'<p class="note">Compilado por IA a partir das fontes citadas: confirme com a referência e o farmacêutico responsável (atenção redobrada em prematuros, neonatos e idosos).</p>'}
+function moaHtml(m,f){m=m||{};f=f||{};
+  const moa=m.moa||f.moa,acao=m.farma||f.acao,fk=m.fk||f.fk,fis=m.fisio||f.fisio,ae=f.ae||"",pa=f.pa||"";
+  if(!moa&&!acao&&!fk&&!fis)return"";
+  const P=(t,v)=>v?"<p><b>"+t+":</b> "+esc(v)+"</p>":"";
+  return'<section class="moa"><h3>⚗️ Como o medicamento age</h3>'+P("Mecanismo de ação",moa)+P("O que provoca no organismo (ação farmacológica)",acao)+P("Farmacocinética",fk)+P("Fisiopatologia / racional de uso",fis)+(f.pa?P("Pontos de atenção",pa):"")+"</section>"}
 const AGEHINT={neo:"0 a 28 dias de vida",ped:"29 dias a 17 anos",adu:"apenas referência",ido:"65 anos ou mais, apenas referência"};
 function drawerHtml(it){
   const m=M[it.key],s=S[it.key],id=it.id;
@@ -133,13 +152,14 @@ function drawerHtml(it){
    +'<h2 class="dr-name">'+esc(it.desc)+'</h2><p class="dr-sub"><span class="bdg tcb" style="--h:'+hue(m.tc)+'">'+esc(m.tc)+'</span> <span class="bdg fcb">'+esc(m.fc)+'</span></p><p class="dr-via">'+vias+"</p>"
    +'<div class="seg" id="dr-age" role="group" aria-label="Faixa etária">'+Object.keys(AGES).map(a=>'<button type="button" class="'+(a==="neo"||a==="ped"?"ped":"")+'" data-dage="'+a+'" aria-pressed="'+(st.age===a)+'">'+AGES[a]+"</button>").join("")+"</div>"
    +'<p class="note" id="dr-hint">'+AGEHINT[st.age]+'</p><div id="dr-dose">'+doseHtml(it)+"</div>"
+   +moaHtml(m,(poFor(it)||{}).f)
    +(s.ismp?'<div class="alertp"><b>Alta vigilância (ISMP Brasil):</b> '+esc(s.ismp)+". Dupla checagem na prescrição, no preparo e na administração.</div>":"")
    +(m.pa?'<div class="alertp"><b>Alerta pediátrico:</b> '+esc(m.pa)+"</div>":"")
    +'<details><summary>Efeitos adversos</summary><p><b>Comuns:</b> '+esc(ae[0])+"</p><p><b>Graves:</b> "+esc(ae[1]||"—")+"</p></details>"
    +(tox?"<details><summary>Rim, fígado e controle</summary>"+tox+"</details>":"")
-   +'<details><summary>Todas as faixas etárias</summary><div class="tbl"><table><thead><tr><th>Faixa</th><th>Dose usual</th><th>Dose máxima</th></tr></thead><tbody>'+rows+"</tbody></table></div></details>"
+   +(poFor(it)?'<details open><summary>Posologia por faixa etária: mínima, recomendada e máxima</summary>'+poTable(poFor(it))+"</details>":'<details><summary>Todas as faixas etárias</summary><div class="tbl"><table><thead><tr><th>Faixa</th><th>Dose usual</th><th>Dose máxima</th></tr></thead><tbody>'+rows+"</tbody></table></div></details>")
    +'<details><summary>Calcular dose por peso</summary><form class="calc-form" onsubmit="return false"><label class="fld">Peso (kg)<input inputmode="decimal" name="p" placeholder="ex.: 12"></label><label class="fld">Dose (mg/kg)<input inputmode="decimal" name="d" placeholder="ex.: 15"></label><label class="fld">Dose máx. (mg)<input inputmode="decimal" name="x" placeholder="opcional"></label><label class="fld">Concentração (mg/mL)<input inputmode="decimal" name="c" value="'+(c?fmt(c):"")+'" placeholder="opcional"></label><output class="out" aria-live="polite">Informe peso e dose em mg/kg.</output><span class="formula">dose (mg) = peso × mg/kg, limitada à dose máxima; volume (mL) = mg ÷ concentração</span></form></details>'
-   +(m.moa?'<details><summary>⚗️ Farmacologia e mecanismo de ação</summary><p><b>Mecanismo de ação:</b> '+esc(m.moa)+'</p>'+(m.farma?'<p><b>Farmacologia clínica:</b> '+esc(m.farma)+'</p>':'')+(m.fk?'<p><b>Farmacocinética:</b> '+esc(m.fk)+'</p>':'')+(m.fisio?'<p><b>Fisiopatologia:</b> '+esc(m.fisio)+'</p>':'')+'</details>':'')
+   +(false?'<details><summary>⚗️ Farmacologia e mecanismo de ação</summary><p><b>Mecanismo de ação:</b> '+esc(m.moa)+'</p>'+(m.farma?'<p><b>Farmacologia clínica:</b> '+esc(m.farma)+'</p>':'')+(m.fk?'<p><b>Farmacocinética:</b> '+esc(m.fk)+'</p>':'')+(m.fisio?'<p><b>Fisiopatologia:</b> '+esc(m.fisio)+'</p>':'')+'</details>':'')
    +'<details><summary>Fontes e links</summary><ol class="refs">'+m.rr.map(k=>'<li>'+esc(R[k].t)+' <a class="lk" href="'+esc(R[k].u)+'" target="_blank" rel="noopener noreferrer">abrir</a> <span class="lv '+(R[k].l==="ok"?"ok":"")+'">'+LV[R[k].l][0]+"</span></li>").join("")+'</ol><div class="links"><span class="note">Pesquisar em:</span> '+drugLinks(it)+"</div></details>"
    +'<div class="acts2">'+(DOSEBY[it.key]?'<button class="btn pri" data-dz="'+DOSEBY[it.key].id+'">Dose do paciente</button>':"")+'<button class="btn" data-a="fav" aria-pressed="'+fav+'">'+(fav?"★ Favorito":"☆ Favoritar")+'</button><button class="btn" data-a="cart" aria-pressed="'+inC+'">'+(inC?"Na cesta":"+ Cesta")+'</button><button class="btn" data-a="cmp" aria-pressed="'+inK+'">Comparar</button></div></div>'}
 const num=(f,k)=>parseFloat(String(f.elements[k].value).replace(",","."));
@@ -313,6 +333,7 @@ function dzResult(){
   const it=d.mono[0]&&ITEMS.find(i=>i.key===d.mono[0]);
   h+='<div class="acts2">'+(it?'<button class="btn" data-open="'+it.id+'">Ver monografia completa</button>':"")+'<button class="btn" id="dz-copy">Copiar parecer</button></div>';
   h+='<h3 class="sub-h">Conferir dose prescrita</h3><label class="fld">Dose prescrita (mg por administração) <input id="dz-presc" inputmode="decimal" placeholder="ex.: 250" value="'+esc(DZ.presc)+'"></label><div id="dz-eval"></div>';
+  if(PO.itens[d.id])h+=dzPoso(d.id,d.mono[0]&&M[d.mono[0]]);
   $("#dz-out").innerHTML=h;dzEval()}
 function dzEval(){const e=$("#dz-eval");if(!e||!DZ.last)return;
   const pc=DZ.last.pc,d=DZ.last.d,pr=dnum(DZ.presc);
@@ -324,7 +345,12 @@ function dzEval(){const e=$("#dz-eval");if(!e||!DZ.last)return;
   e.innerHTML='<div class="dz-ev '+cls+'"><b>'+lab+"</b> · "+fmt(a.mg)+" mg a cada "+r.intervalo+" h = "+fmt(a.kgDose)+" mg/kg/dose, "+fmt(a.kgDia)+" mg/kg/dia, "+fmt(a.mgDia)+" mg/dia"
    +(a.motivos.length?"<ul>"+a.motivos.map(x=>"<li>"+esc(x)+"</li>").join("")+"</ul>":"")
    +(a.status!=="adequada"?"<ul>"+a.riscos.map(x=>"<li>"+esc(x)+"</li>").join("")+"</ul>":'<p class="note">Dentro do mínimo e do máximo da faixa de referência.'+(a.motivos.length?"":" Confirme sempre com o prescritor.")+"</p>")+"</div>"}
-function dzSelect(id){DZ.sel=id;DZ.ap=0;DZ.presc="";const d=window.DOSE.itens.find(x=>x.id===id);DZ.iv=d?Dose.intervaloPadrao(d):null;
+function dzPoso(id,m){const rec=PO.itens[id];if(!rec)return"";
+  const mono=m||{};return moaHtml(mono,rec.f)+'<h3 class="sub-h">Posologia por faixa etária: mínima, recomendada e máxima</h3>'+poTable(rec)}
+function dzSelect(id){DZ.sel=id;DZ.ap=0;DZ.presc="";const ex=PO.extras.find(x=>x.id===id);
+  if(ex){DZ.sel=null;DZ.last=null;$("#dz-sel").innerHTML='<div class="dz-med"><b>'+esc(ex.n)+'</b><span class="note">'+esc(ex.c)+" · "+esc(ex.v.join(", "))+(ex.ap&&ex.ap.length?" · "+esc(ex.ap.map(p=>p.f).join("; ")):"")+'</span></div>';
+    $("#dz-out").innerHTML=dzPoso(id)+'<p class="note">Medicamento adicional (fora da lista ICAM): a posologia por faixa etária é de referência; o cálculo individual por peso não está disponível.</p>';return}
+  const d=window.DOSE.itens.find(x=>x.id===id);DZ.iv=d?Dose.intervaloPadrao(d):null;
   const box=$("#dz-sel");
   if(!d){box.innerHTML="";dzResult();return}
   const ivs=Dose.intervalosPermitidos(d);
@@ -339,8 +365,8 @@ function initDose(){
   const p=$("#p-dose");
   p.addEventListener("input",e=>{const id=e.target.id;
     if(id==="dz-q"){const q=norm(e.target.value.trim()),r=$("#dz-res");if(q.length<2){r.hidden=true;r.innerHTML="";return}
-      const hit=window.DOSE.itens.filter(d=>norm(d.n+" "+d.c).includes(q)).slice(0,8);r.hidden=!hit.length;
-      r.innerHTML=hit.map(d=>'<button class="ri" type="button" data-dzpick="'+esc(d.id)+'"><span class="ri-main"><span class="ri-name">'+esc(d.n)+'</span><span class="ri-sub">'+esc(d.c)+(d.min==null?" · sem faixa em mg/kg":"")+'</span></span><span class="ri-go" aria-hidden="true">›</span></button>').join("");return}
+      const hit=window.DOSE.itens.concat(PO.extras.map(x=>({id:x.id,n:x.n,c:x.c,min:null,extra:1}))).filter(d=>norm(d.n+" "+d.c).includes(q)).slice(0,10);r.hidden=!hit.length;
+      r.innerHTML=hit.map(d=>'<button class="ri" type="button" data-dzpick="'+esc(d.id)+'"><span class="ri-main"><span class="ri-name">'+esc(d.n)+'</span><span class="ri-sub">'+esc(d.c)+(d.extra?" · posologia por faixa etária":d.min==null?" · sem faixa em mg/kg":"")+'</span></span><span class="ri-go" aria-hidden="true">›</span></button>').join("");return}
     if(id==="dz-presc"){DZ.presc=e.target.value;dzEval();return}
     if(/^dz-(idade|un|peso|alt|scr|renal|hep|gest|prem|desid|desn|outra)$/.test(id)){
       dzReadForm();

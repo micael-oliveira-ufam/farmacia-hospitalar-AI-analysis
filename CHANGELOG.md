@@ -2,6 +2,14 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.8.0 - 2026-11-04
+
+- **Autores na página inicial**: byline logo abaixo do título e seção "Autores" (Micael Davi Lima de Oliveira e Elias de Souza Barros, UFAM/FCF).
+- **Posologia para todas as faixas etárias**: novo banco `data/posologia.json` (gerado por `tools/mkposologia.py` a partir de `tools/posologia/`), com dose **mínima, recomendada e máxima** por faixa (prematuro, neonato, lactente, criança, adolescente, adulto e idoso), unidade e intervalo explícitos, tetos absolutos e validação automática. Cobre os 216 itens da base e 35 medicamentos adicionais (malária, tuberculose, crônicos). Medicamentos adicionais são pesquisáveis na aba "Dose do paciente".
+- **Como o medicamento age**: seção aberta em destaque na ficha e na aba Dose, com mecanismo de ação, ação farmacológica, farmacocinética e fisiopatologia (fichas novas para os itens sem monografia).
+- Conteúdo compilado por IA: exige revisão farmacêutica, em especial em prematuros, neonatos e idosos.
+- Observação: as versões 4.6 e 4.7 (correções de CI/Pages e APK) não tinham entrada neste arquivo.
+
 ## 4.5.0 - 2026-10-28
 
 - **Calculadora do ICAM unificada ao PosologiaPED** (aba "Dose do paciente", web e app): idade, sexo, peso e condições de saúde (insuficiência renal e hepática, gestação/lactação, prematuridade, desidratação, desnutrição, outra condição grave), com TFG estimada (Schwartz/Cockcroft-Gault) a partir da creatinina. Mostra **dose mínima, recomendada e máxima** por administração (mg e mL/comprimidos), por dia e em mg/kg/dia, limitadas pelos tetos diários; número de frascos/ampolas; classificação operacional (controlado/Portaria 344, dose unitária, uso coletivo).

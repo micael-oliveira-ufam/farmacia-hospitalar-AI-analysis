@@ -13,6 +13,7 @@ sub('flutter_app/pubspec.yaml',r'^version:.*$',f'version: {v}+{build}')
 for pj in ('abc-app/package.json','server/package.json'):
     sub(pj,r'^(\s*)"version":\s*"[^"]*"',r'\1"version": "%s"'%v)
 subprocess.run([sys.executable,'mkdose.py'],cwd=os.path.join(R,'tools'),check=True,stdout=subprocess.DEVNULL)
+subprocess.run([sys.executable,'mkposologia.py'],cwd=os.path.join(R,'tools'),check=True,stdout=subprocess.DEVNULL)
 subprocess.run([sys.executable,'mkint.py'],cwd=os.path.join(R,'tools'),check=True,stdout=subprocess.DEVNULL)
 subprocess.run([sys.executable,'mkcat.py'],cwd=os.path.join(R,'tools'),check=True,stdout=subprocess.DEVNULL)
 for d in ('abc-app/public/data','flutter_app/assets'):
