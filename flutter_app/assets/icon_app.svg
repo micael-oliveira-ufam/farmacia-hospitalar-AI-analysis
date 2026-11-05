@@ -1,0 +1,73 @@
+<!-- Ícone Farmácia Hospitalar Integrada — PosologiaPED + FarmaGestão
+     Autores: Micael Davi Lima de Oliveira & Elias de Souza Barros (UFAM)
+     Uso: ícone do aplicativo Android/iOS (512×512 exportado via Inkscape/ImageMagick)
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Fundo arredondado (cor principal azul hospitalar) -->
+  <rect width="512" height="512" rx="112" fill="#1A56C4"/>
+
+  <!-- Gradiente sutil de profundidade -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2F6FDE"/>
+      <stop offset="100%" stop-color="#1A3FA0"/>
+    </linearGradient>
+    <linearGradient id="cross" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#e8f0ff" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="barA" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#5BBBFF"/>
+      <stop offset="100%" stop-color="#1A8FDF"/>
+    </linearGradient>
+    <linearGradient id="barB" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#7ED9A5"/>
+      <stop offset="100%" stop-color="#28A069"/>
+    </linearGradient>
+    <linearGradient id="barC" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFC96A"/>
+      <stop offset="100%" stop-color="#E6900A"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+
+  <!-- Cruz médica (PosologiaPED) — parte superior -->
+  <!-- Barra horizontal da cruz -->
+  <rect x="136" y="76" width="240" height="80" rx="20" fill="url(#cross)"/>
+  <!-- Barra vertical da cruz -->
+  <rect x="216" y="36" width="80" height="160" rx="20" fill="url(#cross)"/>
+
+  <!-- Separador sutil -->
+  <rect x="60" y="232" width="392" height="3" rx="2" fill="#ffffff" opacity="0.25"/>
+
+  <!-- Gráfico de barras ABC (FarmaGestão) — parte inferior -->
+  <!-- Base do gráfico -->
+  <rect x="60" y="420" width="392" height="6" rx="3" fill="#ffffff" opacity="0.35"/>
+
+  <!-- Barra A (maior — azul claro) -->
+  <rect x="88" y="290" width="90" height="130" rx="14" fill="url(#barA)"/>
+  <text x="133" y="278" text-anchor="middle" font-family="'Arial Rounded MT Bold',Arial,sans-serif"
+        font-size="28" font-weight="700" fill="#B3DEFF" letter-spacing="1">A</text>
+
+  <!-- Barra B (média — verde) -->
+  <rect x="211" y="330" width="90" height="90" rx="14" fill="url(#barB)"/>
+  <text x="256" y="318" text-anchor="middle" font-family="'Arial Rounded MT Bold',Arial,sans-serif"
+        font-size="28" font-weight="700" fill="#AEECC8" letter-spacing="1">B</text>
+
+  <!-- Barra C (menor — amarela) -->
+  <rect x="334" y="362" width="90" height="58" rx="14" fill="url(#barC)"/>
+  <text x="379" y="350" text-anchor="middle" font-family="'Arial Rounded MT Bold',Arial,sans-serif"
+        font-size="28" font-weight="700" fill="#FFE0A0" letter-spacing="1">C</text>
+
+  <!-- Ponto de dados (linha de tendência) -->
+  <polyline points="133,290 256,330 379,362"
+            fill="none" stroke="#ffffff" stroke-width="5" stroke-dasharray="10,7" opacity="0.5"/>
+  <circle cx="133" cy="290" r="9" fill="#fff" opacity="0.8"/>
+  <circle cx="256" cy="330" r="9" fill="#fff" opacity="0.8"/>
+  <circle cx="379" cy="362" r="9" fill="#fff" opacity="0.8"/>
+
+  <!-- Texto da marca (rodapé do ícone) -->
+  <text x="256" y="484" text-anchor="middle"
+        font-family="'Arial Rounded MT Bold',Arial,sans-serif"
+        font-size="30" font-weight="700" fill="#ffffff" opacity="0.85" letter-spacing="2">FARMÁCIA</text>
+</svg>

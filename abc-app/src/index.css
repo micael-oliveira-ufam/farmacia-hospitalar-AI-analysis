@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+/* Interface unificada com a PosologiaPED (tema claro): mesma base de cores neutras e tipografia. */
+@theme{--color-slate-50:#F4F8F8;--color-slate-100:#EAF1F2;--color-slate-200:#E1EAEC;--color-slate-300:#CBD8DB;--color-slate-400:#8FA2A8;--color-slate-500:#60737A;--color-slate-600:#4A5D63;--color-slate-700:#34464B;--color-slate-800:#24353A;--color-slate-900:#1B2B30;
+--color-blue-50:#EBF2FD;--color-blue-100:#DCE8FB;--color-blue-500:#4A82E6;--color-blue-600:#2F6FDE;--color-blue-700:#2559B8;
+--font-sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+body{background:#F4F8F8;color:#1B2B30}

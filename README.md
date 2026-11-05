@@ -1,181 +1,108 @@
-# Farmácia Hospitalar Integrada (plataforma) e Calculadora ICAM
+# Farmácia Hospitalar Integrada
 
-Este repositório publica, via **GitHub Pages**, um site único sem servidor com:
+Plataforma para **qualquer hospital** (nenhum hospital específico), com dois módulos:
 
-| Página | O que é | Código |
-|---|---|---|
-| `/` | Início: escolha do módulo | `plataforma/pages/` |
-| `/guia/` | **PosologiaPED**: guia de posologia pediátrica por classe terapêutica, **Dose do paciente** (calculadora do ICAM unificada: dose mínima, recomendada e máxima, com aviso de subdose/superdose), calculadoras e **Triagem** de prescrição (98 regras de interação) | `plataforma/guia/` |
-| `/estoque/` | **FarmaGestão**: estoque e curva ABC, com importação das listas do ICAM e da Policlínica Codajás | `plataforma/abc-app/` |
+| Módulo | O que é |
+|---|---|
+| **PosologiaPED** (`guia/`) | Posologia **voltada a hospitais pediátricos**: faixa padrão lactentes e crianças, neonatos em seleção própria, alerta pediátrico antes da dose, calculadoras pediátricas primeiro (adultos e idosos só como referência). **Interface em 3 passos:** busca grande ou navegação por **classe terapêutica** (35), **classe farmacológica** (107), forma/seção ou A–Z; lista compacta com a dose da faixa etária escolhida; toque abre o painel de detalhe. Abas: Medicamentos, Qualquer, **Minha lista**, Calculadoras e menu Mais (Cesta, Comparar, Referências, Sobre) |
+| **FarmaGestão** (`abc-app/`) | Estoque e Curva ABC: classes A/B/C, estoque de emergência, pedido semanal (PADRÃO e PEDIDO), importação de planilha, backup |
 
-A calculadora de doses do ICAM (descrita abaixo, na raiz do repositório) foi **unificada ao PosologiaPED** e não é mais publicada separadamente; seus dados (`data/medicamentos.json`, `data/interacoes.json`) alimentam a plataforma. O site é gerado a cada push pelo workflow `.github/workflows/pages.yml` (`plataforma/tools/build_pages.sh`). Não há conta, assinatura nem servidor: os dados ficam no navegador e tudo funciona offline depois da primeira visita. Detalhes, versões e créditos (a triagem é inspirada no [NoHarm.ai](https://github.com/noharm-ai), MIT, sem copiar código) estão em `plataforma/README.md`, `plataforma/CHANGELOG.md` e `plataforma/NOTICE.md`.
+Há também o servidor (`server/`, estáticos e senha opcional), Docker + Cloudflare (link temporário) e o **app Android único** (`flutter_app/`) com os dois módulos.
 
-> Doses, classes e regras de interação foram compiladas por IA e **exigem revisão por farmacêutico responsável**. Apoio à decisão, não prescrição.
+**Lista de exemplo.** A lista de 224 itens incluída (`data/catalog.json`) foi transcrita de uma lista institucional usada **apenas como exemplo**; ela não define a plataforma. Cada hospital usa a sua: no FarmaGestão importando a planilha do hospital, no PosologiaPED pela aba **Minha lista** (o guia sugere a monografia pelo nome e você confirma).
 
----
+> **Apoio à decisão, não prescrição.** O conteúdo de doses foi compilado por IA a partir das fontes citadas e **precisa de revisão por farmacêutico responsável**. Veja [docs/METODOLOGIA.md](docs/METODOLOGIA.md) e [docs/REFERENCIAS.md](docs/REFERENCIAS.md).
 
-# Cálculo de Medicamentos — ICAM
+## O que foi testado e o que não foi
+| Parte | Situação |
+|---|---|
+| Guia web (`guia/`, também offline: sem fontes externas, dados embutidos no HTML e cache por service worker; funciona até abrindo o `index.html` direto) | Testado em navegador headless (busca, cálculo, calculadoras, cesta, comparação, links, celular) e fórmulas com testes automáticos |
+| App ABC (`abc-app/`) | Compila (`tsc` + `vite build --base=/estoque/`), 7 testes da lógica de estoque. **Offline** (service worker gerado no build, sem imagens externas): testado em navegador headless desligando a rede, passando por início → FarmaGestão → importação da lista de exemplo → PosologiaPED |
+| Servidor (`server/`) | 3 testes automáticos + execução real servindo início, guia e estoque |
+| **Docker / docker-compose / cloudflared** | **Não testado**: o ambiente de criação não tinha Docker. Os comandos internos (build, testes, servidor) foram executados manualmente, mas a imagem e o túnel nunca foram subidos |
+| **App Flutter / APK** | **Não compilado nem testado**: sem SDK Flutter aqui. O código (inclusive o módulo de estoque novo e `test/abc_test.dart`) passou apenas em verificação de sintaxe; a lógica de estoque em Dart espelha a do TypeScript, que tem testes, mas os testes Dart nunca foram executados. Pode haver erros de compilação a corrigir na primeira build |
+| Classes terapêuticas e farmacológicas (`tools/classes.py`) | Atribuídas pelo assistente de IA, inspiradas na lógica do ATC/OMS e **sem conferência item a item** na tabela ATC oficial; revisar com farmacêutico. A interface web foi testada em navegador headless (navegação, busca, painel, celular); no Flutter só a sintaxe foi verificada |
+| Links das referências | Níveis de verificação em docs/REFERENCIAS.md (13 conferidos; os demais DOI/site/busca não foram abertos) |
 
-Ferramenta web **estática** (HTML + CSS + JavaScript, sem backend) para
-apoio à farmácia clínica pediátrica do ICAM (Instituto da Criança e do
-Adolescente do Amazonas). Cobre os medicamentos do formulário padronizado
-do ICAM (pedido semanal da Farmácia CAF) e permite:
-
-- **Avaliar prescrições**: para cada medicamento prescrito, calcula a dose em
-  mg/kg/dose e mg/kg/dia e classifica como abaixo, dentro ou acima da faixa
-  terapêutica de referência, além de sinalizar quando a dose máxima diária ou
-  a dose máxima absoluta são ultrapassadas.
-- **Verificar interações medicamentosas**: compara todos os pares de
-  medicamentos de uma prescrição contra uma base de interações conhecidas,
-  classificadas por gravidade (leve, moderada, grave).
-- **Calcular doses**: a partir do peso do paciente e da dose em mg/kg,
-  calcula a dose por administração e a dose diária total.
-- **Calcular frascos/ampolas**: determina quantos frascos ou ampolas inteiros
-  são necessários para atender a uma dose/volume total, incluindo a sobra.
-- **Calcular dose unitária**: converte uma dose prescrita (mg) na quantidade
-  correspondente de uma apresentação (mL, comprimidos, etc.), útil para
-  fracionamento.
-- **Bulário do ICAM**: consulta e filtro (por nome, classe ou categoria) de
-  todos os ~200 itens do formulário — injetáveis, comprimidos, suspensões,
-  gotas, xaropes, tópicos, inalatórios, oftálmicos, eletrólitos, termolábeis,
-  antimicrobianos de reserva e controlados.
-- **Medicamentos do Hospital**: painel de classificação operacional de todos
-  os itens do formulário — disponibilidade, uso controlado, enquadramento na
-  Portaria SVS/MS n° 344/98 (com a lista/anexo), necessidade de cálculo de
-  dose unitária, itens em que o farmacêutico deve definir a quantidade de
-  frascos/ampolas liberada, e itens de uso coletivo (estoque comum) — com
-  filtros combináveis e contadores por classificação.
-
-> ⚠️ **Aviso importante**: esta ferramenta é um apoio à decisão clínica. As
-> faixas de dose foram preenchidas com base em literatura pediátrica padrão
-> (no mesmo espírito das fichas técnicas de guias farmacêuticos hospitalares,
-> como o do Hospital Sírio-Libanês) e a base de interações cobre as
-> combinações clinicamente mais relevantes entre os itens do formulário do
-> ICAM — nenhuma das duas é exaustiva. Os valores **devem sempre ser
-> confrontados** com o protocolo institucional vigente, a bula atualizada dos
-> medicamentos e o julgamento clínico do prescritor/farmacêutico responsável
-> antes de qualquer decisão terapêutica. A base de dados
-> (`data/medicamentos.json` e `data/interacoes.json`) deve ser revisada e
-> validada pela farmácia clínica da instituição antes do uso em produção.
-
-## Arquitetura
-
-O site é 100% estático: não depende de Python, Flask ou qualquer servidor de
-aplicação — apenas arquivos HTML/CSS/JS/JSON, que podem ser hospedados em
-qualquer servidor web comum (Apache, Nginx, GitHub Pages, Netlify, etc.).
-
-```
-index.html                  Página única da aplicação (todas as abas)
-static/css/style.css        Estilos (tema pediátrico)
-static/img/logo.svg         Logo (usada como favicon e no cabeçalho/rodapé)
-static/js/calculos.js       Motor de cálculo em JavaScript (roda no navegador)
-static/js/app.js            Lógica de interface (abas, formulários, filtros)
-data/medicamentos.json      Base de medicamentos do ICAM (doses, apresentações)
-data/interacoes.json        Base de interações medicamentosas conhecidas
-
-calculos.py                 Motor de cálculo em Python — referência/validação
-scripts/gerar_dados.py      Fonte editável de data/medicamentos.json
-tests/test_calculos.py      Testes do motor Python + integridade dos dados
-tests/test_calculos.js      Testes do motor JavaScript (paridade com o Python)
-```
-
-`calculos.py` e seus testes **não são usados pelo site publicado** — servem
-como especificação de referência e ferramenta de validação de dados (rodada
-no CI). O que roda de fato no navegador é `static/js/calculos.js`, mantido
-deliberadamente espelhado à versão Python; `tests/test_calculos.js` verifica
-essa paridade nos casos principais.
-
-## Como executar localmente
-
-Como é um site estático, qualquer servidor HTTP simples funciona (o
-carregamento dos arquivos `data/*.json` via `fetch()` exige HTTP — não abra
-`index.html` diretamente pelo navegador com `file://`):
-
+## Início rápido (Docker + link temporário)
 ```bash
-python3 -m http.server 8000
-# ou: npx serve .
+cp .env.example .env        # (recomendado) defina SITE_PASSWORD
+./scripts/start.sh          # Windows: .\scripts\start.ps1
+./scripts/link.sh           # mostra https://XXXX.trycloudflare.com
+./scripts/stop.sh
 ```
+- Local: o script mostra a porta usada (`http://localhost:PORTA` = página inicial com a escolha; `/estoque/` = app ABC; `/guia/` = guia). Se a 8080 estiver ocupada, `start.sh`/`start.ps1` procuram a próxima livre e gravam em `HOST_PORT` no `.env`. Para fixar uma: `HOST_PORT=9090 docker compose up -d`. Sem Docker, `node server.js` também troca de porta sozinho se `PORT` estiver ocupada.
+- O link do **Quick Tunnel** é temporário: segundo a [documentação da Cloudflare](https://developers.cloudflare.com/cloudflare-one/networks/connectors/cloudflare-tunnel/do-more-with-tunnels/trycloudflare/), não exige conta, o endereço muda a cada execução, não há garantia de disponibilidade, o limite é de 200 requisições simultâneas e SSE não é suportado.
+- Domínio fixo: `docker compose --profile named up -d` com `TUNNEL_TOKEN` (requer conta Cloudflare).
+- Sem Docker: `cd abc-app && npm ci && npm run build`, `python3 guia/build.py dist_guia`, monte `server/public/abc` (dist do ABC) e `server/public/guia` (index.html, manifest.json, sw.js, icon.svg) e rode `cd server && npm ci && npm start`.
 
-Acesse http://localhost:8000 no navegador.
+## Contas e assinatura (R$ 29,99/mês, 7 dias de demonstração)
+- **Fluxo:** a página inicial (`/`) é pública e deixa escolher o módulo. Ao abrir um módulo sem login, o usuário vai para `/entrar`; **criar a conta dá 7 dias de uso, sem cartão**. Terminada a demonstração, `/assinar` leva ao pagamento. Em `/conta` o usuário vê o plano, abre o portal do Stripe (trocar cartão, cancelar) ou exclui a conta.
+- **Cartão:** os dados do cartão são digitados na **página do Stripe Checkout** (hospedada pelo Stripe). Nosso servidor nunca recebe nem guarda número, validade ou CVV, o que evita ter que cumprir o PCI DSS completo. O servidor guarda só e-mail, nome, hash da senha (scrypt) e a situação da assinatura (SQLite em `DATA_DIR`, volume `fhi-data` no Docker).
+- **Configurar:** crie uma conta no [Stripe](https://dashboard.stripe.com/), copie a chave secreta de **teste** (`sk_test_...`) para `STRIPE_SECRET_KEY` no `.env` e suba o servidor. No modo teste use o cartão `4242 4242 4242 4242`, qualquer validade futura e CVC. A assinatura é criada na hora com `price_data` (BRL, 2999 centavos, mensal), sem cadastrar produto antes. O webhook (`POST /api/billing/webhook`, `STRIPE_WEBHOOK_SECRET`) é opcional: sem ele, a situação é consultada no Stripe a cada acesso.
+- **Produção:** o link temporário do Cloudflare muda a cada execução, serve só para testar. Para cobrar de verdade use domínio fixo com HTTPS (`PUBLIC_URL`), chave `sk_live_...`, webhook registrado, backup do volume de dados e revisão jurídica dos textos em `/termos` (modelo sem assessoria jurídica). Ainda não há recuperação de senha por e-mail nem confirmação de e-mail.
+- **App Android:** faz login no mesmo servidor (campo “Servidor” ou `--dart-define=API_BASE=https://seu-dominio` no build) e abre o pagamento no navegador. A verificação da conta vale por **7 dias offline**; depois exige internet. A permissão INTERNET voltou ao app. Na loja Google Play, assinaturas digitais costumam exigir o Google Play Billing (este APK é de instalação direta).
+- **Limite:** o conteúdo do guia e do estoque é estático e roda no aparelho; o servidor barra quem não tem conta ao carregar, mas ninguém impede de copiar o que já foi baixado. É controle de acesso comercial, não proteção contra cópia.
 
-## Como colocar em um servidor
+## Segurança (decisões de projeto)
+- **Sem IA paga.** A integração com o Gemini foi removida. Os preços são digitados à mão em *Preços (CMED)*, com link para a tabela oficial da CMED/Anvisa.
+- **Sem login Google.** O acesso usa conta própria (e-mail e senha). O app ABC guarda os dados de estoque **no navegador** (localStorage, com Backup/Restaurar em JSON). Motivo: o login Google/Firebase exige domínios autorizados e o domínio do link temporário muda a cada execução.
+- **Firebase opcional:** `VITE_USE_FIREBASE=true` no build do `abc-app`. Exige autorizar o domínio no Firebase Auth e revisar `firestore.rules` (a regra original libera **leitura pública** de `medications`).
+- `SITE_PASSWORD` pede senha (HTTP Basic) para o site inteiro, recomendado em link público. Os dados ficam no navegador de cada pessoa; **não insira dados de pacientes**.
+- Os preços não são buscados automaticamente: confira na tabela oficial da CMED.
 
-Basta copiar todo o conteúdo do repositório (ou pelo menos `index.html`,
-`static/` e `data/`) para a raiz pública de qualquer servidor web:
+## Integração guia ↔ estoque
+- Botão **Importar lista de exemplo** cria os 224 itens no FarmaGestão; itens ligados à lista de exemplo ganham selos (alta vigilância, nefro/hepato) e o link **PosologiaPED** que abre a monografia (`/guia/#caf=CÓDIGO`).
+- A **página inicial** (`/`) deixa escolher entre Estoque/Curva ABC e Guia de Doses; ambos têm link “Início”.
+- A aba **Qualquer medicamento** do PosologiaPED aceita qualquer nome (também fora da lista carregada): mostra se ele consta na lista e, senão, gera links de pesquisa (DailyMed, PubMed, BNFc, Bulário Anvisa, LiverTox, CMED) e oferece uma calculadora de regime por peso em que a dose é informada pelo usuário a partir da fonte. O guia não inventa doses para fármacos fora da lista.
+- A aba **Minha lista** (PosologiaPED) guarda no navegador a lista do hospital (`código;descrição`) e sugere monografias pelo nome (sem inventar doses: sem correspondência, leva às fontes). As sugestões são automáticas e exigem confirmação de sal, associação e apresentação.
+- Planilhas importadas no FarmaGestão podem ter coluna `Codigo` (ou `CAF`) para ligar ao PosologiaPED.
+- Aba **Pedido semanal**: PADRÃO/PEDIDO, cobertura e exportação em Excel.
+- **Offline no navegador:** abra a página inicial uma vez com internet; ela instala o início, o guia e o estoque para uso sem rede (e pode ser “instalada” como app pelo navegador).
+- `data/catalog.json` é a fonte única (guia web, app ABC e Flutter): `scripts/sync-catalog.sh`.
 
-- **Apache/Nginx**: copiar os arquivos para o `document root` do site.
-- **GitHub Pages**: ativar Pages apontando para a branch/pasta do repositório.
-- **Netlify/Vercel/Cloudflare Pages**: publish directory = raiz do projeto,
-  sem etapa de build.
-
-Não há variáveis de ambiente, banco de dados ou build step — é copiar e
-servir.
-
-## Como editar a base de medicamentos
-
-A forma recomendada é editar `scripts/gerar_dados.py` (lista `MEDICAMENTOS`,
-com comentários explicando cada campo) e rodar:
-
+## App Android (Flutter)
 ```bash
-python3 scripts/gerar_dados.py
+./flutter_app/tool/build_apk_docker.sh      # gera dist/farmacia-icam.apk (imagem ghcr.io/cirruslabs/flutter)
+```
+Ou use o workflow `.github/workflows/build-apk.yml` (GitHub Actions) e baixe o APK em *Artifacts*. O app é **100% offline**: os 224 medicamentos, doses, segurança, calculadoras e o texto das referências vão dentro do APK, e o `patch_android.sh` remove a permissão INTERNET (só abrir um link usa o navegador do aparelho, que precisa de conexão). Itens: lista, filtros, detalhe por faixa etária, favoritos, calculadoras, referências com link. **App único com dois módulos:** a tela inicial deixa escolher entre **PosologiaPED** e **FarmaGestão** (itens, curva ABC, pedido semanal PADRÃO/PEDIDO, importação da planilha do hospital (colada) ou da lista de exemplo, backup JSON compatível com o app web). No Android, exportar/importar usa a área de transferência (copiar/colar CSV e JSON), sem arquivos. No app, a lista tem busca e filtros por classe terapêutica e classe farmacológica. A cesta, a comparação, a aba Qualquer medicamento e a aba Minha lista existem só na versão web. O APK sai assinado com chave de depuração (instalação direta, não Play Store).
+
+## Versões
+A versão vigente está em `VERSION` (SemVer) e o histórico em [CHANGELOG.md](CHANGELOG.md). Para lançar uma nova: edite `VERSION`, descreva no CHANGELOG, rode `python3 tools/release.py` (sincroniza pubspec, package.json e catálogo e gera `farmacia-hospitalar-integrada-vX.Y.Z.zip`, com a pasta interna também versionada) e marque com `git tag -a vX.Y.Z`.
+
+## Estrutura
+```
+guia/        PosologiaPED, versão web (app.js, calc.js, style.css, build.py, test.js)
+abc-app/     FarmaGestão (React/Vite) + tests/
+server/      Express (+ landing/ = página inicial): estáticos, senha opcional; test/
+flutter_app/ app Android único (launcher, guia e estoque ABC) + tool/ (build via Docker)
+data/        catalog.json (fonte única), refs.json
+tools/       regenera refs/catalog a partir de tools/source/all2.js
+docs/        METODOLOGIA.md, REFERENCIAS.md
+scripts/     start/stop/link, sync-catalog
 ```
 
-Isso regrava `data/medicamentos.json`. Para registrar uma nova interação,
-adicione um objeto em `data/interacoes.json` com o par de `id`s dos
-medicamentos, a gravidade (`leve`, `moderada` ou `grave`) e a descrição
-clínica da interação.
+## Testes
+`node guia/test.js` · `cd abc-app && npm test` · `cd server && npm test` · `cd flutter_app && flutter test`
 
-### Classificação usada no painel "Medicamentos do Hospital"
+Atribuição: verificações de DOI/metadados feitas segundo o PubMed (NCBI/NLM).
 
-A maior parte dos campos de classificação (`disponivel`, `uso_controlado`,
-`requer_dose_unitaria`, `farmaceutico_define_frascos`) é **derivada
-automaticamente** pela função `classificar()` em `scripts/gerar_dados.py`,
-a partir da categoria e das apresentações de cada item — não precisa ser
-editada manualmente. Os dois campos que dependem de conhecimento
-regulatório/institucional específico são mantidos como dicionários no topo
-do script e devem ser atualizados diretamente pela farmácia:
+## Listas de hospital (4.3.0)
 
-- `PORTARIA_344`: mapeia o `id` do medicamento à lista/anexo da Portaria
-  SVS/MS n° 344/98 (ex.: `"A1"`, `"B1"`, `"C1"`). Itens marcados
-  "(verificar...)" indicam classificação sujeita a confirmação.
-- `USO_COLETIVO_IDS`: ids de itens mantidos como estoque comum/de posto
-  (não individualizados por paciente), além de tudo que já está na
-  categoria "Eletrólitos".
+O guia (PosologiaPED) e a curva ABC (FarmaGestão), na web e no app, têm os botões **Importar lista do ICAM** e **Importar lista da Policlínica Codajás** (`data/catalog.json` e `data/codajas.json`). No guia a lista é cruzada com as monografias pelo nome, de forma automática: confira sempre sal, associação e apresentação.
 
-Depois de editar qualquer um dos dois, rode `python3 scripts/gerar_dados.py`
-novamente para regravar `data/medicamentos.json`.
+## Dose do paciente (calculadora ICAM unificada)
 
-## Como rodar os testes
+A aba **Dose do paciente** substitui a calculadora ICAM separada. Informe idade, sexo, peso e condições (renal, hepática etc.), escolha o medicamento e veja a dose mínima, a recomendada (ponto médio da faixa; conservadora quando há alerta renal/hepático, neonato ou prematuro) e a máxima. Ao digitar a dose prescrita, o sistema avisa subdose ou superdose e lista os riscos. As faixas (mg/kg/dose, tetos diários) vêm da base do ICAM (`data/icam_medicamentos.json`), compilada por IA: **revisão farmacêutica obrigatória**. A base é pediátrica; em adultos a dose é limitada pelo teto cadastrado.
 
-```bash
-# testes do motor de referência em Python + integridade dos dados
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-pytest
+## GitHub Pages (sem servidor)
 
-# testes do motor client-side em JavaScript (Node.js, sem dependências)
-node tests/test_calculos.js
-```
+1. Crie um repositório no GitHub e envie este projeto (branch `main`).
+2. Em **Settings → Pages → Build and deployment → Source**, escolha **GitHub Actions**.
+3. O workflow `.github/workflows/pages.yml` roda os testes, executa `tools/build_pages.sh` e publica em `https://<usuario>.github.io/<repositorio>/`.
 
-## Integração contínua
+Para gerar localmente: `tools/build_pages.sh _site` e sirva a pasta com qualquer servidor estático. No Pages **não há conta, assinatura nem Stripe** (isso exige o servidor Express/Docker); os dados ficam só no navegador. Funciona offline depois da primeira visita.
 
-Todo push e pull request executam automaticamente, via GitHub Actions
-(`.github/workflows/tests.yml`): a suíte `pytest` (Python 3.11 e 3.12) e os
-testes do motor JavaScript (Node.js).
+## Triagem de prescrição e NoHarm.ai
 
-## Contribuindo
-
-Ao abrir um pull request, use o checklist do template padrão
-(`.github/PULL_REQUEST_TEMPLATE.md`). Alterações em `data/medicamentos.json`
-ou `data/interacoes.json` devem ser conferidas com a bula vigente ou o
-protocolo institucional antes de serem mescladas. Para reportar um dado
-clínico incorreto, abra uma issue usando o template "Correção de dado
-clínico".
-
-## Licença
-
-Distribuído sob a licença MIT — veja o arquivo [LICENSE](LICENSE). Isso
-significa que o código pode ser livremente reutilizado e adaptado, mas é
-fornecido "como está", sem garantias; a instituição que o utiliza é
-responsável por validar clinicamente os dados antes de qualquer uso em
-produção (veja o aviso no início deste documento).
+A aba **Triagem** cruza os medicamentos da prescrição com 44 regras de interação (`data/interacoes.json`), duplicidades, função renal/hepática e faixa etária. Ela é inspirada nas categorias de alerta do [NoHarm.ai](https://github.com/noharm-ai) (licença MIT), mas **não usa código nem dados do NoHarm**: o backend deles é um servidor Flask + PostgreSQL de triagem de prescrições reais de cada hospital e não roda em site estático. Para usar o NoHarm de verdade, a instituição precisa de uma instância própria ou contratada. As regras são compiladas por IA e exigem revisão farmacêutica; não substituem Lexicomp/Micromedex.

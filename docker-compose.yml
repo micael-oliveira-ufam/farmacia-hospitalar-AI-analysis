@@ -1,0 +1,50 @@
+# Uso rápido (link temporário do Cloudflare):   ./scripts/start.sh      (ou: docker compose up -d --build)
+# O link https://XXXX.trycloudflare.com aparece com:  ./scripts/link.sh
+services:
+  app:
+    build: .
+    image: farmacia-hospitalar-integrada:latest
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      PORT: "8080"
+      DATA_DIR: /app/data
+    volumes:
+      - fhi-data:/app/data      # contas e assinaturas (SQLite); faça backup deste volume
+    expose:
+      - "8080"
+    ports:
+      # Porta do seu computador (HOST_PORT). Os scripts start.sh/start.ps1 escolhem uma livre automaticamente.
+      - "127.0.0.1:${HOST_PORT:-8080}:8080"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:8080/healthz"]
+      interval: 15s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+  # Quick Tunnel: sem conta e sem domínio; a URL muda a cada execução.
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate --url http://app:8080
+    depends_on:
+      app:
+        condition: service_healthy
+
+  # Alternativa com domínio fixo (requer conta Cloudflare): docker compose --profile named up -d
+  tunnel-named:
+    profiles: ["named"]
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:-}
+    depends_on:
+      app:
+        condition: service_healthy
+
+volumes:
+  fhi-data:

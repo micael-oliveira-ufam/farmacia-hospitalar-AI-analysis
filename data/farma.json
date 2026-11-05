@@ -1,0 +1,1154 @@
+{
+  "acetilcisteina_inj": {
+    "moa": "Doa grupos tiol (-SH) livres que reconstituem o glutationa hepático depletado pela intoxicação por paracetamol; como mucolítico, rompe pontes dissulfeto das glicoproteínas do muco.",
+    "farma": "Antídoto do paracetamol (NAPQI): repõe glutationa e neutraliza o metabólito tóxico. Mucolítico tempo-dependente; também antioxidante em LPA/SDRA.",
+    "fk": "EV: distribuição rápida, Vd ≈ 0,47 L/kg. Meia-vida ≈ 2–6 h. Eliminação renal.",
+    "fisio": "Na intoxicação por paracetamol, o CYP2E1 gera NAPQI que depleta glutationa e causa necrose centrolobular hepática. A N-acetilcisteína restaura glutationa, sendo mais eficaz se iniciada em até 8 h."
+  },
+  "acido_ascorbico_inj": {
+    "moa": "Cofator essencial para hidrolases dependentes de ascorbato (prolil/lisil-hidroxilases) necessárias à síntese de colágeno; antioxidante hidrossolúvel que reduz radicais livres.",
+    "farma": "Vitamina C essencial; não sintetizada pelo ser humano. Em altas doses EV, gera H₂O₂ seletivo em tecidos tumorais (uso investigacional).",
+    "fk": "EV: Cmáx imediata; Vd ≈ 0,22 L/kg. Eliminação renal; excretado como oxalato quando saturado (> 200 mg/dia).",
+    "fisio": "No escorbuto, deficiência de colágeno causa fragilidade vascular, hemorragias perifoliculares e disfunção endotelial. Reposição restaura síntese de colágeno e função imune."
+  },
+  "tranexamico_inj": {
+    "moa": "Análogo sintético da lisina que bloqueia competitivamente sítios de ligação da lisina no plasminogênio e na plasmina, inibindo a fibrinólise.",
+    "farma": "Antifibrinolítico puro; não tem efeito pró-coagulante direto. Reduz mortalidade em trauma com hemorragia quando dado em até 3 h.",
+    "fk": "EV: distribuição rápida; Vd ≈ 0,39 L/kg. Meia-vida ≈ 2–3 h. Eliminação renal inalterada (> 90%).",
+    "fisio": "O trauma ativa hiperfibrinólise sistêmica precoce via liberação de t-PA. O ácido tranexâmico bloqueia essa cascata, estabilizando coágulos formados e reduzindo perda sanguínea."
+  },
+  "aciclovir_inj": {
+    "moa": "Análogo de guanosina ativado pela timidina quinase viral (TK); o trifosfato inibe seletivamente a DNA polimerase viral e causa terminação de cadeia.",
+    "farma": "Ativo contra HSV-1, HSV-2 e VZV; menor atividade contra EBV e CMV (sem TK eficiente). Bacteriostático viral tempo-dependente.",
+    "fk": "EV: Vd ≈ 0,7 L/kg; penetração em LCR ≈ 50% do plasma. Meia-vida ≈ 2–3 h. Eliminação renal (filtração + secreção tubular); ajustar em IR.",
+    "fisio": "Herpes neonatal e encefalite por HSV causam dano neuronal por replicação viral direta e resposta inflamatória. O aciclovir EV precoce reduz mortalidade e sequelas neurológicas."
+  },
+  "albumina": {
+    "moa": "Proteína oncótica que mantém pressão coloidosmótica intravascular (≈ 75–80% da pressão oncótica plasmática); transporta hormônios, ácidos graxos, bilirrubina e fármacos.",
+    "farma": "Expansor do volume intravascular de longa duração (t½ ≈ 19 dias). Na PBE, reduz disfunção circulatória e lesão renal aguda ao estabilizar hemodinâmica.",
+    "fk": "EV: permanece predominantemente intravascular. Vd ≈ 0,07–0,1 L/kg. Catabolismo hepático e tissular.",
+    "fisio": "Na cirrose, hipoalbuminemia e vasodilatação esplâncnica geram síndrome hepatorrenal. Na PBE, liberação de citocinas agrava disfunção circulatória; albumina atenua esse ciclo."
+  },
+  "amicacina": {
+    "moa": "Aminoglicosídeo: liga-se irreversivelmente à subunidade 30S ribossomal (proteína S12), causa leitura equivocada do mRNA e inibe síntese proteica. Bactericida concentração-dependente.",
+    "farma": "Espectro: gram-negativos aeróbicos (Pseudomonas, Acinetobacter, Enterobacteriaceae). Sinergismo com beta-lactâmicos. Índice PK/PD: Cmáx/CIM > 8–10.",
+    "fk": "EV/IM: Vd ≈ 0,25 L/kg; pouca penetração em LCR. Meia-vida ≈ 2–3 h (aumenta em IR). Eliminação renal inalterada (> 95%).",
+    "fisio": "Infecções graves por gram-negativos (sepse, meningite neonatal, pneumonia hospitalar) requerem bactericida de ação rápida. A dose única diária maximiza Cmáx/CIM e reduz nefrotoxicidade."
+  },
+  "ampicilina": {
+    "moa": "Aminopenicilina: inibe transpeptidases (PBPs) da parede celular bacteriana, bloqueando a ligação cruzada do peptidoglicano; bactericida tempo-dependente (%T>CIM).",
+    "farma": "Espectro ampliado vs. penicilina G: cobre gram-positivos sensíveis + gram-negativos (E. coli, Proteus, Listeria, H. influenzae não-produtor de beta-lactamase). Não resiste a beta-lactamases.",
+    "fk": "EV: Vd ≈ 0,3 L/kg; penetração em LCR em meningite. Meia-vida ≈ 1–1,5 h. Eliminação renal.",
+    "fisio": "Meningite neonatal por Listeria e SGB requer bactericida que penetre LCR. A ampicilina em altas doses atinge concentrações terapêuticas em LCR (10–15% do plasma inflamado)."
+  },
+  "atropina": {
+    "moa": "Antagonista competitivo muscarínico (M1–M3): bloqueia receptores de acetilcolina em glândulas, músculo liso e coração, aumentando FC e reduzindo secreções.",
+    "farma": "Em bradicardia: aumenta FC por bloqueio vagal. Em intoxicação colinérgica (organofosforados): antagoniza muscarínicos periféricos e centrais. Midriático em uso oftálmico.",
+    "fk": "EV: início ≤ 1 min; duração 15–30 min (FC). Vd ≈ 2,4 L/kg (ampla distribuição). Meia-vida ≈ 2–4 h. Metabolismo hepático + renal.",
+    "fisio": "Na intoxicação por organofosforados, a inibição da AChE provoca crise colinérgica (SLUDGE). A atropina compete pelo receptor muscarínico e reverte bradicardia, broncoespasmo e hipersecreção."
+  },
+  "penicilina_cristalina": {
+    "moa": "Beta-lactâmico: inibe PBPs (transpeptidases), bloqueando síntese de peptidoglicano; bactericida tempo-dependente. Espectro restrito a gram-positivos sensíveis.",
+    "farma": "Droga de escolha para estreptococcias, sífilis, infecções por Neisseria sensível e febre reumática. Lábil a pH ácido (não oral); destruída por penicilinases.",
+    "fk": "EV: Vd ≈ 0,35 L/kg; penetração em LCR em meningite. Meia-vida ≈ 0,5–1 h. Eliminação renal (70% secretada tubularmente).",
+    "fisio": "Infecções por S. pyogenes: a rápida lise bacteriana pela penicilina reduz produção de toxinas eritrogênicas e antígenos cruzados que desencadeiam febre reumática."
+  },
+  "penicilina_benzatina": {
+    "moa": "Mesma do benzilpenicilina (bloqueia PBPs); formulação de depósito IM que libera penicilina G lentamente por semanas.",
+    "farma": "Dose única IM mantém níveis treponemicidas por 2–4 semanas (sífilis primária/secundária). Profilaxia de longo prazo da febre reumática.",
+    "fk": "IM: absorção lenta; pico em 24–72 h; detectável no plasma por 4 semanas. Meia-vida aparente ≈ 14 dias. Eliminação renal após hidrólise.",
+    "fisio": "A sífilis pelo T. pallidum (geração lenta, 30 h) é altamente sensível à penicilina; níveis treponemicidas contínuos por 2 semanas eliminam infecção primária/secundária."
+  },
+  "bromoprida_inj": {
+    "moa": "Antagonista seletivo de dopamina D2 no trato GI e CTZ (zona de gatilho quimiorreceptora); aumenta tônus do esfíncter esofagiano inferior e acelera esvaziamento gástrico.",
+    "farma": "Antiemético + pró-cinético. Menos efeitos extrapiramidais que a metoclopramida em doses equivalentes. Ativo em náuseas de origem central e periférica.",
+    "fk": "EV: início 1–3 min; duração ≈ 1–2 h. Meia-vida ≈ 6–9 h. Metabolismo hepático; eliminação renal.",
+    "fisio": "A náusea e vômito induzidos por quimioterapia e cirurgia envolvem ativação dopaminérgica da CTZ e vias serotoninérgicas. O bloqueio D2 na CTZ reduz o estímulo emético aferente."
+  },
+  "bupivacaina": {
+    "moa": "Anestésico local amida: bloqueia canais de Na⁺ voltagem-dependentes na membrana axonal, impedindo geração e propagação do potencial de ação.",
+    "farma": "Longa duração (4–12 h). Preferencial para bloqueios periféricos e epidurais cirúrgicos. Alta ligação proteica (95%) → menor toxicidade sistêmica livre.",
+    "fk": "Absorção variável por via (epidural > plexo > periférica). Vd ≈ 1,02 L/kg. Metabolismo hepático (CYP3A4). Meia-vida ≈ 2,7 h.",
+    "fisio": "Bloqueio sensitivo e motor por inibição da condução nervosa. Em concentrações cardiotóxicas, bloqueia canais de Na⁺/K⁺ cardíacos → risco de arritmia refratária."
+  },
+  "bupivacaina_pesada": {
+    "moa": "Idêntico à bupivacaína; formulação hiperbárica (com glicose 8%) permite controle da dispersão pelo posicionamento do paciente em raquianestesia.",
+    "farma": "Raquianestesia cirúrgica de duração intermediária-longa. A hiperbaricidade facilita sedimentação caudal em posição sentada.",
+    "fk": "Intratecal: absorção mínima (LCR não tem proteínas de ligação → maior fração livre local). Redistribuição vascular lenta.",
+    "fisio": "Anestesia espinhal bloqueia fibras sensitivas (Aδ e C) e motoras (Aα) abaixo do dermátomo alvo, interrompendo transmissão nociceptiva e reflexos espinhais."
+  },
+  "cefalotina": {
+    "moa": "Cefalosporina 1ª geração: inibe PBPs bacterianas (transpeptidases/carboxipeptidases), bloqueando síntese de peptidoglicano; bactericida tempo-dependente.",
+    "farma": "Espectro: MSSA, S. pyogenes, E. coli e Proteus sensíveis. Não resiste a beta-lactamases estendidas. Não penetra LCR adequadamente.",
+    "fk": "EV: Vd ≈ 0,26 L/kg. Meia-vida ≈ 0,5–0,8 h. Eliminação renal (secretada tubularmente). Ajuste em IR.",
+    "fisio": "Infecções de pele, tecidos moles e cirúrgicas por gram-positivos sensíveis: cefalotina atinge concentrações > 4× CIM em tecidos durante 50–60% do intervalo posológico."
+  },
+  "cefazolina": {
+    "moa": "Cefalosporina 1ª geração: liga-se a PBP1a e PBP2a de S. aureus sensível e outros gram-positivos, inibindo síntese da parede celular.",
+    "farma": "Droga de escolha para profilaxia cirúrgica (boa cobertura MSSA, gram-negativo entérico sensível). Longa meia-vida vs. cefalotina.",
+    "fk": "EV/IM: Vd ≈ 0,13 L/kg. Meia-vida ≈ 1,8–2,5 h. Eliminação renal inalterada (> 80%).",
+    "fisio": "Colonização por S. aureus precede infecção de sítio cirúrgico. Doses profiláticas mantêm níveis > CIM durante todo o procedimento, reduzindo carga bacteriana no campo cirúrgico."
+  },
+  "ceftriaxona": {
+    "moa": "Cefalosporina 3ª geração: alta afinidade por PBP3 de gram-negativos e PBP1/2 de gram-positivos; resiste à maioria das beta-lactamases (exceto ESBLs/AmpC).",
+    "farma": "Amplo espectro, boa penetração em LCR, dose única diária. Cobertura de meningite bacteriana, gonorreia, infecções respiratórias e abdominais comunitárias.",
+    "fk": "EV/IM: Vd ≈ 0,14 L/kg; LCR ≈ 1–4 mg/L em meningite. Meia-vida ≈ 6–8 h. Eliminação biliar (50%) + renal. Liga-se a cálcio (precipitação em neonatos → contraindicado com Ca²⁺ EV).",
+    "fisio": "Em meningite bacteriana, a lise rápida por beta-lactâmicos libera endotoxinas; combinada com dexametasona, reduz inflamação meníngea e risco de perda auditiva em meningite por H. influenzae."
+  },
+  "ciprofloxacino_inj": {
+    "moa": "Fluoroquinolona: inibe DNA girase (gram-negativos) e topoisomerase IV (gram-positivos), bloqueando replicação e reparo do DNA bacteriano; bactericida concentração-dependente.",
+    "farma": "Espectro: gram-negativos (incluindo Pseudomonas), micobactérias atípicas. Índice PK/PD: AUC/CIM > 125. Pouca atividade anaeróbia.",
+    "fk": "EV: Vd ≈ 2–3 L/kg (ampla distribuição tissular). Meia-vida ≈ 4–6 h. Metabolismo hepático parcial; eliminação renal + biliar.",
+    "fisio": "Infecções urinárias complicadas e prostatite por gram-negativos: ciprofloxacino concentra no tecido prostático (3–5× plasma) e na urina, mantendo AUC/CIM acima do limiar eficaz."
+  },
+  "claritromicina_inj": {
+    "moa": "Macrolídeo: liga-se à subunidade 50S ribosomal (sítio 23S rRNA), bloqueando translocação peptídica; bacteriostático (bactericida em altas concentrações).",
+    "farma": "Espectro: gram-positivos, H. pylori, Mycoplasma, Chlamydia, MAC. Inibe CYP3A4 → múltiplas interações. Ativo contra patógenos intracelulares.",
+    "fk": "EV: metabolito ativo 14-OH-claritromicina. Vd ≈ 2–4 L/kg; concentração tissular 10–100× plasma. Meia-vida ≈ 3–7 h. Metabolismo hepático.",
+    "fisio": "Pneumonias atípicas (Mycoplasma, Legionella) necessitam de antibiótico com penetração intracelular; a claritromicina acumula em macrófagos alveolares (100–500× plasma)."
+  },
+  "clindamicina_inj": {
+    "moa": "Lincosamida: liga-se ao domínio V do 23S rRNA na subunidade 50S, bloqueando síntese proteica; bacteriostático; inibe produção de toxinas por estreptococos e estafilococos.",
+    "farma": "Excelente cobertura de anaeróbios e gram-positivos (MSSA). Ativo contra Toxoplasma (combinado). Usado em infecções de pele/tecidos moles e intraabdominais.",
+    "fk": "EV: Vd ≈ 0,66 L/kg; boa penetração óssea e em abscessos. Meia-vida ≈ 2–4 h. Metabolismo hepático; eliminação biliar predominante.",
+    "fisio": "Infecções necrotizantes por SBHGA: clindamicina inibe produção de exotoxinas (superantígenos) mesmo com beta-lactâmico já cobrindo crescimento bacteriano — efeito complementar."
+  },
+  "dexametasona_inj": {
+    "moa": "Glicocorticoide de alta potência (25× hidrocortisona): liga-se a receptores citosólicos GR-α, forma complexo que regula transcrição de genes anti-inflamatórios (IκB) e suprime NF-κB e AP-1.",
+    "farma": "Potente anti-inflamatório e imunossupressor; ausência de efeito mineralocorticoide. Indicado em edema cerebral, laringite subglótica, meningite bacteriana, antiemésis oncológica.",
+    "fk": "EV: início minutos (genômica em horas). Meia-vida plasmática ≈ 4–5 h; meia-vida biológica ≈ 36–54 h. Metabolismo hepático; eliminação renal.",
+    "fisio": "No edema cerebral peritumoral, a dexametasona suprime VEGF e restaura barreira hematoencefálica. Em meningite bacteriana pediátrica, reduz inflamação meníngea e risco de surdez (H. influenzae)."
+  },
+  "dipirona_inj": {
+    "moa": "Pirazolona: metabolito ativo (4-MAA) inibe COX centralmente, bloqueia canais de TRP (TRPA1/TRPV1) e ativa vias endocanabinóides descendentes; também relaxamento muscular liso (antiespasmódico).",
+    "farma": "Analgésico, antipirético e antiespasmódico. Não inibe COX periférica significativamente → não lesão gástrica ou antiagregante. Amplamente utilizado no Brasil.",
+    "fk": "EV: metabolito ativo (4-aminoantipirina) em minutos. Meia-vida ≈ 7 h (4-MAA). Metabolismo hepático; eliminação renal.",
+    "fisio": "Cólica renal e biliar: o componente antiespasmódico relaxa músculo liso ureteral/biliar, reduzindo espasmo reflexo. A inibição central de COX reduz síntese de prostaglandinas no hipotálamo."
+  },
+  "dobutamina": {
+    "moa": "Catecolamina sintética: agonista preferencial β₁-adrenérgico → inotrópico positivo (↑ cAMP → ↑ Ca²⁺ intracelular → ↑ contratilidade). Menor efeito β₂ e α₁.",
+    "farma": "Melhora débito cardíaco sem aumentar significativamente a FC ou pós-carga. Uso em choque cardiogênico e descompensação cardíaca aguda. Taquifilaxia após 72 h.",
+    "fk": "EV contínua: meia-vida ≈ 2 min. Metabolismo hepático (COMT); sem acúmulo significativo. Titular pela resposta hemodinâmica.",
+    "fisio": "No choque cardiogênico, débito cardíaco baixo gera hipoperfusão tecidual. A dobutamina aumenta inotropismo sem vasoconstrição periférica excessiva, melhorando perfusão de órgãos-alvo."
+  },
+  "dopamina": {
+    "moa": "Catecolamina precursora: dose-dependente — baixas doses (1–5 µg/kg/min): D1/D2 renais/mesentéricos (vasodilatação local); doses médias (5–10): β₁ inotrópico; altas (> 10): α₁ vasoconstritor.",
+    "farma": "Vasopressor inotrópico de primeira linha em choque séptico/cardiogênico. Efeito renal a baixas doses é controverso (não protege rim). Arritimogênica.",
+    "fk": "EV: início ≤ 5 min; meia-vida ≈ 2 min. Metabolismo por MAO/COMT. Titular continuamente pela PAM.",
+    "fisio": "No choque distributivo, vasoplegia periférica gera hipoperfusão. A dopamina em doses vasoconstritoras aumenta RVS e PAM, restaurando fluxo a órgãos. Noradrenalina é preferida em sepse (menos arritmias)."
+  },
+  "enoxaparina": {
+    "moa": "HBPM: potencia antitrombina III, inibindo preferencialmente fator Xa (anti-Xa 3:1 vs. anti-IIa). Menor inibição de trombina que HNF.",
+    "farma": "Anticoagulante para TVP/TEP, SCA e profilaxia. Previsível e sem necessidade de monitoramento rotineiro em adultos (monitorar anti-Xa em obesos, IR, gestação, extremos de peso).",
+    "fk": "SC: biodisponibilidade ≈ 90%; pico anti-Xa em 3–5 h. Meia-vida ≈ 4–7 h. Eliminação renal (ajustar ClCr < 30).",
+    "fisio": "Trombose venosa profunda: estase + lesão endotelial + hipercoagulabilidade (tríade de Virchow). A enoxaparina interrompe propagação do trombo ao inativar Xa sem anticoagular fortemente o plasma."
+  },
+  "epinefrina": {
+    "moa": "Catecolamina endógena: agonista α₁/α₂ (vasoconstrição), β₁ (inotropismo/cronotropismo), β₂ (broncodilatação e inibição de mastócitos). Reverte todos os componentes da anafilaxia.",
+    "farma": "Droga de primeira linha em parada cardiorrespiratória (α₁: vasoconstrição → ↑ perfusão coronariana) e anafilaxia. Broncodilatador de resgate em asma grave.",
+    "fk": "EV/IM: meia-vida ≈ 1–2 min. Metabolismo por COMT/MAO. Início IM: 8 min (vasto lateral).",
+    "fisio": "Na anafilaxia: IgE → desgranulação de mastócitos → histamina/leucotrienos → vasodilatação, broncoespasmo, angioedema. A epinefrina antagoniza todos: vasoconstrição α₁, broncodilatação β₂, inibição de mediadores β₂."
+  },
+  "escopolamina_inj": {
+    "moa": "Anticolinérgico (antagonista muscarínico) de ação periférica e central: bloqueia receptores M1 (SNC/gânglio) e M3 (músculo liso), reduzindo cólica e náusea cinetósica.",
+    "farma": "Antiespasmódico e antiemético. Uterorelaxante (tocolítico leve). Reduz secreções. Usado em cólica biliar/renal e cinetose.",
+    "fk": "EV/SC: início 1–2 min; duração ≈ 4–6 h. Alta lipossolubilidade → penetração no SNC (sedação). Metabolismo hepático.",
+    "fisio": "Cólica intestinal/biliar: espasmo do músculo liso mediado por acetilcolina via M3. O bloqueio muscarínico relaxa esse espasmo e reduz secreções, aliviando dor cólica."
+  },
+  "fitomenadiona": {
+    "moa": "Vitamina K1: cofator das carboxilases dependentes de vitamina K que convertem resíduos glutamato em γ-carboxiglutamato (Gla) nos fatores II, VII, IX, X e proteínas C e S.",
+    "farma": "Reverte anticoagulação por varfarina (demora 6–24 h para síntese de novos fatores). Previne doença hemorrágica do recém-nascido (DHRN) na dose profilática IM ao nascer.",
+    "fk": "EV/IM: metabolismo hepático; bioativação para vitamina K2 reduzida. Onset IM: 12–24 h. EV lenta: 6–12 h (risco de reação anafilactoide se rápida).",
+    "fisio": "Na deficiência de vitamina K (DHRN, colestase, uso de antagonistas), fatores pró-coagulantes não são carboxilados (PIVKA) e permanecem inativos → coagulopatia. A reposição restaura a carboxilação."
+  },
+  "fluconazol_inj": {
+    "moa": "Triazol: inibe CYP51 (lanosterol 14α-demetilase) fúngica, bloqueando síntese de ergosterol → depleção da membrana fúngica e acúmulo de metilesteróis tóxicos.",
+    "farma": "Fungistático (fungicida em altas doses). Ativo contra Candida spp. (exceto C. krusei e C. glabrata resistente), Cryptococcus. Fraco contra bolores.",
+    "fk": "EV/VO: biodisponibilidade oral ≈ 90%. Vd ≈ 0,7 L/kg; penetração em LCR ≈ 70%. Meia-vida ≈ 30 h. Eliminação renal inalterada (> 80%).",
+    "fisio": "Candidemia em imunossuprimidos: Candida forma biofilme em cateter e dissemina hematogenicamente. O fluconazol inibe síntese de ergosterol, desestabilizando membrana e impedindo replicação."
+  },
+  "furosemida_inj": {
+    "moa": "Diurético de alça: inibe cotransportador Na⁺/K⁺/2Cl⁻ (NKCC2) na alça ascendente espessa de Henle, bloqueando reabsorção de sódio, cloreto, potássio, cálcio e magnésio.",
+    "farma": "Potente diurético de rápida ação. Venodilator venoso pré-carga (imediato, antes do efeito diurético). Edema agudo pulmonar, IC descompensada, hipercalcemia.",
+    "fk": "EV: início 5 min; pico 30 min; duração ≈ 2 h. Meia-vida ≈ 2 h (prolonga em IR). Eliminação renal (60%) + biliar.",
+    "fisio": "No EAP, pressão venosa pulmonar elevada causa extravasamento alveolar. A furosemida EV reduz pré-carga (vasodilatação venosa precoce) e, após 20–30 min, promove diurese maciça."
+  },
+  "gentamicina": {
+    "moa": "Aminoglicosídeo: uptake dependente de potencial elétrico na membrana bacteriana, liga-se ao 30S ribosomal, causa leitura errônea do mRNA; bactericida concentração-dependente.",
+    "farma": "Gram-negativos aeróbicos (sinérgico com beta-lactâmicos em endocardite por Enterococcus). Índice PK/PD: Cmáx/CIM > 8–10. Nefro e ototóxico.",
+    "fk": "EV/IM: Vd ≈ 0,26 L/kg. Meia-vida ≈ 2 h (IR: até 70 h). Eliminação renal inalterada (acúmulo em córtex renal e endolinfa).",
+    "fisio": "Infecções gram-negativas graves: gentamicina se acumula em células tubulares renais → lesão mitocondrial (nefrotoxicidade). Dose única diária reduz acúmulo tubular e nefrotoxicidade."
+  },
+  "heparina": {
+    "moa": "Glicosaminoglicano: potencia antitrombina III 1.000× na inativação de trombina (IIa) e fator Xa; também inibe IXa, Xia, XIIa. Reversível pela protamina.",
+    "farma": "Anticoagulação imediata EV (BIC ou dose fracionada). Monitorada pelo TTPA (alvo 1,5–2,5×). Antídoto: sulfato de protamina. Risco de HITT.",
+    "fk": "EV: meia-vida dose-dependente (30–150 min). Ligação a proteínas plasmáticas (resposta imprevisível). Metabolismo hepático/retículo endotelial.",
+    "fisio": "TEP/TVP agudos: formação de trombo envolve ativação plaquetária e cascata de coagulação. A heparina interrompe propagação ao amplificar inibição de trombina e Xa pela AT-III."
+  },
+  "hidralazina_inj": {
+    "moa": "Vasodilatador arterial direto: aumenta GMP cíclico e ativa canais de K⁺ em músculo liso vascular, causando hiperpolarização e relaxamento arteriolar.",
+    "farma": "Anti-hipertensivo de ação direta em artérias. Não dilata veias → sem hipotensão ortostática. Taquicardia reflexa por redução da pós-carga. Seguro na gestação (crise hipertensiva).",
+    "fk": "EV: início 5–20 min; duração ≈ 2–4 h. Meia-vida ≈ 1 h. Metabolismo hepático (acetilação polimorfa). Eliminação renal.",
+    "fisio": "Crise hipertensiva na pré-eclâmpsia: vasoespasmo placento-uterino e endotelial. A hidralazina dilata arteríolas sistêmicas, reduzindo PAM e perfusão uteroplacentária de forma controlada."
+  },
+  "hidrocortisona": {
+    "moa": "Glicocorticoide endógeno (potência 1×): ativa GR-α → regulação gênica anti-inflamatória e imunomoduladora + efeito mineralocorticoide (retém Na⁺/H₂O, excreta K⁺).",
+    "farma": "Terapia de reposição em insuficiência adrenal (crise adrenal). Anti-inflamatório em SRIS/sepse (baixas doses). Também em anafilaxia (demora de ação — não substitui epinefrina).",
+    "fk": "EV: início minutos (não-genômico) / 1–4 h (genômico). Meia-vida plasmática ≈ 1,5 h; biológica ≈ 8–12 h. Metabolismo hepático.",
+    "fisio": "Crise adrenal: deficiência de cortisol → hipoglicemia, hipotensão, hipercalemia, hiponatremia. A hidrocortisona repõe glicocorticoide e mineralocorticoide, restaurando regulação vascular e metabólica."
+  },
+  "lidocaina_inj": {
+    "moa": "Anestésico local amida + antiarrítmico classe Ib: bloqueia canais de Na⁺ voltagem-dependentes no estado inativo, suprimindo condução em fibras desnervadas/isquêmicas. Não afeta significativamente nó SA.",
+    "farma": "Anestesia local infiltrativa/troncular. Antiarrítmico EV em TSV/FV refratária (classe Ib: encurta potencial de ação). Janela terapêutica estreita.",
+    "fk": "EV: meia-vida ≈ 1,5–2 h (fase β). Vd ≈ 1,3 L/kg. Metabolismo hepático (CYP1A2/3A4) — MEGX (metabolito ativo/tóxico). Extração hepática alta.",
+    "fisio": "Arritmias ventriculares pós-IAM: tecido isquêmico tem canais de Na⁺ parcialmente inativados → re-entrada. Lidocaína bloqueia preferencialmente esses canais, suprimindo foco ectópico."
+  },
+  "meropenem": {
+    "moa": "Carbapenêmico: liga-se a PBP2/3 de gram-negativos e PBP1/2 de gram-positivos com altíssima afinidade; resiste a beta-lactamases AmpC e ESBLs (não a MBLs/KPC).",
+    "farma": "Antibiótico de espectro ultralargo (gram-positivos, gram-negativos, anaeróbios). Reserva terapêutica. Bactericida tempo-dependente (%T>CIM ≥ 40%).",
+    "fk": "EV (infusão prolongada 3–4 h aumenta %T>CIM): Vd ≈ 0,35 L/kg; penetração em LCR ≈ 15–20%. Meia-vida ≈ 1 h. Eliminação renal (70% inalterado). Ajuste em IR.",
+    "fisio": "Infecções MDR por Pseudomonas/Klebsiella/Acinetobacter: resistência por produção de carbapenemases. Infusão prolongada de meropenem aumenta %T>CIM e eficácia contra cepas com CIM intermediária."
+  },
+  "metilprednisolona": {
+    "moa": "Glicocorticoide sintético (5× hidrocortisona): ativa GR-α, suprime NF-κB, bloqueia síntese de citocinas pró-inflamatórias (IL-1, TNF-α, IL-6). Sem efeito mineralocorticoide.",
+    "farma": "Anti-inflamatório potente em doenças autoimunes, rejeição de transplante, exacerbação de asma/DPOC, síndrome inflamatória pós-COVID. Pulsoterapia em doenças autoimunes graves.",
+    "fk": "EV: início ≤ 1 h (genômico). Meia-vida plasmática ≈ 2,5–3,5 h; biológica ≈ 18–36 h. Metabolismo hepático (CYP3A4).",
+    "fisio": "Exacerbação grave de asma: broncoconstrição + edema e hipersecreção brônquica por inflamação eosinofílica mediada por IL-5/IL-13. Metilprednisolona suprime esse eixo e restaura diâmetro das vias aéreas."
+  },
+  "metronidazol_inj": {
+    "moa": "Nitroimidazol: reduzido intracelularmente por ferredoxina (anaeróbios) → radical nitro reativo que alkila DNA, proteínas e membranas → morte celular.",
+    "farma": "Bactericida e antiprotozoário seletivo de anaeróbios e microaerófilos (Bacteroides, Clostridium, H. pylori, Trichomonas, Giardia, Entamoeba). Não ativo em aeróbios.",
+    "fk": "EV: Vd ≈ 0,85 L/kg; penetra LCR, abscesso cerebral, bile. Meia-vida ≈ 8 h. Metabolismo hepático (CYP2C9/3A4); eliminação renal.",
+    "fisio": "Abscesso abdominal por anaeróbios: Bacteroides fragilis produz beta-lactamases e capsula resistente. O metronidazol penetra abscesso e é ativado em ambiente anaeróbio, matando o patógeno."
+  },
+  "metoclopramida_inj": {
+    "moa": "Antagonista D2 central (CTZ/área postrema) e periférico (trato GI); em altas doses antagoniza 5-HT₃; agonista 5-HT₄ pró-cinético → esvaziamento gástrico acelerado.",
+    "farma": "Antiemético + pró-cinético. Risco de discinesia tardia em uso prolongado ou altas doses. EMA restringiu doses em crianças (risco extrapiramidal).",
+    "fk": "EV/IM: início 1–3 min; duração ≈ 1–2 h. Vd ≈ 3,4 L/kg. Meia-vida ≈ 4–6 h. Metabolismo hepático; eliminação renal.",
+    "fisio": "Náusea por quimioterapia ou gastroparesia: a hiperatividade dopaminérgica na CTZ inicia vômito. O bloqueio D2 na CTZ e no plexo mioentérico reduz estímulo emético e normaliza peristaltismo."
+  },
+  "noradrenalina": {
+    "moa": "Catecolamina endógena: agonista potente α₁/α₂ (vasoconstrição marcada) e β₁ moderado (inotropismo). Efeito β₂ mínimo. Aumenta RVS e PAM com leve efeito inotrópico.",
+    "farma": "Vasopressor de primeira escolha em choque séptico (reduz mortalidade vs. dopamina). Taquicardia reflexa menor. Titular pela PAM-alvo (≥ 65 mmHg).",
+    "fk": "EV BIC: meia-vida ≈ 2 min. Metabolismo por COMT/MAO. Sem acúmulo significativo. Ajustar pela resposta hemodinâmica.",
+    "fisio": "Choque séptico: vasoplegia por liberação massiva de NO e prostaciclinaSin. A noradrenalina corrige vasoplegia via α₁, restaura PAM e melhora perfusão esplâncnica e renal."
+  },
+  "omeprazol_inj": {
+    "moa": "Inibidor de bomba de prótons (IBP): pró-fármaco ativado em pH ácido na vesícula secretora parietal; forma sulfenamida que liga covalentemente (irreversível) à H⁺/K⁺-ATPase.",
+    "farma": "Inibe secreção ácida gástrica em 90–95% após dose EV. Úlcera por estresse, hemorragia digestiva alta, esofagite. Eficácia maior em pH gástrico > 6 para coagulação e cicatrização.",
+    "fk": "EV: meia-vida ≈ 1 h, mas efeito dura 24–72 h (síntese de nova bomba). Metabolismo hepático (CYP2C19 polimórfico). Eliminação renal.",
+    "fisio": "Hemorragia digestiva alta por úlcera péptica: coágulos plasmáticos são instáveis em pH < 4. O IBP aumenta pH gástrico > 6, estabiliza coágulo sobre a úlcera e reduz ressangramento."
+  },
+  "ondansetrona_inj": {
+    "moa": "Antagonista seletivo 5-HT₃ (serotoninérgico): bloqueia receptores na zona de gatilho quimiorreceptora (CTZ), no núcleo do trato solitário e nos nervos vagais aferentes do trato GI.",
+    "farma": "Antiemético de primeira linha em náusea/vômito induzidos por quimioterapia, radioterapia e pós-operatório. Sem efeito dopaminérgico → sem risco extrapiramidal.",
+    "fk": "EV: início 5 min; duração ≈ 4–8 h. Vd ≈ 1,9 L/kg. Metabolismo hepático (CYP3A4/1A2). Meia-vida ≈ 3–4 h.",
+    "fisio": "Quimioterapia libera serotonina das células enterocromafins intestinais → ativa 5-HT₃ nos nervos vagais → sinal para CTZ → vômito. A ondansetrona bloqueia essa via serotoninérgica."
+  },
+  "oxacilina": {
+    "moa": "Isoxazolilpenicilina: resiste à penicilinase estafilocócica (anel isoxazolil protege ligação beta-lactâmica). Inibe PBP2a de MSSA, bloqueando síntese de peptidoglicano.",
+    "farma": "Droga de escolha para infecções por S. aureus sensível à meticilina (MSSA): endocardite, bacteremia, osteomielite. MRSA: resistente (PBP2a mutada).",
+    "fk": "EV: Vd ≈ 0,12 L/kg; pouca penetração em LCR. Meia-vida ≈ 0,4–0,7 h. Metabolismo hepático (30%) + eliminação renal (70%).",
+    "fisio": "Endocardite por MSSA: bacteremia com aderência valvar e formação de vegetação. A oxacilina em altas doses mantém %T>CIM > 40% no tecido valvar e endocárdico inflamado."
+  },
+  "pantoprazol_inj": {
+    "moa": "IBP: mesma classe do omeprazol; pró-fármaco ativado em pH ácido → sulfenamida que inibe irreversivelmente H⁺/K⁺-ATPase. Menor interação com CYP2C19.",
+    "farma": "Inibidor ácido potente; preferido quando interações medicamentosas são preocupação (vs. omeprazol). Indicado em hemorragia digestiva alta e prevenção de úlcera por estresse.",
+    "fk": "EV: meia-vida ≈ 1 h; efeito dura 24 h. Metabolismo hepático (menor CYP2C19). Eliminação renal.",
+    "fisio": "Úlcera de estresse em UTI: hipoperfusão gástrica + estímulo adrenérgico reduzem barreira mucosa. O IBP eleva pH intragástrico, reduzindo lesão isquêmica da mucosa e sangramento."
+  },
+  "piperacilina": {
+    "moa": "Ureidopenicilina + inibidor de beta-lactamase (tazobactam): piperacilina inibe PBPs amplas; tazobactam inibe beta-lactamases classe A (TEM, SHV, CTX-M). Espectro ultralargo.",
+    "farma": "Cobertura de gram-positivos, gram-negativos (incluindo Pseudomonas) e anaeróbios. Bactericida tempo-dependente. Reserva em infecções hospitalares graves.",
+    "fk": "EV (infusão prolongada 4 h): Vd ≈ 0,24 L/kg. Meia-vida piperacilina ≈ 1 h. Eliminação renal (70%) + biliar. Ajuste em IR.",
+    "fisio": "Pneumonia associada à VM por Pseudomonas: produção de alginato e beta-lactamases dificulta penetração de antibióticos. Piperacilina penetra biofilme mucóide e tazobactam protege a molécula."
+  },
+  "salbutamol_inj": {
+    "moa": "Agonista β₂-adrenérgico seletivo: ativa adenilato ciclase → ↑ AMPc → ativação da PKA → fosforilação da cadeia leve de miosina → relaxamento muscular liso brônquico.",
+    "farma": "Broncodilatador de curta ação (SABA). EV em asma quase-fatal/anafilaxia. Também tocolítico (relaxa útero). Hipocalemia em doses altas.",
+    "fk": "EV: início imediato; meia-vida ≈ 4–6 h. Metabolismo hepático (sulfatação). Eliminação renal.",
+    "fisio": "Broncoespasmo grave: contração de músculo liso brônquico mediada por Ca²⁺. O salbutamol ativa β₂ → AMPc → PKA fosforila MLCK e canais de K⁺ → hiperpolarização e relaxamento."
+  },
+  "smx_tmp_inj": {
+    "moa": "Sulfonamida (SMX) + diaminopirimidina (TMP): bloqueio sequencial da síntese de tetrahidrofolato — SMX inibe dihidropteroato sintase; TMP inibe dihidrofolato redutase. Sinergismo bactericida.",
+    "farma": "Bactericida de amplo espectro (gram-positivos, gram-negativos, Pneumocystis, Nocardia, Toxoplasma). Droga de escolha em PCP (Pneumocystis jirovecii) e infecções urinárias comunitárias.",
+    "fk": "EV: Vd (TMP) ≈ 1,6 L/kg; (SMX) ≈ 0,2 L/kg. TMP penetra LCR, próstata, saliva. Meia-vida ≈ 10–12 h. Eliminação renal (ajustar em IR).",
+    "fisio": "Pneumocystis jirovecii (PCP) em imunossuprimidos: fungo atípico sem ergosterol, resistente a antifúngicos comuns. O SMX-TMP bloqueia síntese de folato de Pneumocystis (incapaz de utilizar folato exógeno)."
+  },
+  "suxametonio": {
+    "moa": "Bloqueador neuromuscular despolarizante: agonista da acetilcolina nos receptores nicotínicos da junção neuromuscular, produz despolarização sustentada e fasciculações → flacidez (fase II).",
+    "farma": "Bloqueio ultrarrápido (30–60 s) e curto (5–10 min). Indicado em intubação de sequência rápida. Degradado pela pseudocolinesterase plasmática. Contraindicado em hipercalemia e miopatias.",
+    "fk": "EV: início 30–60 s; duração 5–10 min. Hidrólise por pseudocolinesterase. Meia-vida ≈ 2–3 min (pode prolongar em deficiência enzimática).",
+    "fisio": "Intubação de urgência: necessidade de paralisia rápida e completa para visualizar glote. A despolarização de suxametônio contrai brevemente (fasciculações) e então paralisa todo músculo esquelético."
+  },
+  "tenoxicam_inj": {
+    "moa": "AINE oxicam: inibe COX-1 e COX-2, bloqueando conversão de ácido araquidônico em prostaglandinas → efeito anti-inflamatório, analgésico e antipirético.",
+    "farma": "AINE injetável para dor moderada a intensa. Longa meia-vida (60 h) → dose única diária possível. Risco GI e renal similar a outros AINEs.",
+    "fk": "EV/IM: Vd ≈ 0,15 L/kg; alta ligação proteica (> 99%). Meia-vida ≈ 60–75 h. Metabolismo hepático; eliminação renal/biliar.",
+    "fisio": "Dor por inflamação aguda (tendinite, artrite): prostaglandinas E2 e I2 sensibilizam nociceptores periféricos. A inibição de COX reduz síntese de PGE2, dessensibilizando fibras C e Aδ."
+  },
+  "vancomicina": {
+    "moa": "Glicopeptídeo: liga-se ao dipeptídeo D-Ala-D-Ala do peptidoglicano em síntese, bloqueando transglicosilação e transpeptidação → inibição mecânica da síntese de parede celular.",
+    "farma": "Bactericida contra gram-positivos (MRSA, Enterococcus, C. difficile oral). Monitoramento por AUC/CIM (alvo: 400–600 mg·h/L). Índice PK/PD: AUC₂₄h/CIM.",
+    "fk": "EV: Vd ≈ 0,5–1 L/kg; penetração em LCR limitada (inflamação melhora). Meia-vida ≈ 4–8 h (IR: até 200 h). Eliminação renal inalterada.",
+    "fisio": "Bacteremia por MRSA: beta-lactâmicos ineficazes (PBP2a mutada). Vancomicina atua em sítio diferente (D-Ala-D-Ala), independente das PBPs. Penetração lenta em biofilme e vegetações."
+  },
+  "complexo_b_inj": {
+    "moa": "Complexo vitamínico B (B1/tiamina, B6/piridoxina, B12/cianocobalamina, niacina, riboflavina): cofatores de dezenas de reações enzimáticas do metabolismo energético, síntese de mielina e de neurotransmissores.",
+    "farma": "Reposição em deficiências (etilismo, desnutrição, gestação). Tiamina EV previne encefalopatia de Wernicke antes de administrar glicose. B12 em anemia megaloblástica.",
+    "fk": "EV: absorção imediata. Tiamina: meia-vida ≈ 1 h; B12: armazenada no fígado (estoques para 3–5 anos). Eliminação renal de excesso.",
+    "fisio": "Deficiência de tiamina (alcoolismo): o piruvato acumula sem entrada no ciclo de Krebs → lactato + dano neuronal (tálamo, corpo mamilar). A reposição antes da glicose previne exaustão do cofator."
+  },
+  "aas": {
+    "moa": "Salicilato: acetila irreversivelmente Ser529 da COX-1 (plaquetas, sem núcleo → inibição permanente) e COX-2 → bloqueia síntese de TXA2 e PGI2. Em baixas doses: antiagregante seletivo.",
+    "farma": "Antiagregante permanente (7–10 dias/vida plaquetária) em baixas doses (75–100 mg). AINE em doses altas. Antifebril e anti-inflamatório em doses intermediárias. Kawaski: altas doses.",
+    "fk": "VO: absorção rápida; Tmax ≈ 1 h. Metabolismo hepático (conjugação glicina/glutationa). Meia-vida ≈ 15 min (dose baixa, irreversível); salicilato: 2–30 h (dose-dependente).",
+    "fisio": "SCA: ruptura de placa aterosclerótica expõe colágeno → adesão e ativação plaquetária via TXA2. O AAS inibe síntese de TXA2 permanentemente, reduzindo recorrência de eventos isquêmicos."
+  },
+  "acido_folico": {
+    "moa": "Vitamina B9: cofator (na forma de tetrahidrofolato, THF) para transferência de grupos monocarbono em síntese de purinas, timidilato e metionina → essencial para divisão celular.",
+    "farma": "Prevenção de defeitos do tubo neural (periconcepcional). Tratamento de anemia megaloblástica por deficiência de folato. Suplementação em hemólise crônica e uso de metotrexato.",
+    "fk": "VO: absorção duodenal. Convertido a 5-metil-THF (forma circulante). Meia-vida ≈ 100 h. Armazenado no fígado (estoques para 3–4 meses).",
+    "fisio": "Deficiência de folato → síntese deficiente de dTMP → megaloblastos (eritrócitos gigantes e imaturos). Em gestação, deficiência compromete fechamento do tubo neural (espinha bífida, anencefalia)."
+  },
+  "albendazol": {
+    "moa": "Benzimidazol: liga-se à β-tubulina helmíntica com alta afinidade, inibindo polimerização de microtúbulos → disfunção de captação de glicose, esvaziamento de grânulos de secreção e divisão celular.",
+    "farma": "Ovicida, larvicida e adulticida. Amplo espectro helmíntico: Ascaris, Trichuris, ancilostomídeos, Strongyloides, Toxocara, cisticercose, equinococose.",
+    "fk": "VO: biodisponibilidade oral baixa (< 5%); melhora com alimentos gordurosos. Metabolizado a albendazol sulfóxido (ativo). Meia-vida ≈ 8 h. Eliminação biliar.",
+    "fisio": "Helmintiases intestinais: o albendazol destrói microtúbulos de células absortivas do helminto, impedindo captação de nutrientes e causando sua imobilização e morte por inanição."
+  },
+  "alopurinol": {
+    "moa": "Análogo da hipoxantina: inibe xantina oxidase (XO), bloqueando conversão de hipoxantina → xantina → ácido úrico. Também reduz síntese de purinas de novo via inibição de PRPP amidotransferase.",
+    "farma": "Reduz uricemia cronicamente (profilaxia de gota). Previne síndrome de lise tumoral. Usado em longo prazo; não trata crise aguda (anti-inflamatório para crise).",
+    "fk": "VO: absorção ≈ 90%. Metabolizado a oxipurinol (ativo, meia-vida ≈ 18 h). Eliminação renal (ajustar em IR).",
+    "fisio": "Hiperuricemia: excesso de ácido úrico supersatura fluido sinovial → cristais de urato monossódico se depositam → ativação de inflamassoma NLRP3 em macrófagos → artrite gotosa aguda."
+  },
+  "anlodipino": {
+    "moa": "Bloqueador de canal de Ca²⁺ di-hidropiridínico (BCC-DHP): inibe canais de Ca²⁺ tipo L voltagem-dependentes em músculo liso vascular → vasodilatação predominantemente arterial.",
+    "farma": "Anti-hipertensivo de longa duração (t½ ≈ 35–50 h) → dose única diária. Também antianginoso (reduz pós-carga e espasmo coronariano). Mínimo efeito inotrópico negativo.",
+    "fk": "VO: biodisponibilidade ≈ 64%; Tmax ≈ 6–12 h. Alta ligação proteica (93%). Meia-vida ≈ 35–50 h. Metabolismo hepático (CYP3A4).",
+    "fisio": "Hipertensão essencial: vasoconstrição arteríolar por aumento do Ca²⁺ citossólico em músculo liso. O anlodipino bloqueia influxo de Ca²⁺, reduzindo RVS e PAM de forma sustentada."
+  },
+  "azitromicina": {
+    "moa": "Macrolídeo 15 membros (azalídeo): liga-se ao 50S ribosomal (23S rRNA, sítio peptidil transferase), bloqueando translocação do peptídeo. Bacteriostático.",
+    "farma": "Espectro: gram-positivos, Haemophilus, Mycoplasma, Chlamydia, Legionella, Bordetella. Dose única diária por 3–5 dias (efeito pós-antibiótico prolongado). Menor interação vs. claritromicina.",
+    "fk": "VO: baixa biodisponibilidade (37%); concentra em tecidos (Vd ≈ 31 L/kg); Cmáx tecidual 10–100× plasma. Meia-vida ≈ 68 h. Eliminação biliar.",
+    "fisio": "Pneumonia comunitária atípica: Mycoplasma/Chlamydia invadem epitélio respiratório intracelularmente. Azitromicina acumula em macrófagos alveolares e epitélio, eliminando patógenos intracelulares."
+  },
+  "amoxicilina": {
+    "moa": "Aminopenicilina: inibe PBPs (1a, 2b, 3) de S. pneumoniae e outras bactérias, bloqueando síntese de peptidoglicano; bactericida tempo-dependente (%T>CIM ≥ 40%).",
+    "farma": "Antibiótico oral de primeira linha para pneumonia comunitária, otite media, faringotonsilite, infecção urinária comunitária. Destruída por beta-lactamases (combinada com clavulanato para cobertura ampliada).",
+    "fk": "VO: biodisponibilidade ≈ 80–90%; Tmax ≈ 1–2 h. Vd ≈ 0,3 L/kg. Meia-vida ≈ 1–1,5 h. Eliminação renal.",
+    "fisio": "Otite media aguda em crianças: S. pneumoniae e H. influenzae colonizam nasofaringe e ascendem pela trompa de Eustáquio. A amoxicilina atinge concentrações em mucosa do ouvido médio acima da CIM de S. pneumoniae sensível."
+  },
+  "baclofeno": {
+    "moa": "Agonista GABA-B pré e pós-sináptico: hiperpolariza neurônios medulares, reduzindo liberação de glutamato e aspartato de neurônios motores → relaxamento muscular espinhal.",
+    "farma": "Relaxante muscular esquelético de ação central (medula espinhal). Indicado em espasticidade por lesão de neurônio motor superior (EM, PC, lesão medular). Retirada abrupta → convulsão/delirium.",
+    "fk": "VO: absorção rápida; Tmax ≈ 1–3 h. Vd ≈ 0,8 L/kg. Meia-vida ≈ 3,5 h. Eliminação renal inalterada (77%).",
+    "fisio": "Espasticidade: lesão de vias corticoespinhais desinibe interneurônios espinhais → hiperatividade reflexa. O baclofeno ativa GABA-B pré-sinapticamente, reduzindo liberação de aminoácidos excitatórios nos motoneurônios α."
+  },
+  "captopril": {
+    "moa": "Inibidor da enzima conversora de angiotensina (IECA): bloqueia conversão de Ang I → Ang II e inibe degradação de bradicinina → vasodilatação arterial e venosa, redução de aldosterona.",
+    "farma": "Anti-hipertensivo, neuroprotetor cardiovascular (pós-IAM, IC). Reduz progressão de nefropatia diabética. Tosse seca em 10–15% (bradicinina). Contraindicado na gestação.",
+    "fk": "VO: biodisponibilidade ≈ 60–75% (reduz com alimento). Tmax ≈ 1 h. Meia-vida ≈ 2 h. Eliminação renal.",
+    "fisio": "Insuficiência cardíaca: ativação do SRAA gera Ang II → vasoconstrição e retenção de sódio (pós-carga e pré-carga elevadas). O IECA reduz ambas, além de atenuar remodelamento cardíaco pós-IAM."
+  },
+  "carbonato_calcio": {
+    "moa": "Suplemento de cálcio + antiácido: Ca²⁺ reabsorvido no duodeno (vitamina D-dependente) → mantém homeostase óssea e neuromuscular. Como antiácido: neutraliza HCl gástrico.",
+    "farma": "Reposição de Ca²⁺ em hipocalcemia, osteoporose, raquitismo. Quelante de fosfato em DRC. Antiácido em dispepsia.",
+    "fk": "VO: absorção duodenal (30–35%); melhor em pH ácido → tomar com refeição. Eliminação renal e fecal. Biodisponibilidade reduz com IBP.",
+    "fisio": "Hipoparatireoidismo/hipocalcemia: PTH baixo → reabsorção óssea reduzida e calciúria aumentada → [Ca²⁺] sérico baixo → tetania (potencial de membrana menos estável). A reposição restaura excitabilidade normal."
+  },
+  "carvedilol": {
+    "moa": "Bloqueador β₁/β₂ não-seletivo + α₁ antagonista: reduz FC, inotropismo e vasoconstrição periférica. Antioxidante adicional. Sem atividade simpatomimética intrínseca.",
+    "farma": "IC sistólica (reduz mortalidade em 35%), hipertensão, pós-IAM. Metabolismo hepático CYP2D6 (variabilidade individual). Menos broncoespasmo que propranolol (α₁ vasodilatação).",
+    "fk": "VO: biodisponibilidade ≈ 25% (metabolismo de primeira passagem). Tmax ≈ 1–2 h. Meia-vida ≈ 7–10 h. Metabolismo hepático (CYP2D6/3A4).",
+    "fisio": "IC sistólica: ativação crônica de SRAA e SNS causa remodelamento cardíaco (hipertrofia, fibrose, apoptose). O bloqueio β₁ reverte remodelamento e reduz risco de morte súbita por arritmia."
+  },
+  "cefalexina": {
+    "moa": "Cefalosporina 1ª geração oral: liga-se a PBPs de S. aureus sensível e estreptococcos → inibe síntese de peptidoglicano. Destruída por cefalosporinases e ESBLs.",
+    "farma": "Infecções de pele e tecidos moles (celulite, impetigo), infecções urinárias comunitárias por E. coli sensível, profilaxia cirúrgica oral.",
+    "fk": "VO: biodisponibilidade ≈ 90%; Tmax ≈ 1 h. Vd ≈ 0,26 L/kg. Meia-vida ≈ 0,9 h. Eliminação renal (secretada tubularmente).",
+    "fisio": "Celulite bacteriana: S. aureus e S. pyogenes produzem hialuronidase e estreptoquinase que facilitam invasão do tecido subcutâneo. Cefalexina atinge concentrações adequadas no tecido infectado."
+  },
+  "ciprofloxacino_vo": {
+    "moa": "Fluoroquinolona oral: mesmo mecanismo que EV — inibe DNA girase e topoisomerase IV; bactericida concentração-dependente (AUC/CIM).",
+    "farma": "Alta biodisponibilidade oral (70–80%) → bioequivalente à via EV. Infecções urinárias complicadas, prostatite, febre tifóide, gastroenterite bacteriana.",
+    "fk": "VO: Tmax ≈ 1–2 h. Vd ≈ 2–3 L/kg. Meia-vida ≈ 3–5 h. Metabolismo parcial; eliminação renal + biliar. Quelação com Al/Mg/Ca/Fe (reduz absorção).",
+    "fisio": "Prostatite bacteriana crônica: glândula próstata tem barreira hematoprostática similar ao SNC. O ciprofloxacino penetra tecido prostático (3–5× plasma) mantendo AUC/CIM terapêutico."
+  },
+  "dipirona_comp": {
+    "moa": "Idêntico à dipirona injetável: inibição central de COX, modulação de canais TRP e via endocanabinóide descendente. Antiespasmódico em altas doses.",
+    "farma": "Analgésico, antipirético e antiespasmódico oral de amplo uso. Menor risco GI que AINEs. Agranulocitose rara mas grave (< 1:1.000.000 doses).",
+    "fk": "VO: absorção rápida; hidrolisado a 4-MAA no intestino. Tmax ≈ 1–2 h. Meia-vida ≈ 7 h. Metabolismo hepático; eliminação renal.",
+    "fisio": "Febre: pirógenos endógenos (IL-1, IL-6, TNF-α) ativam COX-2 no hipotálamo → PGE2 → elevação do termostato. A dipirona inibe COX central e ativa vias descendentes inibitórias."
+  },
+  "espironolactona": {
+    "moa": "Antagonista competitivo da aldosterona nos receptores mineralocorticoides do túbulo coletor: bloqueia reabsorção de Na⁺ e excreção de K⁺/H⁺ → diurético poupador de K⁺.",
+    "farma": "Diurético + antiandrogênico (também bloqueia receptor androgênico). IC sistólica (reduz mortalidade), cirrose com ascite, hiperaldosteronismo primário, PCOS.",
+    "fk": "VO: metabolizado a canrenona (ativo). Meia-vida espironolactona ≈ 1,4 h; canrenona ≈ 16 h. Metabolismo hepático.",
+    "fisio": "IC sistólica: aldosterona elevada causa fibrose miocárdica e retenção de sódio. A espironolactona bloqueia receptor mineralocorticoide cardíaco e renal, reduzindo remodelamento e mortalidade cardiovascular."
+  },
+  "ibuprofeno_comp": {
+    "moa": "AINE propionato: inibe COX-1 e COX-2 reversivelmente → bloqueia síntese de PGE2, PGI2 e TXA2 → analgesia, antipirese e anti-inflamação.",
+    "farma": "AINE oral de amplo uso em dor leve-moderada, febre e artrite. Inibição de COX-1 → risco GI (gastroprotação em uso prolongado). Anti-inflamatório em artrite e febre reumática.",
+    "fk": "VO: biodisponibilidade ≈ 80%; Tmax ≈ 1–2 h. Alta ligação proteica (99%). Meia-vida ≈ 2 h. Metabolismo hepático (CYP2C9); eliminação renal.",
+    "fisio": "Inflamação articular: COX-2 induzida por IL-1/TNF-α nas sinoviais produz PGE2 → vasodilatação, edema e sensibilização de nociceptores. O ibuprofeno bloqueia ambas as COX, reduzindo calor, rubor, dor e edema."
+  },
+  "fluconazol_vo": {
+    "moa": "Triazol oral: mesma ação que EV — inibe CYP51 fúngica (lanosterol 14α-demetilase) → depleção de ergosterol e acúmulo de metilesteróis citotóxicos.",
+    "farma": "Candidíase oral, esofágica, vaginal. Criptococose (manutenção). Alta biodisponibilidade oral (> 90%) — bioequivalente à EV. Profilaxia em imunossuprimidos.",
+    "fk": "VO: biodisponibilidade ≈ 90%; Tmax ≈ 2 h. Vd ≈ 0,7 L/kg; penetração em LCR 70%. Meia-vida ≈ 30 h. Eliminação renal (80%).",
+    "fisio": "Candidíase esofágica em HIV: imunodeficiência permite crescimento de Candida no esôfago (forma biofilme, produz fosfolipases). Fluconazol oral penetra mucosa esofágica e inibe proliferação."
+  },
+  "hctz": {
+    "moa": "Diurético tiazídico: inibe cotransportador Na⁺/Cl⁻ (NCC) no túbulo contorcido distal → natriurese, caliurese e aumento de reabsorção de Ca²⁺ (hipocalciúria).",
+    "farma": "Anti-hipertensivo de primeira linha em baixas doses (< 25 mg). Prevenção de litíase por hipercalciúria. Efeito diurético modesto; potencializa outros anti-hipertensivos.",
+    "fk": "VO: biodisponibilidade ≈ 70%; Tmax ≈ 2 h. Meia-vida ≈ 6–15 h. Eliminação renal inalterada.",
+    "fisio": "Hipertensão essencial: aumento de volume intravascular eleva débito cardíaco e ativa SRAA. A HCTZ reduz volume circulante (natriurese) e promove vasodilatação direta em uso crônico."
+  },
+  "hidralazina_vo": {
+    "moa": "Vasodilatador arterial direto oral: abre canais de K⁺ em músculo liso → hiperpolarização e redução do Ca²⁺ citossólico → vasodilatação arteriolar.",
+    "farma": "Anti-hipertensivo em hipertensão resistente e gestação. Combinado com β-bloqueador para reduzir taquicardia reflexa. Síndrome lupus-like em acetiladores lentos.",
+    "fk": "VO: biodisponibilidade variável (30–50%; metabolismo de primeira passagem por acetilação hepática, polimórfica). Tmax ≈ 1 h. Meia-vida ≈ 2–8 h.",
+    "fisio": "Pré-eclâmpsia grave: vasoespasmo arteriolar sistêmico e uteroplacentário por disfunção endotelial (sFlt-1 excessivo). A hidralazina dilata arteríolas reduzindo pós-carga materna e melhorando fluxo uteroplacentário."
+  },
+  "ivermectina": {
+    "moa": "Avermectina: agonista de canais de Cl⁻ glutamato-dependentes (invertebrados) → hiperpolarização de neurônios e células musculares de parasitos → paralisia e morte. Também potencializa GABA em invertebrados.",
+    "farma": "Antiparasitário de amplo espectro: Strongyloides, Onchocerca, Wuchereria, sarna, pediculose, larva migrans. Não atravessa BHE intacta em doses terapêuticas (segurança em humanos).",
+    "fk": "VO: biodisponibilidade aumenta com alimento gorduroso. Distribuição ampla (Vd ≈ 46 L/kg). Meia-vida ≈ 12–16 h. Metabolismo hepático; eliminação fecal.",
+    "fisio": "Estrongiloidíase: Strongyloides stercoralis penetra pele, migra pelos pulmões e matura no intestino. Em imunossuprimidos, hiperinfecção maciça. A ivermectina paralisa larvas e adultos, interrompendo ciclo de autoinfecção."
+  },
+  "levotiroxina": {
+    "moa": "Hormônio tireoidiano (T4): pró-hormônio convertido a T3 ativo (por deiodinases); T3 liga-se a receptores nucleares TR → regula expressão gênica de proteínas metabólicas, cardíacas e do SNC.",
+    "farma": "Reposição em hipotireoidismo e tireoidite de Hashimoto. Supressão de TSH em carcinoma diferenciado de tireoide. Janela terapêutica estreita: titular por TSH.",
+    "fk": "VO: biodisponibilidade ≈ 40–80% (em jejum). T½ ≈ 7 dias. Ligação proteica ≈ 99,97% (TBG/albumina). Conversão periférica T4→T3.",
+    "fisio": "Hipotireoidismo: deficiência de T3 reduz taxa metabólica basal, síntese de proteínas e velocidade de condução neural. A reposição de T4 restaura todas as vias dependentes de hormônio tireoidiano."
+  },
+  "losartana": {
+    "moa": "Antagonista do receptor AT₁ da angiotensina II (BRA): bloqueia vasoconstrição e liberação de aldosterona mediadas por Ang II sem afetar degradação de bradicinina (sem tosse seca).",
+    "farma": "Anti-hipertensivo, nefroprotetor em nefropatia diabética, IC sistólica (alternativa a IECA). Uricosúrico leve (bloqueia reabsorção de urato no URAT1).",
+    "fk": "VO: biodisponibilidade ≈ 33%; metabolito ativo EXP3174 (10× mais potente). Meia-vida losartana ≈ 2 h; EXP3174 ≈ 6–9 h. Metabolismo hepático (CYP2C9/3A4).",
+    "fisio": "Nefropatia diabética: Ang II causa hipertensão glomerular (vasoconstrição eferente) e fibrose intersticial. O bloqueio AT₁ dilata a arteríola eferente, reduzindo proteinúria e progressão da doença renal."
+  },
+  "metronidazol_vo": {
+    "moa": "Idêntico ao metronidazol EV: reduzido intracelularmente por ferredoxina a radicais nitro que alkylam DNA de anaeróbios e protozoários.",
+    "farma": "Tricomoníase, giardíase, amebíase, C. difficile, vaginose bacteriana, H. pylori (combinado). Alta biodisponibilidade oral (> 90%) — equivalente à EV.",
+    "fk": "VO: biodisponibilidade ≈ 90%; Tmax ≈ 1–2 h. Vd ≈ 0,85 L/kg. Meia-vida ≈ 8 h. Metabolismo hepático.",
+    "fisio": "Giardia lamblia: parasito flagelado que coloniza duodeno → absorção deficiente de gorduras/vitaminas. O metronidazol é ativado pela ferredoxina do Giardia, alkylando seu DNA e causando morte celular."
+  },
+  "omeprazol_vo": {
+    "moa": "IBP oral: mesma ação — pró-fármaco ativado em pH ácido → sulfenamida liga irreversivelmente H⁺/K⁺-ATPase parietal.",
+    "farma": "Úlcera péptica, DRGE, H. pylori (tríplice terapia), Zollinger-Ellison. Dose em jejum 30–60 min antes do café para máxima eficácia. CYP2C19 polimórfico afeta resposta.",
+    "fk": "VO: biodisponibilidade ≈ 35–65% (variável por CYP2C19). Tmax ≈ 1–3 h. Meia-vida ≈ 0,5–1 h (efeito duradouro por ligação irreversível). Metabolismo hepático.",
+    "fisio": "DRGE: relaxamento transitório do EEI → refluxo de ácido → esofagite. O omeprazol aumenta pH gástrico, reduzindo lesão ácida da mucosa esofágica e promovendo cicatrização."
+  },
+  "oseltamivir": {
+    "moa": "Inibidor de neuraminidase influenza (N1–N9): bloqueia a enzima que cliva o ácido siálico nas células hospedeiras, impedindo liberação e disseminação de novas partículas virais.",
+    "farma": "Ativo contra Influenza A e B; inicia em até 48 h dos sintomas (reduz duração em 1–2 dias e hospitalizações). Profilaxia pós-exposição.",
+    "fk": "VO: pró-fármaco ativado por hidrólise hepática (oseltamivir carboxilato). Meia-vida ≈ 6–10 h. Eliminação renal (ajustar em ClCr < 30).",
+    "fisio": "Influenza: o vírus replica no epitélio respiratório; a neuraminidase libera novos vírions para infectar células adjacentes. A inibição de neuraminidase forma agregados virais que não disseminam."
+  },
+  "prednisona": {
+    "moa": "Pró-fármaco convertido a prednisolona (ativo) pelo fígado. Glicocorticoide sintético (4× hidrocortisona): ativa GR-α → suprime NF-κB, AP-1 e síntese de citocinas/COX-2. Efeito mineralocorticoide leve.",
+    "farma": "Anti-inflamatório e imunossupressor oral. Usado em doenças autoimunes, asma, nefrotic syndrome, alergias graves, SRIS. Retirada gradual para evitar insuficiência adrenal.",
+    "fk": "VO: absorção rápida; convertida a prednisolona (Tmax ≈ 1–2 h). Meia-vida biológica prednisolona ≈ 12–36 h. Metabolismo hepático.",
+    "fisio": "Síndrome nefrótica: dano aos podócitos → perda seletiva de proteínas. A prednisona suprime inflamação e ativação imune mediada por células T que lesionam a barreira de filtração glomerular."
+  },
+  "propranolol": {
+    "moa": "Betabloqueador não-seletivo β₁/β₂: reduz FC e inotropismo (β₁), bloqueia taquicardia de estresse e tremor (β₂). Também bloqueia produção de renina (β₁ justa-glomerular).",
+    "farma": "Anti-hipertensivo, antiarrítmico (classe II), antianginoso, profilaxia de enxaqueca, tremor essencial, hipertireoidismo (controla sintomas). Contraindicado em DPOC/asma.",
+    "fk": "VO: alta extração hepática (70%); biodisponibilidade variável (25–35%). Tmax ≈ 1–2 h. Meia-vida ≈ 3–5 h. Metabolismo hepático (CYP2D6/1A2).",
+    "fisio": "Fibrilação atrial: condução AV acelerada por tônus simpático eleva FC ventricular. O propranolol bloqueia receptor β₁ do nó AV → aumenta período refratário → reduz resposta ventricular."
+  },
+  "sildenafila": {
+    "moa": "Inibidor seletivo de PDE5: bloqueia degradação do GMPc → relaxamento de músculo liso vascular (vasodilatação arteriolar pulmonar e peniana) pela via NO/GC/GMPc.",
+    "farma": "Hipertensão arterial pulmonar (HAP) — reduz RVP e melhora capacidade funcional. Disfunção erétil (uso sob demanda). Sensibiliza para efeito hipotensor de nitratos (contraindicação).",
+    "fk": "VO: biodisponibilidade ≈ 40% (metabolismo de primeira passagem). Tmax ≈ 1 h. Meia-vida ≈ 4 h. Metabolismo hepático (CYP3A4/2C9).",
+    "fisio": "HAP: hiperproliferação de CML pulmonar e disfunção endotelial reduzem produção de NO. O GMPc acumulado com sildenafila dilata arteríolas pulmonares e inibe proliferação de CML."
+  },
+  "domperidona": {
+    "moa": "Antagonista D2 periférico (não atravessa BHE de forma significativa): bloqueia D2 nos plexos mioentéricos e CTZ → pró-cinético gástrico e antiemético sem efeitos extrapiramidais centrais.",
+    "farma": "Antiemético e pró-cinético em gastroparesia, refluxo, náusea por L-dopa. Risco de prolongamento de QT em doses altas ou combinação com inibidores de CYP3A4 (EMA restringiu).",
+    "fk": "VO: biodisponibilidade ≈ 15% (metabolismo de primeira passagem extenso). Tmax ≈ 0,5–1 h. Meia-vida ≈ 7 h. Metabolismo hepático (CYP3A4).",
+    "fisio": "Gastroparesia diabética: neuropatia autonômica do plexo mioentérico → disfunção do esvaziamento gástrico. A domperidona restaura contrações antrais coordenadas via bloqueio D2 no plexo."
+  },
+  "prednisolona": {
+    "moa": "Glicocorticoide ativo (metabolito ativo da prednisona): ativa GR-α → suprime inflamação (COX-2, citocinas, VEGF). Mais solúvel em água que prednisona → indicada em crianças (suspensão).",
+    "farma": "Crise asmática, síndrome nefrótica, laringite, exacerbações autoimunes em pediatria. Formulação infantil em suspensão oral. Menor metabolismo de primeira passagem que prednisona.",
+    "fk": "VO: biodisponibilidade ≈ 80%. Tmax ≈ 1–2 h. Meia-vida plasmática ≈ 3,5 h; biológica ≈ 18–36 h. Metabolismo hepático.",
+    "fisio": "Croup (laringite subglótica): edema inflamatório da subglote por parainfluenza → estridor e tiragem. A prednisolona suprime edema mucoso via GR-α em 6–12 h, reduzindo necessidade de intubação."
+  },
+  "smx_tmp_susp": {
+    "moa": "Mesma do SMX-TMP EV: bloqueio sequencial do folato bacteriano (dihidropteroato sintase + dihidrofolato redutase). Bactericida sinergístico.",
+    "farma": "Forma pediátrica em suspensão. Indicações: ITU, otite, bronquite, Pneumocystis (profilaxia e tratamento em pediatria), toxoplasmose congênita (sulfadiazina preferida).",
+    "fk": "VO: biodisponibilidade SMX ≈ 100%, TMP ≈ 90%. Tmax ≈ 1–4 h. Meia-vida TMP ≈ 10 h, SMX ≈ 9 h. Eliminação renal.",
+    "fisio": "Infecção urinária recorrente em crianças: E. coli uropatogênica com fímbrias P adere ao uroepitélio. O SMX-TMP elimina bactérias perineal e urinária, quebrando ciclo de reinfecção ascendente."
+  },
+  "ambroxol_adulto": {
+    "moa": "Secretolítico e surfactante: aumenta síntese de fosfatidilcolina e secreção de surfactante por pneumócitos tipo II; estimula movimento ciliar; reduz viscosidade do muco por hidrólise de pontes dissulfeto.",
+    "farma": "Mucolítico e expectorante. Profilaxia de SDR neonatal (via materna). Anestésico local leve (bloqueia Na⁺ em fibras nociceptivas — reduz tosse e dor faríngea).",
+    "fk": "VO: biodisponibilidade ≈ 70%. Vd ≈ 7 L/kg (concentra em pulmão). Meia-vida ≈ 10 h. Metabolismo hepático; eliminação renal.",
+    "fisio": "DPOC com hipersecreção: células caliciformes hiperplásicas produzem muco viscoso que obstrui brônquios. O ambroxol fluidifica muco e melhora depuração mucociliar, reduzindo exacerbações infecciosas."
+  },
+  "dexclorfeniramina": {
+    "moa": "Anti-histamínico H1 de 1ª geração (cloro-substituído): antagonista competitivo de H1 periférico e central → reduz vasodilatação, prurido, hipersecreção e broncoespasmo histamínico.",
+    "farma": "Antialérgico e antiprurido. Efeito sedativo significativo (atravessa BHE). Anticolinérgico leve. Usado em rinite alérgica, urticária e prurido. Precaução em crianças pequenas.",
+    "fk": "VO: absorção rápida; Tmax ≈ 2–3 h. Vd ≈ 250 L (ampla distribuição). Meia-vida ≈ 25 h. Metabolismo hepático.",
+    "fisio": "Urticária alérgica: IgE-sensibilizados → reexposição ao alérgeno → desgranulação de mastócitos → histamina → vasodilatação e prurido via H1 dérmico. O bloqueio H1 atenua eritema e prurido."
+  },
+  "hidroxizina": {
+    "moa": "Anti-histamínico H1 de 1ª geração + antagonista muscarínico leve + ansiolítico (mecanismo não totalmente elucidado — possível modulação de receptores 5-HT e GABA).",
+    "farma": "Antialérgico, ansiolítico (ansiedade aguda e pré-operatória), antiprurido. Sedativo. EMA restringe doses por risco de QT (cuidado com combinações). Não recomendado < 6 meses.",
+    "fk": "VO: biodisponibilidade ≈ 80%. Tmax ≈ 2 h. Meia-vida ≈ 20 h. Metabolismo hepático → cetirizina (metabolito ativo).",
+    "fisio": "Ansiedade aguda: hiperatividade do sistema límbico (amígdala). A hidroxizina tem ação sedativa central via bloqueio H1 e possível modulação GABAérgica, induzindo calma sem dependência."
+  },
+  "lactulose": {
+    "moa": "Dissacarídeo não absorvível (galactose-frutose): metabolizado por bactérias colônicas a ácidos orgânicos (acetato, propionato, butirato) → acidificação luminal → catarse osmótica; NH₃ converte-se a NH₄⁺ (não absorvível).",
+    "farma": "Laxante osmótico em constipação funcional. Encefalopatia hepática: reduz produção e absorção de NH₃ intestinal (acidificação fecal).",
+    "fk": "VO: não absorvida no intestino delgado; fermentada no cólon. Início de ação: 24–48 h (constipação); para EH, titular pelo ritmo fecal.",
+    "fisio": "Encefalopatia hepática: insuficiência hepática → NH₃ não convertido a ureia → NH₃ cruza BHE → edema astrocitário e disfunção GABAérgica. A lactulose acidifica o cólon, aprisionando NH₃ como NH₄⁺."
+  },
+  "salbutamol_xpe": {
+    "moa": "Agonista β₂-adrenérgico oral: relaxamento muscular liso brônquico via AMPc/PKA. Efeito broncodilatador menor que inalatório (menor concentração local e mais efeitos sistêmicos).",
+    "farma": "Broncodilatador oral de resgate em asma (quando inalatório não disponível). Tocolítico oral (relaxa útero). Maior risco de tremor e taquicardia vs. inalatório.",
+    "fk": "VO: biodisponibilidade ≈ 50% (metabolismo de primeira passagem). Tmax ≈ 2–3 h. Meia-vida ≈ 5–6 h. Metabolismo hepático (sulfatação).",
+    "fisio": "Asma moderada persistente: hiperresponsividade brônquica a estímulos inflamatórios. O salbutamol oral atua sistemicamente, atingindo receptores β₂ de vias aéreas mais periféricas que o inalatório."
+  },
+  "loratadina": {
+    "moa": "Anti-histamínico H1 de 2ª geração (não sedativo): antagonista seletivo de H1 periférico com mínima penetração na BHE → antialérgico sem sedação significativa.",
+    "farma": "Rinite alérgica, urticária crônica, conjuntivite alérgica. Dose única diária. Sem efeito anticolinérgico. Seguro em crianças ≥ 2 anos.",
+    "fk": "VO: metabolizado a desloratadina (ativo). Tmax ≈ 1–2 h (desloratadina: ≈ 3 h). Meia-vida ≈ 8 h (desloratadina ≈ 28 h). Metabolismo hepático (CYP3A4/2D6).",
+    "fisio": "Rinite alérgica: sensibilização → IgE em mastócitos nasais → alérgeno → histamina H1 → vasodilatação, hipersecreção, prurido nasal. A loratadina bloqueia H1 sem sedação central."
+  },
+  "dexametasona_elixir": {
+    "moa": "Mesma da dexametasona EV: glicocorticoide de alta potência (25×) ativa GR-α → suprime NF-κB e AP-1 → anti-inflamatório potente. Formulação oral/elixir para uso pediátrico.",
+    "farma": "Laringite subglótica (croup), asma grave, síndrome nefrótica, meningite bacteriana oral. Formulação palatável para crianças. Dose única em croup é altamente eficaz.",
+    "fk": "VO: biodisponibilidade ≈ 80%. Tmax ≈ 1–2 h. Meia-vida biológica ≈ 36–54 h (dose única). Metabolismo hepático.",
+    "fisio": "Croup: edema subglótico inflamatório causa estridor e dispneia. A dexametasona oral suprime edema em 6 h; em dose única DM 0,6 mg/kg VO, equivale à dexametasona IM para desfechos clínicos."
+  },
+  "beclometasona_neb": {
+    "moa": "Glicocorticoide inalatório: ativação local de GR-α no epitélio brônquico → suprime transcrição de IL-4, IL-5, IL-13 e VEGF → reduz eosinofilia e remodelamento brônquico.",
+    "farma": "Corticoide inalatório (CI) de manutenção em asma. Nebulização em crianças pequenas. Menor biodisponibilidade sistêmica vs. oral → menos efeitos adversos sistêmicos.",
+    "fk": "Inalatório: > 90% da dose deglutida (metabolismo extenso, primeira passagem — baixa absorção sistêmica). Fração inalada → absorção pulmonar. Meia-vida ≈ 15 h (17-BMP ativo).",
+    "fisio": "Asma alérgica: IL-5 e IL-13 recrutam eosinófilos e promovem hipersecreção muco/hipertrofia glandular. A beclometasona suprime esse eixo Th2, reduzindo inflamação crônica e hiperresponsividade."
+  },
+  "ipratropio": {
+    "moa": "Antagonista muscarínico inalatório (anticolinérgico quaternário): bloqueia receptores M3 do músculo liso brônquico e glândulas submucosas → broncodilatação e redução de secreções.",
+    "farma": "Broncodilatador de manutenção em DPOC. Combinado com salbutamol em crise asmática grave (sinergismo). Início mais lento, mas duração maior que SABA.",
+    "fk": "Inalatório: < 1% absorção sistêmica (amônio quaternário — não atravessa BHE). Início 15–30 min; pico 1–2 h; duração 4–6 h. Eliminação renal e biliar.",
+    "fisio": "DPOC: aumento do tônus colinérgico nas vias aéreas promove broncoconstrição e hipersecreção crônica. O ipratrópio antagoniza M3 brônquico, revertendo broncoconstrição colinérgica sem taquicardia."
+  },
+  "salbutamol_neb": {
+    "moa": "Agonista β₂-adrenérgico inalatório (nebulização): deposição nas vias aéreas → relaxamento de CML brônquica via AMPc/PKA. Máxima concentração local com mínima absorção sistêmica.",
+    "farma": "Broncodilatador de resgate (SABA) em crise asmática e DPOC. Nebulização contínua em crise grave. Hipocalemia em doses altas. Taquicardia reflexa por vasodilatação β₂.",
+    "fk": "Inalatório: 10–20% atinge vias aéreas distais. Início 5 min; pico 15–30 min; duração 4–6 h. Absorção parcial → meia-vida sistêmica ≈ 4–6 h.",
+    "fisio": "Crise asmática: broncoespasmo por CML hiperreativo → aprisionamento de ar → hipóxia. Salbutamol nebulizado dilata brônquios em minutos, revertendo limitação de fluxo e hipoxemia."
+  },
+  "salbutamol_spray": {
+    "moa": "Idêntico ao salbutamol nebulizado: agonista β₂ inalatório de curta ação. pMDI (inalador pressurizado) entrega partículas de 2–5 µm que penetram vias aéreas distais.",
+    "farma": "SABA de resgate em asma e DPOC. Melhor técnica de uso (com espaçador em crianças) aumenta deposição pulmonar de 10% para 30%. Dose por demanda.",
+    "fk": "Inalatório: 10–30% deposição pulmonar (com espaçador). Início 5 min; pico 15–30 min; duração 4–6 h.",
+    "fisio": "Broncoespasmo: contração súbita de CML → aumento de resistência de vias aéreas → dispneia. Partículas finas do pMDI atingem brônquios de 2ª–6ª ordem, onde ocorre o broncoespasmo."
+  },
+  "anfotericina_b": {
+    "moa": "Polieno antifúngico: liga-se ao ergosterol da membrana fúngica → formação de poros aquosos → extravasamento de K⁺, Mg²⁺ e pequenas moléculas → morte celular osmótica.",
+    "farma": "Fungicida de amplo espectro (Candida, Aspergillus, Cryptococcus, Mucor). Formulação deoxicolato (convencional) com alta nefrotoxicidade vs. lipossomal (menor toxicidade, maior custo).",
+    "fk": "EV: Vd ≈ 4 L/kg. Meia-vida inicial ≈ 24 h; terminal ≈ 15 dias (redistribuição). Eliminação renal lenta.",
+    "fisio": "Mucormicose em imunossuprimidos: Mucor invade vasos sanguíneos → trombose e infarto tecidual. Somente fungicidas como anfotericina (ativa contra Mucor) têm eficácia nessa infecção angioinvasiva."
+  },
+  "atracurio": {
+    "moa": "Bloqueador neuromuscular não-despolarizante benzilisoquinolinínio: antagonista competitivo de receptor nicotínico α na NMJ. Eliminação de Hofmann (degradação espontânea em pH/temperatura fisiológicos) + hidrólise por esterases plasmáticas → independente de fígado e rins.",
+    "farma": "Bloqueio neuromuscular em pacientes com insuficiência hepática ou renal (não acumula). Duração intermediária (20–45 min). Libera histamina (pode causar broncoespasmo e hipotensão) — cautela em asma.",
+    "fk": "EV: início 2–3 min; duração 20–45 min. Eliminação de Hofmann (temperatura e pH-dependente) + esterases plasmáticas. Metabolito laudanosina (neuroexcitatório em acúmulo — raro em doses clínicas).",
+    "fisio": "Bloqueio neuromuscular em insuficiência renal grave: a maioria dos BNMDs acumula em IRC/IHepática. O atracúrio é eliminado por vias extrahepáticas e extrarrenais (Hofmann + esterases), mantendo duração de ação previsível independentemente da função de órgãos."
+  },
+  "insulina_regular": {
+    "moa": "Insulina humana: liga-se ao receptor tirosina-quinase (IR) → fosforilação de IRS-1/2 → ativação de PI3K/Akt → translocação de GLUT4 para membrana celular → entrada de glicose.",
+    "farma": "Insulina de ação curta: controle glicêmico em DM1 e DM2, cetoacidose diabética, hipercalemia (desvia K⁺ para intracelular), nutrição parenteral. Também antídoto de hipercalemia.",
+    "fk": "SC: início 30 min; pico 2–4 h; duração 6–8 h. EV: início imediato; meia-vida ≈ 5 min (BIC). Metabolismo hepático/renal.",
+    "fisio": "CAD: deficiência de insulina → lipólise acelerada → ácidos graxos livres → corpos cetônicos (acetoacetato/β-hidroxibutirato) → acidose metabólica com AG elevado. A insulina suprime lipólise e gluconeogênese."
+  },
+  "insulina_nph": {
+    "moa": "Insulina isofânica (protamina + zinco): mesmo mecanismo (receptor IR/GLUT4), liberação lenta subcutânea pela cristalização com protamina → ação intermediária.",
+    "farma": "Insulina basal de ação intermediária: controle glicêmico em DM1 (combinada com regular) e DM2. Perfil mais irregular que análogos de longa ação (glargina).",
+    "fk": "SC: início 2–4 h; pico 4–10 h; duração 12–16 h. Suspensão opaca — necessita homogeneização antes do uso.",
+    "fisio": "DM1: destruição autoimune de células β → deficiência absoluta de insulina → hiperglicemia crônica → microangiopatia. A NPH fornece nível basal para suprimir gluconeogênese hepática noturna."
+  },
+  "glicerina_supositorio": {
+    "moa": "Laxante osmótico e irritante retal leve: hiperosmolaridade local atrai água para o reto e coloniza estímulo defecatório por irritação da mucosa e distensão.",
+    "farma": "Alívio rápido de constipação e facilitação de evacuação em pré-operatório, pós-parto, enema pré-colonoscopia. Efeito em 15–30 min.",
+    "fk": "Retal: absorção mínima sistêmica. Efeito local em 15–30 min.",
+    "fisio": "Constipação funcional: resíduo fecal duro retido no reto por inatividade peristáltica. A glicerina aumenta osmolaridade retal → influxo de água → amolecimento fecal e reflexo defecatório."
+  },
+  "anfotericina_lipossomal": {
+    "moa": "Idêntica à anfotericina B convencional (poros em ergosterol fúngico), porém encapsulada em lipossomas que direcionam a droga ao tecido infectado (macrófagos, fígado, baço) e reduzem contato com rim.",
+    "farma": "Fungicida de amplo espectro com perfil de segurança superior. Indicado em leishmaniose visceral, aspergilose invasiva, mucormicose e candidiase em pacientes com IR. Dose mais alta tolerável.",
+    "fk": "EV: Vd ≈ 131 L/kg (liberação lenta dos lipossomas). Meia-vida ≈ 100–153 h. Nefrotoxicidade drasticamente reduzida vs. convencional.",
+    "fisio": "Leishmaniose visceral: Leishmania donovani invade macrófagos do sistema retículo-endotelial (fígado, baço, medula). Os lipossomas de anfotericina são fagocitados por macrófagos, liberando droga diretamente no parasito."
+  },
+  "caspofungina": {
+    "moa": "Equinocandina: inibe β-1,3-glucano sintase (Fks1/Fks2) → depleção de glucano na parede fúngica → perda de integridade osmótica → lise. Alvo exclusivo de fungos (não existe em mamíferos).",
+    "farma": "Fungicida/fungistático contra Candida e Aspergillus. Resistência de C. glabrata/parapsilosis crescente (mutações Fks). Não ativo contra Cryptococcus ou Mucor.",
+    "fk": "EV: Vd ≈ 9,7 L/kg. Meia-vida ≈ 9–11 h. Metabolismo por hidrólise e acetilação (independente de CYP). Eliminação fecal.",
+    "fisio": "Candidemia em UTI: C. albicans forma biofilme em cateter central e dissemina. As equinocandinas agem na parede fúngica (ausente em células humanas) → baixa toxicidade e alta seletividade."
+  },
+  "linezolida": {
+    "moa": "Oxazolidinona: liga-se ao 23S rRNA (subunidade 50S) em sítio diferente de outros antibióticos, impedindo formação do complexo de iniciação ribossômica 70S → inibe síntese proteica.",
+    "farma": "Bacteriostático contra gram-positivos MDR: MRSA, VRE, Enterococcus resistente. Biodisponibilidade oral = EV (100%). Inibe MAO-A (interação com serotoninérgicos e simpatomiméticos).",
+    "fk": "VO/EV: Vd ≈ 40–50 L. Meia-vida ≈ 5–7 h. Metabolismo não-enzimático (oxidação). Eliminação renal (30% inalterado).",
+    "fisio": "MRSA: PBP2a mediada por mecA confere resistência a todos os beta-lactâmicos. A linezolida atua em sítio diferente (50S, pré-70S), sem afetar PBPs, sendo eficaz contra MRSA e VRE."
+  },
+  "micafungina": {
+    "moa": "Equinocandina: inibe β-1,3-glucano sintase (mesma classe da caspofungina). Excelente atividade contra Candida spp. e Aspergillus. Fungicida contra Candida.",
+    "farma": "Candidíase esofágica, candidemia, profilaxia em transplante de medula óssea. Menos interações medicamentosas que caspofungina. Aprovada para neonatos.",
+    "fk": "EV: Vd ≈ 0,39 L/kg. Meia-vida ≈ 15 h. Metabolismo hepático (sulfatação, sem CYP). Eliminação fecal.",
+    "fisio": "Candidíase disseminada em neonatos: imaturidade imune e barreiras mucosas permitem invasão por Candida de cateter/intestino. A micafungina destrói parede fúngica com mínima toxicidade sistêmica."
+  },
+  "polimixina_b": {
+    "moa": "Polipeptídeo catiônico: liga-se ao lipídeo A do LPS de gram-negativos, desorganiza a membrana externa e interna, causando lise celular osmótica. Bactericida rápido.",
+    "farma": "Reserva de última geração para gram-negativos MDR/XDR (Pseudomonas, Acinetobacter, Klebsiella produtoras de KPC). Nefrotoxicidade significativa. Monitorar pela AUC (TDM).",
+    "fk": "EV: ligação extensa a membranas. Meia-vida ≈ 12 h. Sem penetração em LCR. Eliminação renal.",
+    "fisio": "Infecções XDR por Acinetobacter: resistência pan-beta-lactâmica por OXA-carbapenemases. A polimixina B destrói a membrana externa independente das PBPs, sendo ativa onde todos os beta-lactâmicos falham."
+  },
+  "teicoplanina": {
+    "moa": "Glicopeptídeo: liga-se ao D-Ala-D-Ala terminal do peptidoglicano em crescimento → bloqueia transglicosilação e transpeptidação. Mecanismo idêntico à vancomicina, porém maior ligação lipofílica → maior persistência tecidual.",
+    "farma": "Gram-positivos (MRSA, Enterococcus), incluindo osteomielite e endocardite. Dose de ataque seguida de manutenção. TDM pelo vale (alvo ≥ 20 mg/L em infecções graves). Dose IM possível (vs. vancomicina).",
+    "fk": "EV/IM: alta ligação proteica (90–95%). Meia-vida ≈ 100–170 h. Eliminação renal inalterada. Concentra em osso.",
+    "fisio": "Osteomielite por MRSA: S. aureus invade osso cortical e esponjoso, formando abscesso (Brodie). A teicoplanina concentra-se em tecido ósseo (razão osso/soro ≈ 0,5–1), atingindo CIM no foco."
+  },
+  "tigeciclina": {
+    "moa": "Glicilciclina (tetraciclinco de 3ª geração): liga-se à subunidade 30S ribosomal com 5× maior afinidade que tetraciclinas; não é substrato de efflux ribossomal (resistência a tetraciclinas clássicas não se aplica).",
+    "farma": "Bacteriostático contra gram-positivos MDR, gram-negativos (exceto Pseudomonas e Proteus), anaeróbios. Aprovado em pneumonia hospitalar, infecções abdominais e pele. Reduz níveis de vancomicina.",
+    "fk": "EV: Vd ≈ 7–9 L/kg (concentra em tecidos — baixo nível sérico). Meia-vida ≈ 42 h. Eliminação biliar (59%) + renal.",
+    "fisio": "Infecções polimicrobianas abdominais MDR: flora mista gram-positiva, gram-negativa e anaeróbia. A tigeciclina inibe ribossomo de todos esses patógenos sem ser afetada pelos mecanismos de resistência clássicos."
+  },
+  "clorpromazina_inj": {
+    "moa": "Antipsicótico típico fenotiazínico: bloqueio D2 mesolímbico (antipsicótico), tuberoinfundibular (hiperprolactinemia), nigroestriatal (extrapiramidal); também bloqueia H1 (sedação), α₁ (hipotensão) e M1.",
+    "farma": "Antipsicótico de alta potência sedativa. Indicado em agitação psicomotora intensa e soluço intratável. Alta incidência de efeitos extrapiramidais e síndrome neuroléptica maligna.",
+    "fk": "EV/IM: Vd ≈ 20 L/kg; alta ligação proteica. Meia-vida ≈ 20–30 h. Metabolismo hepático extenso (> 100 metabolitos). Eliminação renal.",
+    "fisio": "Psicose aguda: hiperatividade dopaminérgica mesolímbica (D2) gera alucinações e delírios. A clorpromazina bloqueia D2, normalizando neurotransmissão dopaminérgica e reduzindo sintomas positivos."
+  },
+  "dexmedetomidina": {
+    "moa": "Agonista α₂-adrenérgico altamente seletivo (α₂:α₁ = 1600:1): ativa α₂ pré-sináptico no locus coeruleus → reduz liberação de noradrenalina → sedação, analgesia e simpatolíse sem depressão respiratória.",
+    "farma": "Sedação cooperativa em UTI e procedimentos (paciente mantém contato verbal). Reduz necessidade de opioides. Pode causar bradicardia e hipotensão. Sem efeito amnésico.",
+    "fk": "EV BIC: Vd ≈ 118 L. Meia-vida ≈ 2 h. Metabolismo hepático (glicoronidação/CYP). Eliminação renal.",
+    "fisio": "Sedação em UTI: agitação por dor/desconforto ativa sistema adrenérgico → piora hemodinâmica. A dexmedetomidina ativa α₂ do locus coeruleus, mimetizando sono fisiológico sem depressão do drive respiratório."
+  },
+  "diazepam_inj": {
+    "moa": "Benzodiazepínico: potencia GABA-A (receptor ionotrópico Cl⁻) → hiperpolarização neuronal → sedação, ansiolítico, miorrelaxante e anticonvulsivante. Ligação ao sítio benzodiazepínico (entre subunidades α e γ).",
+    "farma": "Estado de mal epiléptico, sedação procedural, abstinência alcoólica, relaxamento muscular. Absorção IM irregular → EV preferível na emergência.",
+    "fk": "EV: redistribuição rápida para SNC (início 2 min); redistribuição para gordura → duração clínica ≈ 30–60 min. Meia-vida ≈ 20–100 h (metabolito ativo desmetildiazepam).",
+    "fisio": "Estado de mal epiléptico: descarga neuronal sustentada por desequilíbrio excitatório-inibitório. O diazepam potencia GABA-A, aumentando condutância de Cl⁻ e hiperpolarizando membranas corticais."
+  },
+  "escetamina": {
+    "moa": "Antagonista não-competitivo do receptor NMDA (glutamato): bloqueia canal iônico NMDA → dissociação cortical-límbica (anestesia dissociativa). Também agonista opioide e anticolinesterásico leve.",
+    "farma": "Indução anestésica (preserva reflexos laríngeos e drive respiratório). Analgesia/sedação procedural em emergência. Broncodilatador (simpaticomiético indireto). Antidepressivo rapidamente ativo em subdoses.",
+    "fk": "EV: início 30–60 s; duração 5–15 min. IM: início 3–5 min; duração 15–30 min. Metabolismo hepático (norquetamina, ativo). Meia-vida ≈ 2–3 h.",
+    "fisio": "Anafilaxia refratária com broncoespasmo: histamina e leucotrienos contraem vias aéreas. A escetamina estimula liberação de catecolaminas endógenas → broncodilatação β₂, além do bloqueio NMDA que preserva ventilação."
+  },
+  "etomidato": {
+    "moa": "Hipnótico não-barbitúrico: potencia receptor GABA-A (sítio do etanol, distinção do sítio BDZ) → hiperpolarização → indução anestésica. Inibe 11β-hidroxilase → supressão adrenal transitória.",
+    "farma": "Indutor anestésico de curta duração para ISR em pacientes hemodinamicamente instáveis. Mínimo efeito cardiovascular (preserva PA e FC). Não usar para infusão contínua.",
+    "fk": "EV: início 30–60 s; duração 5–15 min. Meia-vida ≈ 3–5 h. Metabolismo hepático/plasmático (ésteres).",
+    "fisio": "ISR em trauma: hipotensão contraindica propofol/tiopental (depressão miocárdica). O etomidato não reduz PA (sem efeito β-adrenérgico), tornando-se indutor seguro em choque e insuficiência cardíaca grave."
+  },
+  "fenitoina_inj": {
+    "moa": "Anticonvulsivante classe Ib: bloqueia canais de Na⁺ voltagem-dependentes no estado inativo, prolongando período refratário → suprime descarga epiléptica. Antiarrítmico classe Ib (similar à lidocaína).",
+    "farma": "Estado de mal epiléptico (2ª linha após BDZ). Profilaxia de crises em trauma craniano. Infusão EV deve ser lenta (< 50 mg/min adultos) — risco de arritmia e hipotensão.",
+    "fk": "EV: Vd ≈ 0,6 L/kg; alta ligação proteica (90%). Meia-vida ≈ 22 h (saturável → não-linear em altas doses). Metabolismo hepático (CYP2C9/2C19).",
+    "fisio": "EME refratário a BDZ: fenitoína bloqueia canais de Na⁺ em neurônios epilépticos de forma uso-dependente, suprimindo focos de alta frequência sem deprimir consciência como os BDZs."
+  },
+  "fenobarbital_inj": {
+    "moa": "Barbitúrico: potencia e prolonga abertura do canal Cl⁻ do receptor GABA-A (aumenta duração, diferente de BDZ que aumenta frequência) + bloqueia receptores AMPA/kainato → sedação e anticonvulsivante.",
+    "farma": "EME neonatal (1ª linha), EME refratário em adultos. Longa meia-vida (duração de efeito maior que fenitoína). Sedação prolongada. Indutor potente de CYP.",
+    "fk": "EV: distribuição ampla (Vd ≈ 0,6 L/kg); boa penetração em LCR. Meia-vida ≈ 53–118 h. Metabolismo hepático (CYP2C9/3A4 — autoindutor).",
+    "fisio": "Convulsão neonatal: imaturidade do GABA (cloreto intracelular elevado → GABA excitador no neonato) dificulta BDZ. O fenobarbital independe da direção do Cl⁻ (aumenta duração de abertura do canal)."
+  },
+  "fentanil": {
+    "moa": "Opioide sintético: agonista µ-opioide potente (100× morfina); ligação a receptores µ no corno dorsal medular → inibição pré-sináptica de SP/CGRP e ativação pós-sináptica de canais K⁺ → analgesia e sedação.",
+    "farma": "Analgesia e sedação em UTI, anestesia (indução/manutenção), procedimentos (inalatório). Início rápido, curta duração (redistribuição). Sem liberação de histamina. Acumula com infusões prolongadas.",
+    "fk": "EV: início < 30 s; redistribuição (duração clínica 30–60 min). Meia-vida contexto-sensitiva (aumenta com duração de infusão). Metabolismo hepático (norfentanil). Vd ≈ 4 L/kg.",
+    "fisio": "Dor aguda intensa: nociceptores periféricos → fibras Aδ/C → corno dorsal → tálamo → córtex. O fentanil inibe transmissão nociceptiva medular, reduzindo resposta ao estresse cirúrgico sem perda cardiovascular."
+  },
+  "flumazenil": {
+    "moa": "Antagonista competitivo do receptor GABA-A no sítio benzodiazepínico: desloca BDZ sem ativar o receptor → reverte sedação e depressão respiratória por BDZ.",
+    "farma": "Reversão de sedação por BDZ pós-procedimento. Diagnóstico de overdose mista. Meia-vida mais curta que a maioria dos BDZ → ressedação possível após 1 h.",
+    "fk": "EV: início 1–2 min; pico 6–10 min; duração ≈ 1 h. Metabolismo hepático (CYP). Meia-vida ≈ 0,7–1,3 h.",
+    "fisio": "Overdose de BDZ: potenciação excessiva de GABA-A → hiperpolarização generalizada → depressão do drive respiratório. O flumazenil desloca BDZ do sítio alostérico, restaurando tônus GABAérgico normal."
+  },
+  "haloperidol_inj": {
+    "moa": "Antipsicótico típico butirofenonato: bloqueio potente e seletivo de D2 mesolímbico → controle de sintomas positivos (alucinações, agitação). Efeito extrapiramidal por bloqueio D2 nigroestriatal.",
+    "farma": "Agitação psicomotora intensa em emergência e UTI (IV/IM). Baixo efeito sedativo vs. benzodiazepínicos, mas controla comportamento disruptivo. Prolongamento de QT em altas doses.",
+    "fk": "IM: início 10–20 min; duração 4–8 h. Vd ≈ 21 L/kg. Meia-vida ≈ 14–26 h. Metabolismo hepático (CYP3A4/2D6).",
+    "fisio": "Delirium em UTI: hiperatividade dopaminérgica mesolímbica em contexto de inflamação sistêmica. O haloperidol normaliza via D2 sem deprimir respiração (diferente de BDZ), sendo preferível em DPOC/apneia."
+  },
+  "midazolam_inj": {
+    "moa": "Benzodiazepínico hidrossolúvel: potencia GABA-A (aumenta frequência de abertura do canal Cl⁻) → hiperpolarização → sedação, ansiolítico, amnésia anterógrada e anticonvulsivante.",
+    "farma": "Sedação procedural (colonoscopia, intubação), indução anestésica, sedação em UTI, EME refratário. Alta lipossolubilidade a pH fisiológico → penetração rápida em SNC. Amnésia anterógrada útil para procedimentos.",
+    "fk": "EV: início 1–3 min; pico 3–5 min. IM: início 5–15 min. Meia-vida 1,5–2,5 h (metabolito 1-OH-midazolam ativo). Metabolismo hepático (CYP3A4). Acúmulo em insuficiência hepática/renal.",
+    "fisio": "Agitação em UTI: hiperatividade adrenérgica/dopaminérgica por dor, delirium e ansiedade. O midazolam amplifica a ação do GABA endógeno no SNC, promovendo sedação dosável sem depressão cardiovascular significativa."
+  },
+  "morfina_02": {
+    "moa": "Opioide natural: agonista µ (principal) e κ opioide → inibição pré-sináptica de neurotransmissores excitatórios (substância P, glutamato) e ativação de canais K⁺ pós-sinápticos no corno dorsal → analgesia; liberação de histamina.",
+    "farma": "Morfina 0,2 mg/mL (diluída para pediatria): analgesia em dor moderada a intensa, sedação adjuvante, dispneia em ICC/DPOC terminal. Broncoconstrição por histamina em asmáticos.",
+    "fk": "EV: início 5–10 min; pico 15–30 min; duração 2–4 h. Metabolismo hepático (morfina-6-glucuronídeo — ativo e potente; acumula em IRC). Excreção renal.",
+    "fisio": "Dor pós-operatória pediátrica: nociceptores ativados por prostaglandinas/bradicinina → fibras Aδ/C → corno dorsal. Morfina bloqueia transmissão nociceptiva espinhal e ativa vias inibitórias descendentes periaquedutal."
+  },
+  "morfina_10": {
+    "moa": "Idêntico à morfina 0,2 mg/mL: agonismo µ-opioide com inibição nociceptiva espinhal e supraespinhal. Concentração 10 mg/mL para adultos/diluição hospitalar.",
+    "farma": "Dor oncológica, pós-operatória, IAM, dispneia em ICC descompensada. Formulação concentrada requer diluição antes de administração EV direta.",
+    "fk": "Farmacocinética idêntica à morfina: meia-vida 2–4 h; metabolito ativo morfina-6-glucuronídeo acumula em IRC; eliminação renal.",
+    "fisio": "IAM: dor intensa ativa sistema simpático → taquicardia e aumento de consumo O₂ miocárdico. Morfina reduz dor, ansiedade e pré-carga (vasodilatação venosa) → menor demanda O₂ no miocárdio isquêmico."
+  },
+  "naloxona": {
+    "moa": "Antagonista opioide puro: alta afinidade por receptores µ, κ, δ sem atividade intrínseca → desloca opioides endógenos e exógenos de forma competitiva → reversão rápida de depressão respiratória, sedação e miose.",
+    "farma": "Reversão de overdose de opioides (EV, IM, intranasal, SC). Meia-vida mais curta que a maioria dos opioides → ressedação possível → repetir doses ou infusão contínua.",
+    "fk": "EV: início < 2 min; duração 30–90 min. IM/intranasal: início 2–5 min. Metabolismo hepático (glucuronidação). Meia-vida ≈ 60–90 min.",
+    "fisio": "Overdose de opioides: agonismo µ excessivo → hiperpolarização neuronal em centros respiratórios do tronco cerebral → bradipneia/apneia. A naloxona desloca o opioide competitivamente, restaurando drive respiratório."
+  },
+  "remifentanil": {
+    "moa": "Opioide sintético de ultra-curta ação: agonista µ potente. Estrutura éster → hidrólise por esterases plasmáticas e teciduais inespecíficas → contexto-sensitivo extremamente curto independente de dose cumulativa.",
+    "farma": "Analgesia intraoperatória em infusão contínua. Despertar rápido ao suspender. Analgesia procedural em intubação acordado. Não acumula em IRC/IH (metabolismo por esterases). Hiperalgesia pós-operatória (upregulation NMDA).",
+    "fk": "EV: início 30 s; pico 1 min; meia-vida contexto-sensitiva ≈ 3–4 min independente de duração de infusão. Vd pequeno. Metabolismo esterásico extrahepático.",
+    "fisio": "Cirurgia em neuromonitorização: opioides de longa ação interferem na interpretação dos potenciais evocados. O remifentanil oferece analgesia profunda intraoperatória com recuperação em minutos, permitindo avaliação neurológica imediata."
+  },
+  "sugamadex": {
+    "moa": "Ciclodextrina γ modificada: encapsula bloqueadores neuromusculares esteroidais (rocurônio > vecurônio >> pancurônio) formando complexo estável 1:1 hidrossolúvel → remove-os da junção neuromuscular → reversão rápida de bloqueio.",
+    "farma": "Reversão de bloqueio neuromuscular por rocurônio ou vecurônio em qualquer profundidade (incluindo bloqueio profundo). Não reverte bloqueadores benzilisoquinolinínicos (atracúrio, cisatracúrio). Sem efeito colinérgico.",
+    "fk": "EV: início 2–3 min (dose alta); eliminação renal como complexo intacto; meia-vida ≈ 2 h. Contraindicado em TFG < 30 mL/min (acúmulo do complexo).",
+    "fisio": "Bloqueio neuromuscular residual pós-operatório: rocurônio ocupa receptores nicotínicos α na placa motora → bloqueio de transmissão neuromuscular. Sugamadex sequestra rocurônio no plasma, revertendo o gradiente de concentração e liberando receptores."
+  },
+  "tramadol_inj": {
+    "moa": "Opioide fraco: agonismo µ de baixa afinidade + inibição de recaptação de serotonina e noradrenalina (mecanismo monoaminérgico) → analgesia multimodal. Ativo também pelo metabolito O-desmetiltramadol (µ mais potente) via CYP2D6.",
+    "farma": "Dor moderada a intensa pós-operatória. Alternativa a opioides fortes. Menor risco de depressão respiratória. Reduz limiar convulsivo (contraindicado em epilépticos). Síndrome serotoninérgica em combinação com ISRS.",
+    "fk": "EV/IM: início 5–10 min; duração 4–6 h. Metabolismo hepático (CYP2D6 → M1 ativo; metabolizadores ultrarrápidos — risco de toxicidade). Meia-vida 5–7 h.",
+    "fisio": "Dor pós-operatória: ativação de nociceptores e sensibilização central via glutamato/NMDA. Tramadol atua no corno dorsal (µ) e inibe recaptação monoaminérgica (vias inibitórias descendentes noradrenérgicas e serotoninérgicas)."
+  },
+  "propofol": {
+    "moa": "Hipnótico intravenoso fenólico: potencia GABA-A (prolonga abertura do canal Cl⁻, semelhante ao etanol/barbitúrico) + bloqueia receptores NMDA + agonismo CB₁ (canabinóide). Inicia sedação/hipnose em < 1 min.",
+    "farma": "Indução e manutenção anestésica, sedação em UTI. Propriedades antiemética, anticonvulsivante (e paradoxalmente pró-convulsiva em altas doses). Formulação lipídica → contaminação bacteriana. PRIS (síndrome de infusão de propofol) em doses altas prolongadas.",
+    "fk": "EV: início 30–45 s; duração 5–10 min (redistribuição). Metabolismo hepático (glucuronidação) + extra-hepático. Vd ≈ 60 L/kg. Meia-vida contexto-sensitiva variável.",
+    "fisio": "Indução anestésica: hipnose requer supressão de atividade talamocortical. O propofol potencia GABA-A em neurônios talâmicos e reticulares, suprimindo a transmissão de informações sensoriais ao córtex."
+  },
+  "sevoflurano": {
+    "moa": "Anestésico halogenado inalatório: potencia GABA-A e glicina, inibe NMDA e canais de Na⁺ e Ca²⁺ → depressão do SNC reversível. Mecanismo preciso multifatorial (teoria de Meyer-Overton para solubilidade lipídica).",
+    "farma": "Indução e manutenção anestésica por inalação. Não-irritante para vias aéreas (ideal para indução pediátrica). Rápida recuperação (baixa solubilidade sangue:gás = 0,65). Metabolismo hepático mínimo (< 5%). Nefrotoxicidade teórica por composto A em circuito fechado.",
+    "fk": "CAM (concentração alveolar mínima) ≈ 2%. Baixa solubilidade sangue:gás → rápido equilíbrio alveolar-arterial. Eliminação principalmente pulmonar (expiração).",
+    "fisio": "Cirurgia pediátrica: criança acordada é angustiante para todos. Sevoflurano por máscara induz hipnose em 1–2 min sem necessidade de acesso venoso prévio, aproveitando baixa solubilidade para equilíbrio rápido e recuperação suave."
+  },
+  "tiopental": {
+    "moa": "Barbitúrico de ultra-curta ação: potencia e abre diretamente o canal Cl⁻ do GABA-A (mesmo mecanismo que fenobarbital, mas redistribuição lipídica rápida encurta a ação). Deprime córtex em altas doses → burst-suppression EEG.",
+    "farma": "Indução anestésica (amplamente substituído por propofol), EME refratário (coma barbitúrico), proteção cerebral em hipertensão intracraniana. Depressão cardiovascular marcada. Porfíria: contraindicado absoluto.",
+    "fk": "EV: início 30 s; redistribuição para músculo (duração clínica 5–10 min). Meia-vida terminal ≈ 6–12 h (acumula com doses repetidas). Metabolismo hepático.",
+    "fisio": "Hipertensão intracraniana refratária: O tiopental em altas doses reduz metabolismo cerebral (CMRO₂ em até 55%) → vasoconstrição reflexa → reduz FSC e PIC. Usado no coma barbitúrico quando outras medidas falharam."
+  },
+  "carbamazepina": {
+    "moa": "Anticonvulsivante iminodibenzenil: bloqueia canais de Na⁺ voltagem-dependentes no estado inativo (uso-dependente) → reduz disparos repetitivos de alta frequência → antiepiléptico e estabilizador de membrana neural.",
+    "farma": "Epilepsia focal e tônico-clônica generalizada, neuralgia do trigêmeo, transtorno bipolar. Indutor de CYP3A4 (autoindutor e induz metabolismo de outros fármacos). Monitorar hemograma (aplasia medular rara) e sódio (SIADH).",
+    "fk": "VO: absorção lenta e variável; biodisponibilidade ≈ 80%. Meia-vida inicial 25–65 h → reduz para 12–17 h por autoinduçao. Ligação proteica 75–90%. Metabolismo hepático (CYP3A4 → epoxi-CBZ, ativo).",
+    "fisio": "Epilepsia focal: descarga neuronal sustentada por ativação repetitiva de canais Na⁺ → propagação de foco epileptogênico. A CBZ estabiliza o estado inativo dos canais Na⁺, suprimindo disparos de alta frequência sem afetar atividade basal."
+  },
+  "clonazepam": {
+    "moa": "Benzodiazepínico: potencia GABA-A (aumenta frequência de abertura do canal Cl⁻) → hiperpolarização neuronal. Anticonvulsivante de amplo espectro, especialmente efetivo em crises mioclônicas e ausência.",
+    "farma": "Epilepsia (crise de ausência, mioclônica, akinética), síndrome de Lennox-Gastaut, ansiedade. Tolerância anticonvulsivante com uso crônico. Sedação e hipotonia como efeitos adversos.",
+    "fk": "VO: biodisponibilidade > 90%; meia-vida longa ≈ 18–50 h → dose única diária. Alta lipossolubilidade → ampla distribuição. Metabolismo hepático (CYP3A4).",
+    "fisio": "Crise mioclônica: disparos corticais sincronizados de alta frequência geram contrações musculares involuntárias. O clonazepam potencia o tônus GABAérgico no córtex e tálamo, interrompendo a hipersincronização neuronal."
+  },
+  "fenobarbital_vo": {
+    "moa": "Idêntico ao fenobarbital injetável: potencia e abre diretamente o canal Cl⁻ do GABA-A (prolonga duração de abertura) + bloqueia receptores AMPA → anticonvulsivante de amplo espectro e sedativo.",
+    "farma": "Epilepsia tônico-clônica, focal (2ª linha). Sedação em neonatos. Indutor potente de CYP → múltiplas interações. Síndrome de dependência com uso prolongado. Disponível em comprimidos (100 mg) e gotas.",
+    "fk": "VO: biodisponibilidade ≈ 90%; meia-vida ≈ 53–118 h → estado estável em 2–3 semanas. Ligação proteica 45–60%. Metabolismo hepático (CYP2C9, autoindutor).",
+    "fisio": "Epilepsia pediátrica crônica: hiperatividade neuronal por excesso glutamatérgico/deficit GABAérgico. Fenobarbital VO mantém nível plasmático estável (meia-vida longa) suprimindo disparos epileptiformes de forma contínua."
+  },
+  "haloperidol_vo": {
+    "moa": "Idêntico ao haloperidol injetável: bloqueio D2 mesolímbico → controle de psicose e agitação. Via oral para manutenção; início mais lento que IM.",
+    "farma": "Psicose aguda e crônica, síndrome de Tourette, delirium, agitação crônica. Controle de sintomas positivos. Risco de discinesia tardia com uso prolongado.",
+    "fk": "VO: biodisponibilidade ≈ 40–70% (metabolismo de 1ª passagem hepático). Meia-vida ≈ 14–26 h. Metabolismo CYP3A4/2D6.",
+    "fisio": "Psicose: hiperdopaminergia mesolímbica (neurônios A10 → núcleo accumbens) → alucinações e delírios. Haloperidol bloqueia D2 mesolímbico, reduzindo sintomas positivos; bloqueio nigroestriatal causa efeitos extrapiramidais."
+  },
+  "valproato": {
+    "moa": "Anticonvulsivante com múltiplos mecanismos: (1) inibe canais Na⁺ e Ca²⁺ T-type; (2) aumenta GABA por inibição de GABA-T (enzima de degradação) e estimulação da GAD (síntese); (3) inibe NMDA indiretamente.",
+    "farma": "Epilepsia generalizada (ausência, mioclônica, tônico-clônica), transtorno bipolar, profilaxia de enxaqueca. Monitorar hepatotoxicidade (risco máximo < 2 anos, especialmente em politerapia), hiperamonemia, trombocitopenia.",
+    "fk": "VO/EV: biodisponibilidade ≈ 100%. Meia-vida 6–16 h (reduzida por indutores). Alta ligação proteica (90%) — saturável. Metabolismo hepático (β-oxidação + glicoronidação). Nível terapêutico 50–100 µg/mL.",
+    "fisio": "Epilepsia de ausência: oscilações tálamo-corticais a 3 Hz mediadas por canais Ca²⁺ T-type em neurônios talâmicos reticulares. Valproato bloqueia esses canais e aumenta GABA → quebra os ciclos oscilatórios patológicos."
+  },
+  "levetiracetam": {
+    "moa": "Anticonvulsivante com mecanismo único: liga-se à proteína vesicular sináptica SV2A → modula liberação de neurotransmissores (reduz exocitose excessiva) + bloqueia correntes Ca²⁺ N-type + reverte bloqueio de GABA/glicina por zinco.",
+    "farma": "Epilepsia focal (1ª linha), generalizada, crises mioclônicas juvenis. Menor interação medicamentosa (não indutor/inibidor enzimático, baixa ligação proteica). Eliminação renal → ajuste em IRC. Irritabilidade/alterações comportamentais como efeito adverso.",
+    "fk": "VO/EV: biodisponibilidade ≈ 100%; meia-vida ≈ 6–8 h. Ligação proteica < 10%. Metabolismo hidrolítico (não CYP) → mínima interação. Eliminação renal (66% inalterado).",
+    "fisio": "Epilepsia focal sintomática: neurônios epilépticos têm liberação vesicular aumentada de glutamato. Levetiracetam liga-se à SV2A da vesícula sináptica → reduz probabilidade de exocitose excessiva sem afetar transmissão normal."
+  },
+  "ursodesoxicolico": {
+    "moa": "Ácido biliar hidrofílico: substitui ácidos biliares hidrofóbicos tóxicos no pool biliar (efeto de diluição); estabiliza membranas hepatocitárias e colangiocíticas; imunomodulador (reduz expressão HLA-DR em colangiócitos); colerético.",
+    "farma": "Colestase intra-hepática (CBP, CEP, colestase da gestação, colestase neonatal), dissolução de cálculos biliares de colesterol. Melhora enzimas hepáticas mas não cura a causa primária em colangiopatias autoimunes.",
+    "fk": "VO: absorção intestinal ≈ 70%; conjugação hepática com taurina/glicina; circulação êntero-hepática intensa. Meia-vida ≈ 3,5–5 dias (pool biliar). Eliminação fecal.",
+    "fisio": "Colestase neonatal: acúmulo de ácidos biliares hidrofóbicos (colato, deoxicolato) lesiona hepatócitos e colangiócitos por peroxidação lipídica e indução apoptótica. UDCA desloca esses ácidos tóxicos e estabiliza membranas."
+  },
+  "clobazam": {
+    "moa": "Benzodiazepínico 1,5-BDZ (não 1,4-BDZ clássico): potencia subunidade α₂ do GABA-A com menor afinidade por α₁ → perfil sedativo menor que diazepam; anticonvulsivante amplo espectro.",
+    "farma": "Epilepsia adjuvante (especialmente síndrome de Lennox-Gastaut), ansiedade. Menor sedação que outros BDZ (selectividade α₂). Tolerância anticonvulsivante pode desenvolver-se. Metabolito N-desmetilclobazam (ativo, meia-vida longa).",
+    "fk": "VO: biodisponibilidade ≈ 87%; meia-vida ≈ 36–42 h. Metabolito N-desmetilclobazam: meia-vida ≈ 71–82 h. Metabolismo hepático (CYP3A4/2C19).",
+    "fisio": "Síndrome de Lennox-Gastaut: epilepsia multifocal refratária por disfunção de redes GABAérgicas corticais e talâmicas. Clobazam restaura inibição GABAérgica com menor tolerância sedativa, sendo adjuvante preferido neste contexto."
+  },
+  "diazepam_vo": {
+    "moa": "Idêntico ao diazepam injetável: potencia GABA-A (aumenta frequência de abertura do canal Cl⁻). Via oral para uso crônico em ansiedade, espasmo muscular e epilepsia.",
+    "farma": "Ansiedade, espasmo muscular, epilepsia (adjuvante), abstinência alcoólica, uso crônico em espasticidade cerebral. Longa meia-vida → acúmulo em uso diário (risco de sedação excessiva em idosos).",
+    "fk": "VO: biodisponibilidade ≈ 100%; meia-vida ≈ 20–100 h. Metabolito ativo N-desmetildiazepam (meia-vida 36–200 h). Metabolismo hepático (CYP2C19/3A4). Alta lipossolubilidade.",
+    "fisio": "Espasticidade em paralisia cerebral: hipertonia espástica por lesão do NMS → redução de inibiçao GABAérgica nos circuitos da medula e tronco. Diazepam potencia GABA-A interneuronal nos circuitos espinhais, reduzindo tônus."
+  },
+  "fluoxetina": {
+    "moa": "ISRS: inibe seletivamente o transportador SERT da recaptação de serotonina na fenda sináptica → aumenta concentração sináptica de 5-HT → ativação de receptores pós-sinápticos 5-HT₁A/₂A e dessensibilização de autorreceptores 5-HT₁A (tempo de latência clínica 2–4 semanas).",
+    "farma": "Depressão maior (aprovada para crianças ≥ 8 anos), TOC, bulimia, transtorno de pânico. Meia-vida ultra-longa (e metabolito ativo norfluoxetina) → descontinuação sem tapering gradual. Inibidor potente de CYP2D6/3A4.",
+    "fk": "VO: biodisponibilidade ≈ 72%; meia-vida ≈ 1–6 dias. Norfluoxetina (ativo): meia-vida ≈ 4–16 dias. Ligação proteica 94%. Metabolismo hepático (CYP2D6/3A4).",
+    "fisio": "Depressão maior em adolescentes: hiposserotoninergia em circuitos amígdala-hipocampo-CPF pré-frontal → anedonia, humor deprimido, distorções cognitivas. Fluoxetina aumenta serotonina sináptica, promovendo neuroplasticidade (BDNF) com latência de semanas."
+  },
+  "lamotrigina": {
+    "moa": "Anticonvulsivante triazina: bloqueia canais Na⁺ e Ca²⁺ voltagem-dependentes no estado inativo (uso-dependente) → inibe liberação de glutamato (principal) e aspartato → antiepiléptico de amplo espectro e estabilizador de humor.",
+    "farma": "Epilepsia focal e generalizada (inclusive ausência), transtorno bipolar. Início lento (titulação gradual) para evitar síndrome de Stevens-Johnson/TENS (risco aumentado com titulação rápida ou associação ao valproato). Interações com VPA (dobra meia-vida) e indutores.",
+    "fk": "VO: biodisponibilidade ≈ 98%; meia-vida ≈ 25–33 h (sozinha), ≈ 60 h com VPA, ≈ 12 h com indutores. Metabolismo hepático (glucuronidação UGT1A4).",
+    "fisio": "Epilepsia com ausências: oscilações tálamo-corticais 3 Hz por canais Na⁺ e Ca²⁺ em neurônios talâmicos. Lamotrigina bloqueia esses canais e reduz liberação de glutamato nos circuitos corticotalâmicos, interrompendo os ciclos de ausência."
+  },
+  "lorazepam": {
+    "moa": "Benzodiazepínico: potencia GABA-A (aumenta frequência de abertura do canal Cl⁻) com alta afinidade pelo sítio BDZ. Menor Vd que diazepam → menor redistribuição → duração de ação anticonvulsivante mais previsível.",
+    "farma": "EME (1ª linha EV nos EUA/Europa), sedação procedural, ansiedade aguda. Menor redistribuição lipídica que diazepam → menor duração mas mais estável no SNC por mais tempo. Disponível EV, IM e SL.",
+    "fk": "EV: início 1–5 min; duração ≈ 12–24 h (menor redistribuição → sem a curta duração do diazepam). Meia-vida ≈ 10–20 h. Metabolismo hepático (glucuronidação, sem CYP).",
+    "fisio": "Estado de mal epiléptico: descarga sincrônica sustentada por loop excitatório autossustentado. O lorazepam potencia GABA-A nos focos epileptogênicos corticais com maior permanência (menor Vd) do que diazepam."
+  },
+  "metadona": {
+    "moa": "Opioide sintético: agonista µ e δ de longa ação + antagonista NMDA → analgesia multimodal (componente opioide + anti-hiperalgésico NMDA). Bloqueia canal hERG → prolongamento QT em altas doses.",
+    "farma": "Tratamento de dependência de opioides (substituição), dor oncológica crônica intensa. Meia-vida muito longa e variável → risco de acúmulo. Interações múltiplas (CYP3A4/2D6). Monitorar ECG (QTc).",
+    "fk": "VO: biodisponibilidade ≈ 80%; meia-vida ≈ 24–60 h (extremamente variável, 8–120 h). Alta ligação proteica (85%). Metabolismo hepático (CYP3A4/2D6/1A2). Eliminação fecal.",
+    "fisio": "Dependência de opioides: downregulation de receptores µ e hiperatividade adrenérgica durante abstinência. A metadona ocupa receptores µ com cinética lenta (evita euforia de pico) e bloqueia efeitos de outros opioides por competição."
+  },
+  "risperidona": {
+    "moa": "Antipsicótico atípico: antagonismo D2 mesolímbico + antagonismo 5-HT₂A → menor EPS que típicos; bloqueio α₁ → hipotensão; antagonismo H₁ → sedação; bloqueio D2 tuberoinfundibular → hiperprolactinemia.",
+    "farma": "Esquizofrenia, transtorno bipolar, irritabilidade no autismo (criança), síndrome de Tourette. Menor risco de EPS que haloperidol (bloqueio 5-HT₂A reduz bloqueio D2 nigroestriatal). Hiperprolactinemia, ganho de peso.",
+    "fk": "VO: biodisponibilidade ≈ 70%; meia-vida ≈ 20 h (incluindo 9-OH-risperidona ativo). Metabolismo CYP2D6 (9-OH-risperidona = paliperidona). Eliminação renal.",
+    "fisio": "Autismo com irritabilidade: hiperatividade mesolímbica dopaminérgica e serotoninérgica → comportamentos disruptivos. Risperidona bloqueia D2 e 5-HT₂A, normalizando vias de sinal nos circuitos límbicos sem a rigidez de antipsicóticos típicos."
+  },
+  "topiramato": {
+    "moa": "Anticonvulsivante com múltiplos mecanismos: (1) bloqueia canais Na⁺ voltagem-dependentes; (2) potencia GABA-A; (3) inibe receptores AMPA/kainato; (4) inibe anidrase carbônica (isoformas II e IV) → reduz pH neuronal. Único antiepiléptico que inibe neurônios excitatórios E ativa inibitórios.",
+    "farma": "Epilepsia focal e generalizada (tônico-clônica), síndrome de Lennox-Gastaut, enxaqueca (profilaxia), obesidade (off-label). Anorexia/perda de peso (inibição de anidrase pode contribuir). Nefrolitíase (hipocitratúria). Disfunção cognitiva (\"topiramato\").",
+    "fk": "VO: biodisponibilidade ≈ 80%; meia-vida ≈ 21 h. Baixa ligação proteica (15–41%). Metabolismo hepático moderado (CYP3A4). Eliminação renal (70% inalterado).",
+    "fisio": "Síndrome de Lennox-Gastaut: disfunção de múltiplas redes epileptogênicas por excesso glutamatérgico e déficit GABAérgico. Topiramato simultaneamente bloqueia AMPA/kainato (menos glutamato) e potencia GABA-A, atuando em dupla frente."
+  },
+  "ambroxol_ped": {
+    "moa": "Secretolítico: estimula células do epitélio brônquico a produzir surfactante pulmonar (fosfatidilcolina) → melhora clearance mucociliar; também reduz viscosidade do muco por despolimerização de redes de mucina e ativa β₂ indiretamente.",
+    "farma": "Expectorante/mucolítico em IVAS e pneumonia. Forma pediátrica (xarope 15 mg/5 mL). Pode antecipar maturação pulmonar fetal em prematuridade iminente (dose EV alta). Bem tolerado em crianças.",
+    "fk": "VO: biodisponibilidade ≈ 79%; meia-vida ≈ 10 h. Distribuição ampla (inclusive pulmão). Metabolismo hepático; eliminação renal.",
+    "fisio": "IVAS com tosse produtiva: muco viscoso hiperadsorvido nas células ciliadas impede clearance → estase de secreções → infecção secundária. Ambroxol estimula surfactante e despolimeriza mucina, tornando o muco menos aderente e mais facilmente eliminado."
+  },
+  "nistatina": {
+    "moa": "Antifúngico poliênico: liga-se ao ergosterol da membrana fúngica → forma poros → permeabilidade iônica aumentada (efluxo de K⁺, H⁺) → morte celular fúngica. Não absorvida sistemicamente por via oral → uso apenas local/tópico.",
+    "farma": "Candidíase oral (muguet), esofágica (neonatos), cutânea e de fraldas. Sem absorção sistêmica → segura em neonatos e gestantes. Suspensão oral, creme e supositório vaginal.",
+    "fk": "Via oral: absorção sistêmica negligenciável. Ação local no lúmen intestinal/mucosas. Eliminação fecal.",
+    "fisio": "Candidíase oral neonatal: Candida albicans supera o sistema imune imaturo e coloniza mucosas (eritema + placas brancas). Nistatina em suspensão oral age diretamente na mucosa, formando poros na membrana fúngica sem necessidade de absorção."
+  },
+  "oleo_mineral": {
+    "moa": "Laxante emoliente/lubrificante: não absorvível; lubrifica a superfície das fezes e a mucosa intestinal → facilita deslizamento fecal; retarda reabsorção de água pelas fezes → amolecimento fecal.",
+    "farma": "Constipação crônica (uso oral), impactação fecal (enema). Uso oral prolongado pode reduzir absorção de vitaminas lipossolúveis (A, D, E, K) e provocar pneumonia lipídica aspirativa (especialmente em lactentes/pacientes neurológicos).",
+    "fk": "Oral: absorção sistêmica mínima (< 5%); retido no lúmen intestinal. Eliminação fecal.",
+    "fisio": "Constipação por trânsito lento: fezes secas e compactadas por reabsorção excessiva de água. Óleo mineral forma filme lubrificante entre fezes e mucosa, reduzindo atrito e facilitando progressão, sem estimulação motora ativa."
+  },
+  "benzoilmetronidazol": {
+    "moa": "Pró-droga de metronidazol: hidrolisada por esterases intestinais a metronidazol → (após redução intraparasitária) forma radicais nitro → dano ao DNA do parasita (quebra de cadeia) → morte de protozoários e anaeróbios.",
+    "farma": "Giardíase, amebiase intestinal, tricomoníase, infecções anaeróbias. Formulação pediátrica (suspensão com sabor), melhor palatabilidade que metronidazol. Sem absorção oral relevante enquanto benzol → ação luminal preferencial.",
+    "fk": "VO: hidrólise intestinal a metronidazol; absorção rápida. Meia-vida metronidazol ≈ 6–10 h. Metabolismo hepático; eliminação renal.",
+    "fisio": "Giardíase: Giardia lamblia coloniza duodeno/jejuno (pH ácido), reduzindo radicais nitroimidazólicos a nitro-ânions por ferredoxinas anaeróbias → dano de DNA do parasita. O benzoilmetronidazol libera metronidazol no lúmen intestinal, local da infecção."
+  },
+  "glicerina_enema": {
+    "moa": "Laxante osmótico retal: glicerina hipertônica no reto cria gradiente osmótico → atrai água para lúmen retal → estimulação mecânica e lubrificação → reflexo de defecação em 5–20 min.",
+    "farma": "Constipação intestinal, esvaziamento retal antes de procedimentos, alívio de fecaloma. Via retal → ação local rápida sem absorção sistêmica significativa. Seguro para lactentes (microenema).",
+    "fk": "Retal: absorção sistêmica mínima. Ação local no reto. Início 5–20 min.",
+    "fisio": "Constipação com fecaloma retal: massa fecal ressecada e impactada impede a defecação reflexa. A glicerina hiper-osmolar atrai água, reidratando e amolecendo o bolo fecal, além de lubrificar a mucosa para facilitar a eliminação."
+  },
+  "hidroxido_aluminio": {
+    "moa": "Antiácido/adsorvente: neutraliza HCl gástrico (Al(OH)₃ + 3HCl → AlCl₃ + 3H₂O) → eleva pH gástrico; adsorve pepsina (inativa acima de pH 4); adsorve fosfato no intestino (usado em IRC para reduzir hiperfosfatemia).",
+    "farma": "Dispepsia, gastrite, úlcera péptica, esofagite de refluxo, hiperfosfatemia na IRC. Constipação como efeito adverso (Al³⁺ reduz motilidade intestinal). Reduz absorção de outros medicamentos por quelação.",
+    "fk": "VO: ação local; absorção sistêmica de Al³⁺ mínima (risco acúmulo em IRC). Início de ação imediato; duração 20–40 min em estômago vazio.",
+    "fisio": "Úlcera péptica: HCl + pepsina em pH ácido → erosão da mucosa gástrica. O hidróxido de alumínio neutraliza HCl elevando pH > 4 (pepsina inativa) → ambiente menos agressivo para cicatrização da mucosa."
+  },
+  "albendazol_susp": {
+    "moa": "Anti-helmíntico benzimidazólico: liga-se à β-tubulina do helminto (sítio distinto da tubulina humana) → inibe polimerização de microtúbulos → disfunção de transporte intracelular, absorção de glicose e reprodução → morte do parasita.",
+    "farma": "Ascaridíase, oxiurose, ancilostomíase, tricuríase, giardíase, larva migrans, neurocisticercose (sistêmica). Suspensão para crianças. Absorção aumentada com alimento gorduroso.",
+    "fk": "VO: absorção variável (< 5%), aumentada com refeição gordurosa; pró-droga → metabolito ativo albendazol sulfóxido (Cmáx 2–5 h; meia-vida ≈ 8–12 h). Metabolismo hepático. Boa penetração em cistos.",
+    "fisio": "Ascaridíase: Ascaris lumbricoides habita intestino delgado, competindo por nutrientes e causando obstrução. Albendazol depolimeriza microtúbulos do helminto, paralisando sua motilidade e capacidade de se manter no lúmen intestinal."
+  },
+  "amox_clav": {
+    "moa": "Aminopenicilina + inibidor de β-lactamase: amoxicilina inibe PBP → bloqueia transpeptidação da parede celular bacteriana (lise osmótica); clavulanato inibe suicidamente β-lactamases plasmídicas de Staphylococcus e gramnegativos → restaura atividade da amoxicilina.",
+    "farma": "Otite média aguda, sinusite, pneumonia, infecções de pele e tecidos moles, infecções urinárias. Amplia espectro para produtores de β-lactamase (S. aureus MSSA, H. influenzae, M. catarrhalis, E. coli). Diarreia/hepatotoxicidade mais comuns que com amoxicilina isolada.",
+    "fk": "VO: biodisponibilidade amoxicilina ≈ 90%; clavulanato ≈ 75%. Meia-vida ≈ 1 h. Eliminação renal (amoxicilina excretada ativa; ajuste em IRC).",
+    "fisio": "Otite média aguda: H. influenzae e M. catarrhalis (> 50% resistentes por β-lactamase) inflamam mucosa do ouvido médio. A amoxicilina sozinha falha nesses isolados; o clavulanato inibe a β-lactamase, restaurando a lise bacteriana."
+  },
+  "claritromicina_susp": {
+    "moa": "Macrolídeo: liga-se ao domínio V do 23S rRNA da subunidade 50S ribossomal → inibe translação proteica bacteriana → bacteriostático (bactericida em altas concentrações). Efeito anti-inflamatório adicional (inibe produção de IL-1, IL-6, TNF-α).",
+    "farma": "Suspensão pediátrica para faringoamigdalite, pneumonia atípica (Mycoplasma, Chlamydophila), otite, H. pylori (combinação). Eritema dérmico menos intenso que eritromicina.",
+    "fk": "VO: biodisponibilidade ≈ 50–55% (metabolismo 1ª passagem); meia-vida ≈ 3–7 h. Metabolito 14-OH-claritromicina (ativo, sinérgico). Metabolismo hepático CYP3A4 (inibidor moderado).",
+    "fisio": "Pneumonia atípica em crianças: Mycoplasma pneumoniae carece de parede celular → β-lactâmicos ineficazes. A claritromicina liga-se ao ribossoma 70S do Mycoplasma → para síntese proteica → bacteriostase + efeito imunomodulador na pneumonite intersticial."
+  },
+  "sro": {
+    "moa": "Reidratação oral: solução de sais (Na⁺, K⁺, Cl⁻, citrato) + glicose → co-transporte Na-glicose (SGLT1) no intestino ativa absorção de Na⁺ (1 Na⁺:1 glicose) → por osmose, agua segue passivamente. Citrato corrige acidose metabólica.",
+    "farma": "Diarreia aguda (prevenção e tratamento da desidratação), gastroenterite viral/bacteriana leve a moderada. OMS 2002: SRO de baixa osmolaridade (245 mOsm/L). Não para diarreia grave com vômito persistente ou depleção grave → SF EV.",
+    "fk": "Oral: absorção intestinal contínua via SGLT1; sem distribuição sistêmica como droga. Eletrólitos seguem cinética fisiológica após absorção.",
+    "fisio": "Diarreia secretora: toxinas bacterianas ativam adenilato-ciclase → cAMP → hipersecreção de Cl⁻ pelo CFTR → Cl⁻ arrasta Na⁺ e água para lúmen. O SRO usa o co-transporte SGLT1 (independente de cAMP) para absorver Na⁺ e glicose mesmo durante a diarreia secretora ativa."
+  },
+  "tcm": {
+    "moa": "Triglicerídeos de cadeia média (C6–C12): absorção direta pelo enterócito sem necessidade de micelas biliares → transporte portal (não linfático) → β-oxidação hepática rápida → corpos cetônicos (fonte energética para SNC). Contorna a via de absorção de TG de cadeia longa.",
+    "farma": "Suplemento nutricional em má-absorção (colestase, ressecção intestinal, fibrose cística, abetalipoproteinemia), dieta cetogênica (adjuvante em epilepsia refratária). Pode causar diarreia osmótica em altas doses.",
+    "fk": "Oral: absorção intestinal direta sem quilomícrons; transporte pela veia porta. Metabolismo mitocondrial hepático (β-oxidação rápida). Meia-vida muito curta.",
+    "fisio": "Colestase crônica: deficiência de sais biliares no lúmen intestinal impede formação de micelas → má-absorção de TG de cadeia longa e vitaminas lipossolúveis. TCM é absorvido independentemente de sais biliares, suprindo necessidade calórica lipídica."
+  },
+  "acido_ascorbico_gts": {
+    "moa": "Vitamina C: cofator de prolil e lisil-hidroxilase (síntese de colágeno), redutor de Fe³⁺→Fe²⁺ (melhora absorção intestinal de ferro não-heme), antioxidante (recicla vitamina E, glutationa), cofator da síntese de carnitina, catecolaminas e corticosteróides.",
+    "farma": "Prevenção e tratamento de escorbuto, adjuvante na suplementação de ferro (aumenta absorção), suporte imune (antioxidante). Gotas pediátricas para lactentes. Cálculos oxalato em doses muito altas.",
+    "fk": "VO: absorção saturable (vitamina C): biodisponibilidade ≈ 100% em doses fisiológicas; reduz em doses > 1 g. Eliminação renal (ácido oxálico e ácido ascórbico não metabolizado).",
+    "fisio": "Escorbuto: déficit de vitamina C → hidroxilação insuficiente de prolina/lisina → colágeno imaturo e instável → ruptura de capilares, sangramento de gengivas, petéquias e dificuldade de cicatrização. Reposição restaura hidroxilação e síntese de colágeno normal."
+  },
+  "bromoprida_gts": {
+    "moa": "Idêntico à bromoprida injetável: bloqueador D2 periférico e central (área postrema) → procinético gastrintestinal (aumenta tônus do esfíncter esofagiano inferior e peristaltismo gástrico) e antiemético.",
+    "farma": "Gotas pediátricas para náuseas, vômitos e dispepsia. Formulação oral mais lenta que EV. Risco de reações extrapiramidais agudas (distonia) mesmo com gotas, especialmente em lactentes.",
+    "fk": "VO: biodisponibilidade ≈ 80%; meia-vida ≈ 6 h. Metabolismo hepático; eliminação renal.",
+    "fisio": "Vômitos em crianças: irritação gástrica ativa aferentes vagais → zona gatilho quimiorreceptora (D2) → vômito. Bromoprida bloqueia D2 na área postrema (zona gatilho) e nos plexos gástricos, suprimindo o reflexo emetoide e acelerando o esvaziamento gástrico."
+  },
+  "dipirona_gts": {
+    "moa": "Idêntico à dipirona comprimido/injetável: inibição de COX-3 central (isoforma hipotalâmica) e inibição de síntese de prostaglandinas medulares → antipirético e analgésico. Ativação do sistema canabinóide endógeno espinhal pode contribuir para analgesia.",
+    "farma": "Gotas pediátricas para febre e dor leve a moderada. Início rápido (20–30 min). Discreta ação espasmolítica em musculatura lisa (útil em cólica renal). Agranulocitose (rara mas grave).",
+    "fk": "VO (gotas): absorção rápida; pró-droga hidrolisada a 4-metilaminoantipirina (4-MAA, ativo). Meia-vida 4-MAA ≈ 3 h. Eliminação renal.",
+    "fisio": "Febre em crianças: IL-1β/IL-6 ativam COX-3 hipotalâmica → PGE₂ → eleva set-point termorregulador. Dipirona inibe COX-3 central → PGE₂ reduz → set-point normaliza → febre cede sem antiperspiração forçada (diferente dos salicilatos)."
+  },
+  "ibuprofeno_gts": {
+    "moa": "AINE não-seletivo: inibição competitiva reversível de COX-1 e COX-2 → bloqueia síntese de prostaglandinas (PGE₂, PGI₂) → efeito antipirético, analgésico e anti-inflamatório. Ausência de ação antiplaquetária irreversível (diferente de AAS).",
+    "farma": "Gotas pediátricas para febre e dor. Antipirético mais potente que paracetamol. Cautela em lactentes < 3 meses, nefropatia e asma induzida por AINE.",
+    "fk": "VO (gotas): início 30–60 min; pico 1–2 h; duração 4–8 h. Biodisponibilidade ≈ 80%. Ligação proteica 99%. Metabolismo hepático (CYP2C9). Eliminação renal.",
+    "fisio": "Febre e dor em lactentes: COX-2 indutível em macrófagos/células endoteliais produz PGE₂ na barreira hematoencefálica → hipotálamo → febre e sensibilização nociceptiva. Ibuprofeno inibe COX-2 (anti-inflamatório/antipirético) e COX-1 (efeito gástrico/renal em uso prolongado)."
+  },
+  "metoclopramida_gts": {
+    "moa": "Idêntico à metoclopramida injetável: bloqueio D2 + antagonismo 5-HT₃ → antiemético central (área postrema) e procinético (aumenta tônus esfíncter esofagiano inferior e esvaziamento gástrico).",
+    "farma": "Gotas para lactentes/crianças com vômito e RGE. Alta sensibilidade a efeitos extrapiramidais em crianças pequenas (distonia aguda, opistótono) → dose e duração limitadas. Não recomendada < 1 ano por alguns guidelines.",
+    "fk": "VO (gotas): biodisponibilidade variável (30–100%); meia-vida 2,5–6 h. Metabolismo hepático; eliminação renal.",
+    "fisio": "Refluxo gastroesofágico pediátrico: hipotonia do esfíncter esofagiano inferior + esvaziamento gástrico lento → refluxo de ácido → esofagite e vômito. Metoclopramida tonifica o EEI (via D2 no plexo de Auerbach) e acelera peristaltismo gástrico."
+  },
+  "paracetamol_gts": {
+    "moa": "Analgésico/antipirético: inibição preferencial de COX-3 (isoforma de splicing de COX-1, hipotalâmica) + inibição de síntese de prostaglandinas em SNC em contexto de baixa concentração de peróxidos (diferente dos tecidos inflamados periféricos). Ativa vias serotoninérgicas descendentes e sistema endocanabinoide espinhal.",
+    "farma": "Primeira escolha para febre e dor leve a moderada em crianças (gotas 100 mg/mL). Boa tolerância gástrica. Hepatotoxicidade por overdose (> 150 mg/kg) → NAC como antídoto.",
+    "fk": "VO (gotas): início 30 min; pico 1 h; duração 4–6 h. Biodisponibilidade ≈ 90%. Metabolismo hepático (sulfatação e glucuronidação; < 5% via CYP2E1 → NAPQI, tóxico; detoxificado por GSH).",
+    "fisio": "Febre por infecção viral em lactentes: citocinas induzem COX-3 hipotalâmica → PGE₂ → eleva set-point de temperatura. Paracetamol inibe seletivamente COX-3 no ambiente de baixos peróxidos do SNC, reduzindo PGE₂ central e normalizando o set-point termorregulador."
+  },
+  "simeticona": {
+    "moa": "Antiespumante/carminativo: dimetilpolissiloxano inerte → reduz tensão superficial das bolhas de gás intestinal → coalescência de pequenas bolhas em bolhas grandes → eliminação mais fácil por eructação ou flato. Sem ação farmacológica sistêmica.",
+    "farma": "Flatulência, distensão abdominal, cólicas em lactentes (cólica do bebê), preparo para exames (reduz gás). Segura para uso em neonatos (inativa, não absorvível).",
+    "fk": "VO: não absorvida; permanece no lúmen intestinal; eliminada nas fezes. Sem metabolismo sistêmico.",
+    "fisio": "Cólica do lactente: acúmulo de gás intestinal por deglutição de ar e fermentação de lactose → distensão e dor. A simeticona reduz a tensão superficial das microbolhas gasosas, fundindo-as em bolhas maiores que são eliminadas mais facilmente, aliviando a distensão."
+  },
+  "sulfato_ferroso": {
+    "moa": "Suplementação de ferro: fornece Fe²⁺ (ferroso) → absorvido no duodeno/jejuno proximal via DMT-1 (divalent metal transporter 1) → incorporado à hemoglobina (hem) + ferritina e transferrina. Fe²⁺ mais absorvível que Fe³⁺ (férrico).",
+    "farma": "Anemia ferropriva, prevenção em prematuros e lactentes. Administrar em jejum (aumenta absorção); vitamina C co-administrada melhora absorção. Fezes enegrecidas (inofensivo). Constipação, náusea, desconforto gástrico.",
+    "fk": "VO: absorção duodenal variável (10–35%, aumenta na deficiência); pico plasmático 2–4 h. Ligado à transferrina → medula óssea. Eliminação mínima (ferro conservado por reciclagem de eritrócitos).",
+    "fisio": "Anemia ferropriva em lactentes: déficit de ferro → produção insuficiente de hemoglobina (hem requer Fe) → eritrócitos microcíticos hipocrômicos → redução de transporte de O₂. Suplementação de Fe²⁺ corrige o substrato para eritropoiese, restaurando síntese de hemoglobina."
+  },
+  "complexo_b_gts": {
+    "moa": "Complexo de vitaminas B (B1-tiamina, B2-riboflavina, B3-niacina, B5-pantotenato, B6-piridoxina): cofatores enzimáticos no metabolismo energético celular (ciclo de Krebs, cadeia respiratória, síntese de ácidos graxos, transamination), síntese de neurotransmissores e eritrócitos.",
+    "farma": "Prevenção e tratamento de deficiências de vitaminas B em lactentes/crianças, complemento nutricional, encefalopatia de Wernicke (B1), dermatite/glossite (B2/B3). Gotas para administração precisa em pediatria.",
+    "fk": "VO: absorção intestinal (vitaminas B hidrossolúveis); meia-vida curta; excreção renal de excesso. Sem acúmulo significativo (exceto B12).",
+    "fisio": "Deficiência de vitaminas B em desnutrição: tiamina → bloqueia decarboxilação oxidativa do piruvato (acúmulo de piruvato/lactato, neurotoxicidade). Riboflavina/niacina → falha nos complexos I e II da cadeia respiratória. O complexo B restaura cofatores essenciais para produção de ATP."
+  },
+  "kcl_xarope": {
+    "moa": "Reposição de potássio: K⁺ é o principal cátion intracelular; mantém potencial de repouso de membrana (equação de Nernst), atividade de Na⁺/K⁺-ATPase, excitabilidade muscular e cardíaca. Déficit → hipocalemia → hiperpolarização → fraqueza, paralisia e arritmias.",
+    "farma": "Hipocalemia (diuréticos, vômito, diarreia), suplementação em ICC/hipertensão (proteção cardíaca). KCl xarope oral; necessário diluir e não tomar em jejum (gastropatia). Nunca EV rápido (risco de fibrilação ventricular).",
+    "fk": "VO: absorção intestinal completa; K⁺ entra nas células via Na⁺/K⁺-ATPase estimulada por insulina. Eliminação renal regulada pela aldosterona.",
+    "fisio": "Hipocalemia por diuréticos: furosemida inibe NKCC2 → mais Na⁺ ao DTC → aldosterona retém Na⁺ trocando K⁺/H⁺ → hipocalemia + alcalose. K⁺ baixo reduz potencial de repouso celular → hiperpolarização → fraqueza e arritmias. KCl oral corrige gradualmente o pool K⁺ corporal."
+  },
+  "dexametasona_creme": {
+    "moa": "Corticosteroide tópico potência moderada: penetra no queratinócito → se liga ao receptor glucocorticoide (GR) → GR-ligado ativa genes anti-inflamatórios (lipocortina/anexina → inibe PLA2) e suprime genes inflamatórios (IL-1, IL-6, COX-2, TNF-α) → vasoconstrição, redução de edema e prurido.",
+    "farma": "Dermatites (de contato, atópica, seborreica), eczema, psoríase localizada. Tópico reduz risco sistêmico vs. dexametasona oral. Em face/pregas: menor potência preferível (risco de atrofia cutânea, estrias, rosácea, glaucoma periocular).",
+    "fk": "Tópico: absorção percutânea variável (1–35% dependendo de local, oclusão, integridade da pele). Metabolismo hepático; eliminação renal.",
+    "fisio": "Dermatite atópica: disfunção de barreira cutânea (filagrina deficiente) → entrada de alérgenos → resposta Th2 (IL-4, IL-13) → eosinofilia e IgE → prurido e inflamação. Dexametasona tópica inibe cascata inflamatória Th2, reduzindo citocinas, vasodilatação e prurido local."
+  },
+  "lidocaina_geleia": {
+    "moa": "Anestésico local de uso tópico/mucosa: bloqueia canais de Na⁺ voltagem-dependentes (estado inativo) nas fibras nervosas sensitivas → impede geração e condução do potencial de ação → anestesia local sem bloqueio motor significativo em concentrações tópicas.",
+    "farma": "Anestesia de mucosas (urológica, oral, otorrinolaringológica), lubrificação anestésica de sondas e tubos, fissura anal, estomatite. Geleia 2%. Absorção mucosa variável → risco de toxicidade sistêmica (SNC, cardíaca) em dose excessiva.",
+    "fk": "Tópico/mucosa: absorção variável (5–30%); início 2–5 min; duração 15–30 min. Metabolismo hepático (MEGX ativo). Meia-vida 1,5–2 h.",
+    "fisio": "Cateterismo uretral: manipulação mecânica ativa nociceptores uretrais (fibras Aδ e C) → dor aguda e espasmo do esfíncter externo. Lidocaína geleia instilada na uretra bloqueia canais Na⁺ das fibras sensitivas locais, suprimindo a transmissão nociceptiva antes do procedimento."
+  },
+  "miconazol_derm": {
+    "moa": "Antifúngico imidazólico tópico: inibe CYP51 (lanosterol-14α-desmetilase) fúngica → bloqueia conversão de lanosterol em ergosterol → ergosterol reduzido → alteração de permeabilidade da membrana fúngica → acúmulo de esteróis tóxicos → fungistático/fungicida.",
+    "farma": "Tinea pedis, tinea corporis, tinea cruris, candidíase cutânea (fraldas), pitiríase versicolor. Creme, pó, spray. Sem absorção sistêmica significativa em pele íntegra. Atividade antibacteriana adicional contra Gram-positivos.",
+    "fk": "Tópico: absorção percutânea mínima (< 1%); ação local. Metabolismo hepático (se absorvido).",
+    "fisio": "Candidíase de fraldas: oclusão e umidade favorecem Candida albicans → coloniza pele macerada → intertrigo. Miconazol inibe síntese de ergosterol da parede fúngica → membrana celular disfuncional → morte do fungo. Secagem local (pó) complementa o efeito antifúngico."
+  },
+  "miconazol_gin": {
+    "moa": "Idêntico ao miconazol dérmico: inibição de CYP51 fúngica → bloqueio da síntese de ergosterol → alteração de permeabilidade da membrana → fungistático/fungicida. Formulação intravaginal (creme, óvulo) para concentração local.",
+    "farma": "Candidíase vulvovaginal. Formulações de curta duração (1–3 dias) ou 7 dias. Reação local (ardor, prurido). Pode danificar preservativos de látex.",
+    "fk": "Intravaginal: absorção sistêmica ≈ 1–2%. Ação local na mucosa vaginal.",
+    "fisio": "Candidíase vaginal: disbiose vaginal → Candida albicans hifas colonizam mucosa → prurido, corrimento esbranquiçado e dispareunia. Miconazol destrói a membrana do fungo ao reduzir o ergosterol, eliminando colonização sem alterar a flora bacteriana normal."
+  },
+  "mupirocina": {
+    "moa": "Antibiótico tópico pseudomônico: inibição seletiva da isoleucil-tRNA sintetase bacteriana (ileS) → bloqueio da síntese proteica bacteriana. Mecanismo único (sem resistência cruzada com outros antibióticos). Bacteriostático em baixas concentrações, bactericida em altas.",
+    "farma": "Impetigo, infecções superficiais por S. aureus (incluindo MRSA), descolonização nasal de MRSA. Tópico (creme/pomada 2%). Resistência adquirida por transferência de plasmídeo (mupA).",
+    "fk": "Tópico: absorção percutânea mínima. Metabolismo cutâneo (isoleucil-tRNA sintetase tecidual cliva). Ação local.",
+    "fisio": "Impetigo por S. aureus: colonização epidérmica → toxinas exfoliativas e invasão superficial → bolhas e crostas melicéricas. Mupirocina inibe síntese proteica do S. aureus ao bloquear a aminoacil-tRNA sintetase, bactericida em concentração tópica, sem resistência cruzada com β-lactâmicos."
+  },
+  "neomicina_bacitracina": {
+    "moa": "Associação de antibióticos tópicos: neomicina (aminoglicosídeo) → bloqueia 30S ribossomal → erros de leitura do mRNA → proteínas defeituosas → bactericida; bacitracina → inibe desfosforilação do carreador lipídico C55-PP → bloqueia síntese da parede celular bacteriana.",
+    "farma": "Infecções cutâneas superficiais, prevenção de infecção em feridas leves, queimaduras superficiais. Espectro amplo (gram+ e gram-). Risco de dermatite de contato alérgica (neomicina: sensibilizador frequente). Toxicidade sistêmica rara (absorção mínima).",
+    "fk": "Tópico: absorção percutânea mínima em pele íntegra (aumenta em pele lesada). Ação local.",
+    "fisio": "Ferida cutânea contaminada: barreira epidérmica rompida → colonização por S. aureus, Streptococcus, E. coli. Neomicina (bactericida por erro de tradução ribossomal) + bacitracina (bloqueia síntese de parede celular) oferecem cobertura sinérgica gram-positiva e gram-negativa localmente."
+  },
+  "nistatina_zinco": {
+    "moa": "Combinação antifúngica + secante/barreira: nistatina (poliênico) liga-se ao ergosterol da membrana de Candida → poros → morte celular; zinco em pasta (óxido de zinco) forma barreira protetora oclusiva, reduz maceração e tem ação antiséptica leve.",
+    "farma": "Dermatite de fraldas por Candida (creme/pasta nistatina + óxido de zinco). Trata a infecção fúngica (nistatina) e protege a pele (zinco). Tópico, não absorvível sistemicamente.",
+    "fk": "Tópico: absorção sistêmica negligenciável para ambos os componentes. Ação local.",
+    "fisio": "Dermatite de fraldas fúngica: umidade/oclusão → maceração → ruptura de barreira cutânea → Candida coloniza e penetra. Nistatina elimina Candida (ergosterol); óxido de zinco forma camada protetora, reduz irritação por umidade e amônia da urina."
+  },
+  "oxido_zinco": {
+    "moa": "Dermatológico protetor/barreira: partículas de ZnO formam película oclusiva sobre a pele → protege contra umidade, fricção e irritantes; ação antiséptica leve (Zn²⁺ desnatura proteínas bacterianas); adstringente (precipita proteínas superficiais).",
+    "farma": "Dermatite de fraldas, assadura, prevenção de escaras, protetor solar (reflexão UV). Pasta, creme, pomada. Seguro em neonatos. Não cobre infecção ativa → associar antifúngico quando candidíase.",
+    "fk": "Tópico: absorção mínima. Ação mecânica e local.",
+    "fisio": "Dermatite de fraldas irritativa: contato prolongado de urina/fezes com pele → amônia e proteases fecais → eritema e erosão. ZnO cria barreira física entre a pele e os irritantes, enquanto o Zn²⁺ tem efeito antiséptico leve sobre a flora comensal patogênica local."
+  },
+  "zinco_vit_ad": {
+    "moa": "Suplemento combinado: zinco (cofator de > 300 enzimas, incluindo DNA/RNA polimerases, SOD, carbônica anidrase, metaloproteinases; imunidade — timulina, IL-2) + vitamina A (retinol: diferenciação epitelial, imunidade inata, fotopigmento rodopsina) + vitamina D (calcitriol: absorção de Ca²⁺, diferenciação imune — Treg).",
+    "farma": "Prevenção/tratamento de deficiências em desnutridos, crianças < 5 anos em países em desenvolvimento (OMS), diarreia persistente (suplementação de Zn encurta duração). Gotas pediátricas.",
+    "fk": "VO: zinco absorvido no intestino delgado (35% biodisponibilidade); retinol absorvido com gordura; vitamina D absorvida e ativada renalmente. Eliminações diversas.",
+    "fisio": "Desnutrição infantil: déficit de zinco → falha da timulina → linfopenia → infecções recorrentes; déficit de vitamina A → metaplasia escamosa das mucosas respiratória e digestiva → IVAS/diarreia; déficit de vit D → raquitismo + imunossupressão. A combinação aborda múltiplas deficiências simultâneas."
+  },
+  "creme_barreira": {
+    "moa": "Produto tópico barreira: combinação de emolientese (vaselina, lanolina, dimetilsiloxano) + agentes oclusivos → formam película hidrofóbica sobre a pele → reduzem perda transepidérmica de água (TEWL) → protegem contra irritantes externos (umidade, fricção, substâncias químicas).",
+    "farma": "Prevenção de dermatite de fraldas, proteção de estomas, pele perilesional de feridas, prevenção de escaras. Não cobre infecções: não é antifúngico nem antibiótico.",
+    "fk": "Tópico: ação mecânica de barreira; absorção sistêmica desprezível. Duração de ação relacionada à persistência da película.",
+    "fisio": "Pele perilesional de estoma: efluente intestinal/urinário altamente irritante → maceração e erosão da pele pericutânea por enzimas proteolíticas. O creme barreira forma filme oclusivo que impede o contato entre a pele e o efluente, permitindo cicatrização da derme."
+  },
+  "deltametrina": {
+    "moa": "Inseticida piretroide sintético: liga-se aos canais de Na⁺ voltagem-dependentes do sistema nervoso do inseto → prolonga abertura do canal → despolarização sustentada → hiperexcitabilidade → paralisia e morte do ectoparasita. Seletividade para insetos (menor afinidade pelos canais Na⁺ de mamíferos e metabolismo rápido).",
+    "farma": "Pediculose capitis (loção 0,02%), escabiose (loção ou creme). Aplicar no couro cabeludo ou pele, aguardar e lavar. Piretroide de 2ª geração com atividade superior ao lindano (sem neurotoxicidade sistêmica em doses terapêuticas).",
+    "fk": "Percutânea: absorção mínima (< 2%) em pele íntegra; metabolização cutânea e hepática (ésteres) a metabólitos inativos. Ação local sobre ectoparasitas.",
+    "fisio": "Pediculose: Pediculus humanus capitis (piolho) habita o couro cabeludo, alimenta-se de sangue e transmite ovos às hastes capilares. A deltametrina paralisa o inseto ao manter os canais Na⁺ abertos → despolarização sustentada → paralisia → morte, sem toxicidade sistêmica relevante no hospedeiro humano."
+  },
+  "permetrina": {
+    "moa": "Piretroide sintético: idêntico à deltametrina em mecanismo (bloqueio de canal Na⁺ de insetos/ácaros em estado aberto) → paralisia e morte do ectoparasita. Ação ovicida adicional (mata ovos de piolhos e Sarcoptes). Baixa toxicidade em mamíferos.",
+    "farma": "Pediculose (loção 1%), escabiose (creme 5% — 1ª linha). Aplicar da cabeça ao pés (escabiose) ou no couro cabeludo/cabelo (pediculose); aguardar 8–12 h; repetir em 7 dias. Mais eficaz que lindano e com menor toxicidade.",
+    "fk": "Percutânea: absorção < 2%; metabolismo por esterases cutâneas e hepáticas a metabólitos inativos. Eliminação renal.",
+    "fisio": "Escabiose: Sarcoptes scabiei var. hominis escava túneis na epiderme (camada córnea) → deposita ovos → resposta imune tipo IV → prurido intenso (piora à noite, por calor). Permetrina penetra no túnel escabiótico, paralisa o ácaro e ovos por bloqueio de Na⁺, erradicando a infestação."
+  },
+  "nacl_inal": {
+    "moa": "Solução salina inhalada (NaCl 0,9% ou hipertônica 3–7%): NaCl isotônico umedece vias aéreas e dissolve secreções (efeito osmótico); NaCl hipertônico cria gradiente osmótico no muco → atrai água para lúmen brônquico → hidrata e dilui o muco → melhora clearance mucociliar.",
+    "farma": "Bronquiolite (nebulização com SF 0,9%), fibrose cística (NaCl 7% hipertônico — 1ª linha adjuvante), IVAS com secreções espessas, higiene nasal. Hipertônico pode causar broncoespasmo → pré-medicar com broncodilatador.",
+    "fk": "Inalatória: ação local nas vias aéreas; absorção sistêmica de Na⁺ mínima. Muco hidratado eliminado por tosse/cilíaco.",
+    "fisio": "Bronquiolite: VRS infecta epitélio brônquico → necrose ciliar + hipersecreção de muco → tampões de muco → atelectasias e hiperinsuflação. Salina nebulizada umedece vias aéreas, reduz viscosidade do muco e facilita clearance pelo ciliar remanescente e pela tosse."
+  },
+  "tobramicina_colirio": {
+    "moa": "Aminoglicosídeo oftálmico: liga-se à subunidade 30S ribossomal → erros de leitura do mRNA → proteínas defeituosas → dano de membrana → bactericida contra gram-negativos (Pseudomonas, enterobactérias) e S. aureus.",
+    "farma": "Conjuntivite bacteriana, blefarite, úlcera de córnea. Colírio 0,3% (também pomada). Efetivo contra Pseudomonas aeruginosa (importante em usuários de lente de contato). Ototoxicidade e nefrotoxicidade sistêmicas irrelevantes na via oftálmica.",
+    "fk": "Oftálmica: absorção sistêmica mínima (< 1%). Ação local na conjuntiva e córnea.",
+    "fisio": "Conjuntivite bacteriana por Pseudomonas: gramnegativos aeróbios com múltiplos mecanismos de resistência → precisam de aminoglicosídeo. A tobramicina colírio alcança concentrações muito acima da CIM localmente, eliminando bactérias sem risco sistêmico de ototoxicidade."
+  },
+  "tropicamida": {
+    "moa": "Antimuscarínico oftálmico: bloqueia receptores M₃ no esfíncter da íris (midríase) e M₃ no músculo ciliar (cicloplegia — paralisa acomodação) → pupila dilatada e foco fixo para distâncias. Início rápido (15–30 min), duração curta (4–6 h).",
+    "farma": "Midriase diagnóstica para exame de fundo de olho, cicloplegia para refração em crianças. Menor duração que atropina (preferida quando exame rápido suficiente). Risco de glaucoma agudo de ângulo fechado em predispostos.",
+    "fk": "Oftálmica: início midríase 15–30 min; pico 20–40 min; duração 4–6 h. Absorção sistêmica mínima pelo ducto nasolacrimal pode causar taquicardia/boca seca em crianças pequenas.",
+    "fisio": "Exame oftalmológico pediátrico: miopia dinâmica por espasmo acomodativo do músculo ciliar dificulta refração objetiva. A tropicamida paralisa o músculo ciliar (cicloplegia), eliminando o espasmo acomodativo e permitindo medição acurada do estado refratário da criança."
+  },
+  "ciprofloxacino_colirio": {
+    "moa": "Fluoroquinolona oftálmica: inibe DNA girase (topoisomerase II) e topoisomerase IV bacterianas → impossibilita o relaxamento de superenrolamento do DNA durante replicação → bactericida de amplo espectro.",
+    "farma": "Conjuntivite bacteriana, úlcera de córnea (inclusive Pseudomonas), blefarite. Colírio 0,3%. Cobre gram-positivos (incluindo Staphylococcus) e gram-negativos. Resistência emergente em S. aureus.",
+    "fk": "Oftálmica: absorção sistêmica mínima. Concentração local na câmara anterior negligenciável em uso tópico. Ação local.",
+    "fisio": "Úlcera de córnea por Pseudomonas (lente de contato): Pseudomonas aeruginosa produz proteases e exotoxinas → necrose estromal → risco de perfuração. Ciprofloxacino colírio (bactericida por inibição de topoisomerases) atinge concentrações curitivas no estroma corneal, cobrindo Pseudomonas sem risco sistêmico."
+  },
+  "lagrima": {
+    "moa": "Substituto lacrimal: solução de polímeros (metilcelulose, hialuronato, carboximetilcelulose, polivinil álcool) → aumenta viscosidade da lágrima → prolonga tempo de permanência na superfície ocular → umedece e protege córnea e conjuntiva. Sem ação farmacológica ativa.",
+    "farma": "Síndrome do olho seco (ceratoconjuntivite sicca), sintomas de olho seco por ambiente seco/ventilado, uso de lente de contato, medicamentos ressecantes (anti-histamínicos, anticolinérgicos). Colírio sem conservante preferível em uso frequente.",
+    "fk": "Oftálmica: ação local; biodisponibilidade sistêmica desprezível. Duração variável (2–6 h dependendo da viscosidade).",
+    "fisio": "Olho seco: disfunção da unidade funcional lacrimal → filme lacrimal instável → exposição epitelial → ativação de receptores de dor → inflamação neurogênica e erosão epitelial. O substituto lacrimal estabiliza o filme lacrimal, reduzindo a osmolaridade excessiva e a tensão de superfície sobre as células epiteliais."
+  },
+  "agua_destilada": {
+    "moa": "Veículo farmacêutico estéril: H₂O purificada sem sais, pirógenos ou microorganismos. Usada como solvente para reconstituição de medicamentos liofilizados ou injetáveis, diluição de soluções e irrigação. Sem ação farmacológica própria.",
+    "farma": "Reconstituição de antibióticos liofilizados, diluição de concentrados injetáveis. NÃO para infusão EV direta em volume > 10 mL (causa hemólise por hipotonicidade — rompe eritrócitos). Para grandes volumes EV: usar SF 0,9% ou SG 5%.",
+    "fk": "Uso farmacêutico: veículo inerte. Sem farmacocinética própria.",
+    "fisio": "Reconstituição farmacêutica: medicamentos liofilizados (anfotericina B, cefalosporinas) necessitam de solvente aquoso estéril isento de substâncias que interfiram na estabilidade ou potência. A água destilada para injetáveis atende a normas de pureza farmacêutica rigorosas."
+  },
+  "kcl_10": {
+    "moa": "Potássio concentrado EV: fornece K⁺ para correção de hipocalemia grave; K⁺ é cofator da Na⁺/K⁺-ATPase, mantém potencial de repouso de membrana (Nernst) e excitabilidade celular. Formulação 10% (1 mEq/mL ou 2 mEq/mL) para diluição obrigatória.",
+    "farma": "EXCLUSIVAMENTE para diluição em solução para infusão EV (nunca EV direto — risco de fibrilação ventricular fatal). Máximo 0,4–1 mEq/kg/h em crianças com monitoramento cardíaco. Para hipocalemia grave com manifestações cardíacas ou paralisia.",
+    "fk": "EV (diluído): K⁺ distribui-se principalmente no espaço intracelular (Na⁺/K⁺-ATPase). Eliminação renal regulada pela aldosterona.",
+    "fisio": "Hipocalemia grave (< 2,5 mEq/L): aumento da diferença entre K⁺ intra e extracelular → hiperpolarização da membrana celular → arritmias ventriculares (onda U, TV/FV) e paralisia muscular. KCl EV corrige o gradiente iônico rapidamente, restaurando a excitabilidade cardíaca e muscular normal."
+  },
+  "nacl_10": {
+    "moa": "Solução salina hipertônica concentrada: fornece Na⁺ para correção de hiponatremia grave; Na⁺ é o principal determinante da osmolaridade extracelular → regula volume celular. Formulação 10% (concentrada) para diluição obrigatória antes de uso EV.",
+    "farma": "EXCLUSIVAMENTE para diluição. Correca de hiponatremia sintomática grave (< 120 mEq/L com convulsão/coma): NaCl 3% EV a 1–2 mL/kg/h. Correção rápida demais → síndrome de desmielinização osmótica (mielinólise pontina central). Máximo: +8–12 mEq/L/24h.",
+    "fk": "EV (diluído): Na⁺ distribui-se no espaço extracelular; regulado pelos rins (ADH/aldosterona). Sem metabolismo.",
+    "fisio": "Hiponatremia grave com convulsão: Na⁺ baixo → hipotonicidade extracelular → edema celular cerebral → herniação. NaCl hipertônico aumenta osmolaridade extracelular → saída de água das células cerebrais → redução do edema e da PIC. Velocidade controlada para evitar desmielinização osmótica."
+  },
+  "gluconato_calcio": {
+    "moa": "Reposição de Ca²⁺: Ca²⁺ é mensageiro intracelular (acoplamento excitação-contração muscular, exocitose, sinalização celular) e estabilizador de membrana. Gluconato de cálcio 10% = 9 mg Ca²⁺/mL (0,45 mEq/mL). Via EV para uso pediátrico (menos irritante que cloreto de cálcio).",
+    "farma": "Hipocalcemia sintomática (tetania, convulsão, laringoespasmo), hipermagnesemia (antagonismo de Mg²⁺ nos canais de Ca²⁺), hipercalemia grave (estabilização de membrana cardíaca). Infusão lenta EV com monitoramento cardíaco.",
+    "fk": "EV: distribuição rápida no LEC; ionização parcial; captação celular/óssea. Eliminação renal. Concentração sérica de Ca²⁺ regulada por PTH/calcitriol.",
+    "fisio": "Hipocalcemia neonatal: Ca²⁺ sérico baixo → membrana neuronal mais excitável (menor voltagem de limiar de ação) → tetania, convulsão, laringoespasmo, apneia. Gluconato de cálcio EV eleva Ca²⁺ sérico rapidamente, estabilizando membranas excitáveis e revertendo a tetania."
+  },
+  "glicose_50": {
+    "moa": "Solução concentrada de glicose: substrato energético primário (1 g glicose = 4 kcal). Na hipoglicemia, fornece glicose ao sangue → insulina move glicose para células → ATP celular. Formulação 50% para correção rápida de hipoglicemia grave (diluída a 10–25% em pediatria).",
+    "farma": "Hipoglicemia grave (< 40–50 mg/dL), fonte calórica em nutrição parenteral. DILUIR em pediatria (50% causa esclerose venosa). Controle glicêmico após correção. Hiperglicemia rebote possível.",
+    "fk": "EV: glicose rapidamente disponível; metabolismo celular (glicólise → Krebs → ATP ou síntese de glicogênio hepático). Sem eliminação renal abaixo do limiar renal (180 mg/dL).",
+    "fisio": "Hipoglicemia neonatal: recém-nascidos têm baixas reservas de glicogênio → hipoglicemia rápida em jejum → neurônios (altamente dependentes de glicose) sofrem disfunção → convulsão, letargia, apneia. Glicose 10% EV restaura substrato energético cerebral imediatamente."
+  },
+  "magnesio": {
+    "moa": "Íon Mg²⁺: cofator de > 300 enzimas (Na⁺/K⁺-ATPase, adenilato-ciclase, RNA/DNA polimerases); antagonista fisiológico do Ca²⁺ (bloqueia canais de Ca²⁺ e receptores NMDA); estabiliza membranas; broncodilatação (antagonismo Ca²⁺ em músculo liso). Sulfato de magnésio 50% (1 mEq/mL).",
+    "farma": "Hipomagnesemia, eclâmpsia/pré-eclâmpsia grave (previne convulsões), torsades de pointes, asma grave refratária (broncodilatador adjuvante EV), constipação (oral). SEMPRE diluir e infundir lentamente (hipotensão e bloqueio neuromuscular em hipermagnesemia).",
+    "fk": "EV: distribuição rápida; 60% ósseo, 39% intracelular; eliminação renal (65%) → acúmulo em IRC.",
+    "fisio": "Asma grave refratária: broncoespasmo por Ca²⁺ no músculo liso brônquico (contração persistente). MgSO₄ EV antagoniza Ca²⁺ nos canais de Ca²⁺ da musculatura lisa brônquica → relaxamento e broncodilatação, útil quando β₂ e corticoide são insuficientes."
+  },
+  "manitol": {
+    "moa": "Diurético osmótico poliol (açúcar inerte): não metabolizado → distribui-se no LEC → aumenta osmolaridade plasmática → atrai água do espaço intracelular (e LCR) para o intravascular → vasoconstrição cerebral (Cushing reflex) → reduz PIC. Também aumenta fluxo urinário (diurese osmótica).",
+    "farma": "Hipertensão intracraniana aguda (trauma craniano, AVC hemorrágico), síndrome compartimental abdominal. 20% ou 15%. Risco de insuficiência renal (depósitos tubulares em uso repetido sem reposição). Hipernatremia por diurese.",
+    "fk": "EV: distribuição restrita ao LEC; meia-vida ≈ 0,5–2 h; eliminação renal (100% filtrado, não reabsorvido).",
+    "fisio": "Hipertensão intracraniana pós-TCE: edema cerebral vasogênico/citotóxico → expansão de volume cerebral → compressão do tecido → herniação transtentorial. O manitol cria gradiente osmótico sangue-cérebro (se BHE preservada) → desidrata o parênquima cerebral → reduz PIC em 15–30 min."
+  },
+  "contraste_nao_ionico": {
+    "moa": "Meio de contraste iodado não-iônico (iohexol, iomeprol, iopromida): átomo de iodo de alta densidade eletrônica absorve raios X → aumenta atenuação do tecido/vaso onde se distribui → contraste radiológico positivo. Não-iônico = sem dissociação em íons → menor osmolaridade e menor toxicidade que contrastes iônicos.",
+    "farma": "Tomografia computadorizada (TC) com contraste EV, procedimentos angiográficos, opacificação do trato GI. Reações adversas: nefropatia por contraste (prevenir com hidratação), reações de hipersensibilidade (urticária → anafilaxia). Contraindicado na gravidez (exposição a iodo).",
+    "fk": "EV: distribuição no espaço extracelular; excreção renal intacta (meia-vida ≈ 2 h em função renal normal). Sem metabolismo.",
+    "fisio": "Nefropatia por contraste: iodo → vasoconstrição medular renal + estresse oxidativo direto nos túbulos → queda aguda de TFG (IRA). Hidratação pré-procedimento (SF 0,9% 1 mL/kg/h) e N-acetilcisteína expandem volemia e reduzem vasoconstrição medular."
+  },
+  "contraste_meglumina": {
+    "moa": "Meio de contraste iodado iônico (diatrizoato de meglumina): iodo absorve raios X para contraste positivo. Iônico → dissociação em solução → maior osmolaridade (1500–2000 mOsm/kg) → maior toxicidade que não-iônico → uso preferencial EV limitado.",
+    "farma": "Contraste gastrointestinal oral/retal (suspeita de fistula, obstrução — em substituição ao bário se perfuração suspeita), histerossalpingografia. EV: uso mais restrito (ultrapassado por não-iônicos). Absorção intestinal mínima por via oral.",
+    "fk": "Oral: absorção intestinal < 1%; eliminação fecal. EV (se usado): distribuição extracelular; eliminação renal rápida.",
+    "fisio": "Obstrução intestinal com suspeita de perfuração: bário no peritônio causa peritonite bário (fatal). O contraste hidrossolúvel de meglumina, se extravasado, é absorvido pelo peritônio e eliminado pelo rim — sem peritonite química grave e com osmolaridade que reduz edema de mucosa intestinal."
+  },
+  "bario": {
+    "moa": "Meio de contraste baritado: sulfato de bário (BaSO₄ insolúvel) opacifica o lúmen digestivo por alta densidade (absorção de raios X) → visualização de mucosa, contorno e motilidade GI. Inerte quimicamente (não absorvido).",
+    "farma": "Esôfago-trânsito esofagogástrico, enema opaco (trânsito colônico, pólipos, intussuscepção). Suspensão oral ou retal. CONTRAINDICADO em suspeita de perfuração ou fistula (peritonite bário grave); substituir por contraste hidrossolúvel.",
+    "fk": "Oral/retal: não absorvido; eliminação fecal. Sem farmacocinética sistêmica.",
+    "fisio": "Intussuscepção pediátrica: invaginação ileoileal ou ileocecal → obstrução e isquemia. Enema baritado (ou de ar) sob pressão hidrostática controlada → força o invaginado retrógrado, reduzindo a intussuscepção. Avaliação radioscópica em tempo real pelo opacificação do lúmen."
+  },
+  "pancuronio": {
+    "moa": "Bloqueador neuromuscular não-despolarizante aminoesteroidal de longa duração: antagonista competitivo dos receptores nicotínicos α na junção neuromuscular (NMJ) → bloqueia ligação de acetilcolina → impede despolarização da placa motora → paralisia flácida.",
+    "farma": "Bloqueio neuromuscular prolongado em UTI (VM, laparotomia). Longa duração (60–90 min). Efeito vagolítico (taquicardia) e simpaticomimético leve (aumento de PA). Acúmulo em IHepática e IRenal.",
+    "fk": "EV: início 2–3 min; duração ≈ 60–90 min. Excreção renal (60%) e biliar (40%). Meia-vida ≈ 100–120 min. Acumula em IRC e insuficiência hepática.",
+    "fisio": "Ventilação mecânica em SDRA: assincronia paciente-ventilador → elevação de PIP e barotrauma. O pancurônio paralisa musculatura respiratória, eliminando a respiração espontânea e a assincronia → permite VM protetora (volume corrente baixo) sem dyssynchrony."
+  },
+  "rocuronio": {
+    "moa": "Bloqueador neuromuscular não-despolarizante aminoesteroidal de rápida instalação: antagonista competitivo de receptores nicotínicos α na NMJ. Doses altas (1,2 mg/kg) → início ≈ 60 s, tornando-se alternativa à succinilcolina na ISR, com reversão possível por sugamadex.",
+    "farma": "Intubação de sequência rápida (ISR), bloqueio neuromuscular cirúrgico e em UTI. Reversão completa por sugamadex (qualquer profundidade, em 3 min com dose alta). Vantagem: sem contraindicações da succinilcolina (hipercalemia, doenças musculares, hipertermia maligna).",
+    "fk": "EV: início 60 s (dose 1,2 mg/kg), 90 s (0,6 mg/kg); duração 30–60 min. Excreção biliar (primária) e renal. Meia-vida ≈ 70 min.",
+    "fisio": "ISR em hipercalemia: succinilcolina aumenta K⁺ sérico ≈ 0,5–1 mEq/L (perigoso em hipercalemia prévia). Rocurônio em dose ISR (1,2 mg/kg) proporciona condições de intubação em 60 s sem efluxo de K⁺ → alternativa segura, com reversão imediata por sugamadex se falha de intubação."
+  },
+  "folinato": {
+    "moa": "Leucovorina (ácido folínico = 5-formiltetraidrofolato): forma ativa do folato; contorna o bloqueio do metotrexato na DHFR (diidrofolato redutase) → restaura síntese de timidilato e purinas → protege células normais do efeito antifolato (rescue de metotrexato).",
+    "farma": "Rescue pós-metotrexato em altas doses (osteossarcoma, linfoma), antídoto para toxicidade de metotrexato, potencialização do 5-fluorouracil (oncologia), deficiência de folato quando metotrexato ou trimetoprim bloqueiam a DHFR.",
+    "fk": "EV/IM/VO: biodisponibilidade oral ≈ 90%. Conversão hepática/intestinal a 5-metil-THF (forma circulante do folato). Meia-vida ≈ 6 h. Eliminação renal.",
+    "fisio": "Toxicidade de metotrexato em altas doses: MTX inibe DHFR → bloqueia síntese de timidilato e purinas em células normais (mucosa GI, medula óssea, fígado) → mucosite, mielossupressão. O folinato (já na forma ativa) contorna a DHFR bloqueada, sendo captado pelas células normais e restaurando síntese de nucleotídeos."
+  },
+  "haloperidol_dec": {
+    "moa": "Haloperidol decanoato (éster de depósito): pró-droga lipofílica de haloperidol; após IM profunda é lentamente hidrolisado por esterases teciduais → libera haloperidol livre → bloqueia D2 mesolímbico de forma sustentada por 4 semanas.",
+    "farma": "Manutenção de esquizofrenia e psicoses em pacientes com aderência irregular à terapia oral. Formulação de depósito IM (50–200 mg/mL) → injeção a cada 4 semanas. Eliminação de variabilidade por não-adesão. Perfil de efeitos adversos: EPS, hiperprolactinemia.",
+    "fk": "IM (depósito): absorção lenta do reservatório lipídico; pico plasmático ≈ 3–9 dias; meia-vida efetiva ≈ 3 semanas. Metabolismo hepático do haloperidol liberado. Estado estável após 4ª injeção.",
+    "fisio": "Psicose crônica com não-adesão: interrupção abrupta do antipsicótico oral → recaída psicótica por retorno da hiperdopaminergia mesolímbica. O decanoato mantém nível plasmático estável de haloperidol, prevenindo recaídas por oscilação de concentração sérica."
+  },
+  "prometazina_inj": {
+    "moa": "Fenotiazínico H₁-bloqueador de 1ª geração + ação anticolinérgica + bloqueio D2 fraco: inibe receptores H₁ centrais e periféricos → anti-histamínico e sedativo; bloqueio H₁ e D2 na área postrema → antiemético; ação anticolinérgica → anticinetose.",
+    "farma": "Antieméticos (náuseas/vômitos pós-operatórios, cinetose, hiperêmese gravídica), sedação leve pré-anestésica, alergia. Alta sedação (efeito antidopaminérgico e anti-H₁ central). EPS em crianças pequenas (distonia). CONTRAINDICADO em crianças < 2 anos (depressão respiratória).",
+    "fk": "EV/IM: início 5–10 min; duração 4–6 h. Alta lipofilia → ampla distribuição; meia-vida ≈ 10–19 h. Metabolismo hepático (sulfóxidos). Excreção renal.",
+    "fisio": "Náusea e vômito pós-operatório (NVPO): zona gatilho quimiorreceptora (área postrema) ativa núcleo do trato solitário → reflexo do vômito. A prometazina bloqueia H₁ e D2 na área postrema, suprimindo o sinal emético, com sedação central adjuvante que pode ser útil no pós-operatório."
+  }
+}

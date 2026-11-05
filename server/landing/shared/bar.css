@@ -1,0 +1,23 @@
+/* Barra comum aos módulos (carregada dentro de /guia/ e /estoque/): só escopo .fhi-bar/.fhi-lock, não altera o resto da página. */
+.fhi-bar,.fhi-lock{--bg:#F4F8F8;--surface:#FFFFFF;--ink:#1B2B30;--muted:#60737A;--line:#E1EAEC;--accent:#12808A;--accent-soft:#E3F3F4;--on-accent:#FFFFFF;--blue:#2F6FDE;--blue-soft:#E8F0FC;--warn-bg:#FFF6D6;--warn-line:#E0A800;--ok:#18794E;--ok-soft:#E3F5E9;--f:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-family:var(--f);color:var(--ink)}
+.fhi-bar .ico,.fhi-lock .ico{width:24px;height:24px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.fhi-lock{background:var(--bg)}.fhi-lock h2{margin:0 0 6px;font-size:20px}.fhi-lock .muted{color:var(--muted)}
+.fhi-lock .btn{display:inline-flex;margin-top:12px;font:600 15px var(--f);background:var(--accent);color:#fff;border-radius:999px;padding:10px 20px;text-decoration:none}
+.fhi-bar[hidden],.fhi-lock[hidden]{display:none}
+/* barra superior comum a todos os módulos */
+.fhi-bar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.fhi-bar .in{max-width:1100px;margin:0 auto;padding:6px 12px;display:flex;align-items:center;gap:6px}
+.fhi-bar a.nav{display:flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;color:var(--muted);text-decoration:none;font:600 14px var(--f);white-space:nowrap}
+.fhi-bar a.nav:hover{background:var(--accent-soft);color:var(--accent)}
+.fhi-bar a.nav[aria-current=page]{background:var(--accent);color:var(--on-accent)}
+.fhi-bar a.nav.gestao[aria-current=page]{background:var(--blue)}
+.fhi-bar a.nav.gestao:hover{background:var(--blue-soft);color:var(--blue)}
+.fhi-bar a.nav.gestao[aria-current=page]:hover{background:var(--blue);color:#fff}
+.fhi-bar a.nav.ped[aria-current=page]:hover{background:var(--accent);color:#fff}
+.fhi-bar .sp{flex:1}
+.fhi-bar .plan{font:600 12px var(--f);padding:3px 10px;border-radius:999px;background:var(--warn-bg);color:#4D3600;border:1px solid var(--warn-line);text-decoration:none;white-space:nowrap}
+.fhi-bar .plan.ok{background:var(--ok-soft);color:var(--ok);border-color:#9fd3b2}
+@media (max-width:640px){.fhi-bar a.nav span.t{display:none}.fhi-bar a.nav{padding:8px 10px}.fhi-bar .plan{font-size:11px}}
+.fhi-lock{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center;padding:24px;text-align:center}
+.fhi-lock div{max-width:420px}
+
