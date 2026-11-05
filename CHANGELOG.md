@@ -6,6 +6,7 @@ Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR
 
 - **Autores na página inicial**: byline logo abaixo do título e seção "Autores" (Micael Davi Lima de Oliveira e Elias de Souza Barros, UFAM/FCF).
 - **Posologia para todas as faixas etárias**: novo banco `data/posologia.json` (gerado por `tools/mkposologia.py` a partir de `tools/posologia/`), com dose **mínima, recomendada e máxima** por faixa (prematuro, neonato, lactente, criança, adolescente, adulto e idoso), unidade e intervalo explícitos, tetos absolutos e validação automática. Cobre os 216 itens da base e 35 medicamentos adicionais (malária, tuberculose, crônicos). Medicamentos adicionais são pesquisáveis na aba "Dose do paciente".
+- **Paciente integrado à ficha**: ao escolher um medicamento, idade, peso, função renal e hepática, prematuridade e gestação entram na ficha e na aba Dose. A faixa etária se ajusta à idade, a dose do paciente é calculada por peso com tetos, e a dose conservadora é usada com insuficiência renal/hepática, neonatos e prematuros.
 - **Como o medicamento age**: seção aberta em destaque na ficha e na aba Dose, com mecanismo de ação, ação farmacológica, farmacocinética e fisiopatologia (fichas novas para os itens sem monografia).
 - Conteúdo compilado por IA: exige revisão farmacêutica, em especial em prematuros, neonatos e idosos.
 - Observação: as versões 4.6 e 4.7 (correções de CI/Pages e APK) não tinham entrada neste arquivo.
