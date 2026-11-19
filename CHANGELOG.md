@@ -2,6 +2,16 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.9.0 - 2026-11-19
+
+- **Hepatotoxicidade (0 a 4) e nefrotoxicidade (0 a 3) por medicamento**, com a fonte, o link, a seção e o **trecho exato** de onde cada informação foi extraída (bloco "De onde vem" na ficha). Banco `data/toxicidade.json`, gerado por `tools/mktox.py` (caches em `tools/tox/cache/`).
+  - Fígado: escore de verossimilhança do **LiverTox (NIH/NIDDK)**, categorias A a E, lido do pacote oficial; modificadores [H]/[HD] limitam o nível a "Alto" e são sinalizados; capítulos sem escore aparecem como "sem escore".
+  - Rim: revisão **Pazhayattil & Shirali 2014** (citações conferidas literalmente no texto completo) e **rótulos FDA** (openFDA/DailyMed): caixa preta = 3, Advertências/Precauções = 2, Reações adversas = 1. Frases de interação, pré-condição do paciente e rótulos de associações foram excluídas; 7 substâncias revisadas manualmente. "Sem sinal" não é prova de segurança.
+  - Selos de nível aparecem nas listas (fígado alto e rim moderado ou pior) e nas referências.
+- **Novo nome do módulo: CicloDose** (antes PosologiaPED), pois a posologia não se restringe à pediatria. O endereço `/guia/` não mudou.
+- **Interface mais enxuta**: removidos a aba e o botão Comparar, o botão redundante "Dose do paciente" na ficha e os botões de importação da tela inicial (ficam em Minha lista).
+- Conteúdo compilado por IA: exige revisão farmacêutica.
+
 ## 4.8.0 - 2026-11-04
 
 - **Autores na página inicial**: byline logo abaixo do título e seção "Autores" (Micael Davi Lima de Oliveira e Elias de Souza Barros, UFAM/FCF).

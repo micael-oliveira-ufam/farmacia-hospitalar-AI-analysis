@@ -199,28 +199,52 @@ function drPacChange(e){const p=DZ.pac;const g=id=>$("#dr-"+id);
   else{p.idade=g("idade").value;p.un=g("un").value;p.peso=g("peso").value;p.renal=g("renal").value;p.hep=g("hep").value}
   dzSave();dzSyncForm();refreshDrawerPac()}
 const AGEHINT={neo:"0 a 28 dias de vida",ped:"29 dias a 17 anos",adu:"apenas referência",ido:"65 anos ou mais, apenas referência"};
+
+/* ---------- toxicidade: nível + de onde vem ---------- */
+const TX=window.TOX||{itens:{},idx:{},escalas:{hep:[],nef:[]},refs:{}};
+const HN=["Improvável","Baixo","Moderado","Alto","Muito alto"],KN=["Sem sinal","Baixo","Moderado","Alto"];
+const txOf=it=>{const i=TX.idx[it.key];return i?TX.itens[i]:null};
+const txLv=it=>{const t=txOf(it)||{};return{h:t.h&&t.h.l!=null?t.h.l:null,k:t.k&&t.k.l!=null?t.k.l:null}};
+const meter=(n,max)=>'<span class="mtr" aria-hidden="true">'+Array.from({length:max+1},(_,i)=>'<i class="'+(i<=n?"on l"+n:"")+'"></i>').join("")+"</span>";
+function txSrc(x){
+  return '<li><a class="lk" href="'+esc(x.u)+'" target="_blank" rel="noopener noreferrer">'+esc(x.t)+'</a><span class="note"> · '+esc(x.sec)+(x.e?" · vale para "+(x.e==="classe"?"a classe":"o fármaco"):"")+(x.s?" · escore "+esc(x.s)+(x.m?"["+esc(x.m)+"]":""):"")+"</span>"
+   +(x.q?'<blockquote lang="en" cite="'+esc(x.u)+'">'+esc(x.q)+"</blockquote>":"")+(x.mec?'<p class="note">'+esc(x.mec)+"</p>":"")+"</li>"}
+function txOrgan(kind,o,obs){
+  const hep=kind==="h",ESC=TX.escalas[hep?"hep":"nef"],NM=hep?HN:KN,max=hep?4:3,nome=hep?"Fígado":"Rim";
+  const lab=hep?"Hepatotoxicidade":"Nefrotoxicidade";
+  if(!o)return '<details class="tx"><summary><b>'+nome+'</b><span class="tx-l l-na">Sem classificação verificada</span></summary><p class="note">Não há fonte verificada para este item. Consulte a bula.</p>'+(obs?'<p class="note"><b>Nota antiga do catálogo (não verificada):</b> '+esc(obs)+"</p>":"")+"</details>";
+  if(o.l==null)return '<details class="tx"><summary><b>'+nome+'</b><span class="tx-l l-na">Sem escore na fonte</span></summary><p class="note">A fonte consultada tem capítulo sobre o fármaco, mas não atribui escore.</p><ul class="tsrc">'+o.src.map(txSrc).join("")+"</ul>"+(obs?'<p class="note"><b>Nota antiga do catálogo (não verificada):</b> '+esc(obs)+"</p>":"")+"</details>";
+  const e=ESC[o.l];
+  return '<details class="tx"><summary><b>'+nome+"</b>"+meter(o.l,max)+'<span class="tx-l l'+o.l+'">'+NM[o.l]+(hep&&o.s?" · LiverTox "+esc(o.s)+(o.m?"["+esc(o.m)+"]":""):"")+"</span></summary>"
+   +'<p class="note"><b>Nível '+o.l+" de "+max+" — "+NM[o.l]+":</b> "+esc(e.crit)+"</p>"
+   +(o.cap?'<p class="note">Teto “Alto”: o LiverTox restringe este escore a dose alta ou circunstância específica ([H]/[HD]).</p>':"")
+   +'<p class="tx-h">De onde vem ('+lab+")</p><ul class=\"tsrc\">"+o.src.map(txSrc).join("")+"</ul>"
+   +(obs?'<p class="note"><b>Nota antiga do catálogo (não verificada):</b> '+esc(obs)+"</p>":"")
+   +'<p class="note">Escala completa: '+ESC.map(z=>"<b>"+z.n+"</b> "+z.nome).join(" · ")+". Compilação assistida por IA: confirme na bula e com o farmacêutico responsável.</p></details>"}
+function txHtml(it){const t=txOf(it)||{};const ob=t.obs||{};return '<div class="txbox">'+txOrgan("h",t.h,ob.h)+txOrgan("k",t.k,ob.k)+"</div>"}
+function txBadges(it){const l=txLv(it);return (l.h!=null&&l.h>=3?'<span class="bdg hx l'+l.h+'">Fígado '+HN[l.h]+"</span>":"")+(l.k!=null&&l.k>=2?'<span class="bdg kx l'+l.k+'">Rim '+KN[l.k]+"</span>":"")}
 function drawerHtml(it){
   const m=M[it.key],s=S[it.key],id=it.id;
   const ae=s.ae.split("|").map(x=>x.replace(/^(Comuns|Graves)[^:]*:\s*/,""));
   const fav=st.fav.has(id),inC=st.cart.has(id),inK=st.cmp.includes(id);
   const vias=m.v.split(/,\s*(?![^()]*\))/).map(v=>'<span class="via">'+esc(v)+"</span>").join("");
-  const tox=(s.nef?'<p><b>Rim ('+NL[s.nef]+"):</b> "+esc(s.nefN)+"</p>":"")+(s.hep?'<p><b>Fígado ('+HL[s.hep]+"):</b> "+esc(s.hepN)+"</p>":"")+(CTRL.has(it.sec)?"<p><b>Controlado:</b> exige receituário e registro (Portaria SVS/MS 344/98) "+refChip("P344")+"</p>":"");
+  const tox=(CTRL.has(it.sec)?"<p><b>Controlado:</b> exige receituário e registro (Portaria SVS/MS 344/98) "+refChip("P344")+"</p>":"");
   const rows=["neo","ped","adu"].map(a=>'<tr class="'+(a!=="adu"?"pedrow":"")+'"><td>'+AGES[a]+"</td><td>"+esc(m[a][0])+"</td><td>"+esc(m[a][1])+"</td></tr>").join("")+"<tr><td>Idoso</td><td colspan=\"2\">"+esc(m.ido||"—")+"</td></tr>";
   const c=it.mgml||"";
   return '<div data-id="'+id+'" class="dr">'
-   +'<h2 class="dr-name">'+esc(it.desc)+'</h2><p class="dr-sub"><span class="bdg tcb" style="--h:'+hue(m.tc)+'">'+esc(m.tc)+'</span> <span class="bdg fcb">'+esc(m.fc)+'</span></p><p class="dr-via">'+vias+"</p>"
+   +'<h2 class="dr-name">'+esc(it.desc)+'</h2><p class="dr-sub"><span class="bdg tcb" style="--h:'+hue(m.tc)+'">'+esc(m.tc)+'</span> <span class="bdg fcb">'+esc(m.fc)+'</span></p><p class="dr-via">'+vias+"</p>"+txHtml(it)
    +'<div class="seg" id="dr-age" role="group" aria-label="Faixa etária">'+Object.keys(AGES).map(a=>'<button type="button" class="'+(a==="neo"||a==="ped"?"ped":"")+'" data-dage="'+a+'" aria-pressed="'+(st.age===a)+'">'+AGES[a]+"</button>").join("")+"</div>"
    +'<p class="note" id="dr-hint">'+AGEHINT[st.age]+'</p><div id="dr-dose">'+doseHtml(it)+"</div>"
    +moaHtml(m,(poFor(it)||{}).f)
    +(s.ismp?'<div class="alertp"><b>Alta vigilância (ISMP Brasil):</b> '+esc(s.ismp)+". Dupla checagem na prescrição, no preparo e na administração.</div>":"")
    +(m.pa?'<div class="alertp"><b>Alerta pediátrico:</b> '+esc(m.pa)+"</div>":"")
    +'<details><summary>Efeitos adversos</summary><p><b>Comuns:</b> '+esc(ae[0])+"</p><p><b>Graves:</b> "+esc(ae[1]||"—")+"</p></details>"
-   +(tox?"<details><summary>Rim, fígado e controle</summary>"+tox+"</details>":"")
+   +(tox?"<details><summary>Medicamento controlado</summary>"+tox+"</details>":"")
    +(poFor(it)?poBlock(it,true):"")+(poFor(it)?"":'<details><summary>Todas as faixas etárias</summary><div class="tbl"><table><thead><tr><th>Faixa</th><th>Dose usual</th><th>Dose máxima</th></tr></thead><tbody>'+rows+"</tbody></table></div></details>")
    +'<details><summary>Calcular dose por peso</summary><form class="calc-form" onsubmit="return false"><label class="fld">Peso (kg)<input inputmode="decimal" name="p" placeholder="ex.: 12"></label><label class="fld">Dose (mg/kg)<input inputmode="decimal" name="d" placeholder="ex.: 15"></label><label class="fld">Dose máx. (mg)<input inputmode="decimal" name="x" placeholder="opcional"></label><label class="fld">Concentração (mg/mL)<input inputmode="decimal" name="c" value="'+(c?fmt(c):"")+'" placeholder="opcional"></label><output class="out" aria-live="polite">Informe peso e dose em mg/kg.</output><span class="formula">dose (mg) = peso × mg/kg, limitada à dose máxima; volume (mL) = mg ÷ concentração</span></form></details>'
    +(false?'<details><summary>⚗️ Farmacologia e mecanismo de ação</summary><p><b>Mecanismo de ação:</b> '+esc(m.moa)+'</p>'+(m.farma?'<p><b>Farmacologia clínica:</b> '+esc(m.farma)+'</p>':'')+(m.fk?'<p><b>Farmacocinética:</b> '+esc(m.fk)+'</p>':'')+(m.fisio?'<p><b>Fisiopatologia:</b> '+esc(m.fisio)+'</p>':'')+'</details>':'')
    +'<details><summary>Fontes e links</summary><ol class="refs">'+m.rr.map(k=>'<li>'+esc(R[k].t)+' <a class="lk" href="'+esc(R[k].u)+'" target="_blank" rel="noopener noreferrer">abrir</a> <span class="lv '+(R[k].l==="ok"?"ok":"")+'">'+LV[R[k].l][0]+"</span></li>").join("")+'</ol><div class="links"><span class="note">Pesquisar em:</span> '+drugLinks(it)+"</div></details>"
-   +'<div class="acts2">'+(DOSEBY[it.key]?'<button class="btn pri" data-dz="'+DOSEBY[it.key].id+'">Dose do paciente</button>':"")+'<button class="btn" data-a="fav" aria-pressed="'+fav+'">'+(fav?"★ Favorito":"☆ Favoritar")+'</button><button class="btn" data-a="cart" aria-pressed="'+inC+'">'+(inC?"Na cesta":"+ Cesta")+'</button><button class="btn" data-a="cmp" aria-pressed="'+inK+'">Comparar</button></div></div>'}
+   +'<div class="acts2">'+'<button class="btn" data-a="fav" aria-pressed="'+fav+'">'+(fav?"★ Favorito":"☆ Favoritar")+'</button><button class="btn" data-a="cart" aria-pressed="'+inC+'">'+(inC?"Na cesta":"+ Cesta")+'</button></div></div>'}
 const num=(f,k)=>parseFloat(String(f.elements[k].value).replace(",","."));
 function calcDose(f){const p=num(f,"p"),d=num(f,"d"),x=num(f,"x"),c=num(f,"c"),o=$(".out",f);
   if(!(p>0&&d>0)){o.textContent="Informe peso e dose em mg/kg.";return}
@@ -229,15 +253,15 @@ function calcDose(f){const p=num(f,"p"),d=num(f,"d"),x=num(f,"x"),c=num(f,"c"),o
 
 /* ---------- aba Medicamentos: classes → lista → detalhe ---------- */
 let view=[];
-const MATCH=(m,s,c,it)=>!c||(c==="mav"&&!!s.ismp)||(c==="n2"&&s.nef===2)||(c==="n1"&&s.nef>=1)||(c==="h2"&&s.hep===2)||(c==="h1"&&s.hep>=1)||(c==="pa"&&!!m.pa)||(c==="ctl"&&CTRL.has(it.sec));
+const MATCH=(m,s,c,it)=>!c||(c==="mav"&&!!s.ismp)||(c==="n2"&&(txLv(it).k||0)>=2)||(c==="n1"&&(txLv(it).k||0)>=1)||(c==="h2"&&(txLv(it).h||0)>=3)||(c==="h1"&&(txLv(it).h||0)>=2)||(c==="pa"&&!!m.pa)||(c==="ctl"&&CTRL.has(it.sec));
 const inResults=()=>!!($("#q").value.trim()||st.tc||st.fc||st.favOnly);
 function row(it,withCls){const m=M[it.key],s=S[it.key];
-  return '<button class="ri" type="button" data-open="'+it.id+'"><span class="ri-main"><span class="ri-name">'+esc(it.desc)+"</span>"+(withCls?'<span class="ri-sub">'+esc(m.fc)+"</span>":"")+"</span>"+(s.ismp?'<span class="bdg mav">Alta vigilância</span>':"")+'<span class="ri-go" aria-hidden="true">›</span></button>'}
+  return '<button class="ri" type="button" data-open="'+it.id+'"><span class="ri-main"><span class="ri-name">'+esc(it.desc)+"</span>"+(withCls?'<span class="ri-sub">'+esc(m.fc)+"</span>":"")+"</span>"+(s.ismp?'<span class="bdg mav">Alta vigilância</span>':"")+txBadges(it)+'<span class="ri-go" aria-hidden="true">›</span></button>'}
 function renderBrowse(){
   $("#browse").innerHTML='<h2 class="pick">Escolha uma classe</h2><div class="tiles">'
    +(st.fav.size?'<button type="button" class="tile favt" data-fav="1"><b>★ Meus favoritos</b><small>'+st.fav.size+(st.fav.size===1?" item":" itens")+"</small></button>":"")
    +TCS.map(t=>'<button type="button" class="tile" data-tc="'+esc(t)+'" style="--h:'+hue(t)+'"><b>'+esc(t)+"</b><small>"+nOf(i=>M[i.key].tc===t)+" itens</small></button>").join("")+"</div>"
-   +'<h2 class="pick">Listas do hospital</h2><div class="listbtns"><button type="button" class="btn" data-imp="icam">Importar lista do ICAM</button><button type="button" class="btn" data-imp="cod">Importar lista da Policlínica Codajás</button></div>'}
+}
 function renderMeds(){
   const qv=$("#q").value.trim(),q=norm(qv);$("#clearq").hidden=!qv;
   const sc=new Map();
@@ -458,10 +482,11 @@ function renderRefs(){
   const ks=Object.keys(refNum).sort((a,b)=>refNum[a]-refNum[b]);
   const cnt={};ks.forEach(k=>cnt[R[k].l]=(cnt[R[k].l]||0)+1);
   $("#refsbox").innerHTML='<p class="note">Cada referência tem o nível de verificação do link: <b>conferido</b> (endereço aberto durante a elaboração), <b>DOI</b> (identificador registrado, não testado automaticamente), <b>site oficial</b> (página do órgão/editora) e <b>busca</b> (link de pesquisa, pois não foi possível confirmar um endereço direto). Total: '+ks.length+' referências — '+Object.entries(cnt).map(([l,n])=>n+" "+LV[l][0]).join(", ")+'.</p><ol class="refs">'
-   +ks.map(k=>'<li id="ref-'+k+'"><b class="lv">['+refNum[k]+"] "+k+"</b> "+esc(R[k].t)+' <a class="lk" href="'+esc(R[k].u)+'" target="_blank" rel="noopener noreferrer">abrir</a> <span class="lv '+(R[k].l==="ok"?"ok":"")+'" title="'+esc(LV[R[k].l][2])+'">'+LV[R[k].l][0]+"</span></li>").join("")+"</ol>"}
+   +ks.map(k=>'<li id="ref-'+k+'"><b class="lv">['+refNum[k]+"] "+k+"</b> "+esc(R[k].t)+' <a class="lk" href="'+esc(R[k].u)+'" target="_blank" rel="noopener noreferrer">abrir</a> <span class="lv '+(R[k].l==="ok"?"ok":"")+'" title="'+esc(LV[R[k].l][2])+'">'+LV[R[k].l][0]+"</span></li>").join("")+"</ol>"
+   +'<h3 class="pick">Fontes de toxicidade hepática e renal</h3><ol class="refs">'+Object.entries(TX.refs).map(([k,r])=>'<li><b class="lv">'+k+"</b> "+esc(r.t)+' <a class="lk" href="'+esc(r.u)+'" target="_blank" rel="noopener noreferrer">abrir</a></li>').join("")+"</ol>"}
 
 /* ---------- navegação ---------- */
-const TABS=[["meds","Medicamentos"],["dose","Dose do paciente"],["calc","Calculadoras"],["mine","Minha lista"],["any","Qualquer medicamento"],["cart","Triagem"],["cmp","Comparar"],["refs","Referências"],["about","Sobre"]];
+const TABS=[["meds","Medicamentos"],["dose","Dose do paciente"],["calc","Calculadoras"],["mine","Minha lista"],["any","Qualquer medicamento"],["cart","Triagem"],["refs","Referências"],["about","Sobre"]];
 const PRIM=["meds","dose","calc"],SHORT={dose:"Dose"};
 function renderTabs(){
   const lab=t=>t[0]==="cart"&&st.cart.size?t[1]+'<span class="n">'+st.cart.size+"</span>":t[0]==="cmp"&&st.cmp.length?t[1]+'<span class="n">'+st.cmp.length+"</span>":t[1];

@@ -13,7 +13,7 @@ p=sys.argv[1];s=open(p,encoding='utf8').read()
 s=re.sub(r'<script src="/shared/account.js"[^>]*></script>\n?','',s)
 open(p,'w',encoding='utf8').write(s)
 PY
-# 2) PosologiaPED (sem script de conta)
+# 2) CicloDose (sem script de conta)
 python3 guia/build.py "$OUT/guia" pages
 rm -f "$OUT/guia/guia-artifact.html"
 # 3) Página inicial

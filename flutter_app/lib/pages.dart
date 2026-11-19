@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
       AboutPage(catalog: widget.catalog),
     ];
     return Scaffold(
-      appBar: AppBar(title: const Text('PosologiaPED · foco pediátrico'), toolbarHeight: 44),
+      appBar: AppBar(title: const Text('CicloDose · prematuro ao idoso'), toolbarHeight: 44),
       body: SafeArea(child: IndexedStack(index: tab, children: pages)),
       bottomNavigationBar: NavigationBar(
         selectedIndex: tab,
@@ -820,7 +820,7 @@ class AboutPage extends StatelessWidget {
         const Text(_warn, style: TextStyle(color: Color(0xFFB42318), fontWeight: FontWeight.w600)),
         const SizedBox(height: 12),
         const Text(
-            'O PosologiaPED é voltado a hospitais pediátricos: a faixa padrão é lactentes e crianças, neonatos têm seleção própria, o alerta pediátrico aparece antes das doses e as calculadoras pediátricas vêm primeiro. Adultos e idosos são só referência. '
+            'O CicloDose cobre todas as faixas etárias: a faixa padrão é lactentes e crianças, neonatos têm seleção própria, o alerta pediátrico aparece antes das doses e as calculadoras pediátricas vêm primeiro. Adultos e idosos são só referência. '
             'O aplicativo não pertence a nenhum hospital. A lista de exemplo (224 itens, 16 seções) foi transcrita de um PDF escaneado de uma lista institucional usada apenas como exemplo. Posologias, efeitos adversos e alertas foram '
             'compilados por um assistente de IA a partir do conhecimento das fontes citadas, sem consulta item a item aos compêndios pagos. '
             'Confira toda dose com um farmacêutico.'),

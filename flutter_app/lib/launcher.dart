@@ -59,7 +59,7 @@ class Launcher extends StatelessWidget {
           tile(
             Icons.medication_liquid_outlined,
             const Color(0xFF12808A),
-            'PosologiaPED · foco pediátrico',
+            'CicloDose · prematuro ao idoso',
             'Posologia para hospitais pediátricos: doses por faixa etária (neonatos, lactentes e crianças em destaque), alertas pediátricos e calculadoras, com referência e link em cada informação.',
             ['${catalog.items.length} medicamentos na lista de exemplo', 'Alerta pediátrico antes da dose; cálculo por peso e por m²', 'Adultos e idosos só como referência'],
             () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => Home(catalog: catalog, prefs: prefs))),
@@ -70,7 +70,7 @@ class Launcher extends StatelessWidget {
             const Color(0xFF2F6FDE),
             'FarmaGestão · estoque e Curva ABC',
             'Gerenciador de estoque com classificação A/B/C, estoque de emergência e pedido semanal (PADRÃO e PEDIDO).',
-            ['Importa a planilha do seu hospital (colada) ou a lista de exemplo', 'Backup compatível com o app web', 'Link para a monografia no PosologiaPED'],
+            ['Importa a planilha do seu hospital (colada) ou a lista de exemplo', 'Backup compatível com o app web', 'Link para a monografia no CicloDose'],
             () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => StockHome(catalog: catalog, prefs: prefs))),
           ),
           const SizedBox(height: 14),

@@ -4,12 +4,12 @@ Plataforma para **qualquer hospital** (nenhum hospital específico), com dois m�
 
 | Módulo | O que é |
 |---|---|
-| **PosologiaPED** (`guia/`) | Posologia **voltada a hospitais pediátricos**: faixa padrão lactentes e crianças, neonatos em seleção própria, alerta pediátrico antes da dose, calculadoras pediátricas primeiro (adultos e idosos só como referência). **Interface em 3 passos:** busca grande ou navegação por **classe terapêutica** (35), **classe farmacológica** (107), forma/seção ou A–Z; lista compacta com a dose da faixa etária escolhida; toque abre o painel de detalhe. Abas: Medicamentos, Qualquer, **Minha lista**, Calculadoras e menu Mais (Cesta, Comparar, Referências, Sobre) |
+| **CicloDose** (`guia/`) | Posologia **do prematuro ao idoso** (mínima, recomendada e máxima por faixa etária), mecanismo de ação, **nível de hepatotoxicidade (0–4, LiverTox) e de nefrotoxicidade (0–3, revisão e rótulos FDA) com link, seção e trecho de cada fonte**, e dose ajustada ao paciente. **Interface em 3 passos:** busca grande ou navegação por **classe terapêutica** (35), **classe farmacológica** (107), forma/seção ou A–Z; lista compacta com a dose da faixa etária escolhida; toque abre o painel de detalhe. Abas: Medicamentos, Qualquer, **Minha lista**, Calculadoras e menu Mais (Cesta, Comparar, Referências, Sobre) |
 | **FarmaGestão** (`abc-app/`) | Estoque e Curva ABC: classes A/B/C, estoque de emergência, pedido semanal (PADRÃO e PEDIDO), importação de planilha, backup |
 
 Há também o servidor (`server/`, estáticos e senha opcional), Docker + Cloudflare (link temporário) e o **app Android único** (`flutter_app/`) com os dois módulos.
 
-**Lista de exemplo.** A lista de 224 itens incluída (`data/catalog.json`) foi transcrita de uma lista institucional usada **apenas como exemplo**; ela não define a plataforma. Cada hospital usa a sua: no FarmaGestão importando a planilha do hospital, no PosologiaPED pela aba **Minha lista** (o guia sugere a monografia pelo nome e você confirma).
+**Lista de exemplo.** A lista de 224 itens incluída (`data/catalog.json`) foi transcrita de uma lista institucional usada **apenas como exemplo**; ela não define a plataforma. Cada hospital usa a sua: no FarmaGestão importando a planilha do hospital, no CicloDose pela aba **Minha lista** (o guia sugere a monografia pelo nome e você confirma).
 
 > **Apoio à decisão, não prescrição.** O conteúdo de doses foi compilado por IA a partir das fontes citadas e **precisa de revisão por farmacêutico responsável**. Veja [docs/METODOLOGIA.md](docs/METODOLOGIA.md) e [docs/REFERENCIAS.md](docs/REFERENCIAS.md).
 
@@ -17,7 +17,7 @@ Há também o servidor (`server/`, estáticos e senha opcional), Docker + Cloudf
 | Parte | Situação |
 |---|---|
 | Guia web (`guia/`, também offline: sem fontes externas, dados embutidos no HTML e cache por service worker; funciona até abrindo o `index.html` direto) | Testado em navegador headless (busca, cálculo, calculadoras, cesta, comparação, links, celular) e fórmulas com testes automáticos |
-| App ABC (`abc-app/`) | Compila (`tsc` + `vite build --base=/estoque/`), 7 testes da lógica de estoque. **Offline** (service worker gerado no build, sem imagens externas): testado em navegador headless desligando a rede, passando por início → FarmaGestão → importação da lista de exemplo → PosologiaPED |
+| App ABC (`abc-app/`) | Compila (`tsc` + `vite build --base=/estoque/`), 7 testes da lógica de estoque. **Offline** (service worker gerado no build, sem imagens externas): testado em navegador headless desligando a rede, passando por início → FarmaGestão → importação da lista de exemplo → CicloDose |
 | Servidor (`server/`) | 3 testes automáticos + execução real servindo início, guia e estoque |
 | **Docker / docker-compose / cloudflared** | **Não testado**: o ambiente de criação não tinha Docker. Os comandos internos (build, testes, servidor) foram executados manualmente, mas a imagem e o túnel nunca foram subidos |
 | **App Flutter / APK** | **Não compilado nem testado**: sem SDK Flutter aqui. O código (inclusive o módulo de estoque novo e `test/abc_test.dart`) passou apenas em verificação de sintaxe; a lógica de estoque em Dart espelha a do TypeScript, que tem testes, mas os testes Dart nunca foram executados. Pode haver erros de compilação a corrigir na primeira build |
@@ -52,11 +52,11 @@ cp .env.example .env        # (recomendado) defina SITE_PASSWORD
 - Os preços não são buscados automaticamente: confira na tabela oficial da CMED.
 
 ## Integração guia ↔ estoque
-- Botão **Importar lista de exemplo** cria os 224 itens no FarmaGestão; itens ligados à lista de exemplo ganham selos (alta vigilância, nefro/hepato) e o link **PosologiaPED** que abre a monografia (`/guia/#caf=CÓDIGO`).
+- Botão **Importar lista de exemplo** cria os 224 itens no FarmaGestão; itens ligados à lista de exemplo ganham selos (alta vigilância, nefro/hepato) e o link **CicloDose** que abre a monografia (`/guia/#caf=CÓDIGO`).
 - A **página inicial** (`/`) deixa escolher entre Estoque/Curva ABC e Guia de Doses; ambos têm link “Início”.
-- A aba **Qualquer medicamento** do PosologiaPED aceita qualquer nome (também fora da lista carregada): mostra se ele consta na lista e, senão, gera links de pesquisa (DailyMed, PubMed, BNFc, Bulário Anvisa, LiverTox, CMED) e oferece uma calculadora de regime por peso em que a dose é informada pelo usuário a partir da fonte. O guia não inventa doses para fármacos fora da lista.
-- A aba **Minha lista** (PosologiaPED) guarda no navegador a lista do hospital (`código;descrição`) e sugere monografias pelo nome (sem inventar doses: sem correspondência, leva às fontes). As sugestões são automáticas e exigem confirmação de sal, associação e apresentação.
-- Planilhas importadas no FarmaGestão podem ter coluna `Codigo` (ou `CAF`) para ligar ao PosologiaPED.
+- A aba **Qualquer medicamento** do CicloDose aceita qualquer nome (também fora da lista carregada): mostra se ele consta na lista e, senão, gera links de pesquisa (DailyMed, PubMed, BNFc, Bulário Anvisa, LiverTox, CMED) e oferece uma calculadora de regime por peso em que a dose é informada pelo usuário a partir da fonte. O guia não inventa doses para fármacos fora da lista.
+- A aba **Minha lista** (CicloDose) guarda no navegador a lista do hospital (`código;descrição`) e sugere monografias pelo nome (sem inventar doses: sem correspondência, leva às fontes). As sugestões são automáticas e exigem confirmação de sal, associação e apresentação.
+- Planilhas importadas no FarmaGestão podem ter coluna `Codigo` (ou `CAF`) para ligar ao CicloDose.
 - Aba **Pedido semanal**: PADRÃO/PEDIDO, cobertura e exportação em Excel.
 - **Offline no navegador:** abra a página inicial uma vez com internet; ela instala o início, o guia e o estoque para uso sem rede (e pode ser “instalada” como app pelo navegador).
 - `data/catalog.json` é a fonte única (guia web, app ABC e Flutter): `scripts/sync-catalog.sh`.
@@ -65,14 +65,14 @@ cp .env.example .env        # (recomendado) defina SITE_PASSWORD
 ```bash
 ./flutter_app/tool/build_apk_docker.sh      # gera dist/farmacia-icam.apk (imagem ghcr.io/cirruslabs/flutter)
 ```
-Ou use o workflow `.github/workflows/build-apk.yml` (GitHub Actions) e baixe o APK em *Artifacts*. O app é **100% offline**: os 224 medicamentos, doses, segurança, calculadoras e o texto das referências vão dentro do APK, e o `patch_android.sh` remove a permissão INTERNET (só abrir um link usa o navegador do aparelho, que precisa de conexão). Itens: lista, filtros, detalhe por faixa etária, favoritos, calculadoras, referências com link. **App único com dois módulos:** a tela inicial deixa escolher entre **PosologiaPED** e **FarmaGestão** (itens, curva ABC, pedido semanal PADRÃO/PEDIDO, importação da planilha do hospital (colada) ou da lista de exemplo, backup JSON compatível com o app web). No Android, exportar/importar usa a área de transferência (copiar/colar CSV e JSON), sem arquivos. No app, a lista tem busca e filtros por classe terapêutica e classe farmacológica. A cesta, a comparação, a aba Qualquer medicamento e a aba Minha lista existem só na versão web. O APK sai assinado com chave de depuração (instalação direta, não Play Store).
+Ou use o workflow `.github/workflows/build-apk.yml` (GitHub Actions) e baixe o APK em *Artifacts*. O app é **100% offline**: os 224 medicamentos, doses, segurança, calculadoras e o texto das referências vão dentro do APK, e o `patch_android.sh` remove a permissão INTERNET (só abrir um link usa o navegador do aparelho, que precisa de conexão). Itens: lista, filtros, detalhe por faixa etária, favoritos, calculadoras, referências com link. **App único com dois módulos:** a tela inicial deixa escolher entre **CicloDose** e **FarmaGestão** (itens, curva ABC, pedido semanal PADRÃO/PEDIDO, importação da planilha do hospital (colada) ou da lista de exemplo, backup JSON compatível com o app web). No Android, exportar/importar usa a área de transferência (copiar/colar CSV e JSON), sem arquivos. No app, a lista tem busca e filtros por classe terapêutica e classe farmacológica. A cesta, a comparação, a aba Qualquer medicamento e a aba Minha lista existem só na versão web. O APK sai assinado com chave de depuração (instalação direta, não Play Store).
 
 ## Versões
 A versão vigente está em `VERSION` (SemVer) e o histórico em [CHANGELOG.md](CHANGELOG.md). Para lançar uma nova: edite `VERSION`, descreva no CHANGELOG, rode `python3 tools/release.py` (sincroniza pubspec, package.json e catálogo e gera `farmacia-hospitalar-integrada-vX.Y.Z.zip`, com a pasta interna também versionada) e marque com `git tag -a vX.Y.Z`.
 
 ## Estrutura
 ```
-guia/        PosologiaPED, versão web (app.js, calc.js, style.css, build.py, test.js)
+guia/        CicloDose, versão web (app.js, calc.js, style.css, build.py, test.js)
 abc-app/     FarmaGestão (React/Vite) + tests/
 server/      Express (+ landing/ = página inicial): estáticos, senha opcional; test/
 flutter_app/ app Android único (launcher, guia e estoque ABC) + tool/ (build via Docker)
@@ -89,7 +89,7 @@ Atribuição: verificações de DOI/metadados feitas segundo o PubMed (NCBI/NLM)
 
 ## Listas de hospital (4.3.0)
 
-O guia (PosologiaPED) e a curva ABC (FarmaGestão), na web e no app, têm os botões **Importar lista do ICAM** e **Importar lista da Policlínica Codajás** (`data/catalog.json` e `data/codajas.json`). No guia a lista é cruzada com as monografias pelo nome, de forma automática: confira sempre sal, associação e apresentação.
+O guia (CicloDose) e a curva ABC (FarmaGestão), na web e no app, têm os botões **Importar lista do ICAM** e **Importar lista da Policlínica Codajás** (`data/catalog.json` e `data/codajas.json`). No guia a lista é cruzada com as monografias pelo nome, de forma automática: confira sempre sal, associação e apresentação.
 
 ## Dose do paciente (calculadora ICAM unificada)
 

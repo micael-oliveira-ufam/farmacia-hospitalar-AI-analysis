@@ -1,4 +1,4 @@
-/** Lista de exemplo (data/catalog.json, a mesma do PosologiaPED). Carregada sob demanda. */
+/** Lista de exemplo (data/catalog.json, a mesma do CicloDose). Carregada sob demanda. */
 export interface CatItem { id: number; sec: string; code: string; desc: string; key: string; mgml: number | null }
 export interface CatSafety { nef: number; hep: number; ismp: string }
 export interface Catalog {

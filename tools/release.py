@@ -16,6 +16,7 @@ subprocess.run([sys.executable,'mkdose.py'],cwd=os.path.join(R,'tools'),check=Tr
 subprocess.run([sys.executable,'mkposologia.py'],cwd=os.path.join(R,'tools'),check=True,stdout=subprocess.DEVNULL)
 subprocess.run([sys.executable,'mkint.py'],cwd=os.path.join(R,'tools'),check=True,stdout=subprocess.DEVNULL)
 subprocess.run([sys.executable,'mkcat.py'],cwd=os.path.join(R,'tools'),check=True,stdout=subprocess.DEVNULL)
+subprocess.run([sys.executable,'mktox.py'],cwd=os.path.join(R,'tools'),check=True,stdout=subprocess.DEVNULL)  # usa tools/tox/cache (offline)
 for d in ('abc-app/public/data','flutter_app/assets'):
     for f in ('catalog.json','codajas.json','interacoes.json','dose.json'): open(os.path.join(R,d,f),'wb').write(open(os.path.join(R,'data',f),'rb').read())
 print('versão',v,'sincronizada (pubspec +%d, package.json x2, catalog.meta.versao)'%build)

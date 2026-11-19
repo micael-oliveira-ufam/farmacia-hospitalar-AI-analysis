@@ -261,3 +261,20 @@ nav.tabs [aria-selected=true],nav.tabs [aria-selected=true]:hover{background:var
 .pacbox{border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin:12px 0}
 .pac-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px 12px;margin:8px 0}
 .pac-grid .chk{align-self:end}
+
+/* toxicidade */
+.txbox{display:grid;gap:6px;margin:10px 0}
+details.tx{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:0}
+details.tx>summary{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;cursor:pointer;min-height:44px;list-style:none}
+details.tx>summary::-webkit-details-marker{display:none}
+details.tx>summary::after{content:"▾";margin-left:auto;color:var(--muted)}
+details.tx[open]>summary::after{content:"▴"}
+details.tx>*:not(summary){margin:0 12px 10px}
+.mtr{display:inline-flex;gap:2px}.mtr i{width:14px;height:8px;border-radius:2px;background:var(--line)}
+.mtr i.on.l0{background:#18794E}.mtr i.on.l1{background:#8A9A1B}.mtr i.on.l2{background:#D49A00}.mtr i.on.l3{background:#D2641E}.mtr i.on.l4{background:#B3261E}
+.tx-l{font:700 13px var(--f-body)}.tx-l.l0{color:#18794E}.tx-l.l1{color:#6B7A0F}.tx-l.l2{color:#946C00}.tx-l.l3{color:#B04E0F}.tx-l.l4{color:#B3261E}.tx-l.l-na{color:var(--muted);font-weight:600}
+.tx-h{font:700 12px var(--f-body);text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-top:8px!important}
+ul.tsrc{padding-left:18px;display:grid;gap:8px}
+ul.tsrc blockquote{margin:4px 0 0;padding:6px 10px;border-left:3px solid var(--line);background:var(--bg);font-size:12.5px;color:var(--ink);overflow-wrap:anywhere}
+.bdg.hx,.bdg.kx{color:#fff;border-color:transparent}
+.bdg.hx.l3,.bdg.kx.l2{background:#D2641E}.bdg.hx.l4,.bdg.kx.l3{background:#B3261E}

@@ -1,4 +1,4 @@
-<!-- Ícone Farmácia Hospitalar Integrada — PosologiaPED + FarmaGestão
+<!-- Ícone Farmácia Hospitalar Integrada — CicloDose + FarmaGestão
      Autores: Micael Davi Lima de Oliveira & Elias de Souza Barros (UFAM)
      Uso: ícone do aplicativo Android/iOS (512×512 exportado via Inkscape/ImageMagick)
 -->
@@ -31,7 +31,7 @@
   </defs>
   <rect width="512" height="512" rx="112" fill="url(#bg)"/>
 
-  <!-- Cruz médica (PosologiaPED) — parte superior -->
+  <!-- Cruz médica (CicloDose) — parte superior -->
   <!-- Barra horizontal da cruz -->
   <rect x="136" y="76" width="240" height="80" rx="20" fill="url(#cross)"/>
   <!-- Barra vertical da cruz -->

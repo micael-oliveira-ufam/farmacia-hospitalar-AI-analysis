@@ -62,7 +62,7 @@ export function WeeklyOrder({ results, reviewDays, setReviewDays, catalog }: {
             <tbody className="divide-y divide-slate-100">
               {rows.map(r => (
                 <tr key={r.id}>
-                  <td className="py-2 pr-3 font-semibold">{r.name}{caf(r) && <> <a className="text-blue-600 text-[11px] font-bold underline" href={guideLink(caf(r))} target="_blank" rel="noopener noreferrer">PosologiaPED</a></>}</td>
+                  <td className="py-2 pr-3 font-semibold">{r.name}{caf(r) && <> <a className="text-blue-600 text-[11px] font-bold underline" href={guideLink(caf(r))} target="_blank" rel="noopener noreferrer">CicloDose</a></>}</td>
                   <td className="px-2 text-center font-black">{r.classification}</td>
                   <td className="px-2 text-right tabular-nums">{r.currentInventory === -1 ? '–' : n0(r.currentInventory)}</td>
                   <td className="px-2 text-right tabular-nums">{r.coverageDays == null ? '–' : r.coverageDays.toFixed(1)}</td>

@@ -775,7 +775,7 @@ export default function App() {
                 
                 <div className="flex flex-wrap items-center gap-2">
                   <a href={HOME_URL} className="px-3 py-1 text-[11px] font-black text-slate-600 border border-slate-200 rounded-full hover:bg-slate-50">← Início</a>
-                  <a href={GUIDE_URL} className="px-3 py-1 text-[11px] font-black text-blue-700 border border-blue-200 rounded-full hover:bg-blue-50">PosologiaPED</a>
+                  <a href={GUIDE_URL} className="px-3 py-1 text-[11px] font-black text-blue-700 border border-blue-200 rounded-full hover:bg-blue-50">CicloDose</a>
                 </div>
                 <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-full w-fit">
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />

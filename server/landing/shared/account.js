@@ -23,7 +23,7 @@
     if (offline) t += " · offline";
     var b = document.createElement("header"); b.className = "fhi-bar";
     b.innerHTML = '<div class="in"><a class="nav" href="/" title="Início — escolher módulo">' + I.home + '<span class="t">Início</span></a>' +
-      '<a class="nav ped" href="/guia/"' + (mod === "ped" ? ' aria-current="page"' : "") + ' title="PosologiaPED">' + I.ped + '<span class="t">PosologiaPED</span></a>' +
+      '<a class="nav ped" href="/guia/"' + (mod === "ped" ? ' aria-current="page"' : "") + ' title="CicloDose">' + I.ped + '<span class="t">CicloDose</span></a>' +
       '<a class="nav gestao" href="/estoque/"' + (mod === "gestao" ? ' aria-current="page"' : "") + ' title="FarmaGestão">' + I.gestao + '<span class="t">FarmaGestão</span></a>' +
       '<span class="sp"></span><a class="' + cls + '" href="' + (p.status === "trial" ? "/assinar" : "/conta") + '">' + t + '</a>' +
       '<a class="nav" href="/conta" title="Minha conta">' + I.user + '<span class="t">Conta</span></a></div>';

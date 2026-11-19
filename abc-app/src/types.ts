@@ -3,7 +3,7 @@ export type ABCCalculationMode = 'VALUE' | 'CONSUMPTION';
 export interface Medication {
   id: string;
   name: string;
-  cafCode?: string; // código do item (ex.: CAF); liga à lista de exemplo e ao PosologiaPED
+  cafCode?: string; // código do item (ex.: CAF); liga à lista de exemplo e ao CicloDose
   pharmaceuticalForm?: string;
   concentration?: string;
   annualConsumption: number;

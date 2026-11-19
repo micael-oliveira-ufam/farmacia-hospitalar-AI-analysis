@@ -339,7 +339,7 @@ class _MedEditPageState extends State<MedEditPage> {
       ]),
       body: ListView(padding: const EdgeInsets.all(14), children: [
         _f('name', 'Medicamento / item', num: false),
-        _f('caf', 'Código do item (liga à lista de exemplo e ao PosologiaPED)', num: false),
+        _f('caf', 'Código do item (liga à lista de exemplo e ao CicloDose)', num: false),
         if (it != null)
           Align(
             alignment: Alignment.centerLeft,

@@ -362,7 +362,7 @@ class _PaywallPageState extends State<PaywallPage> {
         const SizedBox(height: 12),
         const Text('R\$ 29,99 por mês', style: TextStyle(fontSize: 32, fontWeight: FontWeight.w800)),
         const SizedBox(height: 8),
-        const Text('•  PosologiaPED e FarmaGestão\n•  Uso offline no aparelho\n•  Cancele quando quiser, em Minha conta'),
+        const Text('•  CicloDose e FarmaGestão\n•  Uso offline no aparelho\n•  Cancele quando quiser, em Minha conta'),
         const SizedBox(height: 16),
         FilledButton.icon(onPressed: busy ? null : _pay, icon: const Icon(Icons.credit_card), label: const Text('Assinar com cartão de crédito')),
         const SizedBox(height: 8),

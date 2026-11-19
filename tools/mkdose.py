@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gera data/dose.json (faixas de dose do ICAM, unificadas no PosologiaPED) a partir de data/icam_medicamentos.json,
+"""Gera data/dose.json (faixas de dose do ICAM, unificadas no CicloDose) a partir de data/icam_medicamentos.json,
 ligando cada item as monografias do catalogo pelo nome do principio ativo.
 Faixas compiladas por IA (base do repositorio ICAM): exigem revisao farmaceutica."""
 import json,os,re,unicodedata
