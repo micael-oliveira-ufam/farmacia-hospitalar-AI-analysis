@@ -5,28 +5,7 @@
 
 import * as React from 'react';
 import { useState, useMemo, useRef, useEffect, Component, ReactNode } from 'react';
-import { 
-  Plus, 
-  Trash2, 
-  Upload, 
-  Download, 
-  FileSpreadsheet, 
-  BarChart3, 
-  Info, 
-  Package,
-  Activity,
-  TrendingUp,
-  Calculator,
-  Search,
-  Loader2,
-  Database,
-  Check,
-  X,
-  Edit2,
-  AlertTriangle,
-  Zap,
-  LogOut
-} from 'lucide-react';
+import { Plus, Trash2, Upload, Download, FileSpreadsheet, BarChart3, Info, Package, Activity, TrendingUp, Calculator, Search, Loader2, Database, Check, X, Edit2, AlertTriangle, Zap, LogOut, ChevronDown } from 'lucide-react';
 import * as XLSX from 'xlsx';
 import '../../design/pcpdf.js';
 import { 
@@ -254,6 +233,8 @@ export default function App() {
   const [sector, setSector] = useState<'caf' | 'clinica'>(() => (localStorage.getItem('sector') === 'clinica' ? 'clinica' : 'caf'));
   const scope = sector === 'clinica' ? `${hospitalId}~clinica` : hospitalId;
   const sectorName = sector === 'clinica' ? 'Farmácia Clínica' : 'CAF';
+  const [closedForms, setClosedForms] = useState<string[]>(() => { try { return JSON.parse(localStorage.getItem('closed-forms') || '[]'); } catch { return []; } });
+  const toggleForm = (k: string) => setClosedForms(prev => { const next = prev.includes(k) ? prev.filter(x => x !== k) : [...prev, k]; try { localStorage.setItem('closed-forms', JSON.stringify(next)); } catch { /* ignore */ } return next; });
   const [showQty, setShowQty] = useState(false);
   const [qtyAdd, setQtyAdd] = useState(false);
   const [qtyDel, setQtyDel] = useState<string | null>(null);
@@ -1336,14 +1317,22 @@ export default function App() {
                                     <React.Fragment key={'g-' + k}>
                                       <tr className="bg-slate-100/70">
                                         <td colSpan={13} className="px-6 py-3">
-                                          <div className="flex flex-wrap items-center gap-3">
+                                          <button
+                                            type="button"
+                                            onClick={() => toggleForm(k)}
+                                            aria-expanded={!closedForms.includes(k)}
+                                            aria-controls={'forma-' + k.replace(/\W+/g, '-')}
+                                            className="w-full flex flex-wrap items-center gap-3 text-left"
+                                          >
+                                            <ChevronDown size={16} className={cn('text-slate-600 transition-transform', closedForms.includes(k) && '-rotate-90')} />
                                             <span className="text-xs font-black uppercase tracking-widest text-slate-800">{k}</span>
                                             <span className="text-[11px] font-bold text-slate-500">{rows.length} {rows.length === 1 ? 'item' : 'itens'}</span>
                                             <span className="text-[11px] font-bold text-slate-500">Valor: R$ {total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                                          </div>
+                                            <span className="ml-auto text-[11px] font-bold text-blue-700">{closedForms.includes(k) ? 'Mostrar' : 'Recolher'}</span>
+                                          </button>
                                         </td>
                                       </tr>
-                                      {rows.map((item) => (
+                                      {!closedForms.includes(k) && rows.map((item) => (
                                 <tr key={item.id} className="hover:bg-slate-50 transition-colors">
                                   <td className="px-6 py-5 truncate">
                                     {editingCell?.id === item.id && editingCell?.field === 'name' ? (

@@ -2,6 +2,9 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.24.5
+- **Análise Detalhada:** cada grupo de forma farmacêutica pode ser **recolhido** ou **mostrado** pelo cabeçalho (com contagem e valor sempre visíveis). A escolha fica salva no navegador.
+
 ## 4.24.4
 - **Análise Detalhada:** agrupamento pela forma farmacêutica básica (Injetáveis, Comprimidos e cápsulas, Suspensões e soluções, Gotas e emulsão, Xaropes e elixir, Pomadas, cremes, géis e loções, Inalatórios, Oftálmicos), e não mais pela seção do catálogo. A forma é gravada no catálogo pelo gerador `tools/mkcat.py`.
 
