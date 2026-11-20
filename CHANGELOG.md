@@ -2,6 +2,11 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.20.0
+- **Farmacologia detalhada** em cada ficha do Controle terapêutico: classe, mecanismo, farmacodinâmica, absorção, distribuição, metabolismo, excreção, meia-vida e pontos para a conduta clínica, com citação de capítulo e página. 221 verbetes em `data/farmacologia.json`.
+- Fonte principal: Goodman & Gilman, *As Bases Farmacológicas da Terapêutica*, 14ª ed. (Brunton et al., 2022), resumido com palavras próprias. 167 verbetes vêm em grande parte do livro, 35 em parte e 19 são conhecimento geral (sinalizados na ficha).
+- **Conteúdo compilado por IA; exige revisão farmacêutica.** Cefalotina, dipirona, ambroxol, TCM e contraste iodado não iônico ainda não têm verbete (8 itens do catálogo).
+
 ## 4.19.1
 - **UFAM e equipe no cabeçalho e no rodapé** de todos os módulos (web e Android): autores Micael Davi Lima de Oliveira e Elias de Souza Barros, orientadora Profa. Dra. Clarice Veloso e preceptora Dra. Juliana Carvalho.
 - **PPS no CAF no Android:** botão "PPS no CAF" no Estoque da unidade ICAM abre a lista com foto, CMM, função e relatório em PDF (`flutter_app/assets/pps.html`, gerado por `tools/mkpps_app.py`). Não compilado neste ambiente (sem SDK Flutter): conferir ao gerar o APK.

@@ -270,6 +270,12 @@ function mjHtml(it){const m=mjFor(it);if(!m)return"";
   return '<details class="tx mj-box"><summary><b>Manejo</b><span class="tx-l">Intervenção e opções mais seguras</span>'+tag+"</summary>"+h+mjRefs(ids)+'<p class="note">Compilado por IA a partir das diretrizes citadas. É apoio à decisão: confirme com a bula, o protocolo do serviço, a CCIH e o farmacêutico responsável.</p></details>'}
 function txHtml(it){const t=txOf(it)||{};const ob=t.obs||{};return '<div class="txbox">'+txOrgan("h",t.h,ob.h)+txOrgan("k",t.k,ob.k)+mjHtml(it)+"</div>"}
 function txBadges(it){const l=txLv(it);return (l.h!=null&&l.h>=3?'<span class="bdg hx l'+l.h+'">Fígado '+HN[l.h]+"</span>":"")+(l.k!=null&&l.k>=2?'<span class="bdg kx l'+l.k+'">Rim '+KN[l.k]+"</span>":"")}
+const FARM_ORI={L:"Resumo elaborado a partir do Goodman & Gilman.",P:"Parte do conteúdo vem do Goodman & Gilman; o restante é conhecimento geral.",G:"Conteúdo de conhecimento geral: o fármaco não está detalhado no Goodman & Gilman."};
+function farmHtml(it){const i=TX.idx[it.key],f=i&&window.FARMACO&&FARMACO[i];if(!f)return"";
+  const L=[["Mecanismo de ação",f.m],["Farmacodinâmica",f.d],["Absorção",f.a],["Distribuição",f.v],["Metabolismo",f.b],["Excreção",f.e],["Meia-vida",f.t]].filter(r=>r[1]).map(r=>"<p><b>"+r[0]+":</b> "+esc(r[1])+"</p>").join("");
+  const X=(f.x&&f.x.length)?'<h4 class="sub-h">Pontos para a conduta clínica</h4><ul>'+f.x.map(x=>"<li>"+esc(x)+"</li>").join("")+"</ul>":"";
+  const S=(f.s&&f.s.length)?'<p class="note">Fonte: Goodman &amp; Gilman, As Bases Farmacológicas da Terapêutica, 14ª ed. (Brunton et al., 2022): '+f.s.map(esc).join("; ")+".</p>":"";
+  return '<details class="farm"><summary>Farmacologia detalhada'+(f.c?" · "+esc(f.c):"")+"</summary>"+L+X+S+'<p class="note">'+esc(FARM_ORI[f.o]||"")+" Compilado por IA; exige revisão farmacêutica antes do uso na prática.</p></details>"}
 function drawerHtml(it){
   const m=M[it.key],s=S[it.key],id=it.id;
   const ae=s.ae.split("|").map(x=>x.replace(/^(Comuns|Graves)[^:]*:\s*/,""));
@@ -282,7 +288,7 @@ function drawerHtml(it){
    +'<h2 class="dr-name">'+esc(it.desc)+'</h2><p class="dr-sub"><span class="bdg tcb" style="--h:'+hue(m.tc)+'">'+esc(m.tc)+'</span> <span class="bdg fcb">'+esc(m.fc)+'</span></p><p class="dr-via">'+vias+"</p>"+txHtml(it)+(poFor(it)?poBlock(it,true):"")
    +'<div class="seg" id="dr-age" role="group" aria-label="Faixa etária">'+Object.keys(AGES).map(a=>'<button type="button" class="'+(a==="neo"||a==="ped"?"ped":"")+'" data-dage="'+a+'" aria-pressed="'+(st.age===a)+'">'+AGES[a]+"</button>").join("")+"</div>"
    +'<p class="note" id="dr-hint">'+AGEHINT[st.age]+'</p><div id="dr-dose">'+doseHtml(it)+"</div>"
-   +moaHtml(m,(poFor(it)||{}).f)
+   +moaHtml(m,(poFor(it)||{}).f)+farmHtml(it)
    +(s.ismp?'<div class="alertp"><b>Alta vigilância (ISMP Brasil):</b> '+esc(s.ismp)+". Dupla checagem na prescrição, no preparo e na administração.</div>":"")
    +(m.pa?'<div class="alertp"><b>Alerta pediátrico:</b> '+esc(m.pa)+"</div>":"")
    +'<details><summary>Efeitos adversos</summary><p><b>Comuns:</b> '+esc(ae[0])+"</p><p><b>Graves:</b> "+esc(ae[1]||"—")+"</p></details>"

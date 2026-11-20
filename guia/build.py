@@ -29,6 +29,8 @@ def build(pwa):
     mj=json.load(open(os.path.join(S,'data/manejo.json'),encoding='utf8'))
     t=t.replace('/*MANEJO*/',json.dumps(mj,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     t=t.replace('/*PCPDF*/',open(os.path.join(S,'design/pcpdf.js'),encoding='utf8').read().replace('</','<\\/'))
+    fa=json.load(open(os.path.join(S,'data/farmacologia.json'),encoding='utf8'))
+    t=t.replace('/*FARMACO*/',json.dumps(fa,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     t=t.replace('/*TOX*/',json.dumps(tox,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     t=t.replace('/*UFAMIMG*/','data:image/png;base64,'+base64.b64encode(open(os.path.join(S,'design/ufam.png'),'rb').read()).decode())
     t=t.replace('<!--HOMEHREF-->','../' if pwa else '#')
