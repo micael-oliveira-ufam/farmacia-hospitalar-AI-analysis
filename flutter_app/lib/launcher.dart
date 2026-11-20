@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'models.dart';
-import 'pages.dart';
+import 'guia_web.dart';
 import 'stock.dart';
 
 /// Tela inicial: o usuário escolhe o módulo. Tudo funciona offline (dados dentro do app).
@@ -49,7 +49,7 @@ class Launcher extends StatelessWidget {
             'CicloDose · prematuro ao idoso',
             'Posologia do prematuro ao idoso: doses por faixa etária, alertas e calculadoras, com referência e link em cada informação.',
             ['${catalog.items.length} medicamentos na lista de exemplo', 'Todas as faixas etárias, do prematuro ao idoso', 'Cálculo por peso e por m²'],
-            () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => Home(catalog: catalog, prefs: prefs))),
+            () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const GuiaWeb())),
           ),
           const SizedBox(height: 10),
           tile(

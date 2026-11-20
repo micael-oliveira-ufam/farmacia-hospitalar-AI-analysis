@@ -2,6 +2,9 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.14.0
+- Android: o CicloDose agora usa a mesma interface do site (filtro por unidade, níveis de toxicidade com fonte, duas abas, recentes e fichas da Policlínica), carregada de `assets/guia.html` dentro do app (WebView, offline). `guia/build.py` copia o arquivo para `flutter_app/assets/`. Links de fonte abrem no navegador do aparelho. FarmaGestão segue nativo.
+
 ## 4.13.0 - 2026-11-19
 
 - **Fichas da Policlínica Codajás (lote 1)**: 24 substâncias que cobrem 47 itens da lista (os mais usados por usuários ativos/mês), com indicação, posologia (trecho inicial), mecanismo de ação e alerta em caixa preta **extraídos do rótulo oficial da FDA** (openFDA/DailyMed), com seção e link, mais os níveis de fígado e rim com fontes. Geradas por `tools/mkfichas.py` a partir de `tools/codajas_map.py`.

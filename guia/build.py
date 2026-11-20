@@ -29,7 +29,9 @@ open(os.path.join(out,'index.html'),'w',encoding='utf8').write(build(True))
 t=build(False)
 t=t.replace('<a class="homelnk" href="../">← Início</a> · ','')
 t=t.replace('<button class="btn" id="print" type="button">Imprimir</button>','')
-m=re.search(r'<title>.*?</head>',t,re.S);head=m.group(0)[:-7]
+A=os.path.join(S,'flutter_app/assets')
+if os.path.isdir(A):open(os.path.join(A,'guia.html'),'w',encoding='utf8').write(t)  # mesma interface do site, dentro do app Android
+m=re.search(r'<title>.*?</title>.*?</head>',t,re.S) if False else re.search(r'<title>.*?</head>',t,re.S);head=m.group(0)[:-7]
 body=re.search(r'<body>(.*)</body>',t,re.S).group(1)
 open(os.path.join(out,'guia-artifact.html'),'w',encoding='utf8').write(head+'\n'+body)
 json.dump({"name":"CicloDose · Posologia do prematuro ao idoso","short_name":"CicloDose","start_url":"./","display":"standalone","background_color":"#F4F8F8","theme_color":"#12808A","lang":"pt-BR","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]},open(os.path.join(out,'manifest.json'),'w'),ensure_ascii=False)
