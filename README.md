@@ -1,4 +1,21 @@
-# PharmaCentral
+<p align="center"><img src="design/icon.svg" alt="Logo do PharmaCentral" width="120"></p>
+
+<h1 align="center">PharmaCentral</h1>
+
+<p align="center"><b>Plataforma de farmácia hospitalar: controle terapêutico, estoque, pedidos e prontuário farmacêutico.</b><br>
+Gratuita, sem conta e offline, para web e Android.</p>
+
+<p align="center"><a href="https://micael-oliveira-ufam.github.io/pharmacentral-farmacia-hospitalar/"><b>Acessar a plataforma web</b></a><br>
+<sub>https://micael-oliveira-ufam.github.io/pharmacentral-farmacia-hospitalar/</sub></p>
+
+<p align="center"><a href="https://ufam.edu.br"><img src="design/ufam.png" alt="Brasão da Universidade Federal do Amazonas" height="90"></a><br>
+<b>Universidade Federal do Amazonas (UFAM)</b></p>
+
+**Autores:** Micael Davi Lima de Oliveira e Elias de Souza Barros  
+**Orientadora:** Profa. Dra. Clarice Veloso  
+**Preceptora:** Dra. Juliana Carvalho
+
+---
 
 Plataforma para **qualquer hospital** (nenhum hospital específico), com dois módulos:
 
