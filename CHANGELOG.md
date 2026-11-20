@@ -2,6 +2,14 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.10.0 - 2026-11-19
+
+- **Interface em duas abas**: "Medicamentos" e "Ferramentas" (Dose, Calculadoras, Triagem, Qualquer medicamento, Minha lista, Referências, Sobre).
+- **Barra do paciente fixa** no topo da ficha (idade, peso, função renal e hepática, prematuro, gestante); toque para editar. A dose para o paciente agora vem logo após os níveis de fígado e rim.
+- **Níveis hepáticos inferidos** para 6 capítulos do LiverTox sem escore (heparina, metadona, ipratropio, tobramicina, neomicina, artemeter+lumefantrina), sinalizados como "inferido"; insulina NPH unificada à insulina humana (rim passa a ter nível).
+- **Lista de validação farmacêutica** (`docs/validacao_toxicidade.xlsx` e `.csv`, gerada por `tools/mkvalidacao.py`): 132 linhas, 79 substâncias, com trecho original, link e colunas de decisão.
+- GitHub Actions: `cancel-in-progress` desligado no Pages (um deploy não cancela o outro) e actions atualizadas (checkout v5, setup-node v5, setup-python v6, upload-pages-artifact v4).
+
 ## 4.9.0 - 2026-11-19
 
 - **Hepatotoxicidade (0 a 4) e nefrotoxicidade (0 a 3) por medicamento**, com a fonte, o link, a seção e o **trecho exato** de onde cada informação foi extraída (bloco "De onde vem" na ficha). Banco `data/toxicidade.json`, gerado por `tools/mktox.py` (caches em `tools/tox/cache/`).

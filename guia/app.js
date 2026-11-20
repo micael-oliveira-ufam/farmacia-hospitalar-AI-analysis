@@ -183,6 +183,8 @@ function poPacForm(){const p=DZ.pac;
    +'<label class="fld">Função hepática <select id="dr-hep">'+Object.entries(Dose.HEPA).map(([k,v])=>'<option value="'+k+'"'+(p.hep===k?" selected":"")+">"+v+"</option>").join("")+"</select></label>"
    +'<label class="chk"><input type="checkbox" id="dr-prem"'+(p.prem?" checked":"")+"> Prematuro</label>"
    +'<label class="chk"><input type="checkbox" id="dr-gest"'+(p.gest?" checked":"")+"> Gestante</label></div>"}
+function pStrip(){const p=DZ.pac,r=Dose.RENAL[p.renal]||"",h=Dose.HEPA[p.hep]||"";
+  return'<button type="button" class="pstrip" id="pstrip" data-goto="pac" aria-label="Editar dados do paciente">Paciente: <b>'+(p.idade?esc(p.idade)+" "+esc(p.un):"idade ?")+"</b> · <b>"+(p.peso?esc(p.peso)+" kg":"peso ?")+"</b> · rim: "+esc(r)+" · fígado: "+esc(h)+(p.prem?" · prematuro":"")+(p.gest?" · gestante":"")+' <span aria-hidden="true">✎</span></button>'}
 function poBlock(it,form){const rec=poFor(it);if(!rec)return"";
   const pc=dzPac(),key=poBand(pc);
   return'<details open class="pacbox"><summary>Dose e posologia para este paciente</summary>'
@@ -190,6 +192,7 @@ function poBlock(it,form){const rec=poFor(it);if(!rec)return"";
    +'<h3 class="sub-h">Posologia por faixa etária (mínima, recomendada e máxima)</h3><div id="dr-ptable">'+poTable(rec,key)+"</div></details>"}
 function refreshDrawerPac(){const it=byId.get(st.dr-1);if(!it||!poFor(it))return;
   const pc=dzPac(),key=poBand(pc),rec=poFor(it);
+  const ps=$("#pstrip");if(ps)ps.outerHTML=pStrip();
   $("#dr-pout").innerHTML=poOut(rec,pc,key);$("#dr-ptable").innerHTML=poTable(rec,key);
   if(key&&PO_TO_AGE[key]&&PO_TO_AGE[key]!==st.age){st.age=PO_TO_AGE[key];store.set("icam-age",st.age);
     $$("#dr-age button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.dage===st.age));
@@ -217,7 +220,7 @@ function txOrgan(kind,o,obs){
   const e=ESC[o.l];
   return '<details class="tx"><summary><b>'+nome+"</b>"+meter(o.l,max)+'<span class="tx-l l'+o.l+'">'+NM[o.l]+(hep&&o.s?" · LiverTox "+esc(o.s)+(o.m?"["+esc(o.m)+"]":""):"")+"</span></summary>"
    +'<p class="note"><b>Nível '+o.l+" de "+max+" — "+NM[o.l]+":</b> "+esc(e.crit)+"</p>"
-   +(o.cap?'<p class="note">Teto “Alto”: o LiverTox restringe este escore a dose alta ou circunstância específica ([H]/[HD]).</p>':"")
+   +(o.inf?'<p class="note"><b>Nível inferido:</b> o LiverTox não atribui escore a este fármaco; o nível foi estimado a partir do texto do capítulo (exibido abaixo). Validar com o farmacêutico.</p>':"")+(o.cap?'<p class="note">Teto “Alto”: o LiverTox restringe este escore a dose alta ou circunstância específica ([H]/[HD]).</p>':"")
    +'<p class="tx-h">De onde vem ('+lab+")</p><ul class=\"tsrc\">"+o.src.map(txSrc).join("")+"</ul>"
    +(obs?'<p class="note"><b>Nota antiga do catálogo (não verificada):</b> '+esc(obs)+"</p>":"")
    +'<p class="note">Escala completa: '+ESC.map(z=>"<b>"+z.n+"</b> "+z.nome).join(" · ")+". Compilação assistida por IA: confirme na bula e com o farmacêutico responsável.</p></details>"}
@@ -231,8 +234,8 @@ function drawerHtml(it){
   const tox=(CTRL.has(it.sec)?"<p><b>Controlado:</b> exige receituário e registro (Portaria SVS/MS 344/98) "+refChip("P344")+"</p>":"");
   const rows=["neo","ped","adu"].map(a=>'<tr class="'+(a!=="adu"?"pedrow":"")+'"><td>'+AGES[a]+"</td><td>"+esc(m[a][0])+"</td><td>"+esc(m[a][1])+"</td></tr>").join("")+"<tr><td>Idoso</td><td colspan=\"2\">"+esc(m.ido||"—")+"</td></tr>";
   const c=it.mgml||"";
-  return '<div data-id="'+id+'" class="dr">'
-   +'<h2 class="dr-name">'+esc(it.desc)+'</h2><p class="dr-sub"><span class="bdg tcb" style="--h:'+hue(m.tc)+'">'+esc(m.tc)+'</span> <span class="bdg fcb">'+esc(m.fc)+'</span></p><p class="dr-via">'+vias+"</p>"+txHtml(it)
+  return '<div data-id="'+id+'" class="dr">'+(poFor(it)?pStrip():"")
+   +'<h2 class="dr-name">'+esc(it.desc)+'</h2><p class="dr-sub"><span class="bdg tcb" style="--h:'+hue(m.tc)+'">'+esc(m.tc)+'</span> <span class="bdg fcb">'+esc(m.fc)+'</span></p><p class="dr-via">'+vias+"</p>"+txHtml(it)+(poFor(it)?poBlock(it,true):"")
    +'<div class="seg" id="dr-age" role="group" aria-label="Faixa etária">'+Object.keys(AGES).map(a=>'<button type="button" class="'+(a==="neo"||a==="ped"?"ped":"")+'" data-dage="'+a+'" aria-pressed="'+(st.age===a)+'">'+AGES[a]+"</button>").join("")+"</div>"
    +'<p class="note" id="dr-hint">'+AGEHINT[st.age]+'</p><div id="dr-dose">'+doseHtml(it)+"</div>"
    +moaHtml(m,(poFor(it)||{}).f)
@@ -240,7 +243,7 @@ function drawerHtml(it){
    +(m.pa?'<div class="alertp"><b>Alerta pediátrico:</b> '+esc(m.pa)+"</div>":"")
    +'<details><summary>Efeitos adversos</summary><p><b>Comuns:</b> '+esc(ae[0])+"</p><p><b>Graves:</b> "+esc(ae[1]||"—")+"</p></details>"
    +(tox?"<details><summary>Medicamento controlado</summary>"+tox+"</details>":"")
-   +(poFor(it)?poBlock(it,true):"")+(poFor(it)?"":'<details><summary>Todas as faixas etárias</summary><div class="tbl"><table><thead><tr><th>Faixa</th><th>Dose usual</th><th>Dose máxima</th></tr></thead><tbody>'+rows+"</tbody></table></div></details>")
+   +(poFor(it)?"":'<details><summary>Todas as faixas etárias</summary><div class="tbl"><table><thead><tr><th>Faixa</th><th>Dose usual</th><th>Dose máxima</th></tr></thead><tbody>'+rows+"</tbody></table></div></details>")
    +'<details><summary>Calcular dose por peso</summary><form class="calc-form" onsubmit="return false"><label class="fld">Peso (kg)<input inputmode="decimal" name="p" placeholder="ex.: 12"></label><label class="fld">Dose (mg/kg)<input inputmode="decimal" name="d" placeholder="ex.: 15"></label><label class="fld">Dose máx. (mg)<input inputmode="decimal" name="x" placeholder="opcional"></label><label class="fld">Concentração (mg/mL)<input inputmode="decimal" name="c" value="'+(c?fmt(c):"")+'" placeholder="opcional"></label><output class="out" aria-live="polite">Informe peso e dose em mg/kg.</output><span class="formula">dose (mg) = peso × mg/kg, limitada à dose máxima; volume (mL) = mg ÷ concentração</span></form></details>'
    +(false?'<details><summary>⚗️ Farmacologia e mecanismo de ação</summary><p><b>Mecanismo de ação:</b> '+esc(m.moa)+'</p>'+(m.farma?'<p><b>Farmacologia clínica:</b> '+esc(m.farma)+'</p>':'')+(m.fk?'<p><b>Farmacocinética:</b> '+esc(m.fk)+'</p>':'')+(m.fisio?'<p><b>Fisiopatologia:</b> '+esc(m.fisio)+'</p>':'')+'</details>':'')
    +'<details><summary>Fontes e links</summary><ol class="refs">'+m.rr.map(k=>'<li>'+esc(R[k].t)+' <a class="lk" href="'+esc(R[k].u)+'" target="_blank" rel="noopener noreferrer">abrir</a> <span class="lv '+(R[k].l==="ok"?"ok":"")+'">'+LV[R[k].l][0]+"</span></li>").join("")+'</ol><div class="links"><span class="note">Pesquisar em:</span> '+drugLinks(it)+"</div></details>"
@@ -487,12 +490,12 @@ function renderRefs(){
 
 /* ---------- navegação ---------- */
 const TABS=[["meds","Medicamentos"],["dose","Dose do paciente"],["calc","Calculadoras"],["mine","Minha lista"],["any","Qualquer medicamento"],["cart","Triagem"],["refs","Referências"],["about","Sobre"]];
-const PRIM=["meds","dose","calc"],SHORT={dose:"Dose"};
+const PRIM=["meds"],SHORT={};
 function renderTabs(){
   const lab=t=>t[0]==="cart"&&st.cart.size?t[1]+'<span class="n">'+st.cart.size+"</span>":t[0]==="cmp"&&st.cmp.length?t[1]+'<span class="n">'+st.cmp.length+"</span>":t[1];
   const inMore=!PRIM.includes(st.tab),nm=st.cart.size+st.cmp.length;
   $("#tabs").innerHTML=TABS.filter(t=>PRIM.includes(t[0])).map(t=>'<button type="button" role="tab" data-t="'+t[0]+'" aria-selected="'+(st.tab===t[0])+'" title="'+t[1]+'">'+(SHORT[t[0]]||t[1])+"</button>").join("")
-   +'<span class="morewrap"><button type="button" data-more="1" aria-haspopup="true" aria-expanded="'+st.more+'" aria-selected="'+inMore+'">'+(inMore?TABS.find(t=>t[0]===st.tab)[1]:"Mais")+(nm&&!inMore?'<span class="n">'+nm+"</span>":"")+' ▾</button>'
+   +'<span class="morewrap"><button type="button" data-more="1" aria-haspopup="true" aria-expanded="'+st.more+'" aria-selected="'+inMore+'">'+(inMore?TABS.find(t=>t[0]===st.tab)[1]:"Ferramentas")+(nm&&!inMore?'<span class="n">'+nm+"</span>":"")+' ▾</button>'
    +'<span class="menu" '+(st.more?"":"hidden")+' role="menu">'+TABS.filter(t=>!PRIM.includes(t[0])).map(t=>'<button type="button" role="menuitem" data-t="'+t[0]+'" aria-current="'+(st.tab===t[0])+'">'+lab(t)+"</button>").join("")+"</span></span>";
   $$(".panel").forEach(p=>p.hidden=p.id!=="p-"+st.tab);
   if(st.tab==="any")renderAny();
@@ -527,6 +530,7 @@ function init(){
     if(d.clearq)$("#q").value="";
     renderMeds();window.scrollTo({top:0})};
   $("#browse").addEventListener("click",nav);$("#crumb").addEventListener("click",nav);
+  $("#drawer").addEventListener("click",e=>{if(e.target.closest("[data-goto=pac]")){const b=$(".pacbox");if(b){b.open=true;b.scrollIntoView({behavior:"smooth",block:"start"});const i=$("#dr-idade");i&&i.focus({preventScroll:true})}}});
   $("#drawer").addEventListener("input",e=>{if(e.target.closest(".pacbox")&&e.target.id!=="dr-un")drPacChange(e)});
   $("#drawer").addEventListener("change",e=>{if(e.target.closest(".pacbox"))drPacChange(e)});
   $("#drawer").addEventListener("click",e=>{const b=e.target.closest("[data-dage]");if(!b)return;

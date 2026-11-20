@@ -13,7 +13,7 @@ from livertox_map import M as LTMAP,SEM_REGISTRO
 from nefro_lit import LIT
 CACHE=os.path.join(H,'tox','cache');os.makedirs(CACHE,exist_ok=True)
 def norm(s): return re.sub(r'[^a-z0-9]+',' ',s.lower()).strip()
-ALIAS={'b complex vitamins':'vitamin b complex'}
+ALIAS={'b complex vitamins':'vitamin b complex','insulin isophane nph':'insulin human regular'}
 def sid(en):
     n=norm(re.sub(r'[()]','',en));return ALIAS.get(n,n).replace(' ','_')
 def args():
@@ -83,6 +83,8 @@ def snip(s,rx,n=260):
 def sents(t): return re.split(r'(?<=[.!?])\s+(?=[A-Z0-9])',re.sub(r'\s+',' ',t))
 # revisao manual: o rotulo so menciona rim em interacao, pre-condicao ou outro produto (ex.: diluente) - nao e sinal do proprio farmaco
 NEF_OVR={'dextrose_glucose','sodium_chloride','amlodipine','dexamethasone','fluconazole','carbamazepine','hydralazine'}
+# capitulos LiverTox sem escore: nivel inferido do texto do proprio capitulo (sinalizado na interface como 'inferido')
+HEP_INF={'heparin':1,'methadone':0,'ipratropium':0,'tobramycin':0,'neomycin_bacitracin':0,'artemether_and_lumefantrine':1}
 def fda_ev(en,fdir):
     fn=os.path.join(fdir,re.sub(r'[^a-z0-9]+','_',en.lower())+'.json')
     if not os.path.exists(fn): return None
@@ -155,6 +157,7 @@ def main():
         # hepatico
         h=lt_for(en,LT);f=FD.get(en) or {}
         fh=f.get('h') or {}
+        if h and h.get('l') is None and i in HEP_INF: h['l']=HEP_INF[i];h['inf']=1
         if h is None and f.get('rotulos'):
             h=dict(l=fh.get('l',0),s=None,m='',src=[],fda=True)
         if h is not None:
