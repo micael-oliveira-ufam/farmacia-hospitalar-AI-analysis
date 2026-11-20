@@ -2,6 +2,9 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.23.0
+- **Fonte das doses:** na ficha de cada medicamento, o seletor *Outras fontes de dose* permite escolher entre a base própria, o **Manual Farmacêutico do Einstein** (faixas pediátricas por kg de 74 medicamentos) e o **cartão de PCR do Sírio-Libanês** (21 medicamentos de emergência). Cada fonte aparece com link da ficha e comparação com a nossa faixa. Guardamos só números e links, sem copiar o texto dos manuais. O Guia Farmacêutico online do Sírio estava fora do ar na coleta.
+
 ## 4.22.0
 - **Estoque:** novo botão **Gerenciar quantidade em estoque** abre uma janela na própria página, com busca, campos de quantidade e **Salvar quantidades**; ao salvar aparece a mensagem de confirmação com o número de itens atualizados.
 - **Relatórios:** removido o botão *Ver a lista com as referências* da tela; as referências seguem na coluna **Referências** do PDF.

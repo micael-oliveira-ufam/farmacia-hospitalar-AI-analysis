@@ -125,3 +125,10 @@ input,select,textarea{font:inherit;color:inherit}
 :root[data-theme="dark"] .u-p{display:none}
 :root[data-theme="dark"] .u-n{display:inline-block}
 .ufam span{max-width:22ch}
+
+/* fonte das doses (Einstein / Sírio) */
+.fonte{margin:.4rem 0 1rem}.fonte .fld{display:inline-flex;gap:.5rem;align-items:center;margin-bottom:.5rem}
+.tag{display:inline-block;padding:.12rem .5rem;border-radius:999px;font-size:.78rem;font-weight:700}
+.tag.warn{background:rgba(217,119,6,.16);color:#92400e}.tag.ok{background:rgba(5,150,105,.14);color:#065f46}
+:root[data-theme="dark"] .tag.warn{color:#fbbf24}:root[data-theme="dark"] .tag.ok{color:#6ee7b7}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tag.warn{color:#fbbf24}:root:not([data-theme="light"]) .tag.ok{color:#6ee7b7}}

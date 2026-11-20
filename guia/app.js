@@ -166,6 +166,24 @@ function poTable(rec,cur){if(!rec)return"";
      +(v[6]||lim?'<tr class="ponote"><td></td><td colspan="5"><small>'+esc(v[6]||"")+(lim?(v[6]?" · ":"")+esc(lim):"")+"</small></td></tr>":"")});
   return'<div class="tbl"><table class="potbl"><thead><tr><th>Faixa etária</th><th>Mínima</th><th>Recomendada</th><th>Máxima</th><th>Escala</th><th>Unidade / intervalo</th></tr></thead><tbody>'+rows.join("")+"</tbody></table></div>"+(rec.nota?'<p class="note">'+esc(rec.nota)+"</p>":"")+'<p class="note">Compilado por IA a partir das fontes citadas: confirme com a referência e o farmacêutico responsável (atenção redobrada em prematuros, neonatos e idosos).</p>'}
 
+/* ---------- fonte das doses: base própria, Manual Farmacêutico do Einstein, cartão de PCR do Sírio-Libanês (só números e link; data/fontes_dose.json) ---------- */
+const FD=window.FONTES||{};
+const FSRC={BASE:"Base própria",EIN:"Manual do Einstein",SIL:"Sírio-Libanês (PCR)"};
+const fonteSel=()=>{try{return localStorage.getItem("icam-fonte")||"BASE"}catch(e){return"BASE"}};
+const poFxQ=x=>poQ(x);
+function fonteBlock(it){const d=DOSEBY[it.key],f=d&&FD[d.id],src=fonteSel(),rec=poFor(it);
+  const opts=["BASE"].concat(["EIN","SIL"].filter(k=>f&&f[k]));
+  const sel='<label class="fld">Fonte das doses <select id="dr-src">'+opts.map(k=>'<option value="'+k+'"'+(src===k?" selected":"")+">"+FSRC[k]+"</option>").join("")+"</select></label>";
+  if(src==="BASE"||!f||!f[src])return'<div class="fonte">'+sel+(f?"":'<span class="note"> Sem outra fonte para este medicamento.</span>')+"</div>";
+  const e=f[src],ours=rec?Object.keys(rec.b).filter(b=>["neo","lac","cri","adl"].includes(b)&&Array.isArray(rec.b[b])).map(b=>rec.b[b]):[];
+  const rows=e.fx.map(x=>{const un=x.u.replace(/\/dose$/,""),o=ours.filter(v=>v[3]===un);let cmp="";
+    if(o.length){const mn=Math.min(...o.map(v=>v[0])),mx=Math.max(...o.map(v=>v[2]));
+      cmp=x.max>mx*1.0001?'<span class="tag warn">máximo acima da nossa base ('+poQ(mx)+")</span>":x.min<mn*0.9999?'<span class="tag warn">mínimo abaixo da nossa base ('+poQ(mn)+")</span>":'<span class="tag ok">dentro da nossa faixa ('+poQ(mn)+" a "+poQ(mx)+")</span>"}
+    return"<tr><td>"+poFxQ(x.min)+(x.max!==x.min?" a "+poFxQ(x.max):"")+" "+esc(x.u)+"</td><td>"+cmp+(x.obs?'<small> '+esc(x.obs)+"</small>":"")+"</td></tr>"}).join("");
+  return'<div class="fonte">'+sel+'<div class="tbl"><table class="potbl"><thead><tr><th>'+esc(FSRC[src])+" (faixas citadas)</th><th>Comparação</th></tr></thead><tbody>"+rows+"</tbody></table></div>"
+   +(e.max?'<p class="note">Dose máxima citada: '+poQ(e.max.v)+" "+esc(e.max.u)+".</p>":"")
+   +'<p class="note">'+(src==="EIN"?'As faixas juntam todas as indicações e idades pediátricas da ficha; confira a indicação na fonte. <a class="lk" href="'+esc(e.link)+'" target="_blank" rel="noopener noreferrer">Abrir a ficha no Manual Farmacêutico do Einstein</a>.':"Valores por kg calculados da tabela de doses por peso do cartão “Doses para PCR em Pediatria” (Hospital Sírio-Libanês), para emergência e intubação, não para uso de rotina.")+" Apoio à decisão: confirme com o farmacêutico responsável.</p></div>"}
+
 /* paciente -> faixa, dose calculada e painel na ficha (usa o mesmo estado DZ.pac da aba Dose) */
 function poBand(pc){const a=pc.idadeAnos;if(!(a>=0))return null;
   if(pc.prematuro&&a<=28/365.25)return"pre";if(a<=28/365.25)return"neo";if(a<2)return"lac";if(a<12)return"cri";if(a<18)return"adl";if(a<65)return"adu";return"ido"}
@@ -215,7 +233,7 @@ function poBlock(it,form){const rec=poFor(it);if(!rec)return"";
   const pc=dzPac(),key=poBand(pc);
   return'<details open class="pacbox"><summary>Dose e posologia para este paciente</summary>'
    +(form?poPacForm():"")+'<div id="dr-pout">'+poOut(rec,pc,key)+'</div>'
-   +'<h3 class="sub-h">Posologia por faixa etária (mínima, recomendada e máxima)</h3><div id="dr-ptable">'+poTable(rec,key)+"</div></details>"}
+   +'<h3 class="sub-h">Posologia por faixa etária (mínima, recomendada e máxima)</h3><div id="dr-ptable">'+poTable(rec,key)+'</div><h3 class="sub-h">Outras fontes de dose</h3><div id="dr-fonte">'+fonteBlock(it)+"</div></details>"}
 function refreshDrawerPac(){const it=byId.get(st.dr-1);if(!it||!poFor(it))return;
   const pc=dzPac(),key=poBand(pc),rec=poFor(it);
   const ps=$("#pstrip");if(ps)ps.outerHTML=pStrip();
@@ -223,7 +241,8 @@ function refreshDrawerPac(){const it=byId.get(st.dr-1);if(!it||!poFor(it))return
   if(key&&PO_TO_AGE[key]&&PO_TO_AGE[key]!==st.age){st.age=PO_TO_AGE[key];store.set("icam-age",st.age);
     $$("#dr-age button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.dage===st.age));
     $("#dr-dose").innerHTML=doseHtml(it);$("#dr-hint").textContent=AGEHINT[st.age]}}
-function drPacChange(e){const p=DZ.pac;const g=id=>$("#dr-"+id);
+function drPacChange(e){if(e.target.id==="dr-src"){try{localStorage.setItem("icam-fonte",e.target.value)}catch(_){}const it=byId.get(st.dr-1);if(it)$("#dr-fonte").innerHTML=fonteBlock(it);return}
+  const p=DZ.pac;const g=id=>$("#dr-"+id);
   if(e.target.id==="dr-prem"||e.target.id==="dr-gest"){p[e.target.id.slice(3)]=e.target.checked}
   else{p.idade=g("idade").value;p.un=g("un").value;p.peso=g("peso").value;p.renal=g("renal").value;p.hep=g("hep").value}
   dzSave();dzSyncForm();refreshDrawerPac()}
@@ -664,7 +683,7 @@ function init(){
     renderMeds();window.scrollTo({top:0})};
   $("#browse").addEventListener("click",nav);$("#crumb").addEventListener("click",nav);
   $("#drawer").addEventListener("click",e=>{if(e.target.closest("[data-goto=pac]")){const b=$(".pacbox");if(b){b.open=true;b.scrollIntoView({behavior:"smooth",block:"start"});const i=$("#dr-idade");i&&i.focus({preventScroll:true})}}});
-  $("#drawer").addEventListener("input",e=>{if(e.target.closest(".pacbox")&&e.target.id!=="dr-un")drPacChange(e)});
+  $("#drawer").addEventListener("input",e=>{if(e.target.closest(".pacbox")&&e.target.id!=="dr-un"&&e.target.id!=="dr-src")drPacChange(e)});
   $("#drawer").addEventListener("change",e=>{if(e.target.closest(".pacbox"))drPacChange(e)});
   $("#drawer").addEventListener("click",e=>{const b=e.target.closest("[data-dage]");if(!b)return;
     st.age=b.dataset.dage;store.set("icam-age",st.age);

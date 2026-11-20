@@ -23,6 +23,8 @@ def build(pwa):
     t=t.replace('/*DOSE*/',json.dumps(dose,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     poso=json.load(open(os.path.join(S,'data/posologia.json'),encoding='utf8'))
     t=t.replace('/*POSO*/',json.dumps(poso,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
+    fd=json.load(open(os.path.join(S,'data/fontes_dose.json'),encoding='utf8'))
+    t=t.replace('/*FONTES*/',json.dumps(fd,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     tox=json.load(open(os.path.join(S,'data/toxicidade.json'),encoding='utf8'))
     fic=json.load(open(os.path.join(S,'data/codajas_fichas.json'),encoding='utf8'))
     t=t.replace('/*FICHAS*/',json.dumps(fic,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
