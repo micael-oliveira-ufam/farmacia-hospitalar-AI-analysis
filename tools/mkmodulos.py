@@ -32,7 +32,7 @@ THEME='<button class="fl-ic" id="theme" type="button" aria-label="Alternar tema 
 MODS=[('guia','Controle terapêutico','gui'),('estoque','Estoque','est'),('pedidos','Pedidos','ped'),('prontuario','Prontuário','pro')]
 def _uri():return 'data:image/png;base64,'+base64.b64encode(open(os.path.join(S,'design/ufam.png'),'rb').read()).decode()
 def _uri_neg():return 'data:image/png;base64,'+base64.b64encode(open(os.path.join(S,'design/ufam_neg.png'),'rb').read()).decode()
-def inst():return '<span class="fl-inst" title="Universidade Federal do Amazonas"><img class="u-p" src="'+_uri()+'" alt="Brasão da Universidade Federal do Amazonas" width="38" height="38"><img class="u-n" src="'+_uri_neg()+'" alt="" aria-hidden="true" width="38" height="38"><span class="fl-aut"><b>UFAM</b>Micael Oliveira (ICAM) · Ennylay (ICAM) · Elias Barros (HUGV)<span>Orient.: Profa. Dra. Clarice Veloso</span><span>Preceptora: Dra. Juliana Carvalho</span></span></span>'
+def inst():return '<span class="fl-inst" title="Universidade Federal do Amazonas"><img class="u-p" src="'+_uri()+'" alt="Brasão da Universidade Federal do Amazonas" width="38" height="38"><img class="u-n" src="'+_uri_neg()+'" alt="" aria-hidden="true" width="38" height="38"><span class="fl-aut"><b>UFAM</b>Micael Oliveira (ICAM) · Ennylay (ICAM) · Elias Barros (HUGV)<span>Orient.: Profa. Dra. Clarice Veloso e Prof. Dr. Evandro Silva</span><span>Preceptora: Dra. Juliana Carvalho</span></span></span>'
 def bar(cur,web):
     brand='<a class="fl-brand" href="'+('../' if web else '#')+'" aria-label="PharmaCentral">'+MARK+'<span>Pharma<b>Central</b></span></a>'
     nav=''
@@ -40,7 +40,7 @@ def bar(cur,web):
     return '<header class="fl-bar"><div class="fl-bar-in">'+brand+nav+'<span class="fl-sp"></span>'+inst()+'<div class="fl-tools">'+THEME+'</div></div></header>'
 def build(name,web,items,css):
     t=rd(name+'.tpl.html')
-    t=t.replace('<!--UFAM-->','<span class="ufam"><img class="u-p" src="data:image/png;base64,'+base64.b64encode(open(os.path.join(S,'design/ufam.png'),'rb').read()).decode()+'" alt="Brasão da Universidade Federal do Amazonas" width="56" height="56"><img class="u-n" src="'+_uri_neg()+'" alt="" aria-hidden="true" width="56" height="56"><span>Universidade Federal do Amazonas</span></span><span class="foot-aut"><b>Autores</b>: Micael Davi Lima de Oliveira (ICAM), Ennylay (ICAM) e Elias Barros (HUGV) · Colaborador: Prof. Dr. Evandro Silva · Orientadora: Profa. Dra. Clarice Veloso · Preceptora: Dra. Juliana Carvalho</span>')
+    t=t.replace('<!--UFAM-->','<span class="ufam"><img class="u-p" src="data:image/png;base64,'+base64.b64encode(open(os.path.join(S,'design/ufam.png'),'rb').read()).decode()+'" alt="Brasão da Universidade Federal do Amazonas" width="56" height="56"><img class="u-n" src="'+_uri_neg()+'" alt="" aria-hidden="true" width="56" height="56"><span>Universidade Federal do Amazonas</span></span><span class="foot-aut"><b>Autores</b>: Micael Davi Lima de Oliveira (ICAM), Ennylay (ICAM) e Elias Barros (HUGV) · Orientação: Profa. Dra. Clarice Veloso e Prof. Dr. Evandro Silva · Preceptora: Dra. Juliana Carvalho</span>')
     t=t.replace('<!--BAR-->',bar(name,web)).replace('<!--BODYCLS-->','' if web else ' class="app"')
     t=t.replace('<!--PWA-->','<link rel="icon" href="../icon.svg">' if web else '')
     t=t.replace('/*ITENS*/',json.dumps(items,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))

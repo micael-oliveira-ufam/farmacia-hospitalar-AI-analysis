@@ -28,7 +28,7 @@ body{margin:0}.w{max-width:1100px;margin:0 auto;padding:14px}h1{font:700 1.5rem/
 <div class="bar"><input id="q" placeholder="Buscar por descrição ou código" aria-label="Buscar"><select id="cat" aria-label="Categoria"></select><button class="b" id="r1">Gerar relatório em PDF</button></div>
 <p id="n" class="sub"></p><ul class="g" id="l"></ul><button class="b" id="more" style="width:100%;margin-top:10px;background:var(--sunk);color:var(--ink)">Mostrar mais</button>
 <div class="ft"><span>Fotos ilustrativas por tipo de produto, não a marca do item. Origem e licença constam no relatório.</span><button class="b" id="r2">Gerar relatório</button></div>
-<div class="ft"><span class="ufam"><img src="data:image/png;base64,'''+b64(os.path.join(S,'design/ufam.png'))+'''" alt="Brasão da Universidade Federal do Amazonas" width="56" height="56"><span>Universidade Federal do Amazonas</span></span><span><b>Autores</b>: Micael Davi Lima de Oliveira e Elias de Souza Barros · Orientadora: Profa. Dra. Clarice Veloso · Preceptora: Dra. Juliana Carvalho</span></div>
+<div class="ft"><span class="ufam"><img src="data:image/png;base64,'''+b64(os.path.join(S,'design/ufam.png'))+'''" alt="Brasão da Universidade Federal do Amazonas" width="56" height="56"><span>Universidade Federal do Amazonas</span></span><span><b>Autores</b>: Micael Davi Lima de Oliveira e Elias de Souza Barros · Orientação: Profa. Dra. Clarice Veloso e Prof. Dr. Evandro Silva · Preceptora: Dra. Juliana Carvalho</span></div>
 </div><script>'''+open(os.path.join(S,'design/pcpdf.js'),encoding='utf8').read()+'''</script><script>
 var D=__ITENS__,IM=__IMGS__,P=24,shown=P;
 var $=function(i){return document.getElementById(i)},nf=function(n){return n.toLocaleString("pt-BR")};

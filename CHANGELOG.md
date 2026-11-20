@@ -2,6 +2,12 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.24.0
+- **Estoque:** dois inventários separados, **Medicamentos na Farmácia Clínica** e **Medicamentos no CAF**, cada um com seus itens, quantidades, análise ABC, pedido semanal e backup. Os itens que já existiam ficam no CAF; a Farmácia Clínica começa vazia.
+- **Estoque:** removidas a janela *Inserção Manual de Medicamento* e a lista *Itens Cadastrados*. Adicionar e excluir medicamentos (com confirmação) agora é feito em **Gerenciar quantidade em estoque**.
+- **Análise Detalhada:** o nome do medicamento deixou de ser cortado; os selos ficam numa linha própria.
+- **Créditos:** o Prof. Dr. Evandro Silva passou para **Orientação**, junto da Profa. Dra. Clarice Veloso, e saiu da lista de autores.
+
 ## 4.23.2
 - **Ficha:** removido o bloco *Calcular dose por peso*, que repetia o cálculo de *Dose e posologia para este paciente*.
 
@@ -28,7 +34,7 @@ Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR
 - **Conteúdo compilado por IA; exige revisão farmacêutica.** Cefalotina, dipirona, ambroxol, TCM e contraste iodado não iônico ainda não têm verbete (8 itens do catálogo).
 
 ## 4.19.1
-- **UFAM e equipe no cabeçalho e no rodapé** de todos os módulos (web e Android): autores Micael Davi Lima de Oliveira e Elias de Souza Barros, orientadora Profa. Dra. Clarice Veloso e preceptora Dra. Juliana Carvalho.
+- **UFAM e equipe no cabeçalho e no rodapé** de todos os módulos (web e Android): autores Micael Davi Lima de Oliveira e Elias de Souza Barros, orientadora Profa. Dra. Clarice Veloso e Prof. Dr. Evandro Silva e preceptora Dra. Juliana Carvalho.
 - **PPS no CAF no Android:** botão "PPS no CAF" no Estoque da unidade ICAM abre a lista com foto, CMM, função e relatório em PDF (`flutter_app/assets/pps.html`, gerado por `tools/mkpps_app.py`). Não compilado neste ambiente (sem SDK Flutter): conferir ao gerar o APK.
 - Repositório renomeado para `pharmacentral-farmacia-hospitalar` (links atualizados).
 

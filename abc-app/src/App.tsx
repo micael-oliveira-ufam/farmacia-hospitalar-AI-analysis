@@ -208,7 +208,7 @@ function FlBar() {
         <a className="pro" href={HOME_URL + 'prontuario/'}><i />Prontuário</a>
       </nav>
       <span className="fl-sp" />
-      <span className="fl-inst" title="Universidade Federal do Amazonas"><img src={`${import.meta.env.BASE_URL}ufam.png`} alt="Brasão da Universidade Federal do Amazonas" width={38} height={38} /><span className="fl-aut"><b>UFAM</b>Micael Oliveira (ICAM) · Ennylay (ICAM) · Elias Barros (HUGV)<span>Orient.: Profa. Dra. Clarice Veloso</span><span>Preceptora: Dra. Juliana Carvalho</span></span></span>
+      <span className="fl-inst" title="Universidade Federal do Amazonas"><img src={`${import.meta.env.BASE_URL}ufam.png`} alt="Brasão da Universidade Federal do Amazonas" width={38} height={38} /><span className="fl-aut"><b>UFAM</b>Micael Oliveira (ICAM) · Ennylay (ICAM) · Elias Barros (HUGV)<span>Orient.: Profa. Dra. Clarice Veloso e Prof. Dr. Evandro Silva</span><span>Preceptora: Dra. Juliana Carvalho</span></span></span>
       <div className="fl-tools"><button className="fl-ic" onClick={() => setDark(d => !d)} aria-label="Alternar tema claro e escuro" title="Tema"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></div>
     </div></div>
   );
@@ -250,7 +250,12 @@ export default function App() {
   const [editCellValue, setEditCellValue] = useState<string | number>('');
   const [isEditMode, setIsEditMode] = useState(false);
   // alterações digitadas e ainda não salvas: id -> campo -> texto digitado
+  const [sector, setSector] = useState<'caf' | 'clinica'>(() => (localStorage.getItem('sector') === 'clinica' ? 'clinica' : 'caf'));
+  const scope = sector === 'clinica' ? `${hospitalId}~clinica` : hospitalId;
+  const sectorName = sector === 'clinica' ? 'Farmácia Clínica' : 'CAF';
   const [showQty, setShowQty] = useState(false);
+  const [qtyAdd, setQtyAdd] = useState(false);
+  const [qtyDel, setQtyDel] = useState<string | null>(null);
   const [qtyDraft, setQtyDraft] = useState<Record<string, string>>({});
   const [qtyFilter, setQtyFilter] = useState('');
   const [qtyMsg, setQtyMsg] = useState<string | null>(null);
@@ -381,7 +386,7 @@ export default function App() {
     }
 
     let seeded = false;
-    const unsubscribe = store.subscribe(hospitalId, (list) => {
+    const unsubscribe = store.subscribe(scope, (list) => {
       setMedications(list);
       if (seeded) return;
       seeded = true;
@@ -390,13 +395,13 @@ export default function App() {
       try { done = localStorage.getItem(flag) === '1'; } catch { /* ignore */ }
       if (done) return;
       try { localStorage.setItem(flag, '1'); } catch { /* ignore */ }
-      if (list.length === 0) {
+      if (list.length === 0 && sector === 'caf') {
         if (hospitalId === 'icam') void importIcam(hospitalId, list);
         else if (hospitalId === 'policlinica-codajas') void importCodajas(hospitalId, list);
       }
     });
     return () => unsubscribe();
-  }, [hospitalId, store]);
+  }, [hospitalId, store, scope, sector]);
 
   const abcResults = useMemo(() => calculateABC(medications, calculationMode, reviewDays), [medications, calculationMode, reviewDays]);
   const stockByCode = useMemo(() => {
@@ -423,7 +428,7 @@ export default function App() {
     
     setIsSaving(true);
     try {
-      await store.add(hospitalId, {
+      await store.add(scope, {
         ...manualEntry,
         // Convert monthly input to annual for internal logic
         annualConsumption: manualEntry.annualConsumption * 12,
@@ -449,7 +454,7 @@ export default function App() {
   const removeMedication = async (id: string) => {
     if (!hospitalId || !user) return;
     try {
-      await store.remove(hospitalId, id);
+      await store.remove(scope, id);
     } catch (error) {
       handleFirestoreError(error, OperationType.DELETE, `medications/${id}`);
     }
@@ -499,7 +504,7 @@ export default function App() {
           });
         }
         const count = docs.length;
-        if (count > 0) await store.addMany(hospitalId, docs);
+        if (count > 0) await store.addMany(scope, docs);
         
         alert(`Sucesso! ${count} itens foram importados para o banco de dados.`);
       } catch (error) {
@@ -514,7 +519,7 @@ export default function App() {
 
   const applyAnvisaPrice = async (medId: string, price: number) => {
     try {
-      await store.update(hospitalId, medId, { unitCost: price });
+      await store.update(scope, medId, { unitCost: price });
     } catch (error) {
       handleFirestoreError(error, OperationType.UPDATE, `medications/${medId}`);
     }
@@ -536,7 +541,7 @@ export default function App() {
           const n = v.trim() === '' ? (f === 'currentInventory' ? -1 : 0) : Number(v.replace(',', '.'));
           if (Number.isFinite(n)) upd[f] = n;
         });
-        if (Object.keys(upd).length) await store.update(hospitalId, id, upd as Partial<Medication>);
+        if (Object.keys(upd).length) await store.update(scope, id, upd as Partial<Medication>);
       }
       setDrafts({});
       setIsEditMode(false);
@@ -556,7 +561,7 @@ export default function App() {
       for (const [id, v] of Object.entries(qtyDraft) as [string, string][]) {
         const num = v.trim() === '' ? -1 : Number(v.replace(',', '.'));
         if (!Number.isFinite(num)) continue;
-        await store.update(hospitalId, id, { currentInventory: num } as Partial<Medication>);
+        await store.update(scope, id, { currentInventory: num } as Partial<Medication>);
         n++;
       }
       setQtyDraft({});
@@ -584,7 +589,7 @@ export default function App() {
         valueToSave = Number(editCellValue);
       }
 
-      await store.update(hospitalId, id, { [field]: valueToSave } as Partial<Medication>);
+      await store.update(scope, id, { [field]: valueToSave } as Partial<Medication>);
       setEditingCell(null);
     } catch (error) {
       handleFirestoreError(error, OperationType.UPDATE, `medications/${id}`);
@@ -595,7 +600,7 @@ export default function App() {
     if (!user) return;
     if (window.confirm(`Deseja realmente alterar a classificação deste item para Classe ${newClass}?`)) {
       try {
-        await store.update(hospitalId, id, { manualClassification: newClass });
+        await store.update(scope, id, { manualClassification: newClass });
       } catch (error) {
         handleFirestoreError(error, OperationType.UPDATE, `medications/${id}`);
       }
@@ -605,7 +610,7 @@ export default function App() {
   const resetManualClassification = async (id: string) => {
     if (!user) return;
     try {
-      await store.update(hospitalId, id, { manualClassification: null });
+      await store.update(scope, id, { manualClassification: null });
     } catch (error) {
       handleFirestoreError(error, OperationType.UPDATE, `medications/${id}`);
     }
@@ -645,10 +650,10 @@ export default function App() {
   };
 
   const doBackup = () => {
-    const blob = new Blob([exportBackup(hospitalId)], { type: 'application/json' });
+    const blob = new Blob([exportBackup(scope)], { type: 'application/json' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = `backup_abc_${hospitalId}_${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `backup_abc_${scope}_${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 1000);
   };
@@ -657,7 +662,7 @@ export default function App() {
     const f = e.target.files?.[0];
     if (!f) return;
     if (!window.confirm('Restaurar substitui TODOS os dados desta unidade neste navegador. Continuar?')) { e.target.value = ''; return; }
-    f.text().then(t => alert(`${importBackup(hospitalId, t)} itens restaurados.`)).catch(err => alert('Falha ao restaurar: ' + err.message)).finally(() => { e.target.value = ''; });
+    f.text().then(t => alert(`${importBackup(scope, t)} itens restaurados.`)).catch(err => alert('Falha ao restaurar: ' + err.message)).finally(() => { e.target.value = ''; });
   };
 
   const exportToPdf = () => {
@@ -772,8 +777,8 @@ export default function App() {
               Baixar planilha de exemplo (.xlsx)
             </button>
             <div className="pt-6 border-t border-slate-200 text-sm text-slate-500 space-y-1">
-              <p><b className="text-slate-700">Autores</b> · Micael Davi Lima de Oliveira (ICAM), Ennylay (ICAM) e Elias Barros (HUGV) · Colaborador: Prof. Dr. Evandro Silva</p>
-              <p><b className="text-slate-700">Orientadora</b> · Profa. Dra. Clarice Veloso</p>
+              <p><b className="text-slate-700">Autores</b> · Micael Davi Lima de Oliveira (ICAM), Ennylay (ICAM) e Elias Barros (HUGV)</p>
+              <p><b className="text-slate-700">Orientação</b> · Profa. Dra. Clarice Veloso e Prof. Dr. Evandro Silva</p>
               <p><b className="text-slate-700">Preceptora</b> · Dra. Juliana Carvalho</p>
             </div>
           </section>
@@ -908,7 +913,7 @@ export default function App() {
                     if (medications.length === 0 || !user) return;
                     setIsSaving(true);
                     try {
-                      const processedCount = await store.syncAll(hospitalId, medications);
+                      const processedCount = await store.syncAll(scope, medications);
                       alert(store.mode === 'local' ? `Os ${processedCount} itens já estão salvos neste navegador (salvamento automático). Use "Backup" para guardar uma cópia.` : `Sucesso! ${processedCount} itens sincronizados.`);
                     } catch (err) {
                       handleFirestoreError(err, OperationType.WRITE, 'medications');
@@ -931,8 +936,32 @@ export default function App() {
             <div role="dialog" aria-modal="true" aria-label="Gerenciar quantidade em estoque" className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/60 p-3" onClick={e => { if (e.target === e.currentTarget && !isSaving) setShowQty(false); }}>
               <div className="bg-white text-slate-900 rounded-2xl shadow-2xl w-[min(96vw,720px)] max-h-[88vh] flex flex-col">
                 <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-200">
-                  <h2 className="flex-1 text-base font-black">Gerenciar quantidade em estoque</h2>
+                  <h2 className="flex-1 text-base font-black">Gerenciar quantidade em estoque · {sectorName}</h2>
                   <button onClick={() => setShowQty(false)} disabled={isSaving} aria-label="Fechar" className="p-1.5 rounded-lg hover:bg-slate-100"><X size={18} /></button>
+                </div>
+                <div className="px-5 pt-3">
+                  <button onClick={() => { setQtyAdd(v => !v); setQtyMsg(null); }} className="flex items-center gap-2 text-sm font-bold text-blue-700 hover:text-blue-800">
+                    <Plus size={16} className={qtyAdd ? 'rotate-45 transition-transform' : 'transition-transform'} />
+                    {qtyAdd ? 'Fechar o cadastro' : 'Adicionar medicamento'}
+                  </button>
+                  {qtyAdd && (
+                    <form onSubmit={async e => {
+                      e.preventDefault();
+                      if (!manualEntry.name.trim() || !(manualEntry.annualConsumption > 0)) { setQtyMsg('Informe o nome e o consumo mensal (maior que zero).'); return; }
+                      await handleManualAdd(e);
+                      setQtyMsg(`Medicamento adicionado ao inventário ${sectorName}.`);
+                    }} className="mt-3 grid grid-cols-2 gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+                      {([['name', 'Nome', 'text', 'col-span-2'], ['pharmaceuticalForm', 'Forma farmacêutica', 'text', ''], ['concentration', 'Concentração', 'text', ''], ['annualConsumption', 'Consumo mensal', 'number', ''], ['unitCost', 'Custo unitário (R$)', 'number', ''], ['currentInventory', 'Estoque atual', 'number', ''], ['leadTimeDays', 'Lead time (dias)', 'number', '']] as const).map(([f, label, type, span]) => (
+                        <label key={f} className={cn('text-xs font-bold text-slate-600', span)}>{label}
+                          <input type={type} step={f === 'unitCost' ? '0.01' : undefined} inputMode={type === 'number' ? 'decimal' : undefined}
+                            value={(manualEntry as any)[f] === undefined || (manualEntry as any)[f] === 0 && type === 'number' ? '' : (manualEntry as any)[f]}
+                            onChange={e => setManualEntry(prev => ({ ...prev, [f]: type === 'number' ? (e.target.value === '' ? (f === 'currentInventory' ? undefined : 0) : Number(e.target.value)) : e.target.value }))}
+                            className="mt-1 w-full px-3 py-2 border border-slate-300 rounded-lg text-sm font-normal outline-none focus:ring-2 focus:ring-blue-500" />
+                        </label>
+                      ))}
+                      <button type="submit" disabled={isSaving} className="col-span-2 py-2 rounded-lg bg-slate-900 text-white text-sm font-bold hover:bg-slate-800 disabled:opacity-50">Adicionar ao inventário</button>
+                    </form>
+                  )}
                 </div>
                 <div className="px-5 pt-3">
                   <input value={qtyFilter} onChange={e => setQtyFilter(e.target.value)} placeholder="Buscar medicamento ou código" className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500" />
@@ -946,6 +975,14 @@ export default function App() {
                         onChange={e => { setQtyMsg(null); setQtyDraft(d => ({ ...d, [m.id]: e.target.value })); }}
                         placeholder="—"
                         className={cn('w-28 px-2 py-1.5 border rounded-lg text-right text-base outline-none focus:ring-2 focus:ring-blue-500', qtyDraft[m.id] !== undefined ? 'border-amber-400 bg-amber-50' : 'border-slate-300')} />
+                      {qtyDel === m.id ? (
+                        <span className="flex items-center gap-1">
+                          <button type="button" onClick={async e => { e.preventDefault(); await removeMedication(m.id); setQtyDel(null); setQtyMsg(`Medicamento excluído do inventário ${sectorName}.`); }} className="px-2 py-1 rounded-lg bg-red-600 text-white text-xs font-bold">Confirmar exclusão</button>
+                          <button type="button" onClick={e => { e.preventDefault(); setQtyDel(null); }} className="px-2 py-1 rounded-lg text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancelar</button>
+                        </span>
+                      ) : (
+                        <button type="button" aria-label={`Excluir ${m.name}`} onClick={e => { e.preventDefault(); setQtyDel(m.id); }} className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg"><Trash2 size={16} /></button>
+                      )}
                     </label>
                   ))}
                 </div>
@@ -976,202 +1013,27 @@ export default function App() {
             </div>
           )}
 
-            {hospitalId === 'icam' && <IcamLists unit={hospitalName} catalog={catalog} stock={stockByCode} />}
+            <div role="tablist" aria-label="Inventário" className="flex flex-wrap items-center gap-2">
+              <span className="text-xs font-black uppercase tracking-widest text-slate-500 mr-1">Inventário</span>
+              {([['clinica', 'Medicamentos na Farmácia Clínica'], ['caf', 'Medicamentos no CAF']] as const).map(([k, label]) => (
+                <button key={k} role="tab" aria-selected={sector === k}
+                  onClick={() => { setSector(k); try { localStorage.setItem('sector', k); } catch { /* ignore */ } setEditingCell(null); }}
+                  className={cn('px-4 py-2 rounded-xl text-sm font-bold border transition-all', sector === k ? 'bg-blue-600 text-white border-blue-600 shadow-sm' : 'bg-white text-slate-700 border-slate-200 hover:border-blue-300')}>
+                  {label}
+                </button>
+              ))}
+              <span className="text-xs text-slate-500">São dois inventários separados: o que você muda em um não altera o outro.</span>
+            </div>
+
+            {hospitalId === 'icam' && sector === 'caf' && <IcamLists unit={hospitalName} catalog={catalog} stock={stockByCode} />}
 
             <WeeklyOrder results={abcResults} reviewDays={reviewDays} setReviewDays={setReviewDays} catalog={catalog} />
 
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               
-              {/* Left Column: Input and List */}
-              <div className="lg:col-span-1 space-y-6">
-                
-                {/* Manual Entry Toggle */}
-                <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
-                  <button 
-                    onClick={() => setShowManualEntry(!showManualEntry)}
-                    className="w-full flex items-center justify-between text-slate-700 hover:text-blue-600 transition-colors"
-                  >
-                    <div className="flex items-center gap-2 font-semibold">
-                      <Plus size={20} className={showManualEntry ? "text-blue-600 rotate-45 transition-transform" : "text-blue-600 transition-transform"} />
-                      Inserção Manual de Medicamento
-                    </div>
-                    <span className="text-xs font-medium bg-slate-100 px-2 py-1 rounded-lg">
-                      {showManualEntry ? 'Ocultar' : 'Mostrar'}
-                    </span>
-                  </button>
-                </div>
-
-            {/* Manual Entry Form */}
-            {showManualEntry && (
-              <section className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 animate-in fade-in slide-in-from-top-4 duration-300">
-                <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                  <Plus size={20} className="text-blue-600" />
-                  Novo Medicamento
-                </h2>
-                <form onSubmit={handleManualAdd} className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Nome do Medicamento</label>
-                  <input 
-                    type="text" 
-                    value={manualEntry.name}
-                    onChange={e => setManualEntry(prev => ({ ...prev, name: e.target.value }))}
-                    placeholder="Ex: Dipirona"
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Forma Farmacêutica</label>
-                    <input 
-                      type="text" 
-                      value={manualEntry.pharmaceuticalForm}
-                      onChange={e => setManualEntry(prev => ({ ...prev, pharmaceuticalForm: e.target.value }))}
-                      placeholder="Ex: Comprimido"
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Concentração</label>
-                    <input 
-                      type="text" 
-                      value={manualEntry.concentration}
-                      onChange={e => setManualEntry(prev => ({ ...prev, concentration: e.target.value }))}
-                      placeholder="Ex: 500mg"
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                    />
-                  </div>
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Consumo Mensal</label>
-                    <input 
-                      type="number" 
-                      value={manualEntry.annualConsumption || ''}
-                      onChange={e => setManualEntry(prev => ({ ...prev, annualConsumption: Number(e.target.value) }))}
-                      placeholder="Qtd/mês"
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Custo Unitário (R$)</label>
-                    <input 
-                      type="number" 
-                      step="0.01"
-                      value={manualEntry.unitCost || ''}
-                      onChange={e => setManualEntry(prev => ({ ...prev, unitCost: Number(e.target.value) }))}
-                      placeholder="0.00"
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Total Usuários Ativos</label>
-                  <input 
-                    type="number" 
-                    value={manualEntry.activeUsers || ''}
-                    onChange={e => setManualEntry(prev => ({ ...prev, activeUsers: Number(e.target.value) }))}
-                    placeholder="Qtd"
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Lead Time (Dias)</label>
-                    <input 
-                      type="number" 
-                      value={manualEntry.leadTimeDays || ''}
-                      onChange={e => setManualEntry(prev => ({ ...prev, leadTimeDays: Number(e.target.value) }))}
-                      placeholder="Ex: 7"
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1">Inventário Atual</label>
-                    <input 
-                      type="number" 
-                      value={manualEntry.currentInventory === undefined ? '' : manualEntry.currentInventory}
-                      onChange={e => setManualEntry(prev => ({ ...prev, currentInventory: e.target.value === '' ? undefined : Number(e.target.value) }))}
-                      placeholder="Opcional"
-                      className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-1">Consumo Mensal Máx.</label>
-                  <input 
-                    type="number" 
-                    value={manualEntry.maxMonthlyConsumption || ''}
-                    onChange={e => setManualEntry(prev => ({ ...prev, maxMonthlyConsumption: Number(e.target.value) }))}
-                    placeholder="Opcional"
-                    className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
-                  />
-                </div>
-                <button 
-                  type="submit"
-                  className="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
-                >
-                  <Plus size={18} />
-                  Adicionar à Lista
-                </button>
-                {isSaving && (
-                  <div className="flex items-center justify-center gap-2 text-xs text-blue-600 animate-pulse">
-                    <Loader2 size={12} className="animate-spin" />
-                    Salvando no banco...
-                  </div>
-                )}
-              </form>
-            </section>
-            )}
-
-            {/* List of Added Items */}
-            <section className="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 max-h-[500px] overflow-y-auto">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold flex items-center gap-2">
-                  <Package size={20} className="text-blue-600" />
-                  Itens Cadastrados
-                </h2>
-                <span className="text-xs font-bold bg-slate-100 px-2 py-1 rounded-full text-slate-600">
-                  {medications.length} itens
-                </span>
-              </div>
-              
-              {medications.length === 0 ? (
-                <div className="text-center py-12 text-slate-400">
-                  <FileSpreadsheet size={48} className="mx-auto mb-3 opacity-20" />
-                  <p>Nenhum item adicionado ainda.</p>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  {medications.map(med => (
-                    <div key={med.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-100 group">
-                      <div className="min-w-0">
-                        <p className="font-medium text-slate-900 truncate">{med.name}</p>
-                        <p className="text-xs text-slate-500">
-                          Consumo: {med.annualConsumption} | Custo: R$ {med.unitCost.toFixed(2)}
-                        </p>
-                      </div>
-                      <button 
-                        onClick={() => removeMedication(med.id)}
-                        className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all opacity-0 group-hover:opacity-100"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  ))}
-                  <button 
-                    onClick={() => setMedications([])}
-                    className="w-full py-2 text-xs text-red-500 hover:bg-red-50 rounded-lg transition-colors font-medium mt-4"
-                  >
-                    Limpar Tudo
-                  </button>
-                </div>
-              )}
-            </section>
-          </div>
-
           {/* Right Column: Analysis and Charts */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-3 space-y-6">
             
             {medications.length === 0 ? (
               <div className="space-y-6">
@@ -1179,7 +1041,7 @@ export default function App() {
                   <BarChart3 size={64} className="text-slate-200 mb-4" />
                   <h3 className="text-xl font-semibold text-slate-400">Aguardando dados para análise</h3>
                   <p className="text-slate-400 max-w-sm mt-2">
-                    Importe uma planilha ou adicione medicamentos manualmente para visualizar a Curva ABC e parâmetros de estoque.
+                    Importe uma planilha ou adicione medicamentos em Gerenciar quantidade em estoque para visualizar a Curva ABC e parâmetros de estoque.
                   </p>
                 </div>
               </div>
@@ -1439,7 +1301,7 @@ export default function App() {
                       <div className="p-6 border-b border-slate-100 flex items-center justify-between">
                         <h3 className="text-lg font-semibold flex items-center gap-2">
                           <Calculator size={20} className="text-blue-600" />
-                          Análise Detalhada (Tabela Completa)
+                          Análise Detalhada · {sectorName}
                         </h3>
                         <div className="flex items-center gap-4 text-xs font-bold">
                           <div className="flex items-center gap-1"><div className="w-4 h-4 rounded bg-red-500"></div> Classe A</div>
@@ -1452,10 +1314,10 @@ export default function App() {
                           ref={tableContainerRef}
                           className="overflow-x-auto scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent"
                         >
-                          <table className="w-full text-left border-collapse table-fixed min-w-[1500px]">
+                          <table className="w-full text-left border-collapse table-fixed min-w-[1610px]">
                             <thead>
                               <tr className="bg-slate-50 border-y border-slate-100">
-                                <th className="w-[350px] px-6 py-5 text-sm font-black text-slate-800 uppercase tracking-widest">Medicamento</th>
+                                <th className="w-[460px] px-6 py-5 text-sm font-black text-slate-800 uppercase tracking-widest">Medicamento</th>
                                 <th className="w-[100px] px-6 py-5 text-sm font-black text-slate-800 uppercase tracking-widest text-right">Usuários</th>
                                 <th className="w-[150px] px-6 py-5 text-sm font-black text-slate-800 uppercase tracking-widest text-right">Consumo Anual</th>
                                 <th className="w-[150px] px-6 py-5 text-sm font-black text-slate-800 uppercase tracking-widest text-right">Custo Unitário</th>
@@ -1492,11 +1354,11 @@ export default function App() {
                                         )}
                                         onClick={() => isEditMode && startEditing(item.id, 'name', item.name)}
                                       >
-                                        <div className="font-bold text-slate-900 flex items-center gap-2 text-base overflow-hidden text-ellipsis">
+                                        <div className="font-bold text-slate-900 text-base break-words">
                                           {item.name}
-                                          {isEditMode && <Edit2 size={12} className="text-slate-300 opacity-0 group-hover:opacity-100" />}
-                                          <CatalogBadges cafCode={item.cafCode} catalog={catalog} />
+                                          {isEditMode && <Edit2 size={12} className="inline ml-2 text-slate-300 opacity-0 group-hover:opacity-100" />}
                                         </div>
+                                        {item.cafCode && <div className="mt-1"><CatalogBadges cafCode={item.cafCode} catalog={catalog} /></div>}
                                         {(item.pharmaceuticalForm || item.concentration) && (
                                           <div className="text-[10px] text-slate-400 uppercase font-black tracking-widest mt-0.5">
                                             {item.pharmaceuticalForm} | {item.concentration}
@@ -1756,11 +1618,11 @@ export default function App() {
               <div className="space-y-3">
                 <div>
                   <p className="text-[10px] text-blue-600 font-black uppercase tracking-tighter mb-0.5">Autores</p>
-                  <p className="text-sm font-bold text-slate-700">Micael Davi Lima de Oliveira (ICAM)<br />Ennylay (ICAM)<br />Elias Barros (HUGV)<br />Colaborador: Prof. Dr. Evandro Silva</p>
+                  <p className="text-sm font-bold text-slate-700">Micael Davi Lima de Oliveira (ICAM)<br />Ennylay (ICAM)<br />Elias Barros (HUGV)</p>
                 </div>
                 <div>
                   <p className="text-[10px] text-blue-600 font-black uppercase tracking-tighter mb-0.5">Orientação</p>
-                  <p className="text-sm font-bold text-slate-700">Profa. Dra. Clarice Veloso<br />Preceptora: Dra. Juliana Carvalho</p>
+                  <p className="text-sm font-bold text-slate-700">Profa. Dra. Clarice Veloso e Prof. Dr. Evandro Silva<br />Preceptora: Dra. Juliana Carvalho</p>
                 </div>
               </div>
             </div>
