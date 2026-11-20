@@ -11,7 +11,7 @@ Gratuita, sem conta e offline, para web e Android.</p>
 <p align="center"><a href="https://ufam.edu.br"><img src="design/ufam.png" alt="Brasão da Universidade Federal do Amazonas" height="90"></a><br>
 <b>Universidade Federal do Amazonas (UFAM)</b></p>
 
-**Autores:** Micael Davi Lima de Oliveira e Elias de Souza Barros  
+**Autores:** Micael Davi Lima de Oliveira (ICAM), Ennylay (ICAM) e Elias Barros (HUGV) · Colaborador: Prof. Dr. Evandro Silva  
 **Orientadora:** Profa. Dra. Clarice Veloso  
 **Preceptora:** Dra. Juliana Carvalho
 
@@ -125,5 +125,5 @@ A versão vigente está em `VERSION` (SemVer) e o histórico em [CHANGELOG.md](C
 
 ## Equipe
 
-**Autores:** Micael Davi Lima de Oliveira e Elias de Souza Barros (Universidade Federal do Amazonas)  
+**Autores:** Micael Davi Lima de Oliveira (ICAM), Ennylay (ICAM) e Elias Barros (HUGV) · Colaborador: Prof. Dr. Evandro Silva  
 **Orientadora:** Profa. Dra. Clarice Veloso · **Preceptora:** Dra. Juliana Carvalho
