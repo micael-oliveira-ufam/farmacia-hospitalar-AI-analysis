@@ -2,6 +2,11 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.19.1
+- **UFAM e equipe no cabeçalho e no rodapé** de todos os módulos (web e Android): autores Micael Davi Lima de Oliveira e Elias de Souza Barros, orientadora Profa. Dra. Clarice Veloso e preceptora Dra. Juliana Carvalho.
+- **PPS no CAF no Android:** botão "PPS no CAF" no Estoque da unidade ICAM abre a lista com foto, CMM, função e relatório em PDF (`flutter_app/assets/pps.html`, gerado por `tools/mkpps_app.py`). Não compilado neste ambiente (sem SDK Flutter): conferir ao gerar o APK.
+- Repositório renomeado para `pharmacentral-farmacia-hospitalar` (links atualizados).
+
 ## 4.19.0
 - **PPS no CAF (Estoque, unidade ICAM):** nova seção com os 443 produtos para saúde da lista do ICAM, cada um com foto ilustrativa, descrição, CMM e função, busca e filtro por categoria. 406 itens têm foto; 37 aparecem como "sem foto". Fotos ilustrativas por tipo de produto, com origem e licença (Wikimedia Commons/Openverse e lojas de materiais hospitalares). CMM do código 4046 a confirmar.
 - **Relatório em PDF dos PPS** (com fotos, respeitando busca e categoria). `design/pcpdf.js` passou a embutir imagens JPEG.

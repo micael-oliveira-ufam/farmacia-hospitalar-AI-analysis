@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'abc.dart';
+import 'guia_web.dart';
 import 'models.dart';
 import 'pages.dart' show DetailPage;
 import 'util.dart';
@@ -140,7 +141,14 @@ class _StockHomeState extends State<StockHome> {
   Widget build(BuildContext context) {
     final titles = ['Itens', 'Curva ABC', 'Pedido semanal', 'Dados e método'];
     return Scaffold(
-      appBar: AppBar(title: Text('${widget.unitName} · ${titles[tab]}'), toolbarHeight: 48),
+      appBar: AppBar(title: Text('${widget.unitName} · ${titles[tab]}'), toolbarHeight: 48, actions: [
+        if (widget.unit == 'icam')
+          TextButton.icon(
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const GuiaWeb(asset: 'assets/pps.html'))),
+            icon: const Icon(Icons.medical_services_outlined),
+            label: const Text('PPS no CAF'),
+          ),
+      ]),
       floatingActionButton: tab == 0
           ? FloatingActionButton(
               tooltip: 'Novo item',

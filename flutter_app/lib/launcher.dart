@@ -37,6 +37,16 @@ class Launcher extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: ListView(padding: const EdgeInsets.all(16), children: [
+          Row(children: [
+            Container(
+              padding: const EdgeInsets.all(3),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8), border: Border.all(color: const Color(0xFFD6DFDF))),
+              child: Image.asset('assets/ufam.png', height: 34),
+            ),
+            const SizedBox(width: 10),
+            const Expanded(child: Text('UFAM · Micael Oliveira · Elias Barros\nOrient.: Profa. Dra. Clarice Veloso · Preceptora: Dra. Juliana Carvalho', style: TextStyle(fontSize: 11, height: 1.3))),
+          ]),
+          const SizedBox(height: 12),
           const Text('PLATAFORMA PARA QUALQUER HOSPITAL', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, letterSpacing: 1)),
           const SizedBox(height: 4),
           const Text('PharmaCentral', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800)),
@@ -95,6 +105,8 @@ class Launcher extends StatelessWidget {
             const SizedBox(width: 12),
             const Text('Universidade Federal\ndo Amazonas', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
           ]),
+          const SizedBox(height: 8),
+          const Text('Autores: Micael Davi Lima de Oliveira e Elias de Souza Barros\nOrientadora: Profa. Dra. Clarice Veloso · Preceptora: Dra. Juliana Carvalho', textAlign: TextAlign.center, style: TextStyle(fontSize: 12, height: 1.4)),
           const SizedBox(height: 8),
         ]),
       ),

@@ -18,6 +18,7 @@ python3 guia/build.py "$OUT/guia" pages
 rm -f "$OUT/guia/guia-artifact.html"
 # 2b) Pedidos e Prontuário
 python3 tools/mkmodulos.py "$OUT"
+python3 tools/mkpps_app.py
 # 3) Página inicial (gerada com os números reais dos dados) e sistema visual compartilhado
 python3 tools/mklanding.py
 cp pages/index.html pages/manifest.json pages/sw.js "$OUT/"

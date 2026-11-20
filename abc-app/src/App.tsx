@@ -208,7 +208,7 @@ function FlBar() {
         <a className="pro" href={HOME_URL + 'prontuario/'}><i />Prontuário</a>
       </nav>
       <span className="fl-sp" />
-      <span className="fl-inst" title="Universidade Federal do Amazonas"><img src={`${import.meta.env.BASE_URL}ufam.png`} alt="Brasão da Universidade Federal do Amazonas" width={28} height={37} /><span className="fl-aut"><b>UFAM</b>Micael Oliveira · Elias Barros</span></span>
+      <span className="fl-inst" title="Universidade Federal do Amazonas"><img src={`${import.meta.env.BASE_URL}ufam.png`} alt="Brasão da Universidade Federal do Amazonas" width={28} height={37} /><span className="fl-aut"><b>UFAM</b>Micael Oliveira · Elias Barros<span>Orient.: Profa. Dra. Clarice Veloso</span><span>Preceptora: Dra. Juliana Carvalho</span></span></span>
       <div className="fl-tools"><button className="fl-ic" onClick={() => setDark(d => !d)} aria-label="Alternar tema claro e escuro" title="Tema"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></div>
     </div></div>
   );
@@ -712,7 +712,8 @@ export default function App() {
             </button>
             <div className="pt-6 border-t border-slate-200 text-sm text-slate-500 space-y-1">
               <p><b className="text-slate-700">Autores</b> · Micael Davi Lima de Oliveira e Elias de Souza Barros</p>
-              <p><b className="text-slate-700">Orientador</b> · Profº Dr. Evandro de Araújo Silva</p>
+              <p><b className="text-slate-700">Orientadora</b> · Profa. Dra. Clarice Veloso</p>
+              <p><b className="text-slate-700">Preceptora</b> · Dra. Juliana Carvalho</p>
             </div>
           </section>
 
@@ -1670,8 +1671,8 @@ export default function App() {
                   <p className="text-sm font-bold text-slate-700">Micael Davi Lima de Oliveira<br />Elias de Souza Barros</p>
                 </div>
                 <div>
-                  <p className="text-[10px] text-blue-600 font-black uppercase tracking-tighter mb-0.5">Orientador</p>
-                  <p className="text-sm font-bold text-slate-700">Profº Dr. Evandro de Araújo Silva</p>
+                  <p className="text-[10px] text-blue-600 font-black uppercase tracking-tighter mb-0.5">Orientação</p>
+                  <p className="text-sm font-bold text-slate-700">Profa. Dra. Clarice Veloso<br />Preceptora: Dra. Juliana Carvalho</p>
                 </div>
               </div>
             </div>

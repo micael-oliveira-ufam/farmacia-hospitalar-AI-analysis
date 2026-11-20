@@ -1,7 +1,7 @@
 name: farmacia_integrada
 description: "PharmaCentral (Android, offline) - Controle terapêutico (posologia pediátrica) e Estoque (estoque e curva ABC)."
 publish_to: "none"
-version: 4.19.0+41900
+version: 4.19.1+41901
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -30,6 +30,7 @@ flutter:
     - assets/guia.html
     - assets/pedidos.html
     - assets/prontuario.html
+    - assets/pps.html
     - assets/icon_app.svg
     - assets/ufam.png
     - assets/icon_512.png
