@@ -559,26 +559,82 @@ function renderTabs(){
   if(st.tab==="cart")renderCart();if(st.tab==="cmp")renderCmp();if(st.tab==="rel")renderRel()}
 
 /* ---------- relatórios em PDF ---------- */
+function relItems(kind){
+  const hep=kind==="h",lim=hep?3:2;
+  return ITEMS.filter(inUni).map(it=>{const t=txOf(it)||{};const o=hep?t.h:t.k;return{it,o,l:o&&o.l!=null?o.l:-1,s:hep&&o&&o.s?o.s:""}}).filter(x=>x.l>=lim).sort((a,b)=>b.l-a.l||a.it.desc.localeCompare(b.it.desc,"pt"))}
+/* fontes exatas de cada linha: onde o nível foi lido (obra, seção, escore, link, trecho) e onde o manejo foi tirado */
+function relRefs(x,kind){
+  const out=[],mj=mjFor(x.it)||{grupos:[]},ids=[];
+  ((x.o&&x.o.src)||[]).forEach(r=>out.push({k:"Nível",t:r.t,sec:r.sec,s:r.s,e:r.e,u:r.u,q:r.q}));
+  mj.grupos.forEach(g=>(g.refs||[]).forEach(r=>{if(ids.indexOf(r)<0)ids.push(r)}));
+  const ge=MJ.geral[kind];if(ge)(ge.refs||[]).forEach(r=>{if(ids.indexOf(r)<0)ids.push(r)});
+  ids.forEach(r=>{const f=MJ.refs[r];if(f)out.push({k:"Manejo",t:f.t,u:f.u})});
+  return out}
+const relQ=(q,n)=>q&&q.length>n?q.slice(0,n).replace(/\s+\S*$/,"")+"…":(q||"");
+function relRefsTxt(x,kind){
+  return relRefs(x,kind).map(r=>r.k+": "+r.t+(r.sec?", seção "+r.sec:"")+(r.s?", escore "+r.s:"")+(r.e==="classe"?" (informação da classe)":"")+" · "+r.u+(r.q?' Trecho: "'+relQ(r.q,240)+'"':"")).join("\n")||"Sem fonte verificada: consultar a bula."}
 function relRows(kind){
-  const hep=kind==="h",lim=hep?3:2,NM=hep?HN:KN,rows=[];
-  const its=ITEMS.filter(inUni).map(it=>{const t=txOf(it)||{};const o=hep?t.h:t.k;return{it,l:o&&o.l!=null?o.l:-1,s:hep&&o&&o.s?o.s:""}}).filter(x=>x.l>=lim).sort((a,b)=>b.l-a.l||a.it.desc.localeCompare(b.it.desc,"pt"));
+  const hep=kind==="h",NM=hep?HN:KN,rows=[];
   let last=-9;
-  its.forEach(x=>{if(x.l!==last){last=x.l;rows.push({sec:(hep?"Hepatotoxicidade":"Nefrotoxicidade")+" nível "+x.l+" de "+(hep?4:3)+": "+NM[x.l]})}
+  relItems(kind).forEach(x=>{if(x.l!==last){last=x.l;rows.push({sec:(hep?"Hepatotoxicidade":"Nefrotoxicidade")+" nível "+x.l+" de "+(hep?4:3)+": "+NM[x.l]})}
     const mj=mjFor(x.it)||{grupos:[]},g=mj.grupos[0]||{},ge=(MJ.geral[kind]||{});
     const jn=(a,n)=>(a||[]).slice(0,n).join(" ");
-    rows.push([x.it.desc,(hep?"LiverTox "+(x.s||"sem escore"):"Nível "+x.l),jn(g.intervencao,2)||jn(ge.intervencao,2),jn(g.alternativas,2)||jn(ge.alternativas,1),jn(g.suspender,1)||jn(ge.suspender,1)])});
+    rows.push([x.it.desc,(hep?"LiverTox "+(x.s||"sem escore"):"Nível "+x.l),jn(g.intervencao,2)||jn(ge.intervencao,2),jn(g.alternativas,2)||jn(ge.alternativas,1),jn(g.suspender,1)||jn(ge.suspender,1),relRefsTxt(x,kind)])});
   return rows}
-function relPdf(kind){
+function relPdf(kind,btn){
+  if(kind==="i")return relIcamPdf();if(kind==="p")return relPpsPdf(btn);
   const hep=kind==="h",rows=relRows(kind);if(!rows.length)return;
   const un=(UNIS.find(u=>u[0]===uni)||["",""])[1];
-  const u=PCPDF.build({titulo:"Medicamentos "+(hep?"hepatotóxicos":"nefrotóxicos")+" com manejo",sub:"Unidade: "+un+". Critério: "+(hep?"nível 3 ou 4 de 4 (LiverTox, FDA)":"nível 2 ou 3 de 3 (rótulo FDA, SmPC)")+". Conteúdo compilado por IA a partir das fontes citadas na plataforma.",
-    cols:[{h:"Medicamento",w:2.2},{h:hep?"Escore":"Nível",w:1},{h:"Intervenção",w:4.5},{h:"Opções mais seguras",w:3.5},{h:"Quando suspender",w:3}],rows,
-    nota:"Apoio à decisão. Confirmar com bula, protocolo do serviço, CCIH e farmacêutico responsável. Fontes: KDIGO AKI 2012, ACG DILI 2021, LiverTox/NIH, rótulos FDA e demais diretrizes listadas em cada ficha.",rodape:"Controle terapêutico"});
+  const u=PCPDF.build({titulo:"Medicamentos "+(hep?"hepatotóxicos":"nefrotóxicos")+" com manejo",sub:"Unidade: "+un+". Critério: "+(hep?"nível 3 ou 4 de 4 (LiverTox, FDA)":"nível 2 ou 3 de 3 (rótulo FDA, SmPC)")+". Conteúdo compilado por IA a partir das fontes citadas na coluna Referências.",
+    cols:[{h:"Medicamento",w:1.5},{h:hep?"Escore":"Nível",w:.8},{h:"Intervenção",w:2.8},{h:"Opções mais seguras",w:2.1},{h:"Quando suspender",w:1.7},{h:"Referências (de onde foi extraído)",w:5.1}],rows,
+    nota:"Apoio à decisão. Confirmar com bula, protocolo do serviço, CCIH e farmacêutico responsável. Cada linha traz a obra, a seção e o link de onde o nível foi lido e as diretrizes do manejo.",rodape:"Controle terapêutico",autores:PC_AUT});
   PCPDF.save("PharmaCentral-"+(hep?"hepatotoxicos":"nefrotoxicos")+".pdf",u)}
+const PC_AUT="Autores: Micael Davi Lima de Oliveira (ICAM) e Ennylay (ICAM)";
+function relTable(kind){
+  const hep=kind==="h",NM=hep?HN:KN,its=relItems(kind);
+  return '<details class="tx"><summary><b>Ver a lista com as referências</b><span class="tx-l">'+its.length+" medicamentos</span></summary><div class=\"tbl\"><table><thead><tr><th>Medicamento</th><th>"+(hep?"Escore":"Nível")+"</th><th>Referências (de onde foi extraído)</th></tr></thead><tbody>"
+   +its.map(x=>"<tr><td>"+esc(x.it.desc)+"</td><td>"+esc(NM[x.l])+(hep&&x.s?" · "+esc(x.s):"")+"</td><td><ul class=\"tsrc\">"+relRefs(x,kind).map(r=>'<li><b>'+r.k+':</b> <a class="lk" href="'+esc(r.u)+'" target="_blank" rel="noopener noreferrer">'+esc(r.t)+"</a>"+(r.sec?'<span class="note"> · seção '+esc(r.sec)+(r.s?" · escore "+esc(r.s):"")+(r.e==="classe"?" · informação da classe":"")+"</span>":"")+(r.q?'<blockquote lang="en">'+esc(r.q)+"</blockquote>":"")+"</li>").join("")+"</ul></td></tr>").join("")+"</tbody></table></div></details>"}
+/* relatório: medicamentos do ICAM (lista original transcrita) e PPS no CAF */
+function relIcamRows(){
+  const rows=[],porSec=new Map();
+  ITEMS.filter(inUni).forEach(it=>porSec.set(it.sec,[...(porSec.get(it.sec)||[]),it]));
+  Object.keys(SEC).filter(k=>porSec.has(k)).forEach(k=>{
+    rows.push({sec:SEC[k]+" ("+porSec.get(k).length+" itens)"});
+    porSec.get(k).slice().sort((a,b)=>a.desc.localeCompare(b.desc,"pt")).forEach(it=>{const m=M[it.key]||{},s=S[it.key]||{};
+      const alert=[s.ismp?"Alta vigilância (ISMP): "+s.ismp:"",HL[s.hep]||"",NL[s.nef]||""].filter(Boolean).join("; ");
+      rows.push([it.code,it.desc,m.c||"",m.v||"",alert||"—"])})});
+  return rows}
+function relIcamPdf(){
+  const rows=relIcamRows(),n=rows.filter(r=>Array.isArray(r)).length;if(!n)return;
+  const un=(UNIS.find(u=>u[0]===uni)||["",""])[1];
+  const u=PCPDF.build({titulo:"Medicamentos do ICAM – lista original",sub:"Unidade: "+un+". "+n+" itens, agrupados por forma e tipo, conforme a lista institucional transcrita na plataforma.",
+    cols:[{h:"Código",w:.8},{h:"Medicamento (descrição)",w:4},{h:"Classe",w:2.6},{h:"Via",w:2},{h:"Alertas de segurança",w:3.2}],rows,
+    nota:"Lista transcrita de uma lista institucional; conferir com o cadastro oficial. Alertas: ISMP Brasil (alta vigilância) e níveis de hepato e nefrotoxicidade da plataforma, com fonte em cada ficha.",rodape:"Medicamentos do ICAM",autores:PC_AUT});
+  PCPDF.save("PharmaCentral-medicamentos-ICAM.pdf",u)}
+async function relPpsPdf(btn){
+  const L=window.PPS||[];if(!L.length)return;
+  const txt=btn&&btn.textContent;if(btn){btn.disabled=true;btn.textContent="Gerando…"}
+  try{
+    const imgs={};
+    await Promise.all([...new Set(L.map(i=>i.p).filter(Boolean))].map(async f=>{try{
+      const r=await fetch("../estoque/pps/"+f);if(!r.ok)return;const b=new Uint8Array(await r.arrayBuffer());let w=0,h=0;
+      for(let p=2;p<b.length-9;){if(b[p]!==255){p++;continue}const mk=b[p+1];if(mk>=192&&mk<=207&&mk!==196&&mk!==200&&mk!==204){h=(b[p+5]<<8)|b[p+6];w=(b[p+7]<<8)|b[p+8];break}p+=2+((b[p+2]<<8)|b[p+3])}
+      if(!w||!h)return;let s="";for(let k=0;k<b.length;k+=8192)s+=String.fromCharCode.apply(null,b.subarray(k,k+8192));imgs[f]={b64:btoa(s),w,h,pw:w,ph:h}}catch(e){}}));
+    const rows=[],por=new Map();L.forEach(i=>por.set(i.k,[...(por.get(i.k)||[]),i]));
+    [...por.entries()].sort((a,b)=>a[0].localeCompare(b[0],"pt")).forEach(([k,l])=>{rows.push({sec:k+" ("+l.length+" itens)"});
+      l.forEach(i=>rows.push([imgs[i.p||""]?{img:i.p}:"sem foto",i.c,i.d+(i.i?" [CMM a confirmar]":""),String(i.m),i.f]))});
+    const soma=L.reduce((a,i)=>a+i.m,0),comFoto=Object.keys(imgs).length>0;
+    const u=PCPDF.build({titulo:"PPS no CAF – lista do ICAM",sub:L.length+" itens · CMM somado: "+soma.toLocaleString("pt-BR")+"."+(comFoto?"":" Fotos disponíveis no módulo Estoque, com acesso à internet."),
+      cols:[{h:"Foto",w:1.1},{h:"Código",w:.9},{h:"Material (descrição)",w:4},{h:"CMM",w:.8},{h:"Função / uso",w:4.6}],rows,imgs,imgMax:50,
+      nota:"CMM = consumo médio mensal. Fotos ilustrativas por tipo de produto (não a marca do item); função descrita de forma geral, sem substituir a especificação técnica.",rodape:"PPS no CAF",autores:PC_AUT});
+    PCPDF.save("PharmaCentral-PPS-CAF-ICAM.pdf",u)
+  }finally{if(btn){btn.disabled=false;btn.textContent=txt}}}
 function renderRel(){
   const n=k=>relRows(k).filter(r=>Array.isArray(r)).length;
-  $("#relbox").innerHTML='<div class="rel-grid"><div class="rel-card"><h3>Nefrotóxicos</h3><p class="note">Nível moderado a alto de nefrotoxicidade, com intervenção, opções mais seguras e quando suspender.</p><p><b>'+n("k")+'</b> medicamentos</p><button class="btn pri" data-rel="k">Gerar PDF</button></div>'
-   +'<div class="rel-card"><h3>Hepatotóxicos</h3><p class="note">Nível alto ou muito alto de hepatotoxicidade, com intervenção, opções mais seguras e quando suspender.</p><p><b>'+n("h")+'</b> medicamentos</p><button class="btn pri" data-rel="h">Gerar PDF</button></div></div>'
+  $("#relbox").innerHTML='<div class="rel-grid"><div class="rel-card"><h3>Nefrotóxicos</h3><p class="note">Nível moderado a alto de nefrotoxicidade, com intervenção, opções mais seguras e quando suspender.</p><p><b>'+n("k")+'</b> medicamentos</p><button class="btn pri" data-rel="k">Gerar PDF</button>'+relTable("k")+'</div>'
+   +'<div class="rel-card"><h3>Hepatotóxicos</h3><p class="note">Nível alto ou muito alto de hepatotoxicidade, com intervenção, opções mais seguras e quando suspender.</p><p><b>'+n("h")+'</b> medicamentos</p><button class="btn pri" data-rel="h">Gerar PDF</button>'+relTable("h")+'</div>'
+   +'<div class="rel-card"><h3>Medicamentos do ICAM</h3><p class="note">Lista original transcrita, por forma e tipo, com classe, via e alertas de segurança.</p><p><b>'+relIcamRows().filter(r=>Array.isArray(r)).length+'</b> medicamentos</p><button class="btn pri" data-rel="i">Gerar PDF</button></div>'
+   +'<div class="rel-card"><h3>PPS no CAF</h3><p class="note">Produtos para saúde do ICAM com CMM e função de cada item (com fotos quando houver internet).</p><p><b>'+(window.PPS||[]).length+'</b> itens</p><button class="btn pri" data-rel="p">Gerar PDF</button></div></div>'
    +'<p class="note">O relatório respeita a unidade escolhida na aba Medicamentos ('+esc((UNIS.find(u=>u[0]===uni)||["",""])[1])+"). Os relatórios de estoque, de pacientes e a notificação de reação adversa ficam nos módulos Estoque e Prontuário.</p>"}
 function csvOf(items){const q=s=>'"'+String(s==null?"":s).replace(/"/g,'""')+'"';
   return ["codigo","descricao","monografia","classe","vias","dose_usual_"+st.age,"dose_max_"+st.age,"alta_vigilancia","nefro","hepato"].join(";")+"\n"+items.map(i=>{const m=M[i.key],s=S[i.key],d=st.age==="ido"?[m.ido,""]:m[st.age];return [i.code,i.desc,m.n,m.c,m.v,d[0],d[1],s.ismp,NL[s.nef],HL[s.hep]].map(q).join(";")}).join("\n")}
@@ -593,7 +649,7 @@ function onAction(e){const b=e.target.closest("button[data-a]");if(!b)return;con
 function init(){
   $("#mat").innerHTML=CAT.materiais.map(m=>"<li>"+esc(m)+"</li>").join("");
   renderCalcs();renderRefs();initMine();triInit();initDose();
-  document.addEventListener("click",e=>{const b=e.target.closest("[data-rel]");if(b)relPdf(b.dataset.rel)});
+  document.addEventListener("click",e=>{const b=e.target.closest("[data-rel]");if(b)relPdf(b.dataset.rel,b)});
   $("#tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
     if(b.dataset.more){st.more=!st.more;renderTabs();return}
     st.tab=b.dataset.t;st.more=false;renderTabs();window.scrollTo({top:0})});

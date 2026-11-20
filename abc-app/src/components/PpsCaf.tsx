@@ -8,7 +8,7 @@ let cache: Promise<Pps[] | null> | null = null;
 const load = () => (cache ??= fetch(`${BASE}data/pps.json`).then(r => (r.ok ? r.json() : null)).catch(() => null));
 
 /** PPS (produtos para saúde) do CAF, lista do ICAM: foto ilustrativa, descrição, CMM e função de cada item. */
-export function PpsCaf({ unit }: { unit: string }) {
+export function PpsCaf({ unit, onHide }: { unit: string; onHide?: () => void }) {
   const [items, setItems] = useState<Pps[] | null>(null);
   const [fail, setFail] = useState(false);
   const [q, setQ] = useState('');
@@ -80,9 +80,12 @@ export function PpsCaf({ unit }: { unit: string }) {
           <h2 className="text-xl md:text-2xl font-semibold text-slate-900" style={{ fontFamily: 'var(--f-display)' }}>PPS no CAF</h2>
           <p className="text-sm text-slate-500 mt-1 max-w-2xl">Produtos para saúde da lista do ICAM no Centro de Abastecimento Farmacêutico, com foto ilustrativa, consumo médio mensal (CMM) e função de cada item.</p>
         </div>
-        <button onClick={report} disabled={busy || !list.length} className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-sm disabled:opacity-50">
-          {busy ? 'Gerando PDF…' : 'Gerar relatório em PDF'}
-        </button>
+        <div className="flex gap-2">
+          <button onClick={report} disabled={busy || !list.length} className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-sm disabled:opacity-50">
+            {busy ? 'Gerando PDF…' : 'Gerar relatório em PDF'}
+          </button>
+          {onHide && <button onClick={onHide} className="px-4 py-2.5 border border-slate-300 text-slate-700 hover:bg-slate-50 rounded-xl font-semibold text-sm">Ocultar</button>}
+        </div>
       </div>
 
       {fail && <p className="text-sm text-red-600">Não foi possível carregar a lista de PPS.</p>}

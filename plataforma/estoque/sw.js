@@ -1,5 +1,5 @@
-const V='abc-mwp2kxs9';
-const FILES=["./","index.html","manifest.json","icon.svg","icon-gestao.svg","ufam.png","data/catalog.json","data/codajas.json","assets/bricolage-DLoelf7F.woff2","assets/publicsans-DdeTHZLK.woff2","assets/index-C4geRFc2.css","assets/index-CK1CyZu5.js"];
+const V='abc-mwp38gff';
+const FILES=["./","index.html","manifest.json","icon.svg","icon-gestao.svg","ufam.png","data/catalog.json","data/codajas.json","assets/bricolage-DLoelf7F.woff2","assets/publicsans-DdeTHZLK.woff2","assets/index-Dq9OtYTl.css","assets/index-BNrKo-ZL.js"];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET')return;const u=new URL(r.url);if(u.origin!==location.origin||u.pathname.startsWith('/api/'))return;

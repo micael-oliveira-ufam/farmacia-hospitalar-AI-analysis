@@ -30,6 +30,8 @@ def build(pwa):
     t=t.replace('/*MANEJO*/',json.dumps(mj,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     t=t.replace('/*PCPDF*/',open(os.path.join(S,'design/pcpdf.js'),encoding='utf8').read().replace('</','<\\/'))
     fa=json.load(open(os.path.join(S,'data/farmacologia.json'),encoding='utf8'))
+    pps=[{k:i.get(k) for k in ('c','d','m','k','f','i','p')} for i in json.load(open(os.path.join(S,'abc-app/public/data/pps.json'),encoding='utf8'))]
+    t=t.replace('/*PPS*/',json.dumps(pps,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     t=t.replace('/*FARMACO*/',json.dumps(fa,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     t=t.replace('/*TOX*/',json.dumps(tox,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     t=t.replace('/*UFAMNEGIMG*/','data:image/png;base64,'+base64.b64encode(open(os.path.join(S,'design/ufam_neg.png'),'rb').read()).decode())

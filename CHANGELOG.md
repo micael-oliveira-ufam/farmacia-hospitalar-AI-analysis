@@ -2,6 +2,13 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.21.0
+- **Relatórios:** novos PDFs de *Medicamentos do ICAM* (lista original transcrita, por forma e tipo, com classe, via e alertas) e de *PPS no CAF* (com fotos quando há internet). Os relatórios de hepatotóxicos e nefrotóxicos ganharam a coluna **Referências (de onde foi extraído)**: obra, seção, escore, link e trecho do nível, mais as diretrizes do manejo. A tabela com as mesmas referências aparece na tela.
+- **Autores em todos os relatórios:** Micael Davi Lima de Oliveira (ICAM) e Ennylay (ICAM) saem no rodapé de todo PDF e no pedido impresso.
+- **Estoque (ICAM):** nova lista *Medicamentos do ICAM* (com estoque e consumo mensal quando informados), ao lado dos PPS, com botões para **ocultar ou mostrar** cada uma.
+- **Estoque, edição de quantidades:** "Editar quantidades" abre campos direto na tabela; os alterados ficam em amarelo e uma barra fixa traz **Salvar** e **Descartar**.
+- Seção "Como o medicamento age" removida das fichas; logos da UFAM publicados (estavam fora do repositório).
+
 ## 4.20.0
 - **Farmacologia detalhada** em cada ficha do Controle terapêutico: classe, mecanismo, farmacodinâmica, absorção, distribuição, metabolismo, excreção, meia-vida e pontos para a conduta clínica, com citação de capítulo e página. 221 verbetes em `data/farmacologia.json`.
 - Fonte principal: Goodman & Gilman, *As Bases Farmacológicas da Terapêutica*, 14ª ed. (Brunton et al., 2022), resumido com palavras próprias. 167 verbetes vêm em grande parte do livro, 35 em parte e 19 são conhecimento geral (sinalizados na ficha).

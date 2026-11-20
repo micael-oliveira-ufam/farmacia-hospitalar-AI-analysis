@@ -57,7 +57,7 @@ import { cn } from './lib/utils';
 import { localStore, localAuth, loadBackends, exportBackup, importBackup, type Store, type AuthApi, type AppUser } from './data/store';
 import { loadCodajas, loadCatalog, HOME_URL, GUIDE_URL, type Catalog } from './lib/catalog';
 import { WeeklyOrder } from './components/WeeklyOrder';
-import { PpsCaf } from './components/PpsCaf';
+import { IcamLists } from './components/IcamLists';
 import { Methodology } from './components/Methodology';
 import { CatalogBadges } from './components/CatalogBadges';
 
@@ -249,6 +249,9 @@ export default function App() {
   const [editingCell, setEditingCell] = useState<{id: string, field: string} | null>(null);
   const [editCellValue, setEditCellValue] = useState<string | number>('');
   const [isEditMode, setIsEditMode] = useState(false);
+  // alterações digitadas e ainda não salvas: id -> campo -> texto digitado
+  const [drafts, setDrafts] = useState<Record<string, Record<string, string>>>({});
+  const draftCount = Object.keys(drafts).length;
   const [showAnvisaModal, setShowAnvisaModal] = useState(false);
   const [priceFilter, setPriceFilter] = useState('');
   
@@ -392,6 +395,11 @@ export default function App() {
   }, [hospitalId, store]);
 
   const abcResults = useMemo(() => calculateABC(medications, calculationMode, reviewDays), [medications, calculationMode, reviewDays]);
+  const stockByCode = useMemo(() => {
+    const m: Record<string, { inv: number | null; cmm: number }> = {};
+    abcResults.forEach(r => { if (r.cafCode) m[r.cafCode] = { inv: r.currentInventory ?? null, cmm: r.monthlyConsumption }; });
+    return m;
+  }, [abcResults]);
 
   const stats = useMemo(() => {
     const totalValue = abcResults.reduce((sum, item) => sum + item.totalValue, 0);
@@ -507,6 +515,34 @@ export default function App() {
       handleFirestoreError(error, OperationType.UPDATE, `medications/${medId}`);
     }
   };
+
+  const setDraft = (id: string, field: string, v: string) =>
+    setDrafts(d => ({ ...d, [id]: { ...(d[id] || {}), [field]: v } }));
+  const dv = (id: string, field: string, orig: number | null | undefined) => {
+    const d = drafts[id]?.[field];
+    return d !== undefined ? d : (orig === -1 || orig === null || orig === undefined ? '' : String(orig));
+  };
+  const saveDrafts = async () => {
+    if (!draftCount || !user) return;
+    setIsSaving(true);
+    try {
+      for (const [id, fields] of Object.entries(drafts)) {
+        const upd: Record<string, number> = {};
+        Object.entries(fields).forEach(([f, v]) => {
+          const n = v.trim() === '' ? (f === 'currentInventory' ? -1 : 0) : Number(v.replace(',', '.'));
+          if (Number.isFinite(n)) upd[f] = n;
+        });
+        if (Object.keys(upd).length) await store.update(hospitalId, id, upd as Partial<Medication>);
+      }
+      setDrafts({});
+      setIsEditMode(false);
+    } catch (error) {
+      handleFirestoreError(error, OperationType.UPDATE, 'medications');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+  const discardDrafts = () => { setDrafts({}); setIsEditMode(false); };
 
   const startEditing = (id: string, field: string, value: any) => {
     setEditingCell({ id, field });
@@ -809,7 +845,7 @@ export default function App() {
                     )}
                   >
                     <Edit2 size={14} />
-                    {isEditMode ? "Modo Edição Ativado" : "Habilitar Edição"}
+                    {isEditMode ? "Editando quantidades" : "Editar quantidades"}
                   </button>
 
                   <button 
@@ -835,6 +871,7 @@ export default function App() {
 
                 <button 
                   onClick={async () => {
+                    if (draftCount > 0) { await saveDrafts(); return; }
                     if (medications.length === 0 || !user) return;
                     setIsSaving(true);
                     try {
@@ -847,9 +884,9 @@ export default function App() {
                     }
                   }}
                   disabled={isSaving || medications.length === 0 || !user}
-                  className="px-6 py-2 bg-slate-900 text-white rounded-xl font-black text-xs hover:bg-black transition-all active:scale-95 disabled:opacity-50 shadow-md"
+                  className={cn("px-6 py-2 text-white rounded-xl font-black text-xs transition-all active:scale-95 disabled:opacity-50 shadow-md", draftCount > 0 ? "bg-emerald-600 hover:bg-emerald-700" : "bg-slate-900 hover:bg-black")}
                 >
-                  {isSaving ? <Loader2 className="animate-spin" size={14} /> : (store.mode === 'local' ? "SALVAMENTO AUTOMÁTICO" : "SALVAR NO BANCO")}
+                  {isSaving ? <Loader2 className="animate-spin" size={14} /> : (draftCount > 0 ? `Salvar alterações (${draftCount})` : (store.mode === 'local' ? "Salvar" : "Salvar no banco"))}
                 </button>
               </div>
             </div>
@@ -857,7 +894,23 @@ export default function App() {
             <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept=".csv,.xlsx,.xls" className="hidden" />
           </header>
 
-            {hospitalId === 'icam' && <PpsCaf unit={hospitalName} />}
+          {(isEditMode || draftCount > 0) && (
+            <div role="region" aria-label="Salvar alterações" className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[min(94vw,640px)] flex items-center gap-3 bg-slate-900 text-white rounded-2xl shadow-2xl px-4 py-3">
+              <p className="flex-1 text-sm leading-snug">
+                {draftCount > 0
+                  ? <><b>{draftCount}</b> {draftCount === 1 ? 'item alterado' : 'itens alterados'}. Salve para guardar.</>
+                  : 'Digite as quantidades direto na tabela. Os campos alterados ficam em amarelo.'}
+              </p>
+              <button onClick={discardDrafts} disabled={isSaving} className="px-3 py-2 rounded-xl text-sm font-semibold text-slate-200 hover:bg-slate-700 disabled:opacity-50">
+                {draftCount > 0 ? 'Descartar' : 'Fechar'}
+              </button>
+              <button onClick={saveDrafts} disabled={isSaving || draftCount === 0} className="px-5 py-2 rounded-xl text-sm font-black bg-emerald-500 hover:bg-emerald-400 text-slate-900 disabled:opacity-40 disabled:cursor-not-allowed">
+                {isSaving ? 'Salvando…' : 'Salvar'}
+              </button>
+            </div>
+          )}
+
+            {hospitalId === 'icam' && <IcamLists unit={hospitalName} catalog={catalog} stock={stockByCode} />}
 
             <WeeklyOrder results={abcResults} reviewDays={reviewDays} setReviewDays={setReviewDays} catalog={catalog} />
 
@@ -1388,77 +1441,58 @@ export default function App() {
                                   </td>
 
                                   <td className="px-6 py-5 text-right">
-                                    {editingCell?.id === item.id && editingCell?.field === 'activeUsers' ? (
-                                      <input 
-                                        type="number" 
-                                        value={editCellValue}
-                                        onChange={e => setEditCellValue(e.target.value)}
-                                        onBlur={saveCellEdit}
-                                        onKeyDown={e => e.key === 'Enter' && saveCellEdit()}
-                                        className="w-16 px-1 py-0.5 border border-blue-300 rounded outline-none text-right text-base"
-                                        autoFocus
-                                      />
-                                    ) : (
+                                    {isEditMode ? (
+<input type="number" inputMode="decimal" min="0" aria-label="activeUsers"
+ value={dv(item.id, 'activeUsers', item.activeUsers)}
+ placeholder="0"
+ onChange={e => setDraft(item.id, 'activeUsers', e.target.value)}
+ className={cn('w-20 px-2 py-1.5 border rounded-lg outline-none text-right text-base focus:ring-2 focus:ring-blue-500', drafts[item.id]?.['activeUsers'] !== undefined ? 'border-amber-400 bg-amber-50' : 'border-slate-300 bg-white')} />
+) : (
                                       <div 
                                         className={cn(
                                           "text-slate-600 text-base font-medium",
                                           isEditMode ? "cursor-pointer hover:text-blue-600 group" : "cursor-default"
                                         )}
-                                        onClick={() => isEditMode && startEditing(item.id, 'activeUsers', item.activeUsers)}
                                       >
                                         {item.activeUsers?.toLocaleString() || 0}
-                                        {isEditMode && <Edit2 size={12} className="inline ml-1 text-slate-300 opacity-0 group-hover:opacity-100" />}
                                       </div>
                                     )}
                                   </td>
 
                                   <td className="px-6 py-5 text-right font-semibold text-slate-700 text-base">
-                                    {editingCell?.id === item.id && editingCell?.field === 'annualConsumption' ? (
-                                      <input 
-                                        type="number" 
-                                        value={editCellValue}
-                                        onChange={e => setEditCellValue(e.target.value)}
-                                        onBlur={saveCellEdit}
-                                        onKeyDown={e => e.key === 'Enter' && saveCellEdit()}
-                                        className="w-20 px-1 py-0.5 border border-blue-300 rounded outline-none text-right text-base"
-                                        autoFocus
-                                      />
-                                    ) : (
+                                    {isEditMode ? (
+<input type="number" inputMode="decimal" min="0" aria-label="annualConsumption"
+ value={dv(item.id, 'annualConsumption', item.annualConsumption)}
+ placeholder="0"
+ onChange={e => setDraft(item.id, 'annualConsumption', e.target.value)}
+ className={cn('w-24 px-2 py-1.5 border rounded-lg outline-none text-right text-base focus:ring-2 focus:ring-blue-500', drafts[item.id]?.['annualConsumption'] !== undefined ? 'border-amber-400 bg-amber-50' : 'border-slate-300 bg-white')} />
+) : (
                                       <div 
                                         className={cn(
                                           "text-slate-600 font-bold text-base",
                                           isEditMode ? "cursor-pointer hover:text-blue-600 group" : "cursor-default"
                                         )}
-                                        onClick={() => isEditMode && startEditing(item.id, 'annualConsumption', item.annualConsumption)}
                                       >
                                         {item.annualConsumption.toLocaleString()}
-                                        {isEditMode && <Edit2 size={12} className="inline ml-1 text-slate-300 opacity-0 group-hover:opacity-100" />}
                                       </div>
                                     )}
                                   </td>
 
                                   <td className="px-6 py-5 text-right font-semibold text-slate-700 text-base">
-                                    {editingCell?.id === item.id && editingCell?.field === 'unitCost' ? (
-                                      <input 
-                                        type="number" 
-                                        step="0.01"
-                                        value={editCellValue}
-                                        onChange={e => setEditCellValue(e.target.value)}
-                                        onBlur={saveCellEdit}
-                                        onKeyDown={e => e.key === 'Enter' && saveCellEdit()}
-                                        className="w-20 px-1 py-0.5 border border-blue-300 rounded outline-none text-right text-base"
-                                        autoFocus
-                                      />
-                                    ) : (
+                                    {isEditMode ? (
+<input type="number" inputMode="decimal" step="0.01" min="0" aria-label="unitCost"
+ value={dv(item.id, 'unitCost', item.unitCost)}
+ placeholder="0"
+ onChange={e => setDraft(item.id, 'unitCost', e.target.value)}
+ className={cn('w-24 px-2 py-1.5 border rounded-lg outline-none text-right text-base focus:ring-2 focus:ring-blue-500', drafts[item.id]?.['unitCost'] !== undefined ? 'border-amber-400 bg-amber-50' : 'border-slate-300 bg-white')} />
+) : (
                                       <div 
                                         className={cn(
                                           "text-slate-600 font-bold text-base",
                                           isEditMode ? "cursor-pointer hover:text-blue-600 group" : "cursor-default"
                                         )}
-                                        onClick={() => isEditMode && startEditing(item.id, 'unitCost', item.unitCost)}
                                       >
                                         R$ {item.unitCost.toFixed(2)}
-                                        {isEditMode && <Edit2 size={12} className="inline ml-1 text-slate-300 opacity-0 group-hover:opacity-100" />}
                                       </div>
                                     )}
                                   </td>
@@ -1468,17 +1502,13 @@ export default function App() {
                                   </td>
 
                                   <td className="px-6 py-5 text-right">
-                                    {editingCell?.id === item.id && editingCell?.field === 'currentInventory' ? (
-                                      <input 
-                                        type="number" 
-                                        value={editCellValue}
-                                        onChange={e => setEditCellValue(e.target.value)}
-                                        onBlur={saveCellEdit}
-                                        onKeyDown={e => e.key === 'Enter' && saveCellEdit()}
-                                        className="w-16 px-1 py-0.5 border border-blue-300 rounded outline-none text-right text-base"
-                                        autoFocus
-                                      />
-                                    ) : (
+                                    {isEditMode ? (
+<input type="number" inputMode="decimal" min="0" aria-label="currentInventory"
+ value={dv(item.id, 'currentInventory', item.currentInventory)}
+ placeholder="não informado"
+ onChange={e => setDraft(item.id, 'currentInventory', e.target.value)}
+ className={cn('w-32 px-2 py-1.5 border rounded-lg outline-none text-right text-base focus:ring-2 focus:ring-blue-500', drafts[item.id]?.['currentInventory'] !== undefined ? 'border-amber-400 bg-amber-50' : 'border-slate-300 bg-white')} />
+) : (
                                       <div 
                                         className={cn(
                                           "font-black transition-colors text-base",
@@ -1486,10 +1516,8 @@ export default function App() {
                                           item.currentInventory < item.safetyStock ? "text-red-600 underline decoration-red-300 underline-offset-4" : "text-slate-600",
                                           isEditMode ? "cursor-pointer hover:text-blue-600 group" : "cursor-default"
                                         )}
-                                        onClick={() => isEditMode && startEditing(item.id, 'currentInventory', item.currentInventory)}
                                       >
                                         {item.currentInventory === -1 ? '-' : item.currentInventory}
-                                        {isEditMode && <Edit2 size={12} className="inline ml-1 text-slate-300 opacity-0 group-hover:opacity-100" />}
                                       </div>
                                     )}
                                   </td>
@@ -1498,26 +1526,20 @@ export default function App() {
                                   <td className="px-6 py-5 text-right text-slate-500 text-sm font-bold">{item.avgDailyConsumption.toFixed(2)}</td>
                                   
                                   <td className="px-6 py-5 text-right">
-                                    {editingCell?.id === item.id && editingCell?.field === 'maxMonthlyConsumption' ? (
-                                      <input 
-                                        type="number" 
-                                        value={editCellValue}
-                                        onChange={e => setEditCellValue(e.target.value)}
-                                        onBlur={saveCellEdit}
-                                        onKeyDown={e => e.key === 'Enter' && saveCellEdit()}
-                                        className="w-16 px-1 py-0.5 border border-blue-300 rounded outline-none text-right text-base"
-                                        autoFocus
-                                      />
-                                    ) : (
+                                    {isEditMode ? (
+<input type="number" inputMode="decimal" min="0" aria-label="maxMonthlyConsumption"
+ value={dv(item.id, 'maxMonthlyConsumption', item.maxMonthlyConsumption)}
+ placeholder="0"
+ onChange={e => setDraft(item.id, 'maxMonthlyConsumption', e.target.value)}
+ className={cn('w-24 px-2 py-1.5 border rounded-lg outline-none text-right text-base focus:ring-2 focus:ring-blue-500', drafts[item.id]?.['maxMonthlyConsumption'] !== undefined ? 'border-amber-400 bg-amber-50' : 'border-slate-300 bg-white')} />
+) : (
                                       <div 
                                         className={cn(
                                           "text-slate-500 text-sm font-bold",
                                           isEditMode ? "cursor-pointer hover:text-blue-600 group" : "cursor-default"
                                         )}
-                                        onClick={() => isEditMode && startEditing(item.id, 'maxMonthlyConsumption', item.maxMonthlyConsumption || 0)}
                                       >
                                         {item.maxMonthlyConsumption.toFixed(1)}
-                                        {isEditMode && <Edit2 size={12} className="inline ml-1 text-slate-300 opacity-0 group-hover:opacity-100" />}
                                       </div>
                                     )}
                                   </td>
