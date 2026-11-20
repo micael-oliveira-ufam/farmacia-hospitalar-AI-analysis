@@ -208,7 +208,7 @@ function FlBar() {
         <a className="pro" href={HOME_URL + 'prontuario/'}><i />Prontuário</a>
       </nav>
       <span className="fl-sp" />
-      <span className="fl-inst" title="Universidade Federal do Amazonas"><img src={`${import.meta.env.BASE_URL}ufam.png`} alt="Brasão da Universidade Federal do Amazonas" width={28} height={37} /><span className="fl-aut"><b>UFAM</b>Micael Oliveira · Elias Barros<span>Orient.: Profa. Dra. Clarice Veloso</span><span>Preceptora: Dra. Juliana Carvalho</span></span></span>
+      <span className="fl-inst" title="Universidade Federal do Amazonas"><img src={`${import.meta.env.BASE_URL}ufam.png`} alt="Brasão da Universidade Federal do Amazonas" width={38} height={38} /><span className="fl-aut"><b>UFAM</b>Micael Oliveira · Elias Barros<span>Orient.: Profa. Dra. Clarice Veloso</span><span>Preceptora: Dra. Juliana Carvalho</span></span></span>
       <div className="fl-tools"><button className="fl-ic" onClick={() => setDark(d => !d)} aria-label="Alternar tema claro e escuro" title="Tema"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></div>
     </div></div>
   );
@@ -1660,7 +1660,7 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
             <div className="space-y-4">
               <p className="text-xs text-slate-400 font-medium leading-relaxed max-w-xs">Estoque · módulo de estoque e curva ABC da PharmaCentral.</p>
-              <a className="ufam" href="https://ufam.edu.br" target="_blank" rel="noopener noreferrer"><img src={`${import.meta.env.BASE_URL}ufam.png`} alt="Brasão da Universidade Federal do Amazonas" width={43} height={56} /><span>Universidade Federal do Amazonas</span></a>
+              <a className="ufam" href="https://ufam.edu.br" target="_blank" rel="noopener noreferrer"><img src={`${import.meta.env.BASE_URL}ufam.png`} alt="Brasão da Universidade Federal do Amazonas" width={56} height={56} /><span>Universidade Federal do Amazonas</span></a>
             </div>
             
             <div className="space-y-4">
