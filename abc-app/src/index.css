@@ -1,0 +1,13 @@
+@import "tailwindcss";
+@import "../../design/pharmacentral.css";
+
+/* Tailwind passa a ler as cores do sistema PharmaCentral (claro e escuro). */
+@theme{
+--color-white:var(--surface);
+--color-slate-50:var(--ground);--color-slate-100:var(--sunk);--color-slate-200:var(--line);--color-slate-300:var(--line-2);
+--color-slate-400:var(--ink-3);--color-slate-500:var(--ink-3);--color-slate-600:var(--ink-2);--color-slate-700:var(--ink-2);--color-slate-800:var(--ink);--color-slate-900:var(--ink);
+--color-blue-50:var(--est-wash);--color-blue-100:var(--est-wash);--color-blue-500:var(--est);--color-blue-600:var(--est);--color-blue-700:var(--est-ink);
+--radius-xl:10px;--radius-2xl:12px;--radius-3xl:14px;
+--font-sans:var(--f-text)}
+body{background:var(--ground);color:var(--ink)}
+.bg-blue-600,.hover\:bg-blue-700:hover{color:#fff}

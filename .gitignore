@@ -1,8 +1,33 @@
-__pycache__/
-*.pyc
-.venv/
-venv/
 *.egg-info/
+*.png
+*.pyc
+*.zip
+.env
 .pytest_cache/
+.venv/
+__pycache__/
 _site/
+dist/
+dist_guia/
+e2e_*.js
+node_modules/
+patch_abc.py
+pkg/
 plataforma/abc-app/node_modules/
+server/data/
+shot_*.js
+t2.js
+venv/
+
+# Projeto Android gerado pelo flutter create (ver flutter_app/tool/in_container.sh)
+flutter_app/android/
+!flutter_app/tool/icons/**/*.png
+
+# logos oficiais da UFAM (publicados no site e no app)
+!design/ufam.png
+!design/ufam_neg.png
+!plataforma/shared/ufam.png
+!plataforma/shared/ufam_neg.png
+!plataforma/estoque/ufam.png
+!flutter_app/assets/ufam.png
+!abc-app/public/ufam.png

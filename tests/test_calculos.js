@@ -94,7 +94,7 @@ teste("calcularNumeroFrascos: com sobra", () => {
 
 teste("verificarInteracoes: encontra par conhecido (gentamicina + vancomicina)", () => {
   const medicamentos = medicamentosPorId(carregarJson("medicamentos.json"));
-  const interacoes = carregarJson("interacoes.json");
+  const interacoes = Calculos.normalizarInteracoes(carregarJson("interacoes.json"), medicamentos);
   const r = Calculos.verificarInteracoes(["gentamicina", "vancomicina"], medicamentos, interacoes);
   assert.equal(r.length, 1);
   assert.equal(r[0].gravidade, "grave");
@@ -102,14 +102,14 @@ teste("verificarInteracoes: encontra par conhecido (gentamicina + vancomicina)",
 
 teste("verificarInteracoes: nenhuma interação entre paracetamol e amoxicilina_comp", () => {
   const medicamentos = medicamentosPorId(carregarJson("medicamentos.json"));
-  const interacoes = carregarJson("interacoes.json");
+  const interacoes = Calculos.normalizarInteracoes(carregarJson("interacoes.json"), medicamentos);
   const r = Calculos.verificarInteracoes(["paracetamol", "amoxicilina_comp"], medicamentos, interacoes);
   assert.equal(r.length, 0);
 });
 
 teste("dados: todas as interações referenciam medicamentos existentes", () => {
   const medicamentos = medicamentosPorId(carregarJson("medicamentos.json"));
-  const interacoes = carregarJson("interacoes.json");
+  const interacoes = Calculos.normalizarInteracoes(carregarJson("interacoes.json"), medicamentos);
   for (const it of interacoes) {
     for (const id of it.medicamentos) {
       assert.ok(medicamentos[id], `Interação referencia medicamento inexistente: ${id}`);
