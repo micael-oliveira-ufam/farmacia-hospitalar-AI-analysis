@@ -2,6 +2,10 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.22.0
+- **Estoque:** novo botão **Gerenciar quantidade em estoque** abre uma janela na própria página, com busca, campos de quantidade e **Salvar quantidades**; ao salvar aparece a mensagem de confirmação com o número de itens atualizados.
+- **Relatórios:** removido o botão *Ver a lista com as referências* da tela; as referências seguem na coluna **Referências** do PDF.
+
 ## 4.21.0
 - **Relatórios:** novos PDFs de *Medicamentos do ICAM* (lista original transcrita, por forma e tipo, com classe, via e alertas) e de *PPS no CAF* (com fotos quando há internet). Os relatórios de hepatotóxicos e nefrotóxicos ganharam a coluna **Referências (de onde foi extraído)**: obra, seção, escore, link e trecho do nível, mais as diretrizes do manejo. A tabela com as mesmas referências aparece na tela.
 - **Autores em todos os relatórios:** Micael Davi Lima de Oliveira (ICAM) e Ennylay (ICAM) saem no rodapé de todo PDF e no pedido impresso.

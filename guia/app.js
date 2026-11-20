@@ -590,10 +590,6 @@ function relPdf(kind,btn){
     nota:"Apoio à decisão. Confirmar com bula, protocolo do serviço, CCIH e farmacêutico responsável. Cada linha traz a obra, a seção e o link de onde o nível foi lido e as diretrizes do manejo.",rodape:"Controle terapêutico",autores:PC_AUT});
   PCPDF.save("PharmaCentral-"+(hep?"hepatotoxicos":"nefrotoxicos")+".pdf",u)}
 const PC_AUT="Autores: Micael Davi Lima de Oliveira (ICAM) e Ennylay (ICAM)";
-function relTable(kind){
-  const hep=kind==="h",NM=hep?HN:KN,its=relItems(kind);
-  return '<details class="tx"><summary><b>Ver a lista com as referências</b><span class="tx-l">'+its.length+" medicamentos</span></summary><div class=\"tbl\"><table><thead><tr><th>Medicamento</th><th>"+(hep?"Escore":"Nível")+"</th><th>Referências (de onde foi extraído)</th></tr></thead><tbody>"
-   +its.map(x=>"<tr><td>"+esc(x.it.desc)+"</td><td>"+esc(NM[x.l])+(hep&&x.s?" · "+esc(x.s):"")+"</td><td><ul class=\"tsrc\">"+relRefs(x,kind).map(r=>'<li><b>'+r.k+':</b> <a class="lk" href="'+esc(r.u)+'" target="_blank" rel="noopener noreferrer">'+esc(r.t)+"</a>"+(r.sec?'<span class="note"> · seção '+esc(r.sec)+(r.s?" · escore "+esc(r.s):"")+(r.e==="classe"?" · informação da classe":"")+"</span>":"")+(r.q?'<blockquote lang="en">'+esc(r.q)+"</blockquote>":"")+"</li>").join("")+"</ul></td></tr>").join("")+"</tbody></table></div></details>"}
 /* relatório: medicamentos do ICAM (lista original transcrita) e PPS no CAF */
 function relIcamRows(){
   const rows=[],porSec=new Map();
@@ -631,8 +627,8 @@ async function relPpsPdf(btn){
   }finally{if(btn){btn.disabled=false;btn.textContent=txt}}}
 function renderRel(){
   const n=k=>relRows(k).filter(r=>Array.isArray(r)).length;
-  $("#relbox").innerHTML='<div class="rel-grid"><div class="rel-card"><h3>Nefrotóxicos</h3><p class="note">Nível moderado a alto de nefrotoxicidade, com intervenção, opções mais seguras e quando suspender.</p><p><b>'+n("k")+'</b> medicamentos</p><button class="btn pri" data-rel="k">Gerar PDF</button>'+relTable("k")+'</div>'
-   +'<div class="rel-card"><h3>Hepatotóxicos</h3><p class="note">Nível alto ou muito alto de hepatotoxicidade, com intervenção, opções mais seguras e quando suspender.</p><p><b>'+n("h")+'</b> medicamentos</p><button class="btn pri" data-rel="h">Gerar PDF</button>'+relTable("h")+'</div>'
+  $("#relbox").innerHTML='<div class="rel-grid"><div class="rel-card"><h3>Nefrotóxicos</h3><p class="note">Nível moderado a alto de nefrotoxicidade, com intervenção, opções mais seguras e quando suspender.</p><p><b>'+n("k")+'</b> medicamentos</p><button class="btn pri" data-rel="k">Gerar PDF</button>'+'</div>'
+   +'<div class="rel-card"><h3>Hepatotóxicos</h3><p class="note">Nível alto ou muito alto de hepatotoxicidade, com intervenção, opções mais seguras e quando suspender.</p><p><b>'+n("h")+'</b> medicamentos</p><button class="btn pri" data-rel="h">Gerar PDF</button>'+'</div>'
    +'<div class="rel-card"><h3>Medicamentos do ICAM</h3><p class="note">Lista original transcrita, por forma e tipo, com classe, via e alertas de segurança.</p><p><b>'+relIcamRows().filter(r=>Array.isArray(r)).length+'</b> medicamentos</p><button class="btn pri" data-rel="i">Gerar PDF</button></div>'
    +'<div class="rel-card"><h3>PPS no CAF</h3><p class="note">Produtos para saúde do ICAM com CMM e função de cada item (com fotos quando houver internet).</p><p><b>'+(window.PPS||[]).length+'</b> itens</p><button class="btn pri" data-rel="p">Gerar PDF</button></div></div>'
    +'<p class="note">O relatório respeita a unidade escolhida na aba Medicamentos ('+esc((UNIS.find(u=>u[0]===uni)||["",""])[1])+"). Os relatórios de estoque, de pacientes e a notificação de reação adversa ficam nos módulos Estoque e Prontuário.</p>"}

@@ -250,6 +250,10 @@ export default function App() {
   const [editCellValue, setEditCellValue] = useState<string | number>('');
   const [isEditMode, setIsEditMode] = useState(false);
   // alterações digitadas e ainda não salvas: id -> campo -> texto digitado
+  const [showQty, setShowQty] = useState(false);
+  const [qtyDraft, setQtyDraft] = useState<Record<string, string>>({});
+  const [qtyFilter, setQtyFilter] = useState('');
+  const [qtyMsg, setQtyMsg] = useState<string | null>(null);
   const [drafts, setDrafts] = useState<Record<string, Record<string, string>>>({});
   const draftCount = Object.keys(drafts).length;
   const [showAnvisaModal, setShowAnvisaModal] = useState(false);
@@ -536,6 +540,27 @@ export default function App() {
       }
       setDrafts({});
       setIsEditMode(false);
+    } catch (error) {
+      handleFirestoreError(error, OperationType.UPDATE, 'medications');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+  const openQty = () => { setQtyDraft({}); setQtyFilter(''); setQtyMsg(null); setShowQty(true); };
+  const qtyChanged = Object.keys(qtyDraft).length;
+  const saveQty = async () => {
+    if (!qtyChanged || !user) return;
+    setIsSaving(true);
+    try {
+      let n = 0;
+      for (const [id, v] of Object.entries(qtyDraft) as [string, string][]) {
+        const num = v.trim() === '' ? -1 : Number(v.replace(',', '.'));
+        if (!Number.isFinite(num)) continue;
+        await store.update(hospitalId, id, { currentInventory: num } as Partial<Medication>);
+        n++;
+      }
+      setQtyDraft({});
+      setQtyMsg(`Quantidades salvas: ${n} ${n === 1 ? 'item atualizado' : 'itens atualizados'}.`);
     } catch (error) {
       handleFirestoreError(error, OperationType.UPDATE, 'medications');
     } finally {
@@ -848,6 +873,14 @@ export default function App() {
                     {isEditMode ? "Editando quantidades" : "Editar quantidades"}
                   </button>
 
+                  <button
+                    onClick={openQty}
+                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl transition-all font-bold text-xs hover:bg-blue-700 shadow-sm"
+                  >
+                    <Package size={14} />
+                    Gerenciar quantidade em estoque
+                  </button>
+
                   <button 
                     onClick={() => setShowAnvisaModal(true)}
                     className="flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-xl transition-all font-bold text-xs hover:bg-emerald-700 shadow-sm shadow-emerald-100"
@@ -893,6 +926,39 @@ export default function App() {
             
             <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept=".csv,.xlsx,.xls" className="hidden" />
           </header>
+
+          {showQty && (
+            <div role="dialog" aria-modal="true" aria-label="Gerenciar quantidade em estoque" className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/60 p-3" onClick={e => { if (e.target === e.currentTarget && !isSaving) setShowQty(false); }}>
+              <div className="bg-white text-slate-900 rounded-2xl shadow-2xl w-[min(96vw,720px)] max-h-[88vh] flex flex-col">
+                <div className="flex items-center gap-3 px-5 py-4 border-b border-slate-200">
+                  <h2 className="flex-1 text-base font-black">Gerenciar quantidade em estoque</h2>
+                  <button onClick={() => setShowQty(false)} disabled={isSaving} aria-label="Fechar" className="p-1.5 rounded-lg hover:bg-slate-100"><X size={18} /></button>
+                </div>
+                <div className="px-5 pt-3">
+                  <input value={qtyFilter} onChange={e => setQtyFilter(e.target.value)} placeholder="Buscar medicamento ou código" className="w-full px-3 py-2 border border-slate-300 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+                <div className="flex-1 overflow-y-auto px-5 py-3">
+                  {medications.filter(m => { const q = qtyFilter.trim().toLowerCase(); return !q || (m.name + ' ' + (m.cafCode || '')).toLowerCase().includes(q); }).map(m => (
+                    <label key={m.id} className="flex items-center gap-3 py-1.5 border-b border-slate-100">
+                      <span className="flex-1 text-sm leading-snug">{m.name}{m.concentration ? ' ' + m.concentration : ''}{m.cafCode ? <span className="text-slate-400 text-xs"> · {m.cafCode}</span> : null}</span>
+                      <input inputMode="decimal"
+                        value={qtyDraft[m.id] ?? (m.currentInventory === -1 || m.currentInventory == null ? '' : String(m.currentInventory))}
+                        onChange={e => { setQtyMsg(null); setQtyDraft(d => ({ ...d, [m.id]: e.target.value })); }}
+                        placeholder="—"
+                        className={cn('w-28 px-2 py-1.5 border rounded-lg text-right text-base outline-none focus:ring-2 focus:ring-blue-500', qtyDraft[m.id] !== undefined ? 'border-amber-400 bg-amber-50' : 'border-slate-300')} />
+                    </label>
+                  ))}
+                </div>
+                <div className="px-5 py-3 border-t border-slate-200 flex items-center gap-3">
+                  <p role="status" aria-live="polite" className={cn('flex-1 text-sm', qtyMsg ? 'text-emerald-700 font-bold' : 'text-slate-500')}>
+                    {qtyMsg ?? (qtyChanged ? `${qtyChanged} ${qtyChanged === 1 ? 'item alterado' : 'itens alterados'}. Clique em Salvar.` : 'Digite as quantidades e clique em Salvar.')}
+                  </p>
+                  <button onClick={() => setShowQty(false)} disabled={isSaving} className="px-3 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100">Fechar</button>
+                  <button onClick={saveQty} disabled={isSaving || !qtyChanged} className="px-5 py-2 rounded-xl text-sm font-black bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed">{isSaving ? 'Salvando…' : 'Salvar quantidades'}</button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {(isEditMode || draftCount > 0) && (
             <div role="region" aria-label="Salvar alterações" className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[min(94vw,640px)] flex items-center gap-3 bg-slate-900 text-white rounded-2xl shadow-2xl px-4 py-3">
