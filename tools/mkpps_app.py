@@ -45,7 +45,7 @@ function rel(){var l=flt();if(!l.length)return;var imgs={},rows=[],by={},s=0;
  l.forEach(function(i){s+=i.m;(by[i.k]=by[i.k]||[]).push(i);if(i.p&&!imgs[i.p])imgs[i.p]=jpg(IM[i.p])});
  Object.keys(by).sort(function(a,b){return a.localeCompare(b,"pt-BR")}).forEach(function(k){rows.push({sec:k+" ("+by[k].length+" itens)"});by[k].forEach(function(i){rows.push([i.p?{img:i.p}:"sem foto",i.c,i.d+(i.i?" [CMM a confirmar]":""),String(i.m),i.f])})});
  var u=PCPDF.build({titulo:"PPS no CAF - lista do ICAM",sub:l.length+" itens · CMM somado: "+nf(s)+".",cols:[{h:"Foto",w:1.1},{h:"Código",w:.9},{h:"Material (descrição)",w:4},{h:"CMM",w:.8},{h:"Função / uso",w:4.6}],rows:rows,imgs:imgs,imgMax:50,
- nota:"CMM = consumo médio mensal. Fotos ilustrativas por tipo de produto (não a marca do item); função descrita de forma geral. Fontes das fotos: Wikimedia Commons/Openverse (com licença) e páginas de lojas de materiais hospitalares.",rodape:"PPS no CAF"});
+ nota:"CMM = consumo médio mensal. Fotos ilustrativas por tipo de produto (não a marca do item); função descrita de forma geral. Fontes das fotos: Wikimedia Commons/Openverse (com licença) e páginas de lojas de materiais hospitalares.",rodape:"PPS no CAF",autores:"Autores: Micael Davi Lima de Oliveira (ICAM) e Ennylay (ICAM)"});
  PCPDF.save("PharmaCentral-PPS-CAF-ICAM.pdf",u)}
 $("q").oninput=$("cat").onchange=function(){shown=P;draw()};$("more").onclick=function(){shown+=96;draw()};$("r1").onclick=$("r2").onclick=rel;draw();
 </script></body></html>'''

@@ -67,6 +67,7 @@ export function PpsCaf({ unit }: { unit: string }) {
         rows, imgs, imgMax: 50,
         nota: 'CMM = consumo médio mensal. Fotos ilustrativas por tipo de produto (não a marca do item); função descrita de forma geral, sem substituir a especificação técnica. Fontes das fotos: Wikimedia Commons/Openverse (com licença) e páginas de lojas de materiais hospitalares.',
         rodape: 'PPS no CAF',
+        autores: 'Autores: Micael Davi Lima de Oliveira (ICAM) e Ennylay (ICAM)',
       });
       P.save('PharmaCentral-PPS-CAF-ICAM.pdf', u);
     } finally { setBusy(false); }

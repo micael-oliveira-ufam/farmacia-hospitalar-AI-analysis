@@ -1,5 +1,5 @@
 /* PharmaCentral – gerador de PDF offline (Helvetica, tabelas). Sem dependências.
-   PCPDF.build({titulo,sub,cols:[{h,w}],rows:[[..]|{sec:"texto"}],nota}) -> Uint8Array
+   PCPDF.build({titulo,sub,cols:[{h,w}],rows:[[..]|{sec:"texto"}],nota,rodape,autores}) -> Uint8Array
    PCPDF.save(nome,bytes) baixa no navegador; no app Android envia ao canal nativo. */
 (function(g){
 var W=842,H=595,M=36,FS=8.5,LH=11;
@@ -37,6 +37,7 @@ function build(o){
   add("<< /Type /Catalog /Pages 2 0 R >>");add("");var f1=add("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>"),f2=add("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>");
   var xo2="";Object.keys(o.imgs||{}).forEach(function(k){if(!used[k])return;var m=o.imgs[k],bin=atob(m.b64);var id=add("<< /Type /XObject /Subtype /Image /Width "+m.pw+" /Height "+m.ph+" /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length "+bin.length+" >>\nstream\n"+bin+"\nendstream");xo2+="/Im"+k+" "+id+" 0 R "});
   var kids=[];pages.forEach(function(p,i){p.push("BT /F1 7 Tf 0.4 g "+M+" 20 Td ("+esc("PharmaCentral · "+(o.rodape||"")+" · gerado em "+stamp+" · apoio à decisão, sem dado identificável de paciente")+") Tj ET");p.push("BT /F1 7 Tf "+(W-M-40)+" 20 Td (Pág. "+(i+1)+"/"+pages.length+") Tj ET");
+    if(o.autores)p.push("BT /F1 7 Tf 0.4 g "+M+" 11 Td ("+esc(o.autores)+") Tj ET");
     var s=p.join("\n");var c=add("<< /Length "+s.length+" >>\nstream\n"+s+"\nendstream");var pg=add("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 "+W+" "+H+"] /Resources << /Font << /F1 "+f1+" 0 R /F2 "+f2+" 0 R >> /XObject << "+xo2+">> >> /Contents "+c+" 0 R >>");kids.push(pg+" 0 R")});
   objs[1]="<< /Type /Pages /Kids ["+kids.join(" ")+"] /Count "+kids.length+" >>";
   var out="%PDF-1.4\n",offs=[];objs.forEach(function(b,i){offs.push(out.length);out+=(i+1)+" 0 obj\n"+b+"\nendobj\n"});
