@@ -68,7 +68,7 @@ img,svg{max-width:100%}
 .fl-sp{flex:1}
 .fl-inst{display:inline-flex;align-items:center;gap:9px;color:var(--ink-2);font:500 .74rem/1.25 var(--f-text);margin-right:6px}
 .fl-inst img{height:52px;width:auto;flex:none}
-.fl-aut>span{display:block;font-size:.68rem;color:var(--ink-3,var(--ink-2))}.fl-aut{display:flex;flex-direction:column;white-space:nowrap}.fl-aut b{color:var(--ink);font-weight:700}
+.fl-aut>span{display:block;font-size:.68rem;color:var(--ink-3,var(--ink-2))}.fl-aut{display:flex;flex-direction:column;max-width:340px;min-width:0}.fl-aut b{color:var(--ink);font-weight:700}
 .foot-aut{font:500 .82rem/1.3 var(--f-text);color:var(--ink-2)}.foot-aut b{color:var(--ink)}
 .fl-tools{display:flex;align-items:center;gap:6px}
 .fl-ic{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:var(--rad-m);border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer;font-size:1rem}
@@ -121,6 +121,10 @@ input,select,textarea{font:inherit;color:inherit}
 /* rodapé institucional: brasão da UFAM sobre fundo branco (o desenho tem traço preto) */
 .ufam{display:inline-flex;align-items:center;gap:12px;color:var(--ink-2);text-decoration:none;font:600 .85rem/1.3 var(--f-text)}
 .ufam img{height:72px;width:auto;flex:none}
+/* logo: versão positiva no tema claro, negativa (texto branco) no escuro */
+.u-n{display:none}
+:root[data-theme="dark"] .u-p{display:none}
+:root[data-theme="dark"] .u-n{display:inline-block}
 .ufam span{max-width:22ch}
 
 body{margin:0}.w{max-width:1100px;margin:0 auto;padding:14px}h1{font:700 1.5rem/1.15 var(--f-display);margin:6px 0}

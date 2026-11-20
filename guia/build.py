@@ -32,6 +32,7 @@ def build(pwa):
     fa=json.load(open(os.path.join(S,'data/farmacologia.json'),encoding='utf8'))
     t=t.replace('/*FARMACO*/',json.dumps(fa,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     t=t.replace('/*TOX*/',json.dumps(tox,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
+    t=t.replace('/*UFAMNEGIMG*/','data:image/png;base64,'+base64.b64encode(open(os.path.join(S,'design/ufam_neg.png'),'rb').read()).decode())
     t=t.replace('/*UFAMIMG*/','data:image/png;base64,'+base64.b64encode(open(os.path.join(S,'design/ufam.png'),'rb').read()).decode())
     t=t.replace('<!--HOMEHREF-->','../' if pwa else '#')
     t=t.replace('<!--ESTLINK-->','<a class="est" href="../estoque/"><i></i>Estoque</a><a class="ped" href="../pedidos/"><i></i>Pedidos</a><a class="pro" href="../prontuario/"><i></i>Prontuário</a>' if pwa else '')
