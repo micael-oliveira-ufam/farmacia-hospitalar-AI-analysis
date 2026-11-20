@@ -18,7 +18,6 @@ def build(pwa):
     t=t.replace('/*POSO*/',json.dumps(poso,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     tox=json.load(open(os.path.join(S,'data/toxicidade.json'),encoding='utf8'))
     t=t.replace('/*TOX*/',json.dumps(tox,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
-    t=t.replace('<!--ACCOUNT-->','<script src="/shared/account.js" data-module="ped" defer></script>' if (pwa and not PAGES) else '')
     t=t.replace('<!--HOME-->','<a class="homelnk" href="../">← Início</a>' if (pwa and PAGES) else '')
     t=t.replace('<!--PWA-->','<link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg">' if pwa else '')
     return t

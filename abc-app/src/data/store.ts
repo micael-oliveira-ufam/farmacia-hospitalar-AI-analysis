@@ -6,7 +6,7 @@ export interface AppUser { displayName: string | null; email?: string | null }
 export type MedDoc = Omit<Medication, 'id'> & { hospitalId: string; createdAt: string; updatedAt?: string };
 
 export interface Store {
-  mode: 'local' | 'firebase';
+  mode: 'local';
   subscribe(hospitalId: string, cb: (meds: Medication[]) => void): () => void;
   add(hospitalId: string, med: Omit<Medication, 'id'>): Promise<void>;
   addMany(hospitalId: string, meds: Omit<Medication, 'id'>[]): Promise<void>;
@@ -18,7 +18,7 @@ export interface Store {
 }
 
 export interface AuthApi {
-  mode: 'local' | 'firebase';
+  mode: 'local';
   onUser(cb: (u: AppUser | null) => void): () => void;
   login(): Promise<void>;
   logout(): Promise<void>;
@@ -71,12 +71,8 @@ export const localAuth: AuthApi = {
   async logout() {},
 };
 
-/* ---------------- backend opcional: Firebase (carregado sob demanda) ---------------- */
-export const USE_FIREBASE = import.meta.env.VITE_USE_FIREBASE === 'true';
 export async function loadBackends(): Promise<{ store: Store; auth: AuthApi }> {
-  if (!USE_FIREBASE) return { store: localStore, auth: localAuth };
-  const m = await import('./firebaseStore');
-  return { store: m.firebaseStore, auth: m.firebaseAuth };
+  return { store: localStore, auth: localAuth };   // sempre local: sem conta e sem nuvem
 }
 
 /* ---------------- backup (modo local) ---------------- */

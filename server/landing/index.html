@@ -16,7 +16,6 @@
   <h1>Farmácia Hospitalar Integrada</h1>
   <p class="lede">Escolha o módulo que vai usar. Você volta a esta tela a qualquer momento pelo ícone de casa na barra superior.</p>
   <p class="byline">Desenvolvido por <b>Micael Davi Lima de Oliveira</b> e <b>Elias de Souza Barros</b> (UFAM/FCF) · <a href="#autores">Ver autores</a></p>
-  <div id="status"></div>
   <div class="grid">
     <a class="tile ped" href="/guia/">
       <img src="/icons/ped.svg" alt="" width="64" height="64">
@@ -33,10 +32,6 @@
       <span class="go">Abrir FarmaGestão →</span>
     </a>
   </div>
-  <div class="card" id="offer" style="margin-top:18px;display:flex;gap:16px;align-items:center;flex-wrap:wrap" hidden>
-    <div style="flex:1 1 260px"><b>7 dias de demonstração grátis, sem cartão.</b><div class="muted small">Depois, <b>R$ 29,99 por mês</b> com cancelamento a qualquer momento. O cartão é digitado na página segura do provedor de pagamento.</div></div>
-    <a class="btn pri" href="/entrar?aba=cadastro">Criar conta e testar</a>
-  </div>
   <section class="authors card-less" id="autores" aria-labelledby="autores-h">
     <h2 id="autores-h">Autores</h2>
     <p class="sub">Ferramenta desenvolvida como projeto de extensão e iniciação científica.</p>
@@ -46,17 +41,10 @@
     </div>
   </section>
   <div class="msg warn" style="margin-top:18px"><b>Apoio à decisão, não prescrição.</b> O conteúdo de doses foi compilado por IA a partir das fontes citadas e precisa de revisão por farmacêutico responsável, com atenção redobrada em neonatos e prematuros. Não registre dados de pacientes. A plataforma não pertence a nenhum hospital: a lista incluída é apenas um exemplo.</div>
-  <footer class="foot">Funciona offline depois da primeira visita com internet (a conta é verificada a cada 7 dias). Os dados do estoque ficam no seu navegador. <a href="/termos">Termos e privacidade</a>.</footer>
+  <footer class="foot">Funciona offline depois da primeira visita com internet. Os dados do estoque ficam no seu navegador. Gratuito, sem cadastro e sem conta.</footer>
 </main>
 <script src="/shared/site.js"></script>
 <script>
-FHI.me.then(function (me) {
-  var s = document.getElementById("status");
-  if (!me) { document.getElementById("offer").hidden = false; return; }
-  var p = me.plan;
-  s.innerHTML = '<div class="msg ' + (p.access ? "ok" : "err") + '">' + (p.status === "trial" ? "Demonstração ativa: " + p.daysLeft + (p.daysLeft === 1 ? " dia restante. " : " dias restantes. ") + '<a href="/assinar">Assinar por R$ 29,99/mês</a>'
-    : p.access ? "Assinatura ativa. Bom trabalho!" : 'Sua demonstração terminou. <a href="/assinar">Assine para continuar</a>') + "</div>";
-});
 // Instala os módulos para uso offline: basta abrir esta página uma vez com internet.
 if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
   var reg = function (u, scope) { navigator.serviceWorker.register(u, { scope: scope }).catch(function () {}); };

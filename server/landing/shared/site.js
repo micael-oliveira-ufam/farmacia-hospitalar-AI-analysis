@@ -1,4 +1,4 @@
-/* Páginas públicas (início, entrar, assinar, conta): barra com ícones dos módulos e estado da conta. */
+/* Páginas públicas: barra com ícones dos módulos (sem conta). */
 (function () {
   "use strict";
   var I = {
@@ -8,7 +8,7 @@
     user: '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c.8-4 3.6-6 7.5-6s6.7 2 7.5 6"/></svg>'
   };
   var here = location.pathname.replace(/\/$/, "") || "/";
-  function bar(me) {
+  function bar() {
     var b = document.createElement("header"); b.className = "fhi-bar";
     var cur = function (p) { return here === p ? ' aria-current="page"' : ""; };
     b.innerHTML = '<div class="in"><a class="nav" href="/"' + cur("/") + ' title="Início">' + I.home + '<span class="t">Início</span></a>' +
@@ -18,14 +18,5 @@
           : '<a class="nav" href="/entrar"' + cur("/entrar") + '>' + I.user + '<span class="t">Entrar</span></a>') + '</div>';
     document.body.insertBefore(b, document.body.firstChild);
   }
-  window.FHI = {
-    icons: I,
-    me: fetch("/api/me", { credentials: "same-origin", cache: "no-store" }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }),
-    api: function (path, body) {
-      return fetch(path, { method: "POST", credentials: "same-origin", headers: { "content-type": "application/json" }, body: JSON.stringify(body || {}) })
-        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok) throw new Error(j.error || "Erro inesperado."); return j; }); });
-    },
-    safeNext: function () { var n = new URLSearchParams(location.search).get("next") || "/"; return /^\/(?!\/)/.test(n) ? n : "/"; }
-  };
-  window.FHI.me.then(bar);
+  bar();
 })();

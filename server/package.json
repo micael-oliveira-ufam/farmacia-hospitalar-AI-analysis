@@ -1,10 +1,10 @@
 {
   "name": "farmacia-hospitalar-integrada-server",
-  "version": "4.11.0",
+  "version": "4.12.0",
   "private": true,
   "type": "module",
   "main": "server.js",
-  "scripts": { "start": "node server.js", "test": "node --test --test-force-exit test/server.test.js test/account.test.js" },
+  "scripts": { "start": "node server.js", "test": "node --test --test-force-exit test/server.test.js" },
   "engines": { "node": ">=22.13" },
   "dependencies": { "express": "^4.21.2" }
 }

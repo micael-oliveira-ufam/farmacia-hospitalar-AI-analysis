@@ -53,7 +53,7 @@ import { Medication, ABCResult, calculateABC, ABCCalculationMode, DEFAULT_REVIEW
 import { cn } from './lib/utils';
 
 // Camada de dados (local por padrão; Firebase opcional) e IA via servidor
-import { localStore, localAuth, loadBackends, exportBackup, importBackup, USE_FIREBASE, type Store, type AuthApi, type AppUser } from './data/store';
+import { localStore, localAuth, loadBackends, exportBackup, importBackup, type Store, type AuthApi, type AppUser } from './data/store';
 import { loadCodajas, loadCatalog, HOME_URL, GUIDE_URL, type Catalog } from './lib/catalog';
 import { WeeklyOrder } from './components/WeeklyOrder';
 import { Methodology } from './components/Methodology';
@@ -722,23 +722,10 @@ export default function App() {
               </div>
             </div>
 
-            {!user && (
-              <div className="mt-8">
-                <button 
-                  onClick={handleLogin}
-                  className="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 text-slate-700 px-6 py-3 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-all active:scale-95"
-                >
-                  <span className="font-black">G</span>
-                  Entrar com Google para Salvar Dados
-                </button>
-              </div>
-            )}
           </div>
 
           <p className="text-[11px] text-slate-400 text-center px-8">
-            {USE_FIREBASE
-              ? 'Seus dados são salvos na nuvem e vinculados ao nome do hospital. Use um nome único para que outras pessoas não acessem seus dados acidentalmente.'
-              : 'Seus dados ficam salvos somente neste navegador (sem conta e sem nuvem). Use Backup para guardar uma cópia ou levar para outro aparelho.'}
+            {'Seus dados ficam salvos somente neste navegador (sem conta e sem nuvem). Use Backup para guardar uma cópia ou levar para outro aparelho.'}
           </p>
 
           <button 
@@ -779,7 +766,7 @@ export default function App() {
                 </div>
                 <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-full w-fit">
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">{USE_FIREBASE ? 'Live Sync' : 'Salvo neste navegador'}</span>
+                  <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Salvo neste navegador</span>
                 </div>
               </div>
 
@@ -805,7 +792,7 @@ export default function App() {
                 </div>
 
                 {/* User Info / Auth */}
-                {user ? (
+                {user && (
                   <div className="flex items-center gap-3 pl-6 border-l border-slate-200">
                     <div className="text-right">
                       <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Usuário</p>
@@ -819,14 +806,6 @@ export default function App() {
                       <LogOut size={18} />
                     </button>
                   </div>
-                ) : (
-                  <button 
-                    onClick={handleLogin}
-                    className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2.5 rounded-xl font-bold text-xs shadow-md shadow-blue-100 hover:bg-blue-700 transition-all active:scale-95"
-                  >
-                    <Package size={14} />
-                    Entrar com Google
-                  </button>
                 )}
               </div>
             </div>

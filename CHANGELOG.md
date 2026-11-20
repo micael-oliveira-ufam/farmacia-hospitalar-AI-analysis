@@ -2,6 +2,13 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.12.0 - 2026-11-19
+
+- **Totalmente gratuito e sem conta.** Removidos o cadastro, o login, a assinatura (R$ 29,99/mês), o teste de 7 dias, a integração de pagamento, as telas entrar/assinar/conta/termos, o banco de contas do servidor e o login com Google/Firebase do estoque. A cobrança, se existir um dia, ficará em outro aplicativo.
+- **App Android sem login**: abre direto na tela dos módulos e não pede mais a permissão de internet.
+- O servidor Docker agora só entrega arquivos estáticos e não guarda nenhum dado.
+- O estoque (FarmaGestão) continua salvando só no navegador, com backup em JSON.
+
 ## 4.11.0 - 2026-11-19
 
 - **Filtro por unidade** na busca: "Todas as unidades", "ICAM" e "Policlínica Codajás", com contagem em cada botão; a escolha fica guardada no navegador e vale para a busca, as classes e os recentes.

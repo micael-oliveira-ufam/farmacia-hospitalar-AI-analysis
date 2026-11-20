@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'models.dart';
 import 'launcher.dart';
-import 'account.dart';
 
 void main() => runApp(const GuiaApp());
 
@@ -40,10 +39,7 @@ class _LoaderState extends State<Loader> {
           }
           if (!snap.hasData) return const Scaffold(body: Center(child: CircularProgressIndicator()));
           final cat = snap.data!.$1, prefs = snap.data!.$2;
-          return AccountGate(
-            prefs: prefs,
-            builder: (ctx, api, st, signOut, refresh) => Launcher(catalog: cat, prefs: prefs, api: api, account: st, onSignOut: signOut, onRefresh: refresh),
-          );
+          return Launcher(catalog: cat, prefs: prefs);
         },
       );
 }

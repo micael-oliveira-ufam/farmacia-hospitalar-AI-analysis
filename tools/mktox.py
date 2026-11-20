@@ -30,6 +30,9 @@ def universo():
         en=next((c['mono'][m]['en'] for m in x['mono'] if m in c['mono'] and c['mono'][m].get('en')),None) or p['itens'].get(x['id'],{}).get('f',{}).get('en')
         add(en,x['id'])
     for e in p['extras']: add(p['itens'][e['id']].get('f',{}).get('en'),e['id'])
+    sys.path.insert(0,os.path.join(ROOT,'tools'))
+    from codajas_map import LOTE1
+    for z in LOTE1: add(z['en'],'cod_'+norm(z['en']).replace(' ','_'))
     return U,c
 # ---------- LiverTox ----------
 def cache_lt(lt_path):
@@ -89,7 +92,7 @@ def fda_ev(en,fdir):
     fn=os.path.join(fdir,re.sub(r'[^a-z0-9]+','_',en.lower())+'.json')
     if not os.path.exists(fn): return None
     d=json.load(open(fn));toks=[t for t in re.split(r'\s+AND\s+',d['q']) if t]
-    labs=[x for x in d['res'] if len({g.lower() for g in x.get('gn',[])})==1 and all(any(t.lower().split()[0] in g.lower() for g in x.get('gn',[])) for t in toks)] if d['res'] else []
+    labs=[x for x in d['res'] if (len({g.lower() for g in x.get('gn',[])})==1 or ' and ' in en) and all(any(t.lower().split()[0] in g.lower() for g in x.get('gn',[])) for t in toks)] if d['res'] else []
     out=dict(rotulos=len(labs),n=None,h=None)
     if not labs: return out
     def scan(rx,fields_lv):

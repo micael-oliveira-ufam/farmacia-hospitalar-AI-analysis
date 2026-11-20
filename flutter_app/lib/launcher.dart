@@ -3,17 +3,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'models.dart';
 import 'pages.dart';
 import 'stock.dart';
-import 'account.dart';
 
 /// Tela inicial: o usuário escolhe o módulo. Tudo funciona offline (dados dentro do app).
 class Launcher extends StatelessWidget {
   final Catalog catalog;
   final SharedPreferences prefs;
-  final AccountApi api;
-  final AccountState account;
-  final Future<void> Function() onSignOut;
-  final Future<void> Function() onRefresh;
-  const Launcher({super.key, required this.catalog, required this.prefs, required this.api, required this.account, required this.onSignOut, required this.onRefresh});
+  const Launcher({super.key, required this.catalog, required this.prefs});
 
   @override
   Widget build(BuildContext context) {
@@ -42,26 +37,18 @@ class Launcher extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: ListView(padding: const EdgeInsets.all(16), children: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: ActionChip(
-              avatar: const Icon(Icons.account_circle_outlined, size: 18),
-              label: Text(account.plan.label + (account.offline ? ' · offline' : '')),
-              onPressed: () => showAccountSheet(context, api, account, onSignOut, onRefresh),
-            ),
-          ),
           const Text('PLATAFORMA PARA QUALQUER HOSPITAL', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, letterSpacing: 1)),
           const SizedBox(height: 4),
           const Text('Farmácia Hospitalar Integrada', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800)),
           const SizedBox(height: 4),
-          const Text('Dois módulos em um só aplicativo, com destaque para hospitais pediátricos. Funciona offline depois do login (a conta é verificada a cada 7 dias).'),
+          const Text('Dois módulos em um só aplicativo, para qualquer hospital. Gratuito, sem cadastro e sem conta. Funciona offline: os dados ficam dentro do aplicativo.'),
           const SizedBox(height: 14),
           tile(
             Icons.medication_liquid_outlined,
             const Color(0xFF12808A),
             'CicloDose · prematuro ao idoso',
-            'Posologia para hospitais pediátricos: doses por faixa etária (neonatos, lactentes e crianças em destaque), alertas pediátricos e calculadoras, com referência e link em cada informação.',
-            ['${catalog.items.length} medicamentos na lista de exemplo', 'Alerta pediátrico antes da dose; cálculo por peso e por m²', 'Adultos e idosos só como referência'],
+            'Posologia do prematuro ao idoso: doses por faixa etária, alertas e calculadoras, com referência e link em cada informação.',
+            ['${catalog.items.length} medicamentos na lista de exemplo', 'Todas as faixas etárias, do prematuro ao idoso', 'Cálculo por peso e por m²'],
             () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => Home(catalog: catalog, prefs: prefs))),
           ),
           const SizedBox(height: 10),
