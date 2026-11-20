@@ -57,6 +57,7 @@ import { cn } from './lib/utils';
 import { localStore, localAuth, loadBackends, exportBackup, importBackup, type Store, type AuthApi, type AppUser } from './data/store';
 import { loadCodajas, loadCatalog, HOME_URL, GUIDE_URL, type Catalog } from './lib/catalog';
 import { WeeklyOrder } from './components/WeeklyOrder';
+import { PpsCaf } from './components/PpsCaf';
 import { Methodology } from './components/Methodology';
 import { CatalogBadges } from './components/CatalogBadges';
 
@@ -853,6 +854,8 @@ export default function App() {
             
             <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept=".csv,.xlsx,.xls" className="hidden" />
           </header>
+
+            {hospitalId === 'icam' && <PpsCaf unit={hospitalName} />}
 
             <WeeklyOrder results={abcResults} reviewDays={reviewDays} setReviewDays={setReviewDays} catalog={catalog} />
 

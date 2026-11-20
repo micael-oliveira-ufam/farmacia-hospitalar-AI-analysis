@@ -15,7 +15,7 @@ function wrap(s,w,fs){s=nz(s);var out=[];s.split("\n").forEach(function(par){var
 function build(o){
   var cols=o.cols,tot=cols.reduce(function(a,c){return a+c.w},0),avail=W-2*M,pad=3;
   var cws=cols.map(function(c){return c.w/tot*avail});
-  var pages=[],cur=null,y=0;
+  var pages=[],cur=null,y=0,used={};
   var stamp=new Date().toLocaleString("pt-BR");
   function np(){cur=[];pages.push(cur);y=H-M;
     cur.push("BT /F2 15 Tf "+M+" "+y+" Td ("+esc(o.titulo)+") Tj ET");y-=16;
@@ -26,16 +26,18 @@ function build(o){
   np();var zebra=0;
   o.rows.forEach(function(r){
     if(!Array.isArray(r)){var need=LH+8;if(y-need<M+24)np();cur.push("0.86 0.93 0.95 rg "+M+" "+(y-LH-2*pad+2)+" "+avail+" "+(LH+2*pad-2)+" re f");cur.push("BT /F2 "+(FS+0.5)+" Tf 0.07 0.16 0.26 rg "+(M+pad)+" "+(y-pad-FS+1)+" Td ("+esc(r.sec)+") Tj ET 0 g");y-=LH+2*pad-2;zebra=0;return}
-    var cells=r.map(function(t,i){return wrap(t,cws[i]-2*pad,FS)});var n=Math.max.apply(null,cells.map(function(c){return c.length}));var h=n*LH+2*pad-2;
+    var ims=[];var cells=r.map(function(t,i){if(t&&typeof t==="object"&&t.img){ims[i]=t.img;return[]}return wrap(t,cws[i]-2*pad,FS)});var n=Math.max.apply(null,cells.map(function(c){return c.length}));var h=n*LH+2*pad-2;var IH=0;ims.forEach(function(k){var m=(o.imgs||{})[k];if(m)IH=Math.max(IH,Math.min(m.h,o.imgMax||56))});if(IH)h=Math.max(h,IH+2*pad);
     if(y-h<M+24)np();
     if(zebra++%2)cur.push("0.96 0.97 0.98 rg "+M+" "+(y-h)+" "+avail+" "+h+" re f 0 g");
     var x=M;cells.forEach(function(c,i){c.forEach(function(l,j){cur.push("BT /F"+(i===0?2:1)+" "+FS+" Tf "+(x+pad)+" "+(y-pad-FS+1-j*LH)+" Td ("+esc(l)+") Tj ET")});x+=cws[i]});
+    ims.forEach(function(k,i){var m=(o.imgs||{})[k];if(!m)return;var ih=Math.min(m.h,o.imgMax||56),iw=ih*m.w/m.h,mw=cws[i]-2*pad;if(iw>mw){iw=mw;ih=iw*m.h/m.w}var xo=M;for(var q=0;q<i;q++)xo+=cws[q];used[k]=1;cur.push("q "+iw.toFixed(1)+" 0 0 "+ih.toFixed(1)+" "+(xo+pad).toFixed(1)+" "+(y-pad-ih).toFixed(1)+" cm /Im"+k+" Do Q")});
     cur.push("0.85 g "+M+" "+(y-h)+" "+avail+" 0.4 re f 0 g");y-=h});
   if(o.nota){var nl=wrap(o.nota,avail,FS-0.5);if(y-nl.length*LH<M+24)np();y-=6;nl.forEach(function(l){cur.push("BT /F1 "+(FS-0.5)+" Tf 0.3 g "+M+" "+y+" Td ("+esc(l)+") Tj ET 0 g");y-=LH-1})}
   var objs=[];function add(s){objs.push(s);return objs.length}
   add("<< /Type /Catalog /Pages 2 0 R >>");add("");var f1=add("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>"),f2=add("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>");
+  var xo2="";Object.keys(o.imgs||{}).forEach(function(k){if(!used[k])return;var m=o.imgs[k],bin=atob(m.b64);var id=add("<< /Type /XObject /Subtype /Image /Width "+m.pw+" /Height "+m.ph+" /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length "+bin.length+" >>\nstream\n"+bin+"\nendstream");xo2+="/Im"+k+" "+id+" 0 R "});
   var kids=[];pages.forEach(function(p,i){p.push("BT /F1 7 Tf 0.4 g "+M+" 20 Td ("+esc("PharmaCentral · "+(o.rodape||"")+" · gerado em "+stamp+" · apoio à decisão, sem dado identificável de paciente")+") Tj ET");p.push("BT /F1 7 Tf "+(W-M-40)+" 20 Td (Pág. "+(i+1)+"/"+pages.length+") Tj ET");
-    var s=p.join("\n");var c=add("<< /Length "+s.length+" >>\nstream\n"+s+"\nendstream");var pg=add("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 "+W+" "+H+"] /Resources << /Font << /F1 "+f1+" 0 R /F2 "+f2+" 0 R >> >> /Contents "+c+" 0 R >>");kids.push(pg+" 0 R")});
+    var s=p.join("\n");var c=add("<< /Length "+s.length+" >>\nstream\n"+s+"\nendstream");var pg=add("<< /Type /Page /Parent 2 0 R /MediaBox [0 0 "+W+" "+H+"] /Resources << /Font << /F1 "+f1+" 0 R /F2 "+f2+" 0 R >> /XObject << "+xo2+">> >> /Contents "+c+" 0 R >>");kids.push(pg+" 0 R")});
   objs[1]="<< /Type /Pages /Kids ["+kids.join(" ")+"] /Count "+kids.length+" >>";
   var out="%PDF-1.4\n",offs=[];objs.forEach(function(b,i){offs.push(out.length);out+=(i+1)+" 0 obj\n"+b+"\nendobj\n"});
   var xr=out.length;out+="xref\n0 "+(objs.length+1)+"\n0000000000 65535 f \n";offs.forEach(function(x){out+=("0000000000"+x).slice(-10)+" 00000 n \n"});

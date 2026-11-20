@@ -2,6 +2,10 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.19.0
+- **PPS no CAF (Estoque, unidade ICAM):** nova seção com os 443 produtos para saúde da lista do ICAM, cada um com foto ilustrativa, descrição, CMM e função, busca e filtro por categoria. 406 itens têm foto; 37 aparecem como "sem foto". Fotos ilustrativas por tipo de produto, com origem e licença (Wikimedia Commons/Openverse e lojas de materiais hospitalares). CMM do código 4046 a confirmar.
+- **Relatório em PDF dos PPS** (com fotos, respeitando busca e categoria). `design/pcpdf.js` passou a embutir imagens JPEG.
+
 ## 4.18.0
 - **Tema claro por padrão** no site e no aplicativo; o escuro continua disponível no botão de tema.
 - **Logo da UFAM no rodapé** de todos os módulos.
