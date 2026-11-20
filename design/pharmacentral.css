@@ -65,6 +65,10 @@ img,svg{max-width:100%}
 .fl-mods a.ped i{background:var(--amber)}
 .fl-mods a.pro i{background:#C2410C}
 .fl-sp{flex:1}
+.fl-inst{display:inline-flex;align-items:center;gap:9px;color:var(--ink-2);font:500 .74rem/1.25 var(--f-text);margin-right:6px}
+.fl-inst img{height:37px;width:auto;background:#fff;border:1px solid var(--line);border-radius:8px;padding:3px;flex:none}
+.fl-aut{display:flex;flex-direction:column;white-space:nowrap}.fl-aut b{color:var(--ink);font-weight:700}
+.foot-aut{font:500 .82rem/1.3 var(--f-text);color:var(--ink-2)}.foot-aut b{color:var(--ink)}
 .fl-tools{display:flex;align-items:center;gap:6px}
 .fl-ic{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:var(--rad-m);border:1px solid var(--line);background:var(--surface);color:var(--ink-2);cursor:pointer;font-size:1rem}
 .fl-ic:hover{border-color:var(--line-2);color:var(--ink)}
@@ -74,7 +78,8 @@ img,svg{max-width:100%}
   .fl-bar-in{padding:8px 12px;gap:8px;flex-wrap:wrap}
   .fl-brand{font-size:1.1rem}.fl-brand svg{width:26px;height:26px}
   .fl-mods{order:3;width:100%;margin:0;overflow-x:auto}.fl-mods a{flex:1 0 auto;justify-content:center;padding:8px 12px}
-  .fl-lnk.hide-s{display:none}}
+  .fl-lnk.hide-s{display:none}
+  .fl-inst{order:2;margin:0}.fl-inst img{height:30px}.fl-aut{font-size:.68rem}}
 
 /* ---------- peças de interface ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:8px 15px;border-radius:var(--rad-m);border:1px solid var(--line-2);background:var(--surface);color:var(--ink);font:600 .9rem/1.1 var(--f-text);cursor:pointer;text-decoration:none}

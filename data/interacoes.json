@@ -188,7 +188,7 @@
   },
   "ICAM": {
    "t": "Base de interações do repositório ICAM (compilada por IA; revisão farmacêutica obrigatória)",
-   "u": "https://github.com/micael-oliveira-ufam/farmacia-hospitalar-AI-analysis/blob/claude/drug-interaction-evaluation-tool-i05nue/data/interacoes.json",
+   "u": "https://github.com/micael-oliveira-ufam/pharmacentral-farmacia-hospitalar/blob/claude/drug-interaction-evaluation-tool-i05nue/data/interacoes.json",
    "l": "inst"
   }
  },

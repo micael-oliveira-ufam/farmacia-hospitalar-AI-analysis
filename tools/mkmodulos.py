@@ -30,14 +30,16 @@ MARK=open(os.path.join(S,'design/mark.svg'),encoding='utf8').read()
 MARK=re.sub(r'<svg[^>]*>','<svg viewBox="0 0 64 64" fill="none" aria-hidden="true">',MARK,count=1).replace('id="mm"','id="pmm"').replace('url(#mm)','url(#pmm)')
 THEME='<button class="fl-ic" id="theme" type="button" aria-label="Alternar tema claro e escuro" title="Alternar tema"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button>'
 MODS=[('guia','Controle terapêutico','gui'),('estoque','Estoque','est'),('pedidos','Pedidos','ped'),('prontuario','Prontuário','pro')]
+def _uri():return 'data:image/png;base64,'+base64.b64encode(open(os.path.join(S,'design/ufam.png'),'rb').read()).decode()
+def inst():return '<span class="fl-inst" title="Universidade Federal do Amazonas"><img src="'+_uri()+'" alt="Brasão da Universidade Federal do Amazonas" width="28" height="37"><span class="fl-aut"><b>UFAM</b>Micael Oliveira · Elias Barros</span></span>'
 def bar(cur,web):
     brand='<a class="fl-brand" href="'+('../' if web else '#')+'" aria-label="PharmaCentral">'+MARK+'<span>Pharma<b>Central</b></span></a>'
     nav=''
     if web:nav='<nav class="fl-mods" aria-label="Módulos">'+''.join('<a class="%s"%s href="../%s/"><i></i>%s</a>'%(c,' aria-current="page"' if k==cur else '',k,n) for k,n,c in MODS)+'</nav>'
-    return '<header class="fl-bar"><div class="fl-bar-in">'+brand+nav+'<span class="fl-sp"></span><div class="fl-tools">'+THEME+'</div></div></header>'
+    return '<header class="fl-bar"><div class="fl-bar-in">'+brand+nav+'<span class="fl-sp"></span>'+inst()+'<div class="fl-tools">'+THEME+'</div></div></header>'
 def build(name,web,items,css):
     t=rd(name+'.tpl.html')
-    t=t.replace('<!--UFAM-->','<span class="ufam"><img src="data:image/png;base64,'+base64.b64encode(open(os.path.join(S,'design/ufam.png'),'rb').read()).decode()+'" alt="Brasão da Universidade Federal do Amazonas" width="43" height="56"><span>Universidade Federal do Amazonas</span></span>')
+    t=t.replace('<!--UFAM-->','<span class="ufam"><img src="data:image/png;base64,'+base64.b64encode(open(os.path.join(S,'design/ufam.png'),'rb').read()).decode()+'" alt="Brasão da Universidade Federal do Amazonas" width="43" height="56"><span>Universidade Federal do Amazonas</span></span><span class="foot-aut"><b>Autores</b>: Micael Davi Lima de Oliveira e Elias de Souza Barros</span>')
     t=t.replace('<!--BAR-->',bar(name,web)).replace('<!--BODYCLS-->','' if web else ' class="app"')
     t=t.replace('<!--PWA-->','<link rel="icon" href="../icon.svg">' if web else '')
     t=t.replace('/*ITENS*/',json.dumps(items,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))

@@ -121,7 +121,7 @@ for it in json.load(open(os.path.join(ROOT,'data','icam_interacoes.json'),encodi
     if k in _seen: continue
     _seen.add(k);_nadd+=1
     R.append(r('icam-'+'-'.join(k).replace(' ','_'),ta,tb,_SEV[it['gravidade']],ta.capitalize()+' + '+tb,it['descricao'],'Conferir na bula e em referência de interações (ex.: Lexicomp) e monitorar o paciente.',['ICAM']))
-F['ICAM']={"t":"Base de interações do repositório ICAM (compilada por IA; revisão farmacêutica obrigatória)","u":"https://github.com/micael-oliveira-ufam/farmacia-hospitalar-AI-analysis/blob/claude/drug-interaction-evaluation-tool-i05nue/data/interacoes.json","l":"inst"}
+F['ICAM']={"t":"Base de interações do repositório ICAM (compilada por IA; revisão farmacêutica obrigatória)","u":"https://github.com/micael-oliveira-ufam/pharmacentral-farmacia-hospitalar/blob/claude/drug-interaction-evaluation-tool-i05nue/data/interacoes.json","l":"inst"}
 # o grupo QT e uma regra de grupo (min 2)
 for x in R:
     if x["id"]=="qt": x["b"]=None; x["min"]=2
