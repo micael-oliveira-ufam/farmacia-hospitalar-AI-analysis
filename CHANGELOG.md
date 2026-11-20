@@ -2,6 +2,9 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.23.2
+- **Ficha:** removido o bloco *Calcular dose por peso*, que repetia o cálculo de *Dose e posologia para este paciente*.
+
 ## 4.23.1
 - **Posologia:** a origem das doses aparece sempre de forma explícita. O seletor *Fonte das doses* troca a tabela entre **bulas (ANVISA/FDA) e referências citadas**, **Hospital Israelita Albert Einstein (Manual Farmacêutico)**, **Lexicomp Pediatric & Neonatal Dosage Handbook** (triagem automática, sem reproduzir os valores do livro) e **Sírio-Libanês (PCR)**, com a fonte escrita acima da tabela. O rótulo *Base própria* foi removido.
 
