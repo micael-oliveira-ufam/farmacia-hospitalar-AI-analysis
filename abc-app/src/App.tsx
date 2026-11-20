@@ -28,6 +28,7 @@ import {
   LogOut
 } from 'lucide-react';
 import * as XLSX from 'xlsx';
+import '../../design/pcpdf.js';
 import { 
   BarChart, 
   Bar, 
@@ -189,7 +190,7 @@ class ErrorBoundary extends React.Component<any, any> {
 */
 
 function FlBar() {
-  const [dark, setDark] = useState(() => { try { return (localStorage.getItem('fl-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark'; } catch { return false; } });
+  const [dark, setDark] = useState(() => { try { return localStorage.getItem('fl-theme') === 'dark'; } catch { return false; } });
   useEffect(() => { document.documentElement.dataset.theme = dark ? 'dark' : 'light'; try { localStorage.setItem('fl-theme', dark ? 'dark' : 'light'); } catch {} }, [dark]);
   return (
     <div className="fl-bar"><div className="fl-bar-in">
@@ -202,6 +203,8 @@ function FlBar() {
       <nav className="fl-mods" aria-label="Módulos">
         <a href={GUIDE_URL}><i />Controle terapêutico</a>
         <a className="est" href="./" aria-current="page"><i />Estoque</a>
+        <a className="ped" href={HOME_URL + 'pedidos/'}><i />Pedidos</a>
+        <a className="pro" href={HOME_URL + 'prontuario/'}><i />Prontuário</a>
       </nav>
       <span className="fl-sp" />
       <div className="fl-tools"><button className="fl-ic" onClick={() => setDark(d => !d)} aria-label="Alternar tema claro e escuro" title="Tema"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></div>
@@ -594,6 +597,28 @@ export default function App() {
     f.text().then(t => alert(`${importBackup(hospitalId, t)} itens restaurados.`)).catch(err => alert('Falha ao restaurar: ' + err.message)).finally(() => { e.target.value = ''; });
   };
 
+  const exportToPdf = () => {
+    const P = (window as any).PCPDF;
+    if (!P || !abcResults.length) return;
+    const nf = (n: number) => (Number.isFinite(n) ? n.toLocaleString('pt-BR', { maximumFractionDigits: 2 }) : '-');
+    const rows: any[] = [];
+    (['A', 'B', 'C'] as const).forEach(c => {
+      const l = abcResults.filter(r => r.classification === c);
+      if (!l.length) return;
+      rows.push({ sec: 'Classe ' + c + ' (' + l.length + ' itens)' });
+      l.forEach(r => rows.push([r.name + (r.concentration ? ' ' + r.concentration : ''), c, nf(r.annualConsumption), 'R$ ' + nf(r.totalValue), nf(r.cumulativePercentage) + '%', nf(r.safetyStock), nf(r.reorderPoint), nf(r.targetStock), r.suggestedOrder != null ? nf(r.suggestedOrder) : '-']));
+    });
+    const u = P.build({
+      titulo: 'Controle de estoque e curva ABC',
+      sub: (hospitalName ? 'Unidade: ' + hospitalName + '. ' : '') + abcResults.length + ' itens classificados.',
+      cols: [{ h: 'Medicamento', w: 4 }, { h: 'Classe', w: 0.8 }, { h: 'Consumo anual', w: 1.3 }, { h: 'Valor total', w: 1.4 }, { h: '% acum.', w: 1 }, { h: 'Estoque emerg.', w: 1.2 }, { h: 'Ponto de pedido', w: 1.2 }, { h: 'Padrão', w: 1 }, { h: 'Pedido', w: 1 }],
+      rows,
+      nota: 'Curva ABC: classe A até 80% do valor ou consumo, B até 95% e C o restante. Parâmetros de estoque calculados a partir do consumo informado.',
+      rodape: 'Estoque',
+    });
+    P.save('PharmaCentral-estoque-curva-abc.pdf', u);
+  };
+
   const exportToExcel = () => {
     const ws = XLSX.utils.json_to_sheet(abcResults.map(r => ({
       'Medicamento': r.name,
@@ -802,6 +827,7 @@ export default function App() {
                   <button onClick={exportToExcel} className="p-2 text-slate-400 hover:text-emerald-600 transition-colors" title="Exportar Excel">
                     <Download size={18} />
                   </button>
+                  <button onClick={exportToPdf} className="p-2 text-slate-400 hover:text-red-600 transition-colors text-xs font-bold" title="Relatório em PDF">PDF</button>
                 </div>
 
                 <button 
@@ -1629,6 +1655,7 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
             <div className="space-y-4">
               <p className="text-xs text-slate-400 font-medium leading-relaxed max-w-xs">Estoque · módulo de estoque e curva ABC da PharmaCentral.</p>
+              <a className="ufam" href="https://ufam.edu.br" target="_blank" rel="noopener noreferrer"><img src={`${import.meta.env.BASE_URL}ufam.png`} alt="Brasão da Universidade Federal do Amazonas" width={43} height={56} /><span>Universidade Federal do Amazonas</span></a>
             </div>
             
             <div className="space-y-4">

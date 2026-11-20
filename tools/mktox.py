@@ -192,6 +192,12 @@ def main():
         if s.get('nefN'): obs.append(('k',s['nefN']))
         if s.get('hepN'): obs.append(('h',s['hepN']))
         for o,t in obs: itens[i].setdefault('obs',{}).setdefault(o,t)
+    from extras import EXTRAS,REF_EXTRA
+    REF.update(REF_EXTRA)
+    for sidx,ex in EXTRAS.items():
+        if sidx in itens:
+            for o in ('h','k'):
+                if o in ex:itens[sidx][o]=ex[o]
     js=dict(fonte='Níveis de hepatotoxicidade (LiverTox) e nefrotoxicidade (revisão e rótulos FDA) com a fonte, o link e o trecho de cada informação. Compilação assistida por IA: revisão farmacêutica obrigatória.',escalas=ESCALAS,refs=REF,itens=itens,idx=idx)
     json.dump(js,open(os.path.join(ROOT,'data','toxicidade.json'),'w'),ensure_ascii=False,separators=(',',':'))
     from collections import Counter

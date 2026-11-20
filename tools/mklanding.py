@@ -45,7 +45,7 @@ for k,v in F.items(): html=html.replace(k,v)
 SW_REL='if("serviceWorker" in navigator&&location.protocol.indexOf("http")===0){\n  navigator.serviceWorker.register("sw.js").catch(function(){});\n  navigator.serviceWorker.register("guia/sw.js",{scope:"guia/"}).catch(function(){});\n  navigator.serviceWorker.register("estoque/sw.js",{scope:"estoque/"}).catch(function(){});}'
 SW_ABS='if("serviceWorker" in navigator&&location.protocol.indexOf("http")===0){navigator.serviceWorker.register("/sw.js").catch(function(){});}'
 open(os.path.join(R,'pages/index.html'),'w',encoding='utf8').write(html.replace('/*SW*/',SW_REL))
-srv=html.replace('href="shared/','href="/shared/').replace('href="guia/','href="/guia/').replace('href="estoque/','href="/estoque/').replace('src="icons/','src="/icons/').replace('href="manifest.json"','href="/manifest.json"').replace('href="icon.svg"','href="/icon.svg"')
+srv=html.replace('href="shared/','href="/shared/').replace('href="guia/','href="/guia/').replace('href="estoque/','href="/estoque/').replace('src="icons/','src="/icons/').replace('src="shared/','src="/shared/').replace('href="manifest.json"','href="/manifest.json"').replace('href="icon.svg"','href="/icon.svg"')
 srv=srv.replace('/*SW*/',SW_ABS)
 open(os.path.join(R,'server/landing/index.html'),'w',encoding='utf8').write(srv)
 print('landing ok:',len(html)//1024,'KB;',n_fich,'fichas;',len(tox['itens']),'substâncias')

@@ -2,6 +2,15 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.18.0
+- **Tema claro por padrão** no site e no aplicativo; o escuro continua disponível no botão de tema.
+- **Logo da UFAM no rodapé** de todos os módulos.
+- **Novos módulos: Pedidos e Prontuário.** Pedidos: solicitação do CAF à CEMA e transferência do CAF para a Farmácia Clínica. Prontuário: acompanhamento farmacêutico por número de prontuário (sem nome), prescrição com alerta de fígado e rim, evoluções e intervenções. Dados só no aparelho; web e Android.
+- **Manejo de medicamentos nefro e hepatotóxicos** (`data/manejo.json`, gerado por `tools/mkmanejo.py`): para cada um dos 89 fármacos sinalizados, intervenção, monitorização, opções mais seguras e quando suspender, por grupo, com fontes (KDIGO, ACG, LiverTox, IDSA, ATS e outras). Aparece na ficha do guia. Compilado por IA, exige revisão farmacêutica.
+- **Relatórios em PDF** gerados offline (`design/pcpdf.js`): nefrotóxicos e hepatotóxicos (guia, aba Relatórios), curva ABC e controle de estoque (Estoque web), lista de pacientes e notificações (Prontuário). No Android o PDF abre a folha de compartilhamento. O módulo de estoque nativo do Android ainda não gera PDF.
+- **Notificação de reação adversa** no Prontuário: formulário, gravidade, conduta, causalidade de Naranjo, situação e nº do VigiMed, ficha em PDF para transcrição no VigiMed.
+- **Teicoplanina**: nível renal 2 (SmPC) e fígado sem escore, com a nota e a citação.
+
 ## 4.17.0
 - **Estoque e Curva ABC com duas unidades padrão**: ICAM e Policlínica Codajás. A lista de itens de cada uma é carregada automaticamente na primeira abertura, e os botões "Importar lista do ICAM" e "Importar lista da Policlínica Codajás" foram removidos. O usuário também pode adicionar outro hospital, com estoque próprio. Vale na web e no app Android (que ganhou a tela de escolha da unidade; os dados antigos passam para a unidade ICAM).
 

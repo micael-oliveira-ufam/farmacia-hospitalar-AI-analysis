@@ -247,15 +247,28 @@ function txOrgan(kind,o,obs){
   const hep=kind==="h",ESC=TX.escalas[hep?"hep":"nef"],NM=hep?HN:KN,max=hep?4:3,nome=hep?"Fígado":"Rim";
   const lab=hep?"Hepatotoxicidade":"Nefrotoxicidade";
   if(!o)return '<details class="tx"><summary><b>'+nome+'</b><span class="tx-l l-na">Sem classificação verificada</span></summary><p class="note">Não há fonte verificada para este item. Consulte a bula.</p>'+(obs?'<p class="note"><b>Nota antiga do catálogo (não verificada):</b> '+esc(obs)+"</p>":"")+"</details>";
-  if(o.l==null)return '<details class="tx"><summary><b>'+nome+'</b><span class="tx-l l-na">Sem escore na fonte</span></summary><p class="note">A fonte consultada tem capítulo sobre o fármaco, mas não atribui escore.</p><ul class="tsrc">'+o.src.map(txSrc).join("")+"</ul>"+(obs?'<p class="note"><b>Nota antiga do catálogo (não verificada):</b> '+esc(obs)+"</p>":"")+"</details>";
+  if(o.l==null)return '<details class="tx"><summary><b>'+nome+'</b><span class="tx-l l-na">Sem escore na fonte</span></summary><p class="note">'+(o.nt?esc(o.nt):"A fonte consultada tem capítulo sobre o fármaco, mas não atribui escore.")+'</p><ul class="tsrc">'+o.src.map(txSrc).join("")+"</ul>"+(obs?'<p class="note"><b>Nota antiga do catálogo (não verificada):</b> '+esc(obs)+"</p>":"")+"</details>";
   const e=ESC[o.l];
   return '<details class="tx"><summary><b>'+nome+"</b>"+meter(o.l,max)+'<span class="tx-l l'+o.l+'">'+NM[o.l]+(hep&&o.s?" · LiverTox "+esc(o.s)+(o.m?"["+esc(o.m)+"]":""):"")+"</span></summary>"
    +'<p class="note"><b>Nível '+o.l+" de "+max+" — "+NM[o.l]+":</b> "+esc(e.crit)+"</p>"
-   +(o.inf?'<p class="note"><b>Nível inferido:</b> o LiverTox não atribui escore a este fármaco; o nível foi estimado a partir do texto do capítulo (exibido abaixo). Validar com o farmacêutico.</p>':"")+(o.cap?'<p class="note">Teto “Moderado”: o LiverTox restringe este escore a dose alta ou circunstância específica ([H]/[HD]); por isso não aparece como “Alto”.</p>':"")
+   +(o.eq?'<p class="note"><b>Fonte equivalente:</b> a substância não tem rótulo FDA; o nível foi atribuído pelo mesmo critério (alerta dedicado em Advertências e precauções) aplicado à bula europeia/britânica (SmPC).</p>':"")+(o.inf?'<p class="note"><b>Nível inferido:</b> o LiverTox não atribui escore a este fármaco; o nível foi estimado a partir do texto do capítulo (exibido abaixo). Validar com o farmacêutico.</p>':"")+(o.cap?'<p class="note">Teto “Moderado”: o LiverTox restringe este escore a dose alta ou circunstância específica ([H]/[HD]); por isso não aparece como “Alto”.</p>':"")
    +'<p class="tx-h">De onde vem ('+lab+")</p><ul class=\"tsrc\">"+o.src.map(txSrc).join("")+"</ul>"
    +(obs?'<p class="note"><b>Nota antiga do catálogo (não verificada):</b> '+esc(obs)+"</p>":"")
    +'<p class="note">Escala completa: '+ESC.map(z=>"<b>"+z.n+"</b> "+z.nome).join(" · ")+". Compilação assistida por IA: confirme na bula e com o farmacêutico responsável.</p></details>"}
-function txHtml(it){const t=txOf(it)||{};const ob=t.obs||{};return '<div class="txbox">'+txOrgan("h",t.h,ob.h)+txOrgan("k",t.k,ob.k)+"</div>"}
+const MJ=window.MANEJO||{geral:{},grupos:{},map:{},refs:{}};
+function mjFor(it){const i=TX.idx[it.key],t=i&&TX.itens[i];if(!t)return null;const k=t.k&&t.k.l!=null?t.k.l:0,h=t.h&&t.h.l!=null?t.h.l:0;const rim=k>=2,fig=h>=3;if(!rim&&!fig)return null;return{rim,fig,k,h,grupos:(MJ.map[i]||[]).map(g=>MJ.grupos[g]).filter(Boolean)}}
+const mjList=(t,a)=>a&&a.length?'<p class="tx-h">'+t+"</p><ul class=\"mj\">"+a.map(x=>"<li>"+esc(x)+"</li>").join("")+"</ul>":"";
+function mjBlock(x){return mjList("Intervenção",x.intervencao)+mjList("Monitorização",x.monitorizacao)+mjList("Opções mais seguras",x.alternativas)+mjList("Quando suspender ou reavaliar",x.suspender)}
+function mjRefs(ids){return ids.length?'<p class="note">Fontes: '+ids.map(r=>{const f=MJ.refs[r];return f?'<a class="lk" href="'+esc(f.u)+'" target="_blank" rel="noopener noreferrer">'+esc(f.t)+"</a>":""}).join(" · ")+"</p>":""}
+function mjHtml(it){const m=mjFor(it);if(!m)return"";
+  const ids=[];const add=r=>r.forEach(x=>{if(ids.indexOf(x)<0)ids.push(x)});
+  let h="";
+  m.grupos.forEach(g=>{add(g.refs);h+="<h4 class=\"mj-g\">"+esc(g.titulo)+"</h4>"+mjBlock(g)});
+  if(m.rim&&MJ.geral.k){add(MJ.geral.k.refs);h+="<h4 class=\"mj-g\">"+esc(MJ.geral.k.titulo)+"</h4>"+mjBlock(MJ.geral.k)}
+  if(m.fig&&MJ.geral.h){add(MJ.geral.h.refs);h+="<h4 class=\"mj-g\">"+esc(MJ.geral.h.titulo)+"</h4>"+mjBlock(MJ.geral.h)}
+  const tag=(m.rim?'<span class="bdg kx l'+m.k+'">Rim '+KN[m.k]+"</span>":"")+(m.fig?'<span class="bdg hx l'+m.h+'">Fígado '+HN[m.h]+"</span>":"");
+  return '<details class="tx mj-box"><summary><b>Manejo</b><span class="tx-l">Intervenção e opções mais seguras</span>'+tag+"</summary>"+h+mjRefs(ids)+'<p class="note">Compilado por IA a partir das diretrizes citadas. É apoio à decisão: confirme com a bula, o protocolo do serviço, a CCIH e o farmacêutico responsável.</p></details>'}
+function txHtml(it){const t=txOf(it)||{};const ob=t.obs||{};return '<div class="txbox">'+txOrgan("h",t.h,ob.h)+txOrgan("k",t.k,ob.k)+mjHtml(it)+"</div>"}
 function txBadges(it){const l=txLv(it);return (l.h!=null&&l.h>=3?'<span class="bdg hx l'+l.h+'">Fígado '+HN[l.h]+"</span>":"")+(l.k!=null&&l.k>=2?'<span class="bdg kx l'+l.k+'">Rim '+KN[l.k]+"</span>":"")}
 function drawerHtml(it){
   const m=M[it.key],s=S[it.key],id=it.id;
@@ -533,7 +546,7 @@ function renderRefs(){
    +'<h3 class="pick">Fontes de toxicidade hepática e renal</h3><ol class="refs">'+Object.entries(TX.refs).map(([k,r])=>'<li><b class="lv">'+k+"</b> "+esc(r.t)+' <a class="lk" href="'+esc(r.u)+'" target="_blank" rel="noopener noreferrer">abrir</a></li>').join("")+"</ol>"}
 
 /* ---------- navegação ---------- */
-const TABS=[["meds","Medicamentos"],["dose","Dose do paciente"],["calc","Calculadoras"],["mine","Minha lista"],["any","Qualquer medicamento"],["cart","Triagem"],["refs","Referências"],["about","Sobre"]];
+const TABS=[["meds","Medicamentos"],["dose","Dose do paciente"],["calc","Calculadoras"],["mine","Minha lista"],["any","Qualquer medicamento"],["cart","Triagem"],["rel","Relatórios"],["refs","Referências"],["about","Sobre"]];
 const PRIM=["meds"],SHORT={};
 function renderTabs(){
   const lab=t=>t[0]==="cart"&&st.cart.size?t[1]+'<span class="n">'+st.cart.size+"</span>":t[0]==="cmp"&&st.cmp.length?t[1]+'<span class="n">'+st.cmp.length+"</span>":t[1];
@@ -542,7 +555,30 @@ function renderTabs(){
   $$(".panel").forEach(p=>p.hidden=p.id!=="p-"+st.tab);
   if(st.tab==="any")renderAny();
   if(st.tab==="mine")renderMine();
-  if(st.tab==="cart")renderCart();if(st.tab==="cmp")renderCmp()}
+  if(st.tab==="cart")renderCart();if(st.tab==="cmp")renderCmp();if(st.tab==="rel")renderRel()}
+
+/* ---------- relatórios em PDF ---------- */
+function relRows(kind){
+  const hep=kind==="h",lim=hep?3:2,NM=hep?HN:KN,rows=[];
+  const its=ITEMS.filter(inUni).map(it=>{const t=txOf(it)||{};const o=hep?t.h:t.k;return{it,l:o&&o.l!=null?o.l:-1,s:hep&&o&&o.s?o.s:""}}).filter(x=>x.l>=lim).sort((a,b)=>b.l-a.l||a.it.desc.localeCompare(b.it.desc,"pt"));
+  let last=-9;
+  its.forEach(x=>{if(x.l!==last){last=x.l;rows.push({sec:(hep?"Hepatotoxicidade":"Nefrotoxicidade")+" nível "+x.l+" de "+(hep?4:3)+": "+NM[x.l]})}
+    const mj=mjFor(x.it)||{grupos:[]},g=mj.grupos[0]||{},ge=(MJ.geral[kind]||{});
+    const jn=(a,n)=>(a||[]).slice(0,n).join(" ");
+    rows.push([x.it.desc,(hep?"LiverTox "+(x.s||"sem escore"):"Nível "+x.l),jn(g.intervencao,2)||jn(ge.intervencao,2),jn(g.alternativas,2)||jn(ge.alternativas,1),jn(g.suspender,1)||jn(ge.suspender,1)])});
+  return rows}
+function relPdf(kind){
+  const hep=kind==="h",rows=relRows(kind);if(!rows.length)return;
+  const un=(UNIS.find(u=>u[0]===uni)||["",""])[1];
+  const u=PCPDF.build({titulo:"Medicamentos "+(hep?"hepatotóxicos":"nefrotóxicos")+" com manejo",sub:"Unidade: "+un+". Critério: "+(hep?"nível 3 ou 4 de 4 (LiverTox, FDA)":"nível 2 ou 3 de 3 (rótulo FDA, SmPC)")+". Conteúdo compilado por IA a partir das fontes citadas na plataforma.",
+    cols:[{h:"Medicamento",w:2.2},{h:hep?"Escore":"Nível",w:1},{h:"Intervenção",w:4.5},{h:"Opções mais seguras",w:3.5},{h:"Quando suspender",w:3}],rows,
+    nota:"Apoio à decisão. Confirmar com bula, protocolo do serviço, CCIH e farmacêutico responsável. Fontes: KDIGO AKI 2012, ACG DILI 2021, LiverTox/NIH, rótulos FDA e demais diretrizes listadas em cada ficha.",rodape:"Controle terapêutico"});
+  PCPDF.save("PharmaCentral-"+(hep?"hepatotoxicos":"nefrotoxicos")+".pdf",u)}
+function renderRel(){
+  const n=k=>relRows(k).filter(r=>Array.isArray(r)).length;
+  $("#relbox").innerHTML='<div class="rel-grid"><div class="rel-card"><h3>Nefrotóxicos</h3><p class="note">Nível moderado a alto de nefrotoxicidade, com intervenção, opções mais seguras e quando suspender.</p><p><b>'+n("k")+'</b> medicamentos</p><button class="btn pri" data-rel="k">Gerar PDF</button></div>'
+   +'<div class="rel-card"><h3>Hepatotóxicos</h3><p class="note">Nível alto ou muito alto de hepatotoxicidade, com intervenção, opções mais seguras e quando suspender.</p><p><b>'+n("h")+'</b> medicamentos</p><button class="btn pri" data-rel="h">Gerar PDF</button></div></div>'
+   +'<p class="note">O relatório respeita a unidade escolhida na aba Medicamentos ('+esc((UNIS.find(u=>u[0]===uni)||["",""])[1])+"). Os relatórios de estoque, de pacientes e a notificação de reação adversa ficam nos módulos Estoque e Prontuário.</p>"}
 function csvOf(items){const q=s=>'"'+String(s==null?"":s).replace(/"/g,'""')+'"';
   return ["codigo","descricao","monografia","classe","vias","dose_usual_"+st.age,"dose_max_"+st.age,"alta_vigilancia","nefro","hepato"].join(";")+"\n"+items.map(i=>{const m=M[i.key],s=S[i.key],d=st.age==="ido"?[m.ido,""]:m[st.age];return [i.code,i.desc,m.n,m.c,m.v,d[0],d[1],s.ismp,NL[s.nef],HL[s.hep]].map(q).join(";")}).join("\n")}
 function persist(){store.set("icam-fav",[...st.fav]);store.set("icam-cart",[...st.cart])}
@@ -556,6 +592,7 @@ function onAction(e){const b=e.target.closest("button[data-a]");if(!b)return;con
 function init(){
   $("#mat").innerHTML=CAT.materiais.map(m=>"<li>"+esc(m)+"</li>").join("");
   renderCalcs();renderRefs();initMine();triInit();initDose();
+  document.addEventListener("click",e=>{const b=e.target.closest("[data-rel]");if(b)relPdf(b.dataset.rel)});
   $("#tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
     if(b.dataset.more){st.more=!st.more;renderTabs();return}
     st.tab=b.dataset.t;st.more=false;renderTabs();window.scrollTo({top:0})});
@@ -599,7 +636,7 @@ function init(){
   window.addEventListener("popstate",()=>closeDrawer(true));
   $("#out").addEventListener("click",e=>{if(e.target.id==="goany"){$("#any-pt").value=$("#q").value.trim();st.tab="any";renderTabs();renderAny();window.scrollTo({top:0})}});
   const pb=$("#print");if(pb)pb.addEventListener("click",()=>window.print());
-  const th=$("#theme");if(th)th.addEventListener("click",()=>{const r=document.documentElement,cur=r.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"),n=cur==="dark"?"light":"dark";r.setAttribute("data-theme",n);try{localStorage.setItem("fl-theme",n)}catch(e){}});
+  const th=$("#theme");if(th)th.addEventListener("click",()=>{const r=document.documentElement,cur=r.getAttribute("data-theme")||"light",n=cur==="dark"?"light":"dark";r.setAttribute("data-theme",n);try{localStorage.setItem("fl-theme",n)}catch(e){}});
   renderTabs();renderMeds();
   const hm=location.hash.match(/caf=([^&]+)/);if(hm){const it=ITEMS.find(i=>i.code===decodeURIComponent(hm[1]));if(it)openItem(it)}
   if("serviceWorker" in navigator&&location.protocol.startsWith("http")){navigator.serviceWorker.register("sw.js").catch(()=>{})}

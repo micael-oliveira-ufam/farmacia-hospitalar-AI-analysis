@@ -26,9 +26,13 @@ def build(pwa):
     tox=json.load(open(os.path.join(S,'data/toxicidade.json'),encoding='utf8'))
     fic=json.load(open(os.path.join(S,'data/codajas_fichas.json'),encoding='utf8'))
     t=t.replace('/*FICHAS*/',json.dumps(fic,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
+    mj=json.load(open(os.path.join(S,'data/manejo.json'),encoding='utf8'))
+    t=t.replace('/*MANEJO*/',json.dumps(mj,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
+    t=t.replace('/*PCPDF*/',open(os.path.join(S,'design/pcpdf.js'),encoding='utf8').read().replace('</','<\\/'))
     t=t.replace('/*TOX*/',json.dumps(tox,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
+    t=t.replace('/*UFAMIMG*/','data:image/png;base64,'+base64.b64encode(open(os.path.join(S,'design/ufam.png'),'rb').read()).decode())
     t=t.replace('<!--HOMEHREF-->','../' if pwa else '#')
-    t=t.replace('<!--ESTLINK-->','<a class="est" href="../estoque/"><i></i>Estoque</a>' if pwa else '')
+    t=t.replace('<!--ESTLINK-->','<a class="est" href="../estoque/"><i></i>Estoque</a><a class="ped" href="../pedidos/"><i></i>Pedidos</a><a class="pro" href="../prontuario/"><i></i>Prontuário</a>' if pwa else '')
     t=t.replace('<!--PWA-->','<link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg">' if pwa else '')
     return t
 out=sys.argv[1]

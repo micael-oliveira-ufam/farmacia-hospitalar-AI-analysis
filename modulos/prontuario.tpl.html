@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PharmaCentral · Prontuário</title>
+<meta name="description" content="Prontuário farmacêutico local: pacientes por número, prescrição com alerta de risco para fígado e rim, evoluções e intervenções. Offline, sem conta, sem nome do paciente.">
+<meta name="theme-color" content="#0A7C86">
+<!--PWA-->
+<style>/*CSS*/</style>
+</head>
+<body<!--BODYCLS-->>
+<!--BAR-->
+<header class="pagehead"><div class="shell">
+  <div><h1>Prontuário</h1><p class="sub">Acompanhamento farmacêutico por paciente: prescrição, evoluções e intervenções, com alerta de risco para fígado e rim a partir da função do paciente.</p></div>
+  <p class="notice"><b>Não digite nome, CPF nem outro dado que identifique a pessoa.</b> Use só o número do prontuário ou do atendimento. Os registros ficam apenas neste aparelho.</p>
+</div></header>
+<nav class="tabs" aria-label="Seções"><div class="tabs-in" role="tablist">
+  <button role="tab" data-tab="pac" aria-selected="true">Pacientes</button>
+  <button role="tab" data-tab="ind" aria-selected="false">Indicadores</button>
+  <button role="tab" data-tab="ram" aria-selected="false">Reações adversas</button>
+  <button role="tab" data-tab="dados" aria-selected="false">Dados e privacidade</button>
+</div></nav>
+<main class="shell">
+<section id="tab-pac">
+  <div class="split">
+    <div class="list-pane">
+      <div class="row"><button class="btn pri" id="np" type="button">+ Novo paciente</button><button class="btn" data-a="pacpdf" type="button">PDF da lista</button></div>
+      <div class="searchbox" style="margin-top:12px"><input id="q" type="search" placeholder="Buscar por nº, setor ou leito" aria-label="Buscar pacientes" autocomplete="off"></div>
+      <div class="chips" id="f-st" role="group" aria-label="Situação"></div>
+      <div id="list"></div>
+    </div>
+    <section id="detail" aria-live="polite"></section>
+  </div>
+</section>
+<section id="tab-ind" hidden></section>
+<section id="tab-ram" hidden></section>
+<section id="tab-dados" hidden></section>
+<footer class="foot"><div class="row" style="justify-content:space-between;gap:14px"><span>Apoio ao trabalho do farmacêutico, não substitui o prontuário oficial do hospital. Os níveis de risco vêm das fontes do módulo Controle terapêutico e precisam de revisão farmacêutica.</span><!--UFAM--></div></footer>
+</main>
+<script>window.ITENS=/*ITENS*/;</script>
+<script>/*COMMON*/</script>
+<script>/*JS*/</script>
+</body>
+</html>

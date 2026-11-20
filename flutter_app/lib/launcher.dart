@@ -41,7 +41,7 @@ class Launcher extends StatelessWidget {
           const SizedBox(height: 4),
           const Text('PharmaCentral', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800)),
           const SizedBox(height: 4),
-          const Text('Dois módulos em um só aplicativo, para qualquer hospital. Gratuito, sem cadastro e sem conta. Funciona offline: os dados ficam dentro do aplicativo.'),
+          const Text('Quatro módulos em um só aplicativo, para qualquer hospital. Gratuito, sem cadastro e sem conta. Funciona offline: os dados ficam dentro do aplicativo.'),
           const SizedBox(height: 14),
           tile(
             Icons.medication_liquid_outlined,
@@ -60,13 +60,42 @@ class Launcher extends StatelessWidget {
             ['Importa a planilha do seu hospital (colada) ou a lista de exemplo', 'Backup compatível com o app web', 'Link para a monografia no módulo Controle terapêutico'],
             () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => StockUnitsPage(catalog: catalog, prefs: prefs))),
           ),
+          const SizedBox(height: 10),
+          tile(
+            Icons.local_shipping_outlined,
+            const Color(0xFFB7791F),
+            'Pedidos',
+            'Solicitação do CAF à CEMA e transferência do CAF para a Farmácia Clínica, com situação e registro do atendimento.',
+            ['Pedido CAF para CEMA', 'Transferência CAF para Farmácia Clínica', 'Copia a solicitação para enviar'],
+            () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const GuiaWeb(asset: 'assets/pedidos.html'))),
+          ),
+          const SizedBox(height: 10),
+          tile(
+            Icons.assignment_ind_outlined,
+            const Color(0xFFC2410C),
+            'Prontuário farmacêutico',
+            'Acompanhamento por número de prontuário, sem nome: prescrição com alerta de fígado e rim, evoluções e notificação de reação adversa.',
+            ['Alertas pela função renal e hepática', 'Escore de Naranjo e ficha em PDF', 'Dados só neste aparelho, com backup'],
+            () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const GuiaWeb(asset: 'assets/prontuario.html'))),
+          ),
           const SizedBox(height: 14),
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(color: Colors.amber.shade50, border: Border.all(color: Colors.amber.shade300), borderRadius: BorderRadius.circular(10)),
             child: const Text('Apoio à decisão, não prescrição. As doses foram compiladas por IA a partir das fontes citadas e precisam de revisão por farmacêutico responsável. '
-                'Não registre dados de pacientes. Os dados de estoque ficam só neste aparelho. O aplicativo não pertence a nenhum hospital; a lista incluída é apenas um exemplo.', style: TextStyle(fontSize: 13)),
+                'Não registre nome, CPF nem outro dado que identifique o paciente: use só o número do prontuário. Os dados ficam só neste aparelho. O aplicativo não pertence a nenhum hospital; a lista incluída é apenas um exemplo.', style: TextStyle(fontSize: 13)),
           ),
+          const SizedBox(height: 18),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), border: Border.all(color: const Color(0xFFD6DFDF))),
+              child: Image.asset('assets/ufam.png', height: 56),
+            ),
+            const SizedBox(width: 12),
+            const Text('Universidade Federal\ndo Amazonas', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+          ]),
+          const SizedBox(height: 8),
         ]),
       ),
     );
