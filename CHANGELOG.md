@@ -2,6 +2,10 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.10.1 - 2026-11-19
+
+- **Tela inicial só com busca e recentes**: "Consultados recentemente" (os 8 últimos medicamentos abertos, guardados só no navegador); as classes terapêuticas e os favoritos ficam recolhidos em "Ver por classe terapêutica".
+
 ## 4.10.0 - 2026-11-19
 
 - **Interface em duas abas**: "Medicamentos" e "Ferramentas" (Dose, Calculadoras, Triagem, Qualquer medicamento, Minha lista, Referências, Sobre).

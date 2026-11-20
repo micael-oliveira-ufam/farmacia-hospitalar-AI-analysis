@@ -261,10 +261,12 @@ const inResults=()=>!!($("#q").value.trim()||st.tc||st.fc||st.favOnly);
 function row(it,withCls){const m=M[it.key],s=S[it.key];
   return '<button class="ri" type="button" data-open="'+it.id+'"><span class="ri-main"><span class="ri-name">'+esc(it.desc)+"</span>"+(withCls?'<span class="ri-sub">'+esc(m.fc)+"</span>":"")+"</span>"+(s.ismp?'<span class="bdg mav">Alta vigilância</span>':"")+txBadges(it)+'<span class="ri-go" aria-hidden="true">›</span></button>'}
 function renderBrowse(){
-  $("#browse").innerHTML='<h2 class="pick">Escolha uma classe</h2><div class="tiles">'
+  const rec=store.get("icam-rec",[]).map(id=>byId.get(id)).filter(Boolean);
+  $("#browse").innerHTML='<h2 class="pick">'+(rec.length?"Consultados recentemente":"Busque um medicamento")+"</h2>"
+   +(rec.length?'<div class="reclist">'+rec.map(it=>row(it,true)).join("")+"</div>":'<p class="note">Digite o nome acima. Os últimos medicamentos que você abrir aparecem aqui.</p>')
+   +'<details class="bycls"><summary>Ver por classe terapêutica'+(st.fav.size?" ou favoritos":"")+'</summary><div class="tiles">'
    +(st.fav.size?'<button type="button" class="tile favt" data-fav="1"><b>★ Meus favoritos</b><small>'+st.fav.size+(st.fav.size===1?" item":" itens")+"</small></button>":"")
-   +TCS.map(t=>'<button type="button" class="tile" data-tc="'+esc(t)+'" style="--h:'+hue(t)+'"><b>'+esc(t)+"</b><small>"+nOf(i=>M[i.key].tc===t)+" itens</small></button>").join("")+"</div>"
-}
+   +TCS.map(t=>'<button type="button" class="tile" data-tc="'+esc(t)+'" style="--h:'+hue(t)+'"><b>'+esc(t)+"</b><small>"+nOf(i=>M[i.key].tc===t)+" itens</small></button>").join("")+"</div></details>"}
 function renderMeds(){
   const qv=$("#q").value.trim(),q=norm(qv);$("#clearq").hidden=!qv;
   const sc=new Map();
@@ -295,7 +297,8 @@ function renderMeds(){
   out.innerHTML=h}
 
 /* ---------- gaveta de detalhe ---------- */
-function openDrawer(id){const it=byId.get(id);if(!it)return;st.dr=id+1;
+function pushRecent(id){const r=[id,...store.get("icam-rec",[]).filter(x=>x!==id)].slice(0,8);store.set("icam-rec",r)}
+function openDrawer(id){const it=byId.get(id);if(!it)return;st.dr=id+1;pushRecent(id);
   $("#dr-body").innerHTML=drawerHtml(it);$("#drawer").hidden=false;document.body.classList.add("noscroll");$(".dr-panel").scrollTop=0;$("#dr-close").focus();
   try{if(!(history.state&&history.state.dr))history.pushState({dr:1},"")}catch(e){}}
 function closeDrawer(fromPop){if(!st.dr)return;st.dr=0;$("#drawer").hidden=true;document.body.classList.remove("noscroll");
