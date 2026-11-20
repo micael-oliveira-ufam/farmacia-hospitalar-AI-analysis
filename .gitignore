@@ -22,3 +22,12 @@ venv/
 # Projeto Android gerado pelo flutter create (ver flutter_app/tool/in_container.sh)
 flutter_app/android/
 !flutter_app/tool/icons/**/*.png
+
+# logos oficiais da UFAM (publicados no site e no app)
+!design/ufam.png
+!design/ufam_neg.png
+!plataforma/shared/ufam.png
+!plataforma/shared/ufam_neg.png
+!plataforma/estoque/ufam.png
+!flutter_app/assets/ufam.png
+!abc-app/public/ufam.png
