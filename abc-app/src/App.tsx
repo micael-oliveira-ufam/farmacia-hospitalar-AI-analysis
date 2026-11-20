@@ -248,7 +248,8 @@ export default function App() {
   const [calculationMode, setCalculationMode] = useState<ABCCalculationMode>('VALUE');
   const [editingCell, setEditingCell] = useState<{id: string, field: string} | null>(null);
   const [editCellValue, setEditCellValue] = useState<string | number>('');
-  const [isEditMode, setIsEditMode] = useState(false);
+  const isEditMode = false; // edição de quantidades feita na janela Gerenciar quantidade em estoque
+  const setIsEditMode = (_v: boolean) => {};
   // alterações digitadas e ainda não salvas: id -> campo -> texto digitado
   const [sector, setSector] = useState<'caf' | 'clinica'>(() => (localStorage.getItem('sector') === 'clinica' ? 'clinica' : 'caf'));
   const scope = sector === 'clinica' ? `${hospitalId}~clinica` : hospitalId;
@@ -865,19 +866,6 @@ export default function App() {
 
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-1">
-                  <button 
-                    onClick={() => setIsEditMode(!isEditMode)}
-                    className={cn(
-                      "flex items-center gap-2 px-4 py-2 rounded-xl transition-all font-bold text-xs border",
-                      isEditMode 
-                        ? "bg-amber-500 text-white border-amber-600 shadow-sm" 
-                        : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50 shadow-sm"
-                    )}
-                  >
-                    <Edit2 size={14} />
-                    {isEditMode ? "Editando quantidades" : "Editar quantidades"}
-                  </button>
-
                   <button
                     onClick={openQty}
                     className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl transition-all font-bold text-xs hover:bg-blue-700 shadow-sm"

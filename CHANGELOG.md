@@ -2,6 +2,9 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.24.2
+- **Estoque:** removido o botão *Editar quantidades*; as quantidades são editadas só na janela *Gerenciar quantidade em estoque*.
+
 ## 4.24.1
 - **Página inicial:** nova seção **Quem orienta**, com a Profa. Dra. Clarice Veloso, o Prof. Dr. Evandro Silva e a Dra. Juliana Carvalho (preceptora). O Prof. Dr. Evandro saiu da seção Quem faz. Novo item *Orientação* no menu.
 
