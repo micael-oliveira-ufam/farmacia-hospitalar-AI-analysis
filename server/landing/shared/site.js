@@ -12,8 +12,8 @@
     var b = document.createElement("header"); b.className = "fhi-bar";
     var cur = function (p) { return here === p ? ' aria-current="page"' : ""; };
     b.innerHTML = '<div class="in"><a class="nav" href="/"' + cur("/") + ' title="Início">' + I.home + '<span class="t">Início</span></a>' +
-      '<a class="nav ped" href="/guia/" title="CicloDose">' + I.ped + '<span class="t">CicloDose</span></a>' +
-      '<a class="nav gestao" href="/estoque/" title="FarmaGestão">' + I.gestao + '<span class="t">FarmaGestão</span></a><span class="sp"></span>' +
+      '<a class="nav ped" href="/guia/" title="Controle terapêutico">' + I.ped + '<span class="t">Controle terapêutico</span></a>' +
+      '<a class="nav gestao" href="/estoque/" title="Estoque">' + I.gestao + '<span class="t">Estoque</span></a><span class="sp"></span>' +
       (me ? '<a class="nav" href="/conta"' + cur("/conta") + ' title="Minha conta">' + I.user + '<span class="t">' + (me.user.nome.split(" ")[0]) + '</span></a>'
           : '<a class="nav" href="/entrar"' + cur("/entrar") + '>' + I.user + '<span class="t">Entrar</span></a>') + '</div>';
     document.body.insertBefore(b, document.body.firstChild);

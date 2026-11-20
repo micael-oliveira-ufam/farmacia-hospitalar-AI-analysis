@@ -5,7 +5,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 OUT="$(realpath -m "${1:-_site}")"
 rm -rf "$OUT"; mkdir -p "$OUT/shared" "$OUT/icons"
-# 1) FarmaGestão (caminhos relativos para funcionar em /<repo>/estoque/)
+# 1) Estoque (caminhos relativos para funcionar em /<repo>/estoque/)
 ( cd abc-app && npm ci --silent && VITE_HOME_URL=../ VITE_GUIDE_URL=../guia/ npx vite build --base=./ --outDir "$OUT/estoque" --emptyOutDir )
 python3 - "$OUT/estoque/index.html" <<'PY'
 import re,sys
@@ -13,7 +13,7 @@ p=sys.argv[1];s=open(p,encoding='utf8').read()
 s=re.sub(r'<script src="/shared/account.js"[^>]*></script>\n?','',s)
 open(p,'w',encoding='utf8').write(s)
 PY
-# 2) CicloDose (sem script de conta)
+# 2) Controle terapêutico (sem script de conta)
 python3 guia/build.py "$OUT/guia" pages
 rm -f "$OUT/guia/guia-artifact.html"
 # 3) Página inicial

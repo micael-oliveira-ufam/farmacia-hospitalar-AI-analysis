@@ -99,7 +99,7 @@ class _StockHomeState extends State<StockHome> {
   Widget build(BuildContext context) {
     final titles = ['Itens', 'Curva ABC', 'Pedido semanal', 'Dados e método'];
     return Scaffold(
-      appBar: AppBar(title: Text('FarmaGestão · ${titles[tab]}'), toolbarHeight: 48),
+      appBar: AppBar(title: Text('Estoque · ${titles[tab]}'), toolbarHeight: 48),
       floatingActionButton: tab == 0
           ? FloatingActionButton(
               tooltip: 'Novo item',
@@ -339,7 +339,7 @@ class _MedEditPageState extends State<MedEditPage> {
       ]),
       body: ListView(padding: const EdgeInsets.all(14), children: [
         _f('name', 'Medicamento / item', num: false),
-        _f('caf', 'Código do item (liga à lista de exemplo e ao CicloDose)', num: false),
+        _f('caf', 'Código do item (liga à lista de exemplo e ao módulo Controle terapêutico)', num: false),
         if (it != null)
           Align(
             alignment: Alignment.centerLeft,

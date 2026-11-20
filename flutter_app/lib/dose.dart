@@ -5,7 +5,7 @@ import 'package:flutter/services.dart' show rootBundle, Clipboard, ClipboardData
 import 'models.dart';
 import 'util.dart';
 
-/// Dose do paciente (calculadora do ICAM unificada ao CicloDose). Faixas: assets/dose.json
+/// Dose do paciente (calculadora do ICAM unificada ao módulo Controle terapêutico). Faixas: assets/dose.json
 /// (base ICAM compilada por IA; revisao farmaceutica obrigatoria). Espelha guia/dose.js.
 class DoseMed {
   final String id, n, c, cat;

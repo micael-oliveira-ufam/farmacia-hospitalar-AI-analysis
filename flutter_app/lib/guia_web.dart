@@ -3,7 +3,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-/// CicloDose: a mesma interface do site (filtro por unidade, níveis de toxicidade com fonte,
+/// Controle terapêutico: a mesma interface do site (filtro por unidade, níveis de toxicidade com fonte,
 /// duas abas, recentes e fichas), carregada de um arquivo dentro do app. Funciona offline.
 class GuiaWeb extends StatefulWidget {
   const GuiaWeb({super.key});

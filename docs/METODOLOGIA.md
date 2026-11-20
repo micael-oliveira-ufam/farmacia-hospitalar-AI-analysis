@@ -36,7 +36,7 @@ Todas as fórmulas têm teste automático (`guia/test.js`, `abc-app/tests/abc.te
 ## Origem do conteúdo de doses
 Lista de exemplo transcrita de PDF escaneado de uma lista institucional (224 itens), usada apenas como exemplo. Posologias, efeitos adversos e alertas foram compilados por IA a partir do conhecimento das fontes citadas, sem consulta item a item aos compêndios pagos. **Requer revisão por farmacêutico responsável antes do uso assistencial.**
 
-## CicloDose: do prematuro ao idoso
+## Controle terapêutico: do prematuro ao idoso
 - Faixa padrão: lactentes e crianças (29 dias a 17 anos); neonatos (0 a 28 dias) em seleção própria. Adultos e idosos aparecem só como referência.
 - O alerta pediátrico é exibido antes das doses. As calculadoras pediátricas (dose por peso, manutenção hídrica Holliday-Segar, superfície corporal Mosteller, TFG Schwartz) vêm primeiro; Cockcroft-Gault e CKD-EPI são marcadas como de adultos.
 - Neonatos e prematuros exigem atenção à idade gestacional e pós-natal, não contempladas pelas calculadoras. **Doses pediátricas devem ser conferidas por farmacêutico na fonte citada.**

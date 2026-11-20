@@ -639,8 +639,8 @@ export default function App() {
             <div className="text-center mb-8 space-y-4">
               <img src={`${import.meta.env.BASE_URL}icon-gestao.svg`} alt="" width={64} height={64} className="mx-auto" />
               <div>
-                <h1 className="text-3xl font-bold text-slate-900">FarmaGestão</h1>
-                <p className="text-slate-500 mt-2">Estoque e Curva ABC para farmácia hospitalar · parte da Farmácia Hospitalar Integrada</p>
+                <h1 className="text-3xl font-bold text-slate-900">Estoque</h1>
+                <p className="text-slate-500 mt-2">Estoque e Curva ABC para farmácia hospitalar · módulo do FarmaLink</p>
               </div>
             </div>
 
@@ -754,15 +754,15 @@ export default function App() {
                   <img src={`${import.meta.env.BASE_URL}icon-gestao.svg`} alt="" width={56} height={56} className="rounded-2xl" />
                   <div>
                     <h1 className="text-2xl font-black tracking-tight text-slate-900 leading-tight">
-                      FarmaGestão
+                      Estoque
                     </h1>
-                    <p className="text-slate-500 text-sm font-medium mt-0.5">Estoque e Curva ABC para farmácia hospitalar · parte da Farmácia Hospitalar Integrada</p>
+                    <p className="text-slate-500 text-sm font-medium mt-0.5">Estoque e Curva ABC para farmácia hospitalar · módulo do FarmaLink</p>
                   </div>
                 </div>
                 
                 <div className="flex flex-wrap items-center gap-2">
                   <a href={HOME_URL} className="px-3 py-1 text-[11px] font-black text-slate-600 border border-slate-200 rounded-full hover:bg-slate-50">← Início</a>
-                  <a href={GUIDE_URL} className="px-3 py-1 text-[11px] font-black text-blue-700 border border-blue-200 rounded-full hover:bg-blue-50">CicloDose</a>
+                  <a href={GUIDE_URL} className="px-3 py-1 text-[11px] font-black text-blue-700 border border-blue-200 rounded-full hover:bg-blue-50">Controle terapêutico</a>
                 </div>
                 <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-full w-fit">
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -1697,7 +1697,7 @@ export default function App() {
         <footer className="max-w-7xl mx-auto mt-12 pt-12 border-t border-slate-200 pb-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
             <div className="space-y-4">
-              <p className="text-xs text-slate-400 font-medium leading-relaxed max-w-xs">FarmaGestão · módulo de estoque e curva ABC da Farmácia Hospitalar Integrada.</p>
+              <p className="text-xs text-slate-400 font-medium leading-relaxed max-w-xs">Estoque · módulo de estoque e curva ABC da FarmaLink.</p>
             </div>
             
             <div className="space-y-4">
@@ -1718,7 +1718,7 @@ export default function App() {
               <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tecnologia</h5>
               <p className="text-xs text-slate-500 leading-relaxed">
                 Desenvolvido com React e Recharts.<br />
-                © 2026 FarmaGestão · Farmácia Hospitalar Integrada
+                © 2026 Estoque · FarmaLink
               </p>
             </div>
           </div>

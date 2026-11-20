@@ -34,7 +34,7 @@ if os.path.isdir(A):open(os.path.join(A,'guia.html'),'w',encoding='utf8').write(
 m=re.search(r'<title>.*?</title>.*?</head>',t,re.S) if False else re.search(r'<title>.*?</head>',t,re.S);head=m.group(0)[:-7]
 body=re.search(r'<body>(.*)</body>',t,re.S).group(1)
 open(os.path.join(out,'guia-artifact.html'),'w',encoding='utf8').write(head+'\n'+body)
-json.dump({"name":"CicloDose · Posologia do prematuro ao idoso","short_name":"CicloDose","start_url":"./","display":"standalone","background_color":"#F4F8F8","theme_color":"#12808A","lang":"pt-BR","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]},open(os.path.join(out,'manifest.json'),'w'),ensure_ascii=False)
+json.dump({"name":"FarmaLink · Controle terapêutico","short_name":"FarmaLink","start_url":"./","display":"standalone","background_color":"#F4F8F8","theme_color":"#12808A","lang":"pt-BR","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]},open(os.path.join(out,'manifest.json'),'w'),ensure_ascii=False)
 shutil.copy(os.path.join(H,'icon.svg'),os.path.join(out,'icon.svg'))
 open(os.path.join(out,'sw.js'),'w').write('''const V="icam-guia-%s";
 self.addEventListener("install",e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(["./","index.html","manifest.json","icon.svg"])));self.skipWaiting()});

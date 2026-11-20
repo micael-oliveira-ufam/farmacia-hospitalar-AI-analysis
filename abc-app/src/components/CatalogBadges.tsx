@@ -11,7 +11,7 @@ export function CatalogBadges({ cafCode, catalog }: { cafCode?: string; catalog:
       {s?.ismp ? <span title={`ISMP Brasil 2019: ${s.ismp}`} className="px-1.5 py-0.5 rounded bg-red-600 text-white text-[10px] font-black uppercase">Alta vigilância</span> : null}
       {s?.nef ? <span title="Escala interna do guia (ver Metodologia)" className="px-1.5 py-0.5 rounded bg-violet-100 text-violet-800 text-[10px] font-black uppercase">{s.nef === 2 ? 'Nefrotóxico' : 'Nefro: atenção'}</span> : null}
       {s?.hep ? <span title="Escala interna do guia (ver Metodologia)" className="px-1.5 py-0.5 rounded bg-amber-100 text-amber-900 text-[10px] font-black uppercase">{s.hep === 2 ? 'Hepatotóxico' : 'Hepato: atenção'}</span> : null}
-      <a href={guideLink(cafCode)} target="_blank" rel="noopener noreferrer" className="text-[10px] font-black text-blue-600 underline uppercase" onClick={e => e.stopPropagation()}>CicloDose</a>
+      <a href={guideLink(cafCode)} target="_blank" rel="noopener noreferrer" className="text-[10px] font-black text-blue-600 underline uppercase" onClick={e => e.stopPropagation()}>Controle terapêutico</a>
     </span>
   );
 }

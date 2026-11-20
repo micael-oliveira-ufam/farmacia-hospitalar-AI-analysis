@@ -1,4 +1,4 @@
-<!-- Ícone Farmácia Hospitalar Integrada — CicloDose + FarmaGestão
+<!-- Ícone FarmaLink — Controle terapêutico + Estoque
      Autores: Micael Davi Lima de Oliveira & Elias de Souza Barros (UFAM)
      Uso: ícone do aplicativo Android/iOS (512×512 exportado via Inkscape/ImageMagick)
 -->
@@ -31,7 +31,7 @@
   </defs>
   <rect width="512" height="512" rx="112" fill="url(#bg)"/>
 
-  <!-- Cruz médica (CicloDose) — parte superior -->
+  <!-- Cruz médica (Controle terapêutico) — parte superior -->
   <!-- Barra horizontal da cruz -->
   <rect x="136" y="76" width="240" height="80" rx="20" fill="url(#cross)"/>
   <!-- Barra vertical da cruz -->
@@ -40,7 +40,7 @@
   <!-- Separador sutil -->
   <rect x="60" y="232" width="392" height="3" rx="2" fill="#ffffff" opacity="0.25"/>
 
-  <!-- Gráfico de barras ABC (FarmaGestão) — parte inferior -->
+  <!-- Gráfico de barras ABC (Estoque) — parte inferior -->
   <!-- Base do gráfico -->
   <rect x="60" y="420" width="392" height="6" rx="3" fill="#ffffff" opacity="0.35"/>
 

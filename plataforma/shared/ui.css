@@ -1,5 +1,5 @@
 @import url("bar.css");
-/* Interface unificada (tema claro) da Farmácia Hospitalar Integrada: landing, contas e barra dos módulos. */
+/* Interface unificada (tema claro) da FarmaLink: landing, contas e barra dos módulos. */
 :root{
   --bg:#F4F8F8; --surface:#FFFFFF; --ink:#1B2B30; --muted:#60737A; --line:#E1EAEC;
   --accent:#12808A; --accent-soft:#E3F3F4; --on-accent:#FFFFFF; --blue:#2F6FDE; --blue-soft:#E8F0FC;

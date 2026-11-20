@@ -39,14 +39,14 @@ class Launcher extends StatelessWidget {
         child: ListView(padding: const EdgeInsets.all(16), children: [
           const Text('PLATAFORMA PARA QUALQUER HOSPITAL', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, letterSpacing: 1)),
           const SizedBox(height: 4),
-          const Text('Farmácia Hospitalar Integrada', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800)),
+          const Text('FarmaLink', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800)),
           const SizedBox(height: 4),
           const Text('Dois módulos em um só aplicativo, para qualquer hospital. Gratuito, sem cadastro e sem conta. Funciona offline: os dados ficam dentro do aplicativo.'),
           const SizedBox(height: 14),
           tile(
             Icons.medication_liquid_outlined,
             const Color(0xFF12808A),
-            'CicloDose · prematuro ao idoso',
+            'Controle terapêutico · prematuro ao idoso',
             'Posologia do prematuro ao idoso: doses por faixa etária, alertas e calculadoras, com referência e link em cada informação.',
             ['${catalog.items.length} medicamentos na lista de exemplo', 'Todas as faixas etárias, do prematuro ao idoso', 'Cálculo por peso e por m²'],
             () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => const GuiaWeb())),
@@ -55,9 +55,9 @@ class Launcher extends StatelessWidget {
           tile(
             Icons.inventory_2_outlined,
             const Color(0xFF2F6FDE),
-            'FarmaGestão · estoque e Curva ABC',
+            'Estoque e Curva ABC',
             'Gerenciador de estoque com classificação A/B/C, estoque de emergência e pedido semanal (PADRÃO e PEDIDO).',
-            ['Importa a planilha do seu hospital (colada) ou a lista de exemplo', 'Backup compatível com o app web', 'Link para a monografia no CicloDose'],
+            ['Importa a planilha do seu hospital (colada) ou a lista de exemplo', 'Backup compatível com o app web', 'Link para a monografia no módulo Controle terapêutico'],
             () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => StockHome(catalog: catalog, prefs: prefs))),
           ),
           const SizedBox(height: 14),
