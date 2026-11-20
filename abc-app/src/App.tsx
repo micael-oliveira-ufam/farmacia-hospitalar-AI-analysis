@@ -627,7 +627,7 @@ export default function App() {
     setIsSaving(true);
     try {
       await store.addMany(hid, novos.map(i => ({
-        name: i.desc, cafCode: i.code, pharmaceuticalForm: cat.sec[i.sec] || '', concentration: i.mgml ? `${i.mgml} mg/mL` : '',
+        name: i.desc, cafCode: i.code, pharmaceuticalForm: i.forma || cat.sec[i.sec] || '', concentration: i.mgml ? `${i.mgml} mg/mL` : '',
         annualConsumption: 0, unitCost: 0, leadTimeDays: 7, maxMonthlyConsumption: 0, activeUsers: 0, currentInventory: null,
       })));
     } catch (error) { handleFirestoreError(error, OperationType.CREATE, 'medications'); }
@@ -1321,7 +1321,29 @@ export default function App() {
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-100">
-                              {abcResults.map((item) => (
+                              {(() => {
+                                const formOf = (m: { pharmaceuticalForm?: string; cafCode?: string }) => {
+                                  const cat2 = catalog?.items.find(ci => ci.code === m.cafCode);
+                                  return cat2?.forma || (m.pharmaceuticalForm || '').trim() || 'Sem forma informada';
+                                };
+                                const groups = new Map<string, typeof abcResults>();
+                                abcResults.forEach(r => { const k = formOf(r); if (!groups.has(k)) groups.set(k, []); groups.get(k)!.push(r); });
+                                const order = [...groups.keys()].sort((a, b) => (a === 'Sem forma informada' ? 1 : b === 'Sem forma informada' ? -1 : a.localeCompare(b, 'pt-BR')));
+                                return order.map(k => {
+                                  const rows = groups.get(k)!;
+                                  const total = rows.reduce((t, r) => t + r.totalValue, 0);
+                                  return (
+                                    <React.Fragment key={'g-' + k}>
+                                      <tr className="bg-slate-100/70">
+                                        <td colSpan={13} className="px-6 py-3">
+                                          <div className="flex flex-wrap items-center gap-3">
+                                            <span className="text-xs font-black uppercase tracking-widest text-slate-800">{k}</span>
+                                            <span className="text-[11px] font-bold text-slate-500">{rows.length} {rows.length === 1 ? 'item' : 'itens'}</span>
+                                            <span className="text-[11px] font-bold text-slate-500">Valor: R$ {total.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                      {rows.map((item) => (
                                 <tr key={item.id} className="hover:bg-slate-50 transition-colors">
                                   <td className="px-6 py-5 truncate">
                                     {editingCell?.id === item.id && editingCell?.field === 'name' ? (
@@ -1347,9 +1369,9 @@ export default function App() {
                                           {isEditMode && <Edit2 size={12} className="inline ml-2 text-slate-300 opacity-0 group-hover:opacity-100" />}
                                         </div>
                                         {item.cafCode && <div className="mt-1"><CatalogBadges cafCode={item.cafCode} catalog={catalog} /></div>}
-                                        {(item.pharmaceuticalForm || item.concentration) && (
+                                        {item.concentration && (
                                           <div className="text-[10px] text-slate-400 uppercase font-black tracking-widest mt-0.5">
-                                            {item.pharmaceuticalForm} | {item.concentration}
+                                            {item.concentration}
                                           </div>
                                         )}
                                       </div>
@@ -1512,7 +1534,11 @@ export default function App() {
                                     {item.cumulativePercentage.toFixed(1)}%
                                   </td>
                                 </tr>
-                              ))}
+                                      ))}
+                                    </React.Fragment>
+                                  );
+                                });
+                              })()}
                             </tbody>
                           </table>
                         </div>

@@ -1,5 +1,5 @@
 /** Lista de exemplo (data/catalog.json, a mesma do módulo Controle terapêutico). Carregada sob demanda. */
-export interface CatItem { id: number; sec: string; code: string; desc: string; key: string; mgml: number | null }
+export interface CatItem { id: number; sec: string; code: string; desc: string; key: string; mgml: number | null; forma?: string }
 export interface CatSafety { nef: number; hep: number; ismp: string }
 export interface Catalog {
   items: CatItem[]; sec: Record<string, string>;
