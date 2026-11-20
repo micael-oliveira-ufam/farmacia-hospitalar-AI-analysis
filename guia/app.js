@@ -166,23 +166,30 @@ function poTable(rec,cur){if(!rec)return"";
      +(v[6]||lim?'<tr class="ponote"><td></td><td colspan="5"><small>'+esc(v[6]||"")+(lim?(v[6]?" · ":"")+esc(lim):"")+"</small></td></tr>":"")});
   return'<div class="tbl"><table class="potbl"><thead><tr><th>Faixa etária</th><th>Mínima</th><th>Recomendada</th><th>Máxima</th><th>Escala</th><th>Unidade / intervalo</th></tr></thead><tbody>'+rows.join("")+"</tbody></table></div>"+(rec.nota?'<p class="note">'+esc(rec.nota)+"</p>":"")+'<p class="note">Compilado por IA a partir das fontes citadas: confirme com a referência e o farmacêutico responsável (atenção redobrada em prematuros, neonatos e idosos).</p>'}
 
-/* ---------- fonte das doses: base própria, Manual Farmacêutico do Einstein, cartão de PCR do Sírio-Libanês (só números e link; data/fontes_dose.json) ---------- */
+/* ---------- fonte das doses: a origem aparece sempre de forma explícita (data/fontes_dose.json guarda só números, status e links) ---------- */
 const FD=window.FONTES||{};
-const FSRC={BASE:"Base própria",EIN:"Manual do Einstein",SIL:"Sírio-Libanês (PCR)"};
+const FSRC={BASE:"Bulas (ANVISA/FDA) e referências citadas",EIN:"Hospital Israelita Albert Einstein, Manual Farmacêutico",LEX:"Lexicomp, Pediatric & Neonatal Dosage Handbook",SIL:"Hospital Sírio-Libanês, cartão de PCR em Pediatria"};
 const fonteSel=()=>{try{return localStorage.getItem("icam-fonte")||"BASE"}catch(e){return"BASE"}};
-const poFxQ=x=>poQ(x);
-function fonteBlock(it){const d=DOSEBY[it.key],f=d&&FD[d.id],src=fonteSel(),rec=poFor(it);
-  const opts=["BASE"].concat(["EIN","SIL"].filter(k=>f&&f[k]));
-  const sel='<label class="fld">Fonte das doses <select id="dr-src">'+opts.map(k=>'<option value="'+k+'"'+(src===k?" selected":"")+">"+FSRC[k]+"</option>").join("")+"</select></label>";
-  if(src==="BASE"||!f||!f[src])return'<div class="fonte">'+sel+(f?"":'<span class="note"> Sem outra fonte para este medicamento.</span>')+"</div>";
-  const e=f[src],ours=rec?Object.keys(rec.b).filter(b=>["neo","lac","cri","adl"].includes(b)&&Array.isArray(rec.b[b])).map(b=>rec.b[b]):[];
+const LEXBAND={neo:"neonato",lac:"lactente",cri:"criança",adl:"adolescente",adu:"adulto",ido:"idoso"};
+function fonteBanner(src,link){return'<p class="fsrc">Fonte desta tabela: <b>'+esc(FSRC[src])+"</b>"+(link?' · <a class="lk" href="'+esc(link)+'" target="_blank" rel="noopener noreferrer">abrir a ficha</a>':"")+"</p>"}
+function fonteBlock(it,rec,key){const d=DOSEBY[it.key],f=(d&&FD[d.id])||{},src0=fonteSel(),src=src0==="BASE"||f[src0]?src0:"BASE";
+  const sel='<label class="fld">Fonte das doses <select id="dr-src">'+["BASE","EIN","LEX","SIL"].map(k=>'<option value="'+k+'"'+(src===k?" selected":"")+(k!=="BASE"&&!f[k]?" disabled":"")+">"+esc(FSRC[k])+(k!=="BASE"&&!f[k]?" (sem dados para este medicamento)":"")+"</option>").join("")+"</select></label>";
+  if(src==="BASE")return'<div class="fonte">'+sel+fonteBanner("BASE")+"</div>"+poTable(rec,key);
+  const ours=rec?Object.keys(rec.b).filter(b=>["neo","lac","cri","adl"].includes(b)&&Array.isArray(rec.b[b])).map(b=>rec.b[b]):[];
+  if(src==="LEX"){const e=f.LEX;let msg;
+    if(e.st==="ok")msg="A leitura automática do livro não encontrou valor fora das faixas desta tabela.";
+    else if(e.st==="div")msg="A leitura automática sugere divergência ("+e.dir.join(" e ")+" que o livro; faixas: "+e.bands.map(b=>LEXBAND[b]||b).join(", ")+"). Confirme na obra antes de usar.";
+    else msg="Não foi possível comparar automaticamente com este livro (monografia ausente ou dose em unidade absoluta).";
+    return'<div class="fonte">'+sel+fonteBanner("LEX")+'<p class="'+(e.st==="div"?"tag warn":e.st==="ok"?"tag ok":"note")+'">'+esc(msg)+"</p>"
+     +'<p class="note">Os valores do livro não são reproduzidos aqui (obra protegida). A leitura é automática, feita por reconhecimento óptico de texto, e é só uma triagem: consulte a monografia'+(e.mono?" "+esc(e.mono):"")+" no próprio Lexicomp. Apoio à decisão: confirme com o farmacêutico responsável.</p></div>"}
+  const e=f[src];
   const rows=e.fx.map(x=>{const un=x.u.replace(/\/dose$/,""),o=ours.filter(v=>v[3]===un);let cmp="";
     if(o.length){const mn=Math.min(...o.map(v=>v[0])),mx=Math.max(...o.map(v=>v[2]));
-      cmp=x.max>mx*1.0001?'<span class="tag warn">máximo acima da nossa base ('+poQ(mx)+")</span>":x.min<mn*0.9999?'<span class="tag warn">mínimo abaixo da nossa base ('+poQ(mn)+")</span>":'<span class="tag ok">dentro da nossa faixa ('+poQ(mn)+" a "+poQ(mx)+")</span>"}
-    return"<tr><td>"+poFxQ(x.min)+(x.max!==x.min?" a "+poFxQ(x.max):"")+" "+esc(x.u)+"</td><td>"+cmp+(x.obs?'<small> '+esc(x.obs)+"</small>":"")+"</td></tr>"}).join("");
-  return'<div class="fonte">'+sel+'<div class="tbl"><table class="potbl"><thead><tr><th>'+esc(FSRC[src])+" (faixas citadas)</th><th>Comparação</th></tr></thead><tbody>"+rows+"</tbody></table></div>"
+      cmp=x.max>mx*1.0001?'<span class="tag warn">máximo acima da tabela de bulas ('+poQ(mx)+")</span>":x.min<mn*0.9999?'<span class="tag warn">mínimo abaixo da tabela de bulas ('+poQ(mn)+")</span>":'<span class="tag ok">dentro da tabela de bulas ('+poQ(mn)+" a "+poQ(mx)+")</span>"}
+    return"<tr><td>"+poQ(x.min)+(x.max!==x.min?" a "+poQ(x.max):"")+" "+esc(x.u)+"</td><td>"+cmp+(x.obs?'<small> '+esc(x.obs)+"</small>":"")+"</td></tr>"}).join("");
+  return'<div class="fonte">'+sel+fonteBanner(src,e.link)+'<div class="tbl"><table class="potbl"><thead><tr><th>Faixas citadas</th><th>Comparação</th></tr></thead><tbody>'+rows+"</tbody></table></div>"
    +(e.max?'<p class="note">Dose máxima citada: '+poQ(e.max.v)+" "+esc(e.max.u)+".</p>":"")
-   +'<p class="note">'+(src==="EIN"?'As faixas juntam todas as indicações e idades pediátricas da ficha; confira a indicação na fonte. <a class="lk" href="'+esc(e.link)+'" target="_blank" rel="noopener noreferrer">Abrir a ficha no Manual Farmacêutico do Einstein</a>.':"Valores por kg calculados da tabela de doses por peso do cartão “Doses para PCR em Pediatria” (Hospital Sírio-Libanês), para emergência e intubação, não para uso de rotina.")+" Apoio à decisão: confirme com o farmacêutico responsável.</p></div>"}
+   +'<p class="note">'+(src==="EIN"?"As faixas juntam todas as indicações e idades pediátricas da ficha; confira a indicação na fonte.":"Valores por kg calculados da tabela de doses por peso do cartão, para emergência e intubação, não para uso de rotina.")+" Apoio à decisão: confirme com o farmacêutico responsável.</p></div>"}
 
 /* paciente -> faixa, dose calculada e painel na ficha (usa o mesmo estado DZ.pac da aba Dose) */
 function poBand(pc){const a=pc.idadeAnos;if(!(a>=0))return null;
@@ -233,15 +240,15 @@ function poBlock(it,form){const rec=poFor(it);if(!rec)return"";
   const pc=dzPac(),key=poBand(pc);
   return'<details open class="pacbox"><summary>Dose e posologia para este paciente</summary>'
    +(form?poPacForm():"")+'<div id="dr-pout">'+poOut(rec,pc,key)+'</div>'
-   +'<h3 class="sub-h">Posologia por faixa etária (mínima, recomendada e máxima)</h3><div id="dr-ptable">'+poTable(rec,key)+'</div><h3 class="sub-h">Outras fontes de dose</h3><div id="dr-fonte">'+fonteBlock(it)+"</div></details>"}
+   +'<h3 class="sub-h">Posologia por faixa etária e fonte</h3><div id="dr-ptable">'+fonteBlock(it,rec,key)+"</div></details>"}
 function refreshDrawerPac(){const it=byId.get(st.dr-1);if(!it||!poFor(it))return;
   const pc=dzPac(),key=poBand(pc),rec=poFor(it);
   const ps=$("#pstrip");if(ps)ps.outerHTML=pStrip();
-  $("#dr-pout").innerHTML=poOut(rec,pc,key);$("#dr-ptable").innerHTML=poTable(rec,key);
+  $("#dr-pout").innerHTML=poOut(rec,pc,key);$("#dr-ptable").innerHTML=fonteBlock(it,rec,key);
   if(key&&PO_TO_AGE[key]&&PO_TO_AGE[key]!==st.age){st.age=PO_TO_AGE[key];store.set("icam-age",st.age);
     $$("#dr-age button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.dage===st.age));
     $("#dr-dose").innerHTML=doseHtml(it);$("#dr-hint").textContent=AGEHINT[st.age]}}
-function drPacChange(e){if(e.target.id==="dr-src"){try{localStorage.setItem("icam-fonte",e.target.value)}catch(_){}const it=byId.get(st.dr-1);if(it)$("#dr-fonte").innerHTML=fonteBlock(it);return}
+function drPacChange(e){if(e.target.id==="dr-src"){try{localStorage.setItem("icam-fonte",e.target.value)}catch(_){}const it=byId.get(st.dr-1);if(it){const pc=dzPac();$("#dr-ptable").innerHTML=fonteBlock(it,poFor(it),poBand(pc))}return}
   const p=DZ.pac;const g=id=>$("#dr-"+id);
   if(e.target.id==="dr-prem"||e.target.id==="dr-gest"){p[e.target.id.slice(3)]=e.target.checked}
   else{p.idade=g("idade").value;p.un=g("un").value;p.peso=g("peso").value;p.renal=g("renal").value;p.hep=g("hep").value}
