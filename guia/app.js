@@ -118,11 +118,27 @@ const inUni=it=>uni==="all"||uni==="icam"||CODK.has(it.key);
 const uniN=u=>ITEMS.filter(it=>u==="cod"?CODK.has(it.key):true).length;
 function renderUni(){const el=$("#uni");if(!el)return;
   el.innerHTML='<span class="agelbl">Unidade:</span>'+UNIS.map(u=>'<button type="button" class="chip" data-uni="'+u[0]+'" aria-pressed="'+(uni===u[0])+'">'+u[1]+" <small>"+uniN(u[0])+"</small></button>").join("")}
-const COD_NO=((window.LISTAS&&window.LISTAS.codajas.itens)||[]).filter(n=>!matchMine(n).length);
+const FI=(window.FICHAS&&window.FICHAS.itens)||{};
+const nn=t=>norm(t).replace(/\s+/g," ").trim();
+const FNAME=new Set();Object.values(FI).forEach(f=>f.itens.forEach(n=>FNAME.add(nn(n))));
+const FLIST=Object.entries(FI).sort((a,b)=>b[1].usuarios-a[1].usuarios);
+const COD_NO=((window.LISTAS&&window.LISTAS.codajas.itens)||[]).filter(n=>!matchMine(n).length&&!FNAME.has(nn(n)));
+function fichaSec(titulo,o,f){if(!o)return"";return'<h3 class="sub-h">'+titulo+'</h3><blockquote class="fq" lang="en">'+esc(o.q)+'</blockquote><p class="note">Fonte: <a class="lk" href="'+esc(f.label.u)+'" target="_blank" rel="noopener noreferrer">rótulo FDA “'+esc(f.label.t)+'”</a> · seção '+esc(o.s)+(f.label.eff?" · atualizado em "+esc(f.label.eff.replace(/(\d{4})(\d\d)(\d\d)/,"$3/$2/$1")):"")+"</p>"}
+function fichaHtml(k){const f=FI[k],t=TX.itens[k]||{};
+  return'<div class="dr"><h2 class="dr-h">'+esc(f.pt)+'</h2><p class="dr-sub">'+esc(f.en)+" · Lista da Policlínica Codajás: "+f.itens.map(esc).join("; ")+"</p>"
+   +'<div class="msg warn">Ficha automática montada a partir do <b>rótulo oficial da FDA (EUA)</b>, em inglês. A posologia no Brasil pode diferir (bula Anvisa, PCDT). Compilação assistida por IA: confirme com o farmacêutico responsável.</div>'
+   +(f.nota?'<p class="note"><b>Atenção:</b> '+esc(f.nota)+"</p>":"")
+   +'<div class="txbox">'+txOrgan("h",t.h,(t.obs||{}).h)+txOrgan("k",t.k,(t.obs||{}).k)+"</div>"
+   +(f.boxed?fichaSec("Alerta em caixa preta",f.boxed,f):"")+fichaSec("Indicação",f.indic,f)+fichaSec("Posologia (trecho inicial da seção)",f.dose,f)+fichaSec("Mecanismo de ação",f.moa,f)
+   +'<p class="note">Trechos literais do rótulo, encurtados; leia a seção completa no link.</p></div>'}
+function openFicha(k){st.dr=1;$("#dr-body").innerHTML=fichaHtml(k);$("#drawer").hidden=false;document.body.classList.add("noscroll");$(".dr-panel").scrollTop=0;$("#dr-close").focus();
+  try{if(!(history.state&&history.state.dr))history.pushState({dr:1},"")}catch(e){}}
 function renderUniRest(q){const el=$("#uni-rest");if(!el)return;
   if(uni!=="cod"){el.innerHTML="";return}
   const l=COD_NO.filter(n=>!q||norm(n).includes(q));
-  el.innerHTML=l.length?'<details class="bycls" '+(q?"open":"")+'><summary>Na lista da Policlínica, ainda sem monografia no guia ('+l.length+')</summary><div class="rows" style="padding:0 12px 12px">'+l.map(n=>'<div class="mrow"><span class="mname">'+esc(n)+'</span><span class="macts"><button type="button" class="btn" data-anyn="'+esc(n)+'">Buscar em qualquer medicamento</button></span></div>').join("")+"</div></details>":""}
+  const fl=FLIST.filter(([k,f])=>!q||norm(f.pt+" "+f.en+" "+f.itens.join(" ")).includes(q));
+  const fh=fl.length?'<h2 class="pick">Fichas da Policlínica ('+fl.length+")</h2>"+'<div class="rows">'+fl.map(([k,f])=>'<button class="ri" type="button" data-ficha="'+k+'"><span class="ri-main"><span class="ri-name">'+esc(f.pt)+'</span><span class="ri-sub">'+f.itens.length+(f.itens.length===1?" item":" itens")+" · "+f.usuarios+' usuários ativos/mês</span></span><span class="ri-go" aria-hidden="true">›</span></button>').join("")+"</div>":"";
+  el.innerHTML=fh+(l.length?'<details class="bycls" '+(q?"open":"")+'><summary>Na lista da Policlínica, ainda sem monografia no guia ('+l.length+')</summary><div class="rows" style="padding:0 12px 12px">'+l.map(n=>'<div class="mrow"><span class="mname">'+esc(n)+'</span><span class="macts"><button type="button" class="btn" data-anyn="'+esc(n)+'">Buscar em qualquer medicamento</button></span></div>').join("")+"</div></details>":"")}
 const nOf=f=>ITEMS.filter(it=>inUni(it)&&f(it)).length;
 const AGES={neo:"Neonato",ped:"Lactente / criança",adu:"Adulto",ido:"Idoso"};
 const HAY={};ITEMS.forEach(i=>{const m=M[i.key];HAY[i.id]={name:norm([i.desc,m.n,m.en].join(" ")),cls:norm([m.c,m.tc,m.fc].join(" ")),oth:norm([i.code,S[i.key].ae].join(" "))}});
@@ -233,7 +249,7 @@ function txOrgan(kind,o,obs){
   const e=ESC[o.l];
   return '<details class="tx"><summary><b>'+nome+"</b>"+meter(o.l,max)+'<span class="tx-l l'+o.l+'">'+NM[o.l]+(hep&&o.s?" · LiverTox "+esc(o.s)+(o.m?"["+esc(o.m)+"]":""):"")+"</span></summary>"
    +'<p class="note"><b>Nível '+o.l+" de "+max+" — "+NM[o.l]+":</b> "+esc(e.crit)+"</p>"
-   +(o.inf?'<p class="note"><b>Nível inferido:</b> o LiverTox não atribui escore a este fármaco; o nível foi estimado a partir do texto do capítulo (exibido abaixo). Validar com o farmacêutico.</p>':"")+(o.cap?'<p class="note">Teto “Alto”: o LiverTox restringe este escore a dose alta ou circunstância específica ([H]/[HD]).</p>':"")
+   +(o.inf?'<p class="note"><b>Nível inferido:</b> o LiverTox não atribui escore a este fármaco; o nível foi estimado a partir do texto do capítulo (exibido abaixo). Validar com o farmacêutico.</p>':"")+(o.cap?'<p class="note">Teto “Moderado”: o LiverTox restringe este escore a dose alta ou circunstância específica ([H]/[HD]); por isso não aparece como “Alto”.</p>':"")
    +'<p class="tx-h">De onde vem ('+lab+")</p><ul class=\"tsrc\">"+o.src.map(txSrc).join("")+"</ul>"
    +(obs?'<p class="note"><b>Nota antiga do catálogo (não verificada):</b> '+esc(obs)+"</p>":"")
    +'<p class="note">Escala completa: '+ESC.map(z=>"<b>"+z.n+"</b> "+z.nome).join(" · ")+". Compilação assistida por IA: confirme na bula e com o farmacêutico responsável.</p></details>"}
@@ -562,6 +578,7 @@ function init(){
   $("#anycalc").addEventListener("input",runAny);
   $("#any-refs").innerHTML=refChip("ANSEL")+" "+refChip("ANV");
   document.addEventListener("click",e=>{
+    const fi=e.target.closest("[data-ficha]");if(fi){openFicha(fi.dataset.ficha);return}
     const an=e.target.closest("[data-anyn]");if(an){$("#any-pt").value=an.dataset.anyn.replace(/\s+\d.*$/,"");$("#any-en").value="";st.tab="any";renderTabs();renderAny();window.scrollTo({top:0});return}
     const u=e.target.closest("[data-uni]");if(u){uni=u.dataset.uni;store.set("icam-uni",uni);st.tc=st.fc="";renderMeds();return}
     const o=e.target.closest("[data-open]");if(o){e.preventDefault();const it=byId.get(+o.dataset.open);if(it)openItem(it);return}

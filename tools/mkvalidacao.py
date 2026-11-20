@@ -16,7 +16,7 @@ for k,v in sorted(d['itens'].items(),key=lambda a:a[1]['en'].lower()):
     if h is None: add(v,'Fígado',None,'Sem fonte verificada: classificar')
     elif h.get('l') is None: add(v,'Fígado',h,'Capítulo sem escore')
     elif h.get('inf'): add(v,'Fígado',h,'Nível inferido do texto (sem escore oficial)')
-    elif h.get('cap'): add(v,'Fígado',h,'Escore com modificador [H]/[HD], limitado a Alto')
+    elif h.get('cap'): add(v,'Fígado',h,'Escore com modificador [H]/[HD], limitado a Moderado')
     elif h['l']>=3 and any(x.get('e')=='classe' for x in h['src']): add(v,'Fígado',h,'Escore de capítulo de classe, não do fármaco')
     if n is None: add(v,'Rim',None,'Sem fonte verificada: classificar')
     elif k in OVR: add(v,'Rim',n,'Revisão manual: rótulo cita só interação/pré-condição')

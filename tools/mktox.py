@@ -72,8 +72,8 @@ def lt_for(en,LT):
         if pick and (best is None or LV[pick['s'][0]]>LV[best['s'][0]]): best=dict(s=pick['s'],m=pick['m'])
     if not srcs: return None
     l=(LV[best['s'][0]] if best else None); m=(best or {}).get('m','')
-    cap=bool(m) and l is not None and l>3   # [H]/[HD]: so em dose alta/circunstancia -> teto 'Alto', sinalizado
-    return dict(l=(3 if cap else l),s=(best or {}).get('s'),m=m,src=srcs,**({'cap':1} if cap else {}))
+    cap=bool(m) and l is not None and l>2   # [H]/[HD]: so em dose alta/circunstancia -> teto 'Alto', sinalizado
+    return dict(l=(2 if cap else l),s=(best or {}).get('s'),m=m,src=srcs,**({'cap':1} if cap else {}))
 # ---------- rotulos FDA ----------
 HEP_B=re.compile(r'hepatotox|hepatic failure|liver failure|liver injury|hepatic injury|hepatic necrosis|hepatitis|liver damage|hepatic toxicity|fulminant',re.I)
 NEF_S=re.compile(r'nephrotox|(?<![a-z])renal toxicity|acute kidney injury|(?<![a-z])acute renal failure|interstitial nephritis|tubular necrosis|crystalluria|(?<![a-z])renal damage|kidney damage|(?<![a-z])renal tubular (?:acidosis|necrosis|damage|injury|toxicity)',re.I)

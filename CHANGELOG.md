@@ -2,6 +2,13 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.13.0 - 2026-11-19
+
+- **Fichas da Policlínica Codajás (lote 1)**: 24 substâncias que cobrem 47 itens da lista (os mais usados por usuários ativos/mês), com indicação, posologia (trecho inicial), mecanismo de ação e alerta em caixa preta **extraídos do rótulo oficial da FDA** (openFDA/DailyMed), com seção e link, mais os níveis de fígado e rim com fontes. Geradas por `tools/mkfichas.py` a partir de `tools/codajas_map.py`.
+- Na visão "Policlínica Codajás", as fichas aparecem primeiro; os itens ainda sem ficha ficam num bloco recolhido (119 de 188).
+- **Correção**: escores do LiverTox com ressalva de dose alta ([H]/[HD], como insulina, corticoides e propofol) agora ficam limitados a "Moderado" (antes "Alto"), para não exagerar o risco.
+- Os rótulos são dos EUA e em inglês; o guia avisa que a posologia no Brasil pode diferir (Anvisa, PCDT).
+
 ## 4.12.0 - 2026-11-19
 
 - **Totalmente gratuito e sem conta.** Removidos o cadastro, o login, a assinatura (R$ 29,99/mês), o teste de 7 dias, a integração de pagamento, as telas entrar/assinar/conta/termos, o banco de contas do servidor e o login com Google/Firebase do estoque. A cobrança, se existir um dia, ficará em outro aplicativo.

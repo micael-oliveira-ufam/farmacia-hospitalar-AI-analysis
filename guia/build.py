@@ -17,6 +17,8 @@ def build(pwa):
     poso=json.load(open(os.path.join(S,'data/posologia.json'),encoding='utf8'))
     t=t.replace('/*POSO*/',json.dumps(poso,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     tox=json.load(open(os.path.join(S,'data/toxicidade.json'),encoding='utf8'))
+    fic=json.load(open(os.path.join(S,'data/codajas_fichas.json'),encoding='utf8'))
+    t=t.replace('/*FICHAS*/',json.dumps(fic,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     t=t.replace('/*TOX*/',json.dumps(tox,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     t=t.replace('<!--HOME-->','<a class="homelnk" href="../">← Início</a>' if (pwa and PAGES) else '')
     t=t.replace('<!--PWA-->','<link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg">' if pwa else '')

@@ -287,3 +287,5 @@ details.bycls>summary{padding:12px 14px;cursor:pointer;font-weight:650;min-heigh
 details.bycls>.tiles{padding:0 12px 12px}
 
 .chips.uni{margin:8px 0 4px;flex-wrap:wrap}
+
+blockquote.fq{margin:4px 0 6px;padding:8px 12px;border-left:3px solid var(--line);background:var(--bg);font-size:13px;overflow-wrap:anywhere}
