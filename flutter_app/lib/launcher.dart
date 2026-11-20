@@ -58,7 +58,7 @@ class Launcher extends StatelessWidget {
             'Estoque e Curva ABC',
             'Gerenciador de estoque com classificação A/B/C, estoque de emergência e pedido semanal (PADRÃO e PEDIDO).',
             ['Importa a planilha do seu hospital (colada) ou a lista de exemplo', 'Backup compatível com o app web', 'Link para a monografia no módulo Controle terapêutico'],
-            () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => StockHome(catalog: catalog, prefs: prefs))),
+            () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => StockUnitsPage(catalog: catalog, prefs: prefs))),
           ),
           const SizedBox(height: 14),
           Container(

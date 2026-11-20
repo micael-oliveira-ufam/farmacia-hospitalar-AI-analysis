@@ -209,6 +209,11 @@ function FlBar() {
   );
 }
 
+const DEFAULT_HOSPITALS = [
+  { id: 'icam', name: 'ICAM' },
+  { id: 'policlinica-codajas', name: 'Policlínica Codajás' },
+];
+
 export default function App() {
   const [backend, setBackend] = useState<{ store: Store; auth: AuthApi }>({ store: localStore, auth: localAuth });
   const store = backend.store;
@@ -223,9 +228,10 @@ export default function App() {
   const [savedHospitals, setSavedHospitals] = useState<{id: string, name: string}[]>(() => {
     try {
       const parsed = JSON.parse(localStorage.getItem('savedHospitals') || '[]');
-      return Array.isArray(parsed) ? parsed : [];
+      const extra = (Array.isArray(parsed) ? parsed : []).filter((h: {id: string}) => !DEFAULT_HOSPITALS.some(d => d.id === h.id));
+      return [...DEFAULT_HOSPITALS, ...extra];
     } catch {
-      return [];
+      return [...DEFAULT_HOSPITALS];
     }
   });
   const [tempHospitalName, setTempHospitalName] = useState('');
@@ -333,7 +339,7 @@ export default function App() {
       const exists = prev.some(h => h.id === id);
       if (exists) return prev;
       const updated = [...prev, { id, name }];
-      localStorage.setItem('savedHospitals', JSON.stringify(updated));
+      localStorage.setItem('savedHospitals', JSON.stringify(updated.filter(h => !DEFAULT_HOSPITALS.some(d => d.id === h.id))));
       return updated;
     });
   };
@@ -343,7 +349,7 @@ export default function App() {
     if (window.confirm("Remover este hospital da sua lista? Os dados no banco de dados NÃO serão excluídos.")) {
       const updated = savedHospitals.filter(h => h.id !== id);
       setSavedHospitals(updated);
-      localStorage.setItem('savedHospitals', JSON.stringify(updated));
+      localStorage.setItem('savedHospitals', JSON.stringify(updated.filter(h => !DEFAULT_HOSPITALS.some(d => d.id === h.id))));
     }
   };
 
@@ -362,7 +368,21 @@ export default function App() {
       return;
     }
 
-    const unsubscribe = store.subscribe(hospitalId, setMedications);
+    let seeded = false;
+    const unsubscribe = store.subscribe(hospitalId, (list) => {
+      setMedications(list);
+      if (seeded) return;
+      seeded = true;
+      const flag = `seeded:${hospitalId}`;
+      let done = false;
+      try { done = localStorage.getItem(flag) === '1'; } catch { /* ignore */ }
+      if (done) return;
+      try { localStorage.setItem(flag, '1'); } catch { /* ignore */ }
+      if (list.length === 0) {
+        if (hospitalId === 'icam') void importIcam(hospitalId, list);
+        else if (hospitalId === 'policlinica-codajas') void importCodajas(hospitalId, list);
+      }
+    });
     return () => unsubscribe();
   }, [hospitalId, store]);
 
@@ -525,40 +545,35 @@ export default function App() {
     }
   };
 
-  const importIcam = async () => {
-    if (!hospitalId) return;
+  // Carga automática da lista oficial ao abrir a unidade pela primeira vez (sem botões nem confirmações).
+  const importIcam = async (hid: string, current: Medication[]) => {
     const cat = catalog ?? await loadCatalog();
-    if (!cat) { alert('Lista do ICAM não encontrada (data/catalog.json).'); return; }
-    const have = new Set(medications.map(m => m.cafCode).filter(Boolean));
+    if (!cat) return;
+    const have = new Set(current.map(m => m.cafCode).filter(Boolean));
     const novos = cat.items.filter(i => !have.has(i.code));
-    if (!novos.length) { alert('Todos os itens da lista do ICAM já estão importados.'); return; }
-    if (!window.confirm(`Importar ${novos.length} itens da lista do ICAM para "${hospitalName}"? Depois informe consumo, custo e estoque.`)) return;
+    if (!novos.length) return;
     setIsSaving(true);
     try {
-      await store.addMany(hospitalId, novos.map(i => ({
+      await store.addMany(hid, novos.map(i => ({
         name: i.desc, cafCode: i.code, pharmaceuticalForm: cat.sec[i.sec] || '', concentration: i.mgml ? `${i.mgml} mg/mL` : '',
         annualConsumption: 0, unitCost: 0, leadTimeDays: 7, maxMonthlyConsumption: 0, activeUsers: 0, currentInventory: null,
       })));
-      alert(`${novos.length} itens da lista do ICAM importados.`);
     } catch (error) { handleFirestoreError(error, OperationType.CREATE, 'medications'); }
     finally { setIsSaving(false); }
   };
 
-  const importCodajas = async () => {
-    if (!hospitalId) return;
+  const importCodajas = async (hid: string, current: Medication[]) => {
     const lista = await loadCodajas();
-    if (!lista) { alert('Lista da Policlínica Codajás não encontrada (data/codajas.json).'); return; }
-    const have = new Set(medications.map(m => m.name.trim().toLowerCase()));
+    if (!lista) return;
+    const have = new Set(current.map(m => m.name.trim().toLowerCase()));
     const novos = lista.itens.filter(i => !have.has(i.name.trim().toLowerCase()));
-    if (!novos.length) { alert('Todos os itens da lista da Policlínica Codajás já estão importados.'); return; }
-    if (!window.confirm(`Importar ${novos.length} itens da lista da Policlínica Codajás para "${hospitalName}"? Usuários ativos por mês e custo unitário vêm da lista; confira o custo dos itens com valor zero.`)) return;
+    if (!novos.length) return;
     setIsSaving(true);
     try {
-      await store.addMany(hospitalId, novos.map(i => ({
+      await store.addMany(hid, novos.map(i => ({
         name: i.name, pharmaceuticalForm: '', concentration: '', activeUsers: i.activeUsers || 0, annualConsumption: (i.activeUsers || 0) * 12,
         unitCost: i.unitCost || 0, leadTimeDays: 7, maxMonthlyConsumption: 0, currentInventory: null,
       })));
-      alert(`${novos.length} itens da Policlínica Codajás importados.`);
     } catch (error) { handleFirestoreError(error, OperationType.CREATE, 'medications'); }
     finally { setIsSaving(false); }
   };
@@ -677,25 +692,25 @@ export default function App() {
           <section className="bg-white border border-slate-200 rounded-2xl p-6 md:p-7 space-y-6 lg:sticky lg:top-24">
             <div>
               <h2 className="text-xl font-semibold text-slate-900" style={{fontFamily:'var(--f-display)'}}>Escolha a unidade</h2>
-              <p className="text-sm text-slate-500 mt-1">Cada hospital ou farmácia tem o próprio estoque, guardado neste navegador.</p>
+              <p className="text-sm text-slate-500 mt-1">ICAM e Policlínica Codajás já vêm com a lista de itens carregada. Você também pode adicionar outro hospital, com estoque próprio.</p>
             </div>
             {savedHospitals.length > 0 && (
               <div className="space-y-2">
-                <p className="text-sm font-semibold text-slate-700">Salvas neste aparelho</p>
+                <p className="text-sm font-semibold text-slate-700">Unidades</p>
                 {savedHospitals.map(h => (
                   <div key={h.id} onClick={() => handleSetHospital(undefined, h)}
                     className="group flex items-center justify-between gap-3 px-4 py-3 border border-slate-200 rounded-xl hover:border-blue-600 hover:bg-blue-50 cursor-pointer">
                     <span className="font-semibold text-slate-800">{h.name}</span>
                     <span className="flex items-center gap-2">
                       <span className="text-xs font-semibold text-blue-700">Abrir</span>
-                      <button onClick={(e) => handleRemoveSavedHospital(h.id, e)} aria-label="Remover da lista" className="p-1.5 text-slate-400 hover:text-red-500 rounded-md"><Trash2 size={14} /></button>
+                      {!DEFAULT_HOSPITALS.some(d => d.id === h.id) && <button onClick={(e) => handleRemoveSavedHospital(h.id, e)} aria-label="Remover da lista" className="p-1.5 text-slate-400 hover:text-red-500 rounded-md"><Trash2 size={14} /></button>}
                     </span>
                   </div>
                 ))}
               </div>
             )}
             <form onSubmit={handleSetHospital} className="space-y-3">
-              <label className="block text-sm font-semibold text-slate-700" htmlFor="hosp">{savedHospitals.length > 0 ? 'Adicionar outra unidade' : 'Nome do hospital ou da farmácia'}</label>
+              <label className="block text-sm font-semibold text-slate-700" htmlFor="hosp">Adicionar outro hospital</label>
               <input id="hosp" type="text" value={tempHospitalName} onChange={e => setTempHospitalName(e.target.value)}
                 placeholder="Ex.: Hospital Universitário Getúlio Vargas"
                 className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none text-base" autoFocus required />
@@ -747,16 +762,6 @@ export default function App() {
                   Importar Planilha
                 </button>
                 
-                <button onClick={importIcam} disabled={isSaving}
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-xl transition-all font-bold text-xs border border-blue-200 disabled:opacity-50">
-                  <Database size={14} />
-                  Importar lista do ICAM (224 itens)
-                </button>
-                <button onClick={importCodajas} disabled={isSaving}
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-xl transition-all font-bold text-xs border border-blue-200 disabled:opacity-50">
-                  <Database size={14} />
-                  Importar lista da Policlínica Codajás (188 itens)
-                </button>
                 {store.mode === 'local' && (<>
                   <button onClick={doBackup} className="px-3 py-2 bg-white hover:bg-slate-50 text-slate-700 rounded-xl font-bold text-xs border border-slate-200 shadow-sm">Backup</button>
                   <button onClick={() => restoreInputRef.current?.click()} className="px-3 py-2 bg-white hover:bg-slate-50 text-slate-700 rounded-xl font-bold text-xs border border-slate-200 shadow-sm">Restaurar</button>

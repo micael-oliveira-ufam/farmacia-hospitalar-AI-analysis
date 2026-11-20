@@ -2,6 +2,9 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.17.0
+- **Estoque e Curva ABC com duas unidades padrão**: ICAM e Policlínica Codajás. A lista de itens de cada uma é carregada automaticamente na primeira abertura, e os botões "Importar lista do ICAM" e "Importar lista da Policlínica Codajás" foram removidos. O usuário também pode adicionar outro hospital, com estoque próprio. Vale na web e no app Android (que ganhou a tela de escolha da unidade; os dados antigos passam para a unidade ICAM).
+
 ## 4.16.0
 - **Novo nome: PharmaCentral** (antes FarmaLink) no app Android, na plataforma web, nos manifests, no servidor e no README. Módulos: Controle terapêutico e Estoque.
 - **Novo ícone**: cápsula em duas metades (uma para cada módulo) com núcleo âmbar em cruz farmacêutica no centro. Aplicado no site, nos PWAs e no launcher do Android (todas as densidades, com ícone adaptativo).

@@ -13,14 +13,18 @@ const _cmedUrl = 'https://www.gov.br/anvisa/pt-br/assuntos/medicamentos/cmed/pre
 
 class StockStore extends ChangeNotifier {
   final SharedPreferences prefs;
+  final String unit; // id da unidade (hospital): cada uma tem o próprio estoque
   List<Med> meds = [];
   AbcMode mode = AbcMode.value;
   int reviewDays = defaultReviewDays;
   int _seq = 0;
 
-  StockStore(this.prefs) {
+  String get _key => 'abc_meds_v1_$unit';
+
+  StockStore(this.prefs, this.unit) {
     try {
-      final raw = prefs.getString('abc_meds_v1');
+      // Dados antigos (uma única lista) passam para a unidade ICAM.
+      final raw = prefs.getString(_key) ?? (unit == 'icam' ? prefs.getString('abc_meds_v1') : null);
       if (raw != null && raw.isNotEmpty) {
         meds = (jsonDecode(raw) as List).map((e) => Med.fromJson(Map<String, dynamic>.from(e as Map))).toList();
       }
@@ -31,10 +35,39 @@ class StockStore extends ChangeNotifier {
     reviewDays = prefs.getInt('abc_review') ?? defaultReviewDays;
   }
 
+  /// Carga automática da lista oficial na primeira abertura da unidade (ICAM e Policlínica Codajás).
+  Future<void> seedIfNeeded(Catalog catalog) async {
+    final flag = 'abc_seeded_$unit';
+    if (prefs.getBool(flag) == true) return;
+    await prefs.setBool(flag, true);
+    if (meds.isNotEmpty) return;
+    if (unit == 'icam') {
+      addMany([
+        for (final i in catalog.items)
+          Med(
+            id: newId(),
+            name: i.desc,
+            caf: i.code,
+            form: catalog.sec[i.sec] ?? '',
+            concentration: i.mgml != null ? '${fmtPlain(i.mgml!)} mg/mL' : '',
+          )
+      ]);
+    } else if (unit == 'policlinica-codajas') {
+      try {
+        final lista = await CodajasList.load();
+        addMany([
+          for (final i in lista.itens) Med(id: newId(), name: i.name, annual: i.activeUsers * 12, unitCost: i.unitCost)
+        ]);
+      } catch (_) {
+        await prefs.setBool(flag, false); // tenta de novo na próxima abertura
+      }
+    }
+  }
+
   String newId() => '${DateTime.now().microsecondsSinceEpoch}-${_seq++}';
 
   void _save() {
-    prefs.setString('abc_meds_v1', jsonEncode(meds.map((m) => m.toJson()).toList()));
+    prefs.setString(_key, jsonEncode(meds.map((m) => m.toJson()).toList()));
     notifyListeners();
   }
 
@@ -80,14 +113,22 @@ class StockStore extends ChangeNotifier {
 class StockHome extends StatefulWidget {
   final Catalog catalog;
   final SharedPreferences prefs;
-  const StockHome({super.key, required this.catalog, required this.prefs});
+  final String unit;
+  final String unitName;
+  const StockHome({super.key, required this.catalog, required this.prefs, required this.unit, required this.unitName});
   @override
   State<StockHome> createState() => _StockHomeState();
 }
 
 class _StockHomeState extends State<StockHome> {
-  late final StockStore store = StockStore(widget.prefs);
+  late final StockStore store = StockStore(widget.prefs, widget.unit);
   int tab = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    store.seedIfNeeded(widget.catalog);
+  }
 
   @override
   void dispose() {
@@ -99,7 +140,7 @@ class _StockHomeState extends State<StockHome> {
   Widget build(BuildContext context) {
     final titles = ['Itens', 'Curva ABC', 'Pedido semanal', 'Dados e método'];
     return Scaffold(
-      appBar: AppBar(title: Text('Estoque · ${titles[tab]}'), toolbarHeight: 48),
+      appBar: AppBar(title: Text('${widget.unitName} · ${titles[tab]}'), toolbarHeight: 48),
       floatingActionButton: tab == 0
           ? FloatingActionButton(
               tooltip: 'Novo item',
@@ -193,7 +234,7 @@ class _ItemsTabState extends State<_ItemsTab> {
             ? const Center(
                 child: Padding(
                   padding: EdgeInsets.all(24),
-                  child: Text('Nenhum item ainda. Use o botão + ou vá em "Dados" para importar a lista do ICAM ou da Policlínica Codajás ou colar a planilha do seu hospital.',
+                  child: Text('Nenhum item ainda. Use o botão + ou vá em "Dados" para colar a planilha do seu hospital.',
                       textAlign: TextAlign.center)))
             : ListView.separated(
                 itemCount: list.length,
@@ -543,52 +584,6 @@ class _DataTab extends StatelessWidget {
   final Catalog catalog;
   const _DataTab({required this.store, required this.catalog});
 
-  Future<void> _importCodajas(BuildContext context) async {
-    final CodajasList lista;
-    try {
-      lista = await CodajasList.load();
-    } catch (_) {
-      if (context.mounted) _snack(context, 'Não foi possível ler a lista da Policlínica Codajás.');
-      return;
-    }
-    final have = store.meds.map((m) => m.name.toLowerCase()).toSet();
-    final novos = lista.itens.where((i) => !have.contains(i.name.toLowerCase())).toList();
-    if (novos.isEmpty) {
-      if (context.mounted) _snack(context, 'Todos os itens da Policlínica Codajás já estão cadastrados.');
-      return;
-    }
-    if (!context.mounted) return;
-    final ok = await _confirm(context, 'Importar lista da Policlínica Codajás', 'Adicionar ${novos.length} itens com usuários ativos e custo unitário? Depois informe o estoque de cada um.');
-    if (ok != true) return;
-    store.addMany([
-      for (final i in novos)
-        Med(id: store.newId(), name: i.name, annual: i.activeUsers * 12, unitCost: i.unitCost)
-    ]);
-    if (context.mounted) _snack(context, '${novos.length} itens importados.');
-  }
-
-  Future<void> _importIcam(BuildContext context) async {
-    final have = store.meds.map((m) => m.caf).where((x) => x.isNotEmpty).toSet();
-    final novos = catalog.items.where((i) => !have.contains(i.code)).toList();
-    if (novos.isEmpty) {
-      _snack(context, 'Todos os itens da lista do ICAM já estão cadastrados.');
-      return;
-    }
-    final ok = await _confirm(context, 'Importar lista do ICAM', 'Adicionar ${novos.length} itens? Depois informe consumo, custo e estoque de cada um.');
-    if (ok != true) return;
-    store.addMany([
-      for (final i in novos)
-        Med(
-          id: store.newId(),
-          name: i.desc,
-          caf: i.code,
-          form: catalog.sec[i.sec] ?? '',
-          concentration: i.mgml != null ? '${fmtPlain(i.mgml!)} mg/mL' : '',
-        )
-    ]);
-    if (context.mounted) _snack(context, '${novos.length} itens importados.');
-  }
-
   Future<bool?> _confirm(BuildContext context, String title, String body) => showDialog<bool>(
         context: context,
         builder: (ctx) => AlertDialog(
@@ -666,8 +661,6 @@ class _DataTab extends StatelessWidget {
       const Text('Seus dados ficam só neste aparelho (sem internet, sem conta).', style: TextStyle(fontWeight: FontWeight.w700)),
       const Text('Não registre dados de pacientes. Faça backup de vez em quando.', style: TextStyle(fontSize: 12)),
       const SizedBox(height: 10),
-      btn(Icons.playlist_add, 'Importar lista do ICAM (${catalog.items.length} itens)', () => _importIcam(context)),
-      btn(Icons.playlist_add, 'Importar lista da Policlínica Codajás', () => _importCodajas(context)),
       btn(Icons.content_paste, 'Importar planilha colada (CSV)', () => _importCsv(context)),
       btn(Icons.copy_all, 'Copiar planilha da curva ABC e do pedido (CSV)', () async {
         await Clipboard.setData(ClipboardData(text: resultsCsv(store.rows)));
@@ -704,5 +697,100 @@ class _DataTab extends StatelessWidget {
             onTap: () => openUrl(context, r[k]!.url),
           ),
     ]);
+  }
+}
+
+
+/* ------------------------------------------------------------------ escolha da unidade */
+
+const _defaultUnits = <(String, String)>[('icam', 'ICAM'), ('policlinica-codajas', 'Policlínica Codajás')];
+
+class StockUnitsPage extends StatefulWidget {
+  final Catalog catalog;
+  final SharedPreferences prefs;
+  const StockUnitsPage({super.key, required this.catalog, required this.prefs});
+  @override
+  State<StockUnitsPage> createState() => _StockUnitsPageState();
+}
+
+class _StockUnitsPageState extends State<StockUnitsPage> {
+  late List<String> extras = widget.prefs.getStringList('abc_units') ?? <String>[];
+
+  String _slug(String t) {
+    const from = 'áàâãäéèêëíìîïóòôõöúùûüç';
+    const to = 'aaaaaeeeeiiiiooooouuuuc';
+    var o = t.toLowerCase().trim();
+    for (var i = 0; i < from.length; i++) {
+      o = o.replaceAll(from[i], to[i]);
+    }
+    return o.replaceAll(RegExp(r'[^a-z0-9]+'), '-').replaceAll(RegExp(r'^-+|-+$'), '');
+  }
+
+  void _open(String id, String name) => Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) => StockHome(catalog: widget.catalog, prefs: widget.prefs, unit: id, unitName: name)));
+
+  Future<void> _add() async {
+    final c = TextEditingController();
+    final name = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Adicionar hospital'),
+        content: TextField(controller: c, autofocus: true, decoration: const InputDecoration(labelText: 'Nome do hospital ou da farmácia')),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Cancelar')),
+          FilledButton(onPressed: () => Navigator.pop(ctx, c.text.trim()), child: const Text('Adicionar')),
+        ],
+      ),
+    );
+    if (name == null || name.isEmpty) return;
+    final id = _slug(name);
+    if (id.isEmpty) return;
+    if (!_defaultUnits.any((u) => u.$1 == id) && !extras.any((e) => e.split('|').first == id)) {
+      setState(() => extras = [...extras, '$id|$name']);
+      await widget.prefs.setStringList('abc_units', extras);
+    }
+    if (mounted) _open(id, name);
+  }
+
+  Future<void> _remove(String e) async {
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Remover da lista?'),
+        content: const Text('Os dados desta unidade continuam guardados no aparelho; ela só some da lista.'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancelar')),
+          FilledButton(onPressed: () => Navigator.pop(ctx, true), child: const Text('Remover')),
+        ],
+      ),
+    );
+    if (ok != true) return;
+    setState(() => extras = extras.where((x) => x != e).toList());
+    await widget.prefs.setStringList('abc_units', extras);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Estoque · escolha a unidade'), toolbarHeight: 48),
+      body: SafeArea(
+        child: ListView(padding: const EdgeInsets.all(14), children: [
+          const Text('ICAM e Policlínica Codajás já vêm com a lista de itens carregada. Você também pode adicionar outro hospital, com estoque próprio.'),
+          const SizedBox(height: 12),
+          for (final u in _defaultUnits)
+            Card(child: ListTile(title: Text(u.$2, style: const TextStyle(fontWeight: FontWeight.w700)), trailing: const Icon(Icons.chevron_right), onTap: () => _open(u.$1, u.$2))),
+          for (final e in extras)
+            Card(
+              child: ListTile(
+                title: Text(e.split('|').skip(1).join('|'), style: const TextStyle(fontWeight: FontWeight.w700)),
+                trailing: IconButton(icon: const Icon(Icons.delete_outline), tooltip: 'Remover da lista', onPressed: () => _remove(e)),
+                onTap: () => _open(e.split('|').first, e.split('|').skip(1).join('|')),
+              ),
+            ),
+          const SizedBox(height: 8),
+          FilledButton.tonalIcon(onPressed: _add, icon: const Icon(Icons.add), label: const Text('Adicionar hospital')),
+        ]),
+      ),
+    );
   }
 }
