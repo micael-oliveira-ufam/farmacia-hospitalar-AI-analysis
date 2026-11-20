@@ -165,11 +165,6 @@ function poTable(rec,cur){if(!rec)return"";
     return'<tr class="'+ped+'"><td>'+nm+'</td><td>'+poQ(v[0])+'</td><td><b>'+poQ(v[1])+'</b></td><td>'+poQ(v[2])+'</td><td>'+poScale(v)+'</td><td>'+u+(iv?"<br><small>"+iv+"</small>":"")+"</td></tr>"
      +(v[6]||lim?'<tr class="ponote"><td></td><td colspan="5"><small>'+esc(v[6]||"")+(lim?(v[6]?" · ":"")+esc(lim):"")+"</small></td></tr>":"")});
   return'<div class="tbl"><table class="potbl"><thead><tr><th>Faixa etária</th><th>Mínima</th><th>Recomendada</th><th>Máxima</th><th>Escala</th><th>Unidade / intervalo</th></tr></thead><tbody>'+rows.join("")+"</tbody></table></div>"+(rec.nota?'<p class="note">'+esc(rec.nota)+"</p>":"")+'<p class="note">Compilado por IA a partir das fontes citadas: confirme com a referência e o farmacêutico responsável (atenção redobrada em prematuros, neonatos e idosos).</p>'}
-function moaHtml(m,f){m=m||{};f=f||{};
-  const moa=m.moa||f.moa,acao=m.farma||f.acao,fk=m.fk||f.fk,fis=m.fisio||f.fisio,ae=f.ae||"",pa=f.pa||"";
-  if(!moa&&!acao&&!fk&&!fis)return"";
-  const P=(t,v)=>v?"<p><b>"+t+":</b> "+esc(v)+"</p>":"";
-  return'<section class="moa"><h3>⚗️ Como o medicamento age</h3>'+P("Mecanismo de ação",moa)+P("O que provoca no organismo (ação farmacológica)",acao)+P("Farmacocinética",fk)+P("Fisiopatologia / racional de uso",fis)+(f.pa?P("Pontos de atenção",pa):"")+"</section>"}
 
 /* paciente -> faixa, dose calculada e painel na ficha (usa o mesmo estado DZ.pac da aba Dose) */
 function poBand(pc){const a=pc.idadeAnos;if(!(a>=0))return null;
@@ -288,7 +283,7 @@ function drawerHtml(it){
    +'<h2 class="dr-name">'+esc(it.desc)+'</h2><p class="dr-sub"><span class="bdg tcb" style="--h:'+hue(m.tc)+'">'+esc(m.tc)+'</span> <span class="bdg fcb">'+esc(m.fc)+'</span></p><p class="dr-via">'+vias+"</p>"+txHtml(it)+(poFor(it)?poBlock(it,true):"")
    +'<div class="seg" id="dr-age" role="group" aria-label="Faixa etária">'+Object.keys(AGES).map(a=>'<button type="button" class="'+(a==="neo"||a==="ped"?"ped":"")+'" data-dage="'+a+'" aria-pressed="'+(st.age===a)+'">'+AGES[a]+"</button>").join("")+"</div>"
    +'<p class="note" id="dr-hint">'+AGEHINT[st.age]+'</p><div id="dr-dose">'+doseHtml(it)+"</div>"
-   +moaHtml(m,(poFor(it)||{}).f)+farmHtml(it)
+   +farmHtml(it)
    +(s.ismp?'<div class="alertp"><b>Alta vigilância (ISMP Brasil):</b> '+esc(s.ismp)+". Dupla checagem na prescrição, no preparo e na administração.</div>":"")
    +(m.pa?'<div class="alertp"><b>Alerta pediátrico:</b> '+esc(m.pa)+"</div>":"")
    +'<details><summary>Efeitos adversos</summary><p><b>Comuns:</b> '+esc(ae[0])+"</p><p><b>Graves:</b> "+esc(ae[1]||"—")+"</p></details>"
@@ -497,7 +492,7 @@ function dzEval(){const e=$("#dz-eval");if(!e||!DZ.last)return;
    +(a.status!=="adequada"?"<ul>"+a.riscos.map(x=>"<li>"+esc(x)+"</li>").join("")+"</ul>":'<p class="note">Dentro do mínimo e do máximo da faixa de referência.'+(a.motivos.length?"":" Confirme sempre com o prescritor.")+"</p>")+"</div>"}
 function dzPoso(id,m){const rec=PO.itens[id];if(!rec)return"";
   const pc=dzPac(),key=poBand(pc);
-  return moaHtml(m||{},rec.f)+'<h3 class="sub-h">Dose para o paciente informado</h3>'+poOut(rec,pc,key)+'<h3 class="sub-h">Posologia por faixa etária: mínima, recomendada e máxima</h3>'+poTable(rec,key)}
+  return '<h3 class="sub-h">Dose para o paciente informado</h3>'+poOut(rec,pc,key)+'<h3 class="sub-h">Posologia por faixa etária: mínima, recomendada e máxima</h3>'+poTable(rec,key)}
 function dzSelect(id){DZ.sel=id;DZ.ap=0;DZ.presc="";DZ.extra=null;const ex=PO.extras.find(x=>x.id===id);
   if(ex){DZ.sel=null;DZ.extra=id;DZ.last=null;$("#dz-sel").innerHTML='<div class="dz-med"><b>'+esc(ex.n)+'</b><span class="note">'+esc(ex.c)+" · "+esc(ex.v.join(", "))+(ex.ap&&ex.ap.length?" · "+esc(ex.ap.map(p=>p.f).join("; ")):"")+'</span></div>';
     dzResult();return}
