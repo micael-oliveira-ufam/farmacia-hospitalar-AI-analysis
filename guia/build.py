@@ -1,11 +1,18 @@
-import json,sys,os,shutil,re
+import json,sys,os,shutil,re,base64
 H=os.path.dirname(os.path.abspath(__file__));S=os.path.dirname(H)
 def rd(p):return open(os.path.join(H,p),encoding='utf8').read()
 cat=json.load(open(os.path.join(S,'data/catalog.json'),encoding='utf8'))
 PAGES=len(sys.argv)>2 and sys.argv[2]=='pages'
+def design_css():
+    # sistema visual compartilhado (design/farmalink.css) com as fontes embutidas em base64: o arquivo único funciona offline
+    css=open(os.path.join(S,'design/farmalink.css'),encoding='utf8').read()
+    def emb(m):
+        b=base64.b64encode(open(os.path.join(S,'design',m.group(1)),'rb').read()).decode()
+        return 'url(data:font/woff2;base64,'+b+')'
+    return re.sub(r'url\((fonts/[^)]+\.woff2)\)',emb,css)
 def build(pwa):
     t=rd('index.tpl.html')
-    t=t.replace('/*CSS*/',rd('style.css')).replace('/*CALC*/',rd('calc.js')).replace('/*APP*/',rd('app.js')).replace('/*TRIAGEM*/',rd('triagem.js')).replace('/*DOSEJS*/',rd('dose.js'))
+    t=t.replace('/*CSS*/',design_css()+'\n'+rd('style.css')).replace('/*CALC*/',rd('calc.js')).replace('/*APP*/',rd('app.js')).replace('/*TRIAGEM*/',rd('triagem.js')).replace('/*DOSEJS*/',rd('dose.js'))
     t=t.replace('/*CATALOG*/',json.dumps(cat,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     cod=json.load(open(os.path.join(S,'data/codajas.json'),encoding='utf8'))
     listas={'codajas':{'nome':cod['nome'],'itens':[i['name'] for i in cod['itens']]}}
@@ -20,14 +27,14 @@ def build(pwa):
     fic=json.load(open(os.path.join(S,'data/codajas_fichas.json'),encoding='utf8'))
     t=t.replace('/*FICHAS*/',json.dumps(fic,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
     t=t.replace('/*TOX*/',json.dumps(tox,ensure_ascii=False,separators=(',',':')).replace('</','<\\/'))
-    t=t.replace('<!--HOME-->','<a class="homelnk" href="../">← Início</a>' if (pwa and PAGES) else '')
+    t=t.replace('<!--HOMEHREF-->','../' if pwa else '#')
+    t=t.replace('<!--ESTLINK-->','<a class="est" href="../estoque/"><i></i>Estoque</a>' if pwa else '')
     t=t.replace('<!--PWA-->','<link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg">' if pwa else '')
     return t
 out=sys.argv[1]
 os.makedirs(out,exist_ok=True)
 open(os.path.join(out,'index.html'),'w',encoding='utf8').write(build(True))
 t=build(False)
-t=t.replace('<a class="homelnk" href="../">← Início</a> · ','')
 t=t.replace('<button class="btn" id="print" type="button">Imprimir</button>','')
 A=os.path.join(S,'flutter_app/assets')
 if os.path.isdir(A):open(os.path.join(A,'guia.html'),'w',encoding='utf8').write(t)  # mesma interface do site, dentro do app Android

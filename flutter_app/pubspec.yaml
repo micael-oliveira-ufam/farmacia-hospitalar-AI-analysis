@@ -1,7 +1,7 @@
 name: farmacia_integrada
 description: "FarmaLink (Android, offline) - Controle terapêutico (posologia pediátrica) e Estoque (estoque e curva ABC)."
 publish_to: "none"
-version: 4.14.0+41400
+version: 4.15.0+41500
 
 environment:
   sdk: ">=3.3.0 <4.0.0"

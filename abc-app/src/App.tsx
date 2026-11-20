@@ -188,6 +188,25 @@ class ErrorBoundary extends React.Component<any, any> {
 }
 */
 
+function FlBar() {
+  const [dark, setDark] = useState(() => { try { return (localStorage.getItem('fl-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')) === 'dark'; } catch { return false; } });
+  useEffect(() => { document.documentElement.dataset.theme = dark ? 'dark' : 'light'; try { localStorage.setItem('fl-theme', dark ? 'dark' : 'light'); } catch {} }, [dark]);
+  return (
+    <div className="fl-bar"><div className="fl-bar-in">
+      <a className="fl-brand" href={HOME_URL} aria-label="FarmaLink, início">
+        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><g transform="rotate(-28 16 16)" strokeWidth="3.4"><rect x="2" y="11" width="17" height="10" rx="5" stroke="#0A7C86"/><rect x="13" y="11" width="17" height="10" rx="5" stroke="#3157D5"/></g></svg>
+        <span>Farma<b>Link</b></span>
+      </a>
+      <nav className="fl-mods" aria-label="Módulos">
+        <a href={GUIDE_URL}><i />Controle terapêutico</a>
+        <a className="est" href="./" aria-current="page"><i />Estoque</a>
+      </nav>
+      <span className="fl-sp" />
+      <div className="fl-tools"><button className="fl-ic" onClick={() => setDark(d => !d)} aria-label="Alternar tema claro e escuro" title="Tema"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></div>
+    </div></div>
+  );
+}
+
 export default function App() {
   const [backend, setBackend] = useState<{ store: Store; auth: AuthApi }>({ store: localStore, auth: localAuth });
   const store = backend.store;
@@ -632,182 +651,87 @@ export default function App() {
 
   if (!hospitalId) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-        <div className="max-w-2xl w-full flex flex-col gap-6">
-          
-          <div className="bg-white p-8 rounded-3xl shadow-xl border border-slate-200">
-            <div className="text-center mb-8 space-y-4">
-              <img src={`${import.meta.env.BASE_URL}icon-gestao.svg`} alt="" width={64} height={64} className="mx-auto" />
-              <div>
-                <h1 className="text-3xl font-bold text-slate-900">Estoque</h1>
-                <p className="text-slate-500 mt-2">Estoque e Curva ABC para farmácia hospitalar · módulo do FarmaLink</p>
-              </div>
+      <div className="min-h-screen bg-slate-50">
+        <FlBar />
+        <main className="max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-12 grid lg:grid-cols-[1.1fr_1fr] gap-8 lg:gap-12 items-start">
+          <section className="space-y-6">
+            <h1 className="text-4xl md:text-5xl font-semibold tracking-tight text-slate-900 leading-[1.05]" style={{fontFamily:'var(--f-display)'}}>Estoque e Curva ABC</h1>
+            <p className="text-lg text-slate-600 max-w-xl">Importe a planilha de consumo e veja quais itens concentram o gasto, quanto dura o estoque de cada um e o que repor primeiro.</p>
+            <ul className="grid sm:grid-cols-3 gap-3 text-sm">
+              {[['A · B · C','Classificação por valor consumido, com o corte ajustável'],['Cobertura','Dias de estoque por item e alerta de ruptura'],['Offline','Dados só neste aparelho, sem conta e sem nuvem']].map(([t,d])=>(
+                <li key={t} className="border border-slate-200 rounded-xl bg-white p-4"><b className="block text-slate-900 mb-1">{t}</b><span className="text-slate-500">{d}</span></li>
+              ))}
+            </ul>
+            <button onClick={downloadExampleFile} className="inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:underline">
+              <FileSpreadsheet size={16} />
+              Baixar planilha de exemplo (.xlsx)
+            </button>
+            <div className="pt-6 border-t border-slate-200 text-sm text-slate-500 space-y-1">
+              <p><b className="text-slate-700">Desenvolvedor</b> · Micael Davi Lima de Oliveira</p>
+              <p><b className="text-slate-700">Orientador</b> · Profº Dr. Evandro de Araújo Silva</p>
             </div>
+          </section>
 
+          <section className="bg-white border border-slate-200 rounded-2xl p-6 md:p-7 space-y-6 lg:sticky lg:top-24">
+            <div>
+              <h2 className="text-xl font-semibold text-slate-900" style={{fontFamily:'var(--f-display)'}}>Escolha a unidade</h2>
+              <p className="text-sm text-slate-500 mt-1">Cada hospital ou farmácia tem o próprio estoque, guardado neste navegador.</p>
+            </div>
             {savedHospitals.length > 0 && (
-              <div className="mb-8">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                  <Database size={14} />
-                  Hospitais Salvos neste Dispositivo
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {savedHospitals.map(h => (
-                    <div 
-                      key={h.id}
-                      onClick={() => handleSetHospital(undefined, h)}
-                      className="group flex items-center justify-between p-4 bg-slate-50 border border-slate-100 rounded-xl hover:border-blue-300 hover:bg-blue-50 cursor-pointer transition-all"
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                          <Plus size={16} />
-                        </div>
-                        <span className="font-bold text-slate-700">{h.name}</span>
-                      </div>
-                      <button 
-                        onClick={(e) => handleRemoveSavedHospital(h.id, e)}
-                        className="p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-md transition-all opacity-0 group-hover:opacity-100"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
+              <div className="space-y-2">
+                <p className="text-sm font-semibold text-slate-700">Salvas neste aparelho</p>
+                {savedHospitals.map(h => (
+                  <div key={h.id} onClick={() => handleSetHospital(undefined, h)}
+                    className="group flex items-center justify-between gap-3 px-4 py-3 border border-slate-200 rounded-xl hover:border-blue-600 hover:bg-blue-50 cursor-pointer">
+                    <span className="font-semibold text-slate-800">{h.name}</span>
+                    <span className="flex items-center gap-2">
+                      <span className="text-xs font-semibold text-blue-700">Abrir</span>
+                      <button onClick={(e) => handleRemoveSavedHospital(h.id, e)} aria-label="Remover da lista" className="p-1.5 text-slate-400 hover:text-red-500 rounded-md"><Trash2 size={14} /></button>
+                    </span>
+                  </div>
+                ))}
               </div>
             )}
-            
-            <form onSubmit={handleSetHospital} className="space-y-6">
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-2">
-                  {savedHospitals.length > 0 ? 'Ou adicione um novo Hospital' : 'Informe o nome do Hospital para começar'}
-                </label>
-                <div className="relative">
-                  <input 
-                    type="text" 
-                    value={tempHospitalName}
-                    onChange={e => setTempHospitalName(e.target.value)}
-                    placeholder="Ex: Hospital Universitário Getúlio Vargas"
-                    className="w-full pl-12 pr-4 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-lg shadow-inner"
-                    autoFocus
-                    required
-                  />
-                  <Plus className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={24} />
-                </div>
-              </div>
-              <button 
-                type="submit"
-                className="w-full py-4 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-bold transition-all transform hover:scale-[1.01] active:scale-[0.99] shadow-lg shadow-slate-200 flex items-center justify-center gap-2"
-              >
-                Acessar Painel de Controle
-              </button>
+            <form onSubmit={handleSetHospital} className="space-y-3">
+              <label className="block text-sm font-semibold text-slate-700" htmlFor="hosp">{savedHospitals.length > 0 ? 'Adicionar outra unidade' : 'Nome do hospital ou da farmácia'}</label>
+              <input id="hosp" type="text" value={tempHospitalName} onChange={e => setTempHospitalName(e.target.value)}
+                placeholder="Ex.: Hospital Universitário Getúlio Vargas"
+                className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none text-base" autoFocus required />
+              <button type="submit" className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold">Abrir estoque</button>
             </form>
-            
-            <div className="mt-12 pt-8 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-8">
-              <div className="flex items-center gap-4 group">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
-                  <Database size={20} />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-0.5">Desenvolvedor</p>
-                  <p className="text-sm font-bold text-slate-700">Micael Davi Lima de Oliveira</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 group">
-                <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
-                  <TrendingUp size={20} />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black text-blue-600 uppercase tracking-widest mb-0.5">Orientador</p>
-                  <p className="text-sm font-bold text-slate-700">Profº Dr. Evandro de Araújo Silva</p>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <p className="text-[11px] text-slate-400 text-center px-8">
-            {'Seus dados ficam salvos somente neste navegador (sem conta e sem nuvem). Use Backup para guardar uma cópia ou levar para outro aparelho.'}
-          </p>
-
-          <button 
-            onClick={downloadExampleFile}
-            className="flex items-center justify-center gap-2 text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors py-2"
-          >
-            <FileSpreadsheet size={14} />
-            Baixar planilha de exemplo (.xlsx)
-          </button>
-        </div>
+            <p className="text-xs text-slate-500">Seus dados ficam só neste navegador. Use Backup para guardar uma cópia ou levar para outro aparelho.</p>
+          </section>
+        </main>
       </div>
     );
   }
 
   return (
     <ErrorBoundary>
-      <div className="min-h-screen bg-slate-50 text-slate-900 font-sans p-4 md:p-8">
-        <div className="max-w-7xl mx-auto space-y-8">
+      <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
+        <FlBar />
+        <div className="max-w-7xl mx-auto space-y-6 p-4 md:p-8">
           
-          {/* Header */}
-          <header className="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
-            <div className="flex flex-col md:flex-row items-stretch">
-              {/* Logo & Main Title Section */}
-              <div className="flex-1 p-6 flex flex-col md:flex-row md:items-center gap-6 border-b md:border-b-0 md:border-r border-slate-100">
-                <div className="flex items-center gap-5">
-                  <img src={`${import.meta.env.BASE_URL}icon-gestao.svg`} alt="" width={56} height={56} className="rounded-2xl" />
-                  <div>
-                    <h1 className="text-2xl font-black tracking-tight text-slate-900 leading-tight">
-                      Estoque
-                    </h1>
-                    <p className="text-slate-500 text-sm font-medium mt-0.5">Estoque e Curva ABC para farmácia hospitalar · módulo do FarmaLink</p>
-                  </div>
-                </div>
-                
-                <div className="flex flex-wrap items-center gap-2">
-                  <a href={HOME_URL} className="px-3 py-1 text-[11px] font-black text-slate-600 border border-slate-200 rounded-full hover:bg-slate-50">← Início</a>
-                  <a href={GUIDE_URL} className="px-3 py-1 text-[11px] font-black text-blue-700 border border-blue-200 rounded-full hover:bg-blue-50">Controle terapêutico</a>
-                </div>
-                <div className="flex items-center gap-1.5 px-3 py-1 bg-emerald-50 border border-emerald-100 rounded-full w-fit">
-                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest">Salvo neste navegador</span>
-                </div>
+          {/* Cabeçalho */}
+          <header className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 md:p-6">
+              <div>
+                <h1 className="text-2xl md:text-3xl font-semibold tracking-tight text-slate-900" style={{fontFamily:'var(--f-display)'}}>Estoque e Curva ABC</h1>
+                <p className="text-slate-500 text-sm mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <span className="inline-flex items-center gap-2"><Activity size={15} className="text-blue-600" /><b className="text-slate-800">{hospitalName}</b>
+                    <button onClick={handleChangeHospital} className="text-blue-700 font-semibold hover:underline">Trocar</button></span>
+                  <span className="inline-flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />Salvo neste navegador</span>
+                </p>
               </div>
-
-              {/* Hospital & Auth Info Section */}
-              <div className="bg-slate-50/50 p-6 flex flex-col sm:flex-row items-center gap-6">
-                {/* Hospital Badge */}
-                <div className="flex items-center gap-4 py-2 px-4 bg-white rounded-2xl border border-slate-200 shadow-sm">
-                  <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
-                    <Activity size={20} />
+              {user && (
+                <div className="flex items-center gap-3">
+                  <div className="text-right">
+                    <p className="text-xs text-slate-500">Usuário</p>
+                    <p className="text-sm font-semibold text-slate-700 truncate max-w-[180px]">{user.displayName || user.email}</p>
                   </div>
-                  <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Unidade Hospitalar</p>
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-slate-900 text-sm whitespace-nowrap">{hospitalName}</span>
-                      <button 
-                        onClick={handleChangeHospital}
-                        className="text-[10px] font-black text-blue-600 hover:text-blue-800 uppercase tracking-tighter"
-                      >
-                        Trocar
-                      </button>
-                    </div>
-                  </div>
+                  <button onClick={handleLogout} className="w-10 h-10 flex items-center justify-center text-slate-500 hover:text-red-500 rounded-xl border border-slate-200" title="Sair"><LogOut size={18} /></button>
                 </div>
-
-                {/* User Info / Auth */}
-                {user && (
-                  <div className="flex items-center gap-3 pl-6 border-l border-slate-200">
-                    <div className="text-right">
-                      <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-0.5">Usuário</p>
-                      <p className="text-sm font-bold text-slate-700 truncate max-w-[150px]">{user.displayName || user.email}</p>
-                    </div>
-                    <button 
-                      onClick={handleLogout}
-                      className="w-10 h-10 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all border border-transparent hover:border-red-100"
-                      title="Sair"
-                    >
-                      <LogOut size={18} />
-                    </button>
-                  </div>
-                )}
-              </div>
+              )}
             </div>
 
             {/* Global Actions Bar */}

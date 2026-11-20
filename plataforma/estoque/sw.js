@@ -1,5 +1,5 @@
-const V='abc-mwoe6932';
-const FILES=["./","index.html","manifest.json","icon.svg","icon-gestao.svg","data/catalog.json","data/codajas.json","assets/index-BghBFnd7.css","assets/index-DXZnGBOS.js"];
+const V='abc-mwol7k1l';
+const FILES=["./","index.html","manifest.json","icon.svg","icon-gestao.svg","data/catalog.json","data/codajas.json","assets/bricolage-DLoelf7F.woff2","assets/publicsans-DdeTHZLK.woff2","assets/index-ZkZf8l5v.css","assets/index-DpOW0V-N.js"];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET')return;const u=new URL(r.url);if(u.origin!==location.origin||u.pathname.startsWith('/api/'))return;

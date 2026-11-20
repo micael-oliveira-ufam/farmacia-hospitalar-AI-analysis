@@ -4,7 +4,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 OUT="$(realpath -m "${1:-_site}")"
-rm -rf "$OUT"; mkdir -p "$OUT/shared" "$OUT/icons"
+rm -rf "$OUT"; mkdir -p "$OUT/shared"
 # 1) Estoque (caminhos relativos para funcionar em /<repo>/estoque/)
 ( cd abc-app && npm ci --silent && VITE_HOME_URL=../ VITE_GUIDE_URL=../guia/ npx vite build --base=./ --outDir "$OUT/estoque" --emptyOutDir )
 python3 - "$OUT/estoque/index.html" <<'PY'
@@ -16,11 +16,12 @@ PY
 # 2) Controle terapêutico (sem script de conta)
 python3 guia/build.py "$OUT/guia" pages
 rm -f "$OUT/guia/guia-artifact.html"
-# 3) Página inicial
+# 3) Página inicial (gerada com os números reais dos dados) e sistema visual compartilhado
+python3 tools/mklanding.py
 cp pages/index.html pages/manifest.json pages/sw.js "$OUT/"
-cp server/landing/icon.svg "$OUT/icon.svg"
-sed 's#/shared/bar.css#bar.css#' server/landing/shared/ui.css > "$OUT/shared/ui.css"
-cp server/landing/shared/bar.css "$OUT/shared/bar.css"
-cp server/landing/icons/ped.svg server/landing/icons/gestao.svg "$OUT/icons/"
+cp design/icon.svg "$OUT/icon.svg"
+mkdir -p "$OUT/shared/fonts"
+cp design/farmalink.css "$OUT/shared/farmalink.css"
+cp design/fonts/*.woff2 "$OUT/shared/fonts/"
 touch "$OUT/.nojekyll"
 echo "ok: $OUT"

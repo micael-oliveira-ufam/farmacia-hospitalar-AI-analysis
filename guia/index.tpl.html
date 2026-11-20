@@ -7,17 +7,27 @@
 <meta name="description" content="Controle terapêutico: posologia do prematuro ao idoso (dose mínima, recomendada e máxima por faixa etária), mecanismo de ação, segurança e calculadoras clínicas, com referência e link em cada informação. Parte da FarmaLink.">
 <meta name="theme-color" content="#12808A">
 <!--PWA-->
+<script>try{var t=localStorage.getItem("fl-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
 <style>/*CSS*/</style>
 </head>
 <body>
-<div class="wrap">
-<header class="top">
-  <div class="brand"><!--HOME--><h1>Controle terapêutico</h1><span class="bdg ped">Todas as faixas etárias</span></div>
+<header class="fl-bar"><div class="fl-bar-in">
+  <a class="fl-brand" href="<!--HOMEHREF-->" aria-label="FarmaLink"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><g transform="rotate(-28 16 16)" stroke-width="3.4"><rect x="2" y="11" width="17" height="10" rx="5" stroke="var(--brand)"/><rect x="13" y="11" width="17" height="10" rx="5" stroke="var(--est)"/></g></svg><span>Farma<b>Link</b></span></a>
+  <nav class="fl-mods" aria-label="Módulos"><a href="#" aria-current="page"><i></i>Controle terapêutico</a><!--ESTLINK--></nav>
+  <span class="fl-sp"></span>
+  <div class="fl-tools"><button class="fl-ic" id="theme" type="button" aria-label="Alternar tema claro e escuro" title="Alternar tema"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></div>
+</div></header>
+<div class="pagehead"><div class="shell">
+  <div>
+    <h1>Controle terapêutico</h1>
+    <p class="sub">Posologia do prematuro ao idoso, com o risco para fígado e rim e a fonte de cada dado.</p>
+  </div>
   <details class="warn"><summary><b>Apoio à decisão, não prescrição.</b> Doses precisam de revisão farmacêutica. <u>Ler mais</u></summary>Pediatria exige conferência rigorosa de peso, idade gestacional/pós-natal e função renal e hepática. Os valores foram compilados das fontes citadas e <b>precisam de revisão por farmacêutico responsável</b> antes do uso assistencial. Confirme dose, diluição e via na bula vigente e nos protocolos da instituição. Adultos e idosos aparecem só como referência.</details>
-</header>
+</div></div>
 <nav class="tabs" id="tabs" aria-label="Seções"></nav>
-
+<main class="shell" id="main">
 <section class="panel" id="p-meds">
+<div class="split"><div class="list-pane">
   <div class="searchbox" role="search">
     <input id="q" type="search" placeholder="Buscar medicamento…" aria-label="Buscar medicamento" autocomplete="off" enterkeyhint="search">
     <button class="btn clearq" id="clearq" type="button" aria-label="Limpar busca" hidden>✕</button>
@@ -28,6 +38,11 @@
   <div id="out"></div>
   <div id="uni-rest"></div>
   <details class="matbox"><summary>Outros itens da lista (materiais, sem posologia)</summary><ul class="mat" id="mat"></ul></details>
+</div>
+<div id="drawer" class="drawer" hidden><div class="dr-back" data-close></div>
+  <aside class="dr-panel" role="dialog" aria-modal="true" aria-label="Detalhe do medicamento"><div class="dr-top"><button class="btn" id="dr-close" type="button" data-close>← Voltar à lista</button></div><div id="dr-body"></div></aside></div>
+<div class="detail-empty" id="dr-empty"><h2>Escolha um medicamento</h2><p>A ficha abre aqui, ao lado da lista, com:</p><ul><li><b>Dose</b> mínima, recomendada e máxima por faixa etária, com a barra de escala</li><li><b>Risco</b> para fígado e rim, com a fonte e o trecho de onde veio</li><li><b>Mecanismo de ação</b>, alertas pediátricos e efeitos adversos</li></ul><p><button type="button" class="btn pri" data-gotab="dose">Informar dados do paciente</button></p></div>
+</div>
 </section>
 
 <section class="panel" id="p-any" hidden>
@@ -156,11 +171,9 @@
     <h3>Privacidade</h3>
     <p>Favoritos, cesta e tema ficam apenas no seu navegador. Nenhum dado de paciente é enviado a servidores.</p>
   </div>
-  <footer class="foot">Controle terapêutico · FarmaLink · Micael Oliveira &amp; Elias Barros (UFAM) · versão <span id="ver"></span></footer>
+  <footer class="foot">FarmaLink · Controle terapêutico · Micael Oliveira &amp; Elias Barros (UFAM) · versão <span id="ver"></span></footer>
 </section>
-</div>
-<div id="drawer" class="drawer" hidden><div class="dr-back" data-close></div>
-  <aside class="dr-panel" role="dialog" aria-modal="true" aria-label="Detalhe do medicamento"><div class="dr-top"><button class="btn" id="dr-close" type="button" data-close>← Voltar à lista</button></div><div id="dr-body"></div></aside></div>
+</main>
 <script>window.CATALOG=/*CATALOG*/;window.LISTAS=/*LISTAS*/;window.INTER=/*INTER*/;window.DOSE=/*DOSE*/;window.POSO=/*POSO*/;window.TOX=/*TOX*/;window.FICHAS=/*FICHAS*/;</script>
 <script>/*TRIAGEM*/</script>
 <script>/*DOSEJS*/</script>

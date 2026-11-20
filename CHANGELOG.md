@@ -2,6 +2,10 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.15.0
+- **Interface da plataforma web reconstruída** sobre um sistema visual único (`design/farmalink.css`, fontes Bricolage e Public Sans embutidas, tema claro e escuro): página inicial com dados reais e exemplo interativo da faixa de dose; Controle terapêutico com lista e ficha lado a lado no computador, medidores de risco de fígado e rim, atalhos de segurança, barra de dose por faixa etária e ficha em tela cheia no celular; Estoque com barra FarmaLink e troca entre módulos, nova tela de entrada e cabeçalho.
+- Removidos os arquivos de estilo antigos da página inicial e do servidor.
+
 ## 4.14.0
 - Marca única: **FarmaLink**. Os módulos deixam de ser apps separados: **Controle terapêutico** (posologia, toxicidade, fichas) e **Estoque** (curva ABC). Vale no app Android, na plataforma web e no repositório (README, manifests, títulos, landing).
 - Removida a pasta `tmp/` versionada (cópia antiga do site).

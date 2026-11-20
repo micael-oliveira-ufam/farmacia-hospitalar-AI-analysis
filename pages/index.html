@@ -3,52 +3,320 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FarmaLink</title>
-<meta name="description" content="FarmaLink: Estoque (estoque e curva ABC) e Controle terapêutico (posologia para todas as faixas etárias, do prematuro ao idoso), para qualquer hospital.">
-<meta name="theme-color" content="#12808A">
+<title>FarmaLink · posologia e estoque da farmácia hospitalar</title>
+<meta name="description" content="FarmaLink reúne dois módulos gratuitos para a farmácia hospitalar: Controle terapêutico (dose por faixa etária, do prematuro ao idoso, com nível de toxicidade e fonte) e Estoque (curva ABC, estoque de emergência e pedido semanal). Sem conta, funciona offline.">
+<meta name="theme-color" content="#102A43">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg">
-<link rel="stylesheet" href="shared/ui.css">
+<link rel="stylesheet" href="shared/farmalink.css">
+<style>
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+/* ---- abertura ---- */
+.hero{background:var(--hero);color:var(--on-hero);background-image:repeating-linear-gradient(to bottom,transparent 0 47px,rgba(255,255,255,.045) 47px 48px);padding:68px 0 84px}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr);gap:56px;align-items:center}
+.hero h1{font-size:clamp(2.4rem,5.1vw,4.25rem);font-weight:620;letter-spacing:-.034em;line-height:1.02;color:#fff;max-width:15ch}
+.hero .lede{font-size:1.14rem;color:var(--on-hero-2);margin:22px 0 28px;max-width:52ch;line-height:1.6}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+.cta{display:inline-flex;align-items:center;gap:10px;min-height:50px;padding:12px 22px;border-radius:var(--rad-m);font:650 1rem/1 var(--f-text);text-decoration:none;border:1.5px solid transparent}
+.cta.t{background:#3DC2CB;color:#062428}.cta.t:hover{background:#6AD6DC}
+.cta.e{border-color:#8EA6FF;color:#fff}.cta.e:hover{background:rgba(142,166,255,.16)}
+.hero .fine{margin:22px 0 0;font-size:.9rem;color:var(--on-hero-2)}
+.hero .fine b{color:var(--on-hero);font-weight:600}
+/* ---- ficha de exemplo ---- */
+.spec{background:var(--surface);color:var(--ink);border-radius:var(--rad-l);box-shadow:var(--shadow-pop);border:1px solid var(--line);overflow:hidden}
+.spec-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:12px 20px;border-bottom:1px solid var(--line);background:var(--surface-2);font-size:.82rem;color:var(--ink-3)}
+.spec-top b{color:var(--ink-2);font-weight:650}
+.spec-body{padding:20px 20px 6px}
+.spec h2{font-size:2rem;letter-spacing:-.025em}
+.spec .meta{color:var(--ink-3);font-size:.9rem;margin:2px 0 16px}
+.bands{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 20px;padding:0;list-style:none}
+.bands button{min-height:34px;padding:6px 11px;border-radius:var(--rad-s);border:1px solid var(--line-2);background:var(--surface);font:600 .82rem/1 var(--f-text);color:var(--ink-2);cursor:pointer}
+.bands button:hover{border-color:var(--ink-3)}
+.bands button[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+.dose{display:grid;grid-template-columns:1fr auto;gap:4px 18px;align-items:end}
+.dose .lbl{grid-column:1/-1;font:600 .82rem/1 var(--f-text);color:var(--ink-3)}
+.dose .big{font:600 clamp(2.6rem,6vw,3.6rem)/1 var(--f-display);letter-spacing:-.04em;color:var(--ink)}
+.dose .big small{font:600 1.05rem/1 var(--f-text);letter-spacing:0;color:var(--ink-3);margin-left:6px}
+.dose .iv{font-size:.95rem;color:var(--ink-2);padding-bottom:6px;text-align:right}
+.scale{margin:22px 4px 8px}
+.scale .rng{height:12px}
+.scale .rng .rec{height:20px;top:-4px}
+.scale .ticks{display:flex;justify-content:space-between;margin-top:10px;font-size:.82rem;color:var(--ink-3)}
+.scale .ticks b{color:var(--ink);font-weight:650}
+.calc{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:16px 0 4px;padding:12px 14px;border-radius:var(--rad-m);background:var(--brand-wash);color:var(--ink);font-size:.95rem}
+.calc label{display:flex;align-items:center;gap:8px;font-weight:600}
+.calc input{width:76px;min-height:36px;padding:6px 9px;border:1px solid var(--line-2);border-radius:var(--rad-s);background:var(--surface);color:var(--ink);font:600 1rem var(--f-text)}
+.calc output{flex:1 1 180px}
+.nr{padding:16px;border-radius:var(--rad-m);background:var(--danger-wash);color:var(--ink);font-weight:550}
+.risk{border-top:1px solid var(--line);margin:18px -20px 0;padding:14px 20px 4px;display:grid;gap:10px}
+.risk div{display:grid;grid-template-columns:70px auto 1fr;gap:12px;align-items:center;font-size:.92rem}
+.risk b{font-weight:650}
+.risk .why{color:var(--ink-3);font-size:.82rem}
+.spec-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 20px 18px;font-size:.85rem;color:var(--ink-3)}
+.spec-foot a{font-weight:650}
+/* ---- números reais do projeto ---- */
+.stats{background:var(--surface);border-bottom:1px solid var(--line)}
+.stats ul{display:grid;grid-template-columns:repeat(5,1fr);margin:0;padding:0;list-style:none}
+.stats li{padding:26px 22px;border-left:1px solid var(--line)}
+.stats li:first-child{border-left:0;padding-left:0}
+.stats b{display:block;font:600 2.5rem/1 var(--f-display);letter-spacing:-.04em;color:var(--ink)}
+.stats span{display:block;margin-top:8px;font-size:.88rem;color:var(--ink-2);line-height:1.35;max-width:22ch}
+/* ---- seções em formato de bula: título à margem, conteúdo à direita ---- */
+.sec{display:grid;grid-template-columns:220px minmax(0,1fr);gap:32px;padding:56px 0;border-top:1px solid var(--line)}
+.sec:first-of-type{border-top:0}
+.sec>header{position:sticky;top:84px;align-self:start}
+.sec h2{font-size:1.5rem;letter-spacing:-.02em}
+.sec>header p{margin:8px 0 0;font-size:.92rem;color:var(--ink-3)}
+main .wrap{padding-top:0}
+/* módulos */
+.mods{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.mod{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--brand);border-radius:var(--rad-m);padding:24px}
+.mod.est{border-top-color:var(--est)}
+.mod h3{font-size:1.75rem;letter-spacing:-.025em}
+.mod .one{margin:8px 0 16px;color:var(--ink-2)}
+.prev{background:var(--sunk);border-radius:var(--rad-m);padding:6px 14px;margin-bottom:18px}
+.ex{list-style:none;margin:0;padding:0}
+.ex li{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.ex li:first-child{border-top:0}
+.ex-n{font-weight:650;line-height:1.25}.ex-n small{display:block;font-weight:500;color:var(--ink-3);font-size:.8rem}
+.ex-m{display:grid;gap:5px;font-size:.78rem;color:var(--ink-3);justify-items:end}
+.ex-m span{display:flex;gap:8px;align-items:center}
+.abc{display:grid;gap:9px;padding:12px 0}
+.abc div{display:grid;grid-template-columns:70px 1fr auto;gap:12px;align-items:center;font-size:.85rem;color:var(--ink-2)}
+.abc i{display:block;height:14px;border-radius:3px}
+.abc .a i{background:var(--est)}.abc .b i{background:color-mix(in srgb,var(--est) 55%,var(--surface))}.abc .c i{background:color-mix(in srgb,var(--est) 25%,var(--surface))}
+.abc small{display:block;grid-column:1/-1;color:var(--ink-3);font-size:.76rem;margin-top:2px}
+.feat{margin:0 0 22px;padding:0;list-style:none;display:grid;gap:9px}
+.feat li{position:relative;padding-left:22px;line-height:1.45}
+.feat li::before{content:"";position:absolute;left:2px;top:.55em;width:9px;height:9px;border-radius:2px;background:var(--brand)}
+.mod.est .feat li::before{background:var(--est)}
+.mod .btn{margin-top:auto;align-self:flex-start}
+/* escalas de risco */
+.scales{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.scales h3{font-size:1.2rem;margin-bottom:4px}
+.scales .src{font-size:.85rem;color:var(--ink-3);margin-bottom:12px}
+.scales ol{list-style:none;margin:0;padding:0}
+.scales li{display:grid;grid-template-columns:auto 1fr;gap:14px;padding:11px 0;border-top:1px solid var(--line);align-items:start}
+.scales li .mtr{margin-top:7px}
+.scales li b{display:block;font-weight:650}
+.scales li span{display:block;font-size:.88rem;color:var(--ink-2);line-height:1.45}
+.scales li .mtr i{width:11px}
+/* unidades */
+.units{display:grid;gap:0;margin:0;padding:0;list-style:none}
+.units li{display:grid;grid-template-columns:230px 1fr;gap:20px;padding:16px 0;border-top:1px solid var(--line)}
+.units li:first-child{border-top:0;padding-top:0}
+.units b{font:650 1.15rem var(--f-display)}
+.units b small{display:block;margin-top:2px;font:500 .85rem var(--f-text);color:var(--ink-3)}
+.units p{margin:0;color:var(--ink-2)}
+/* passos */
+.steps{counter-reset:s;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.steps li{counter-increment:s;padding-top:16px;border-top:3px solid var(--ink)}
+.steps li::before{content:counter(s);display:block;font:600 2.2rem/1 var(--f-display);letter-spacing:-.04em;color:var(--brand);margin-bottom:8px}
+.steps b{display:block;margin-bottom:4px;font-weight:650}
+.steps span{font-size:.92rem;color:var(--ink-2);line-height:1.5;display:block}
+/* fontes e limites */
+.srcs{list-style:none;margin:0 0 22px;padding:0;columns:2;column-gap:32px}
+.srcs li{break-inside:avoid;padding:8px 0;border-top:1px solid var(--line);font-size:.92rem;line-height:1.4}
+.limit{display:grid;grid-template-columns:auto 1fr;gap:14px;padding:16px 18px;border-radius:var(--rad-m);background:var(--amber-wash);color:var(--ink)}
+.limit b{font-family:var(--f-display);font-size:1.05rem}
+.limit p{margin:4px 0 0;max-width:none;font-size:.93rem;color:var(--ink)}
+.limit i{width:6px;border-radius:3px;background:var(--amber)}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.three h3{font-size:1.1rem;margin-bottom:6px}.three p{font-size:.93rem;color:var(--ink-2)}
+.auth{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.auth>div{display:flex;gap:14px;align-items:flex-start}
+.auth .av{flex:none;width:46px;height:46px;border-radius:50%;background:var(--ink);color:var(--surface);display:grid;place-items:center;font:700 .95rem var(--f-display)}
+.auth b{display:block;font-weight:650}.auth span.r{display:block;font-size:.88rem;color:var(--ink-2);line-height:1.4}
+.foot{border-top:1px solid var(--line);background:var(--surface);padding:26px 0 40px;font-size:.88rem;color:var(--ink-2)}
+.foot .wrap{display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:space-between}
+.foot a{font-weight:600}
+@media (max-width:1020px){
+  .hero .wrap{grid-template-columns:1fr;gap:40px}.hero{padding:44px 0 56px}.hero h1{max-width:16ch}
+  .stats ul{grid-template-columns:repeat(2,1fr)}.stats li{border-left:0;border-top:1px solid var(--line);padding-left:0}.stats li:nth-child(-n+2){border-top:0}
+  .sec{grid-template-columns:1fr;gap:20px;padding:40px 0}.sec>header{position:static}
+  .mods,.scales,.three,.auth{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.units li{grid-template-columns:1fr;gap:6px}.srcs{columns:1}}
+@media (max-width:520px){.wrap{padding:0 16px}.steps{grid-template-columns:1fr}.risk div{grid-template-columns:60px auto}.risk .why{grid-column:1/-1}.stats b{font-size:2rem}.spec h2{font-size:1.7rem}}
+</style>
 </head>
 <body>
-<main class="wrap">
-  <div class="eyebrow">Plataforma para qualquer hospital · todas as faixas etárias, do prematuro ao idoso</div>
-  <h1>FarmaLink</h1>
-  <p class="lede">Escolha o módulo que vai usar. Tudo roda no seu navegador, sem servidor e sem conta: gratuito e funciona offline depois da primeira visita.</p>
-  <p class="byline">Desenvolvido por <b>Micael Davi Lima de Oliveira</b> e <b>Elias de Souza Barros</b> (UFAM/FCF) · <a href="#autores">Ver autores</a></p>
-  <div class="grid">
-    <a class="tile ped" href="guia/">
-      <img src="icons/ped.svg" alt="" width="64" height="64">
-      <h2>Controle terapêutico <span class="pill">Todas as faixas etárias</span></h2>
-      <p>Posologia do prematuro ao idoso: dose mínima, recomendada e máxima por faixa etária, mecanismo de ação de cada medicamento, alertas e calculadoras, com referência e hiperlink em cada informação. Destaque para neonatos, lactentes e crianças.</p>
-      <ul><li><b>Dose por faixa etária</b>: prematuro, neonato, lactente, criança, adolescente, adulto e idoso</li><li><b>Como cada medicamento age</b>: mecanismo de ação detalhado</li><li><b>Dose do paciente</b>: mínima, recomendada e máxima, com aviso de sub/superdose</li><li><b>Triagem</b> de interações e duplicidades</li><li><b>Minha lista:</b> use o elenco do seu hospital</li><li>Cálculo por peso e por m²</li></ul>
-      <span class="go">Abrir Controle terapêutico →</span>
-    </a>
-    <a class="tile gestao" href="estoque/">
-      <img src="icons/gestao.svg" alt="" width="64" height="64">
-      <h2>Estoque</h2>
-      <p>Estoque e Curva ABC: classificação A/B/C, estoque de emergência e pedido semanal (PADRÃO e PEDIDO).</p>
-      <ul><li>Importa a planilha do seu hospital ou uma lista de exemplo</li><li>Exporta Excel; backup e restauração em JSON</li><li>Link para a monografia no módulo Controle terapêutico</li></ul>
-      <span class="go">Abrir Estoque →</span>
-    </a>
+<header class="fl-bar"><div class="fl-bar-in">
+  <a class="fl-brand" href="./" aria-label="FarmaLink, página inicial"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><g transform="rotate(-28 16 16)" stroke-width="3.4"><rect x="2" y="11" width="17" height="10" rx="5" stroke="var(--brand)"/><rect x="13" y="11" width="17" height="10" rx="5" stroke="var(--est)"/></g></svg><span>Farma<b>Link</b></span></a>
+  <nav class="fl-mods" aria-label="Módulos"><a href="guia/"><i></i>Controle terapêutico</a><a class="est" href="estoque/"><i></i>Estoque</a></nav>
+  <span class="fl-sp"></span>
+  <div class="fl-tools"><a class="fl-lnk hide-s" href="#fontes">Fontes</a><a class="fl-lnk hide-s" href="#autores">Autores</a><button class="fl-ic" id="theme" type="button" aria-label="Alternar tema claro e escuro" title="Alternar tema"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></div>
+</div></header>
+
+<section class="hero" aria-labelledby="h1"><div class="wrap">
+  <div>
+    <h1 id="h1">Posologia e estoque da farmácia hospitalar, no mesmo lugar</h1>
+    <p class="lede">Consulte a dose de cada faixa etária, veja o risco para fígado e rim com a fonte ao lado e controle o estoque pela curva ABC. Gratuito, sem conta e sem enviar dados de paciente.</p>
+    <div class="cta-row"><a class="cta t" href="guia/">Abrir Controle terapêutico</a><a class="cta e" href="estoque/">Abrir Estoque</a></div>
+    <p class="fine"><b>Funciona offline</b> depois da primeira visita, no navegador e no aplicativo Android. Feito para hospitais públicos, como o ICAM e a Policlínica Codajás.</p>
   </div>
-  <section class="authors card-less" id="autores" aria-labelledby="autores-h">
-    <h2 id="autores-h">Autores</h2>
-    <p class="sub">Ferramenta desenvolvida como projeto de extensão e iniciação científica.</p>
-    <div class="authors-grid">
-      <div class="author"><span class="av" aria-hidden="true">MO</span><div><b>Micael Davi Lima de Oliveira</b><span class="r">Estudante de Farmácia · Universidade Federal do Amazonas (UFAM/FCF)</span><span class="r">Iniciação Científica – ILMD Fiocruz Amazônia · Manaus, AM</span></div></div>
-      <div class="author"><span class="av" aria-hidden="true">EB</span><div><b>Elias de Souza Barros</b><span class="r">Estudante de Farmácia · Universidade Federal do Amazonas (UFAM/FCF)</span><span class="r">Manaus, AM</span></div></div>
+  <div class="spec" id="spec" aria-label="Ficha de exemplo: paracetamol">
+    <div class="spec-top"><b>Ficha de exemplo</b><span>dados reais do módulo</span></div>
+    <div class="spec-body">
+      <h2>Paracetamol</h2>
+      <p class="meta" id="sp-meta"></p>
+      <ul class="bands" id="sp-bands" aria-label="Faixa etária"></ul>
+      <div id="sp-dose"></div>
+      <div class="risk" id="sp-risk"></div>
+    </div>
+    <div class="spec-foot"><span id="sp-src"></span><a href="guia/">Abrir o módulo</a></div>
+  </div>
+</div></section>
+
+<div class="stats"><div class="wrap"><ul aria-label="O que há na plataforma">
+  <li><b>224</b><span>medicamentos na lista de exemplo do ICAM</span></li>
+  <li><b>7</b><span>faixas etárias, do prematuro ao idoso</span></li>
+  <li><b>226</b><span>substâncias com nível de toxicidade do fígado e do rim</span></li>
+  <li><b>188</b><span>itens da Policlínica Codajás, com 24 fichas do rótulo FDA</span></li>
+  <li><b>64</b><span>referências, todas com link</span></li>
+</ul></div></div>
+
+<main><div class="wrap">
+  <section class="sec" id="modulos" aria-labelledby="m-h">
+    <header><h2 id="m-h">Dois módulos, uma plataforma</h2><p>Os dados de um abrem no outro: no Estoque, cada item leva à ficha do medicamento.</p></header>
+    <div class="mods">
+      <article class="mod">
+        <h3>Controle terapêutico</h3>
+        <p class="one">Dose, segurança e interações de cada medicamento, por faixa etária.</p>
+        <div class="prev" aria-label="Exemplo de lista com níveis de toxicidade"><ul class="ex"><li><span class="ex-n">Amoxicilina<small>Penicilinas</small></span><span class="ex-m"><span>Fígado <span class="mtr" aria-hidden="true"><i class="on l3"></i><i class="on l3"></i><i class="on l3"></i><i class="on l3"></i><i class=""></i></span></span><span>Rim <span class="mtr" aria-hidden="true"><i class="on l1"></i><i class="on l1"></i><i class=""></i><i class=""></i></span></span></span></li><li><span class="ex-n">Paracetamol<small>Analgésicos e antitérmicos</small></span><span class="ex-m"><span>Fígado <span class="mtr" aria-hidden="true"><i class="on l2"></i><i class="on l2"></i><i class="on l2"></i><i class=""></i><i class=""></i></span></span><span>Rim <span class="mtr" aria-hidden="true"><i class="on l1"></i><i class="on l1"></i><i class=""></i><i class=""></i></span></span></span></li><li><span class="ex-n">Dipirona<small>Analgésicos e antitérmicos</small></span><span class="ex-m"><span>Fígado <span class="mtr" aria-hidden="true"><i class="on l4"></i><i class="on l4"></i><i class="on l4"></i><i class="on l4"></i><i class="on l4"></i></span></span><span>Rim <em>sem nível</em></span></span></li><li><span class="ex-n">Gentamicina<small>Aminoglicosídeos</small></span><span class="ex-m"><span>Fígado <span class="mtr" aria-hidden="true"><i class="on l0"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span></span><span>Rim <span class="mtr" aria-hidden="true"><i class="on l3"></i><i class="on l3"></i><i class="on l3"></i><i class="on l3"></i></span></span></span></li></ul></div>
+        <ul class="feat">
+          <li>Dose mínima, recomendada e máxima de prematuro a idoso</li>
+          <li>Dose do paciente com aviso de subdose e superdose</li>
+          <li>Nível de toxicidade do fígado e do rim, com fonte e trecho</li>
+          <li>Triagem de interações e duplicidades</li>
+          <li>Calculadoras clínicas e lista própria do hospital</li>
+        </ul>
+        <a class="btn pri" href="guia/">Abrir Controle terapêutico</a>
+      </article>
+      <article class="mod est">
+        <h3>Estoque</h3>
+        <p class="one">Classificação ABC, estoque de emergência e pedido semanal.</p>
+        <div class="prev" aria-label="Ilustração da curva ABC"><div class="abc">
+          <div class="a"><span>Classe A</span><i style="width:100%"></i><span>~80% do valor</span></div>
+          <div class="b"><span>Classe B</span><i style="width:19%"></i><span>~15% do valor</span></div>
+          <div class="c"><span>Classe C</span><i style="width:6%"></i><span>~5% do valor</span></div>
+          <small>Ilustração da regra de Pareto usada na curva ABC; no módulo, os limites vêm dos seus dados.</small>
+        </div></div>
+        <ul class="feat">
+          <li>Curva ABC por valor ou por consumo</li>
+          <li>Estoque de emergência e pedido semanal (padrão e pedido)</li>
+          <li>Importa a planilha do hospital ou a lista de exemplo</li>
+          <li>Exporta Excel; backup e restauração em JSON</li>
+          <li>Link de cada item para a ficha no Controle terapêutico</li>
+        </ul>
+        <a class="btn est" href="estoque/">Abrir Estoque</a>
+      </article>
     </div>
   </section>
-  <div class="msg warn" style="margin-top:18px"><b>Apoio à decisão, não prescrição.</b> O conteúdo de doses foi compilado por IA a partir das fontes citadas e precisa de revisão por farmacêutico responsável, com atenção redobrada em neonatos e prematuros. Não registre dados de pacientes. A plataforma não pertence a nenhum hospital: a lista incluída é apenas um exemplo.</div>
-  <footer class="foot">Versão estática (GitHub Pages): os dados do estoque ficam só neste navegador. Triagem de interações inspirada no <a href="https://github.com/noharm-ai">NoHarm.ai</a> (MIT).</footer>
-</main>
+
+  <section class="sec" id="risco" aria-labelledby="r-h">
+    <header><h2 id="r-h">Como o risco aparece</h2><p>Cada nível mostra o critério e a fonte de onde veio.</p></header>
+    <div class="scales">
+      <div><h3>Fígado, de 0 a 4</h3><p class="src">Escore de probabilidade do LiverTox (NIH), categorias E a A.</p><ol><li><span class="mtr" aria-hidden="true"><i class="on l0"></i><i class=""></i><i class=""></i><i class=""></i><i class=""></i></span><div><b>Improvável</b><span>LiverTox categoria E (causa improvável de lesão hepática clinicamente aparente) ou E* (não comprovada, suspeita)</span></div></li><li><span class="mtr" aria-hidden="true"><i class="on l1"></i><i class="on l1"></i><i class=""></i><i class=""></i><i class=""></i></span><div><b>Baixo</b><span>LiverTox categoria D (possível; menos de 3 casos publicados)</span></div></li><li><span class="mtr" aria-hidden="true"><i class="on l2"></i><i class="on l2"></i><i class="on l2"></i><i class=""></i><i class=""></i></span><div><b>Moderado</b><span>LiverTox categoria C (provável; menos de 12 casos, sem padrão característico)</span></div></li><li><span class="mtr" aria-hidden="true"><i class="on l3"></i><i class="on l3"></i><i class="on l3"></i><i class="on l3"></i><i class=""></i></span><div><b>Alto</b><span>LiverTox categoria B (muito provável; 12 a 50 casos)</span></div></li><li><span class="mtr" aria-hidden="true"><i class="on l4"></i><i class="on l4"></i><i class="on l4"></i><i class="on l4"></i><i class="on l4"></i></span><div><b>Muito alto</b><span>LiverTox categoria A (bem estabelecida; mais de 50 casos). Modificadores [H]/[HD]: só em dose alta ou circunstância descrita.</span></div></li></ol></div>
+      <div><h3>Rim, de 0 a 3</h3><p class="src">Rótulos da FDA e revisão de Pazhayattil e Shirali (2014).</p><ol><li><span class="mtr" aria-hidden="true"><i class="on l0"></i><i class=""></i><i class=""></i><i class=""></i></span><div><b>Sem sinal</b><span>Sem referência de nefrotoxicidade nas fontes consultadas (rótulo FDA e revisão). Não é prova de segurança renal.</span></div></li><li><span class="mtr" aria-hidden="true"><i class="on l1"></i><i class="on l1"></i><i class=""></i><i class=""></i></span><div><b>Baixo</b><span>Nefrotoxicidade rara (revisão) ou citada apenas em Reações Adversas do rótulo FDA</span></div></li><li><span class="mtr" aria-hidden="true"><i class="on l2"></i><i class="on l2"></i><i class="on l2"></i><i class=""></i></span><div><b>Moderado</b><span>Mecanismo bem descrito e risco condicional (revisão) ou tópico dedicado em Advertências/Precauções do rótulo FDA</span></div></li><li><span class="mtr" aria-hidden="true"><i class="on l3"></i><i class="on l3"></i><i class="on l3"></i><i class="on l3"></i></span><div><b>Alto</b><span>Incidência alta ou dose-dependente declarada (revisão) ou Alerta em Caixa (boxed warning) do rótulo FDA para toxicidade renal</span></div></li></ol></div>
+    </div>
+  </section>
+
+  <section class="sec" id="unidades" aria-labelledby="u-h">
+    <header><h2 id="u-h">Uma plataforma, várias unidades</h2><p>Filtre a lista para ver só o que a sua unidade usa.</p></header>
+    <ul class="units">
+      <li><b>Todas as unidades<small>224 medicamentos</small></b><p>Mostra a lista de exemplo completa, sem filtro.</p></li>
+      <li><b>ICAM<small>224 itens</small></b><p>Lista hospitalar de exemplo, com monografia, dose por faixa etária e nível de toxicidade.</p></li>
+      <li><b>Policlínica Codajás<small>188 itens ambulatoriais</small></b><p>Itens do uso ambulatorial, ordenados por usuários ativos. Já há 47 itens com ficha montada a partir do rótulo oficial da FDA (24 substâncias); o restante entra em novos lotes.</p></li>
+      <li><b>Lista do seu hospital<small>cole a sua</small></b><p>Cole a lista do hospital (código;descrição) e o módulo sugere a monografia pelo nome, sem inventar doses.</p></li>
+    </ul>
+  </section>
+
+  <section class="sec" id="usar" aria-labelledby="c-h">
+    <header><h2 id="c-h">Como usar</h2><p>Do primeiro acesso à dose, em quatro passos.</p></header>
+    <ol class="steps">
+      <li><b>Escolha a unidade</b><span>Todas, ICAM ou Policlínica Codajás, para encurtar a busca.</span></li>
+      <li><b>Informe o paciente</b><span>Idade e peso uma vez só; a barra do paciente fica fixa no topo.</span></li>
+      <li><b>Abra o medicamento</b><span>Veja a dose da faixa, o risco para fígado e rim e a fonte de cada dado.</span></li>
+      <li><b>Confira a triagem</b><span>Junte os itens da prescrição e veja interações e duplicidades.</span></li>
+    </ol>
+  </section>
+
+  <section class="sec" id="fontes" aria-labelledby="f-h">
+    <header><h2 id="f-h">Fontes e limites</h2><p>Cada informação traz referência e link.</p></header>
+    <div>
+      <ul class="srcs"><li><a href="https://www.ncbi.nlm.nih.gov/books/NBK547852/" target="_blank" rel="noopener noreferrer">LiverTox, base do NIH sobre lesão hepática por medicamentos</a></li><li><a href="https://dailymed.nlm.nih.gov/dailymed/" target="_blank" rel="noopener noreferrer">Rótulos de medicamentos da FDA (DailyMed)</a></li><li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4270362/" target="_blank" rel="noopener noreferrer">Pazhayattil e Shirali (2014): nefrotoxicidade de medicamentos</a></li><li><a href="https://consultas.anvisa.gov.br/#/bulario/" target="_blank" rel="noopener noreferrer">Bulário Eletrônico da Anvisa</a></li><li><a href="https://bnfc.nice.org.uk/" target="_blank" rel="noopener noreferrer">BNF for Children (Reino Unido)</a></li><li><a href="https://www.who.int/publications/i/item/9789241547659" target="_blank" rel="noopener noreferrer">WHO Model Formulary for Children</a></li><li><a href="https://www.wolterskluwer.com/en/solutions/lexicomp" target="_blank" rel="noopener noreferrer">Pediatric & Neonatal Dosage Handbook (Lexicomp)</a></li><li><a href="https://publications.aap.org/redbook" target="_blank" rel="noopener noreferrer">Red Book, da Academia Americana de Pediatria</a></li></ul>
+      <div class="limit"><i aria-hidden="true"></i><div><b>Apoio à decisão, não prescrição</b><p>O conteúdo de doses foi compilado por IA a partir das fontes citadas e precisa de revisão por farmacêutico responsável, com atenção redobrada em neonatos e prematuros. A lista incluída é apenas um exemplo: a plataforma não pertence a nenhum hospital.</p></div></div>
+    </div>
+  </section>
+
+  <section class="sec" id="privacidade" aria-labelledby="p-h">
+    <header><h2 id="p-h">Gratuito e privado</h2><p>Pensado para hospitais públicos.</p></header>
+    <div class="three">
+      <div><h3>Sem conta e sem cobrança</h3><p>Não há cadastro, login nem plano pago. Abra e use.</p></div>
+      <div><h3>Dados ficam no aparelho</h3><p>Favoritos, lista do hospital e estoque ficam só neste navegador ou no celular. Use o backup para levar a outro aparelho.</p></div>
+      <div><h3>Sem dados de paciente</h3><p>Nada de paciente é enviado a servidores. Não registre nomes nem prontuários.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="autores" aria-labelledby="a-h">
+    <header><h2 id="a-h">Quem faz</h2><p>Projeto de extensão e iniciação científica.</p></header>
+    <div class="auth">
+      <div><span class="av" aria-hidden="true">MO</span><div><b>Micael Davi Lima de Oliveira</b><span class="r">Estudante de Farmácia · Universidade Federal do Amazonas (UFAM/FCF)</span><span class="r">Iniciação Científica, ILMD Fiocruz Amazônia · Manaus, AM</span></div></div>
+      <div><span class="av" aria-hidden="true">EB</span><div><b>Elias de Souza Barros</b><span class="r">Estudante de Farmácia · Universidade Federal do Amazonas (UFAM/FCF)</span><span class="r">Manaus, AM</span></div></div>
+    </div>
+  </section>
+</div></main>
+
+<footer class="foot"><div class="wrap">
+  <span><b>FarmaLink</b> versão 4.15.0 · os dados do estoque ficam só neste navegador</span>
+  <span><a href="https://github.com/micael-oliveira-ufam/farmacia-hospitalar-AI-analysis">Código no GitHub</a> · Triagem de interações inspirada no <a href="https://github.com/noharm-ai">NoHarm.ai</a> (MIT)</span>
+</div></footer>
+
+<script id="spec-data" type="application/json">{"nome":"Paracetamol","classe":"Analgésicos e antitérmicos","via":"Via oral","bandas":[{"id":"pre","nome":"Prematuro (< 37 sem)","v":[10,10,12,"mg/kg",[8,12],40,"28–32 sem IPM: 10–12 mg/kg/dose a cada 8–12 h; máx. 40 mg/kg/dia (pré-termo)."]},{"id":"neo","nome":"Neonato (0–28 dias)","v":[10,12.5,15,"mg/kg",[6,8],60,"≥ 32 sem IPM: 10–15 mg/kg/dose a cada 6–8 h; máx. 60 mg/kg/dia (termo)."]},{"id":"lac","nome":"Lactente (29 dias – 23 meses)","v":[10,12.5,15,"mg/kg",[4,6],75,"10–15 mg/kg/dose a cada 4–6 h (máx. 5 doses/dia; 75 mg/kg/dia).",1000,4000]},{"id":"cri","nome":"Criança (2–11 anos)","v":[10,12.5,15,"mg/kg",[4,6],75,"10–15 mg/kg/dose a cada 4–6 h (máx. 5 doses/dia; 75 mg/kg/dia).",1000,4000]},{"id":"adl","nome":"Adolescente (12–17 anos)","v":[10,12.5,15,"mg/kg",[4,6],75,"10–15 mg/kg/dose a cada 4–6 h (máx. 5 doses/dia; 75 mg/kg/dia).",1000,4000]},{"id":"adu","nome":"Adulto (18–64 anos)","v":[500,750,1000,"mg",[4,6],4000,"500–1.000 mg a cada 4–6 h; máx. 4 g/dia (3 g na hepatopatia/etilismo)."]},{"id":"ido","nome":"Idoso (≥ 65 anos)","v":[500,750,1000,"mg",[4,6],4000,"Considerar máx. 3 g/dia."]}],"h":{"l":2,"nome":"Moderado","s":"A","m":"HD","cap":true,"fonte":"Acetaminophen","u":"https://www.ncbi.nlm.nih.gov/books/n/livertox/Acetaminophen/","q":"Likelihood score: A[HD] (well established cause of liver injury, but severe cases occur only with high doses)"},"k":{"l":1,"nome":"Baixo","s":null,"m":null,"cap":false,"fonte":"Pazhayattil & Shirali, 2014","u":"https://pmc.ncbi.nlm.nih.gov/articles/PMC4270362/","q":"Rarely, acetaminophen toxicity can lead to AKI."}}</script>
 <script>
-if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-  navigator.serviceWorker.register("sw.js").catch(function () {});
-  navigator.serviceWorker.register("guia/sw.js", { scope: "guia/" }).catch(function () {});
-  navigator.serviceWorker.register("estoque/sw.js", { scope: "estoque/" }).catch(function () {});
+(function(){
+"use strict";
+var $=function(s){return document.querySelector(s)};
+/* tema */
+var root=document.documentElement;
+try{var t=localStorage.getItem("fl-theme");if(t)root.setAttribute("data-theme",t)}catch(e){}
+$("#theme").addEventListener("click",function(){var cur=root.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");var n=cur==="dark"?"light":"dark";root.setAttribute("data-theme",n);try{localStorage.setItem("fl-theme",n)}catch(e){}});
+/* ficha de exemplo */
+var S=JSON.parse($("#spec-data").textContent),band="cri",peso=12;
+var nf=function(v,d){return Number(v).toLocaleString("pt-BR",{maximumFractionDigits:d==null?2:d})};
+var short={pre:"Prematuro",neo:"Neonato",lac:"Lactente",cri:"Criança",adl:"Adolescente",adu:"Adulto",ido:"Idoso"};
+$("#sp-meta").textContent=S.classe+" · "+S.via;
+function mt(n,mx){var s='<span class="mtr" aria-hidden="true">';for(var i=0;i<=mx;i++)s+='<i class="'+(i<=n?"on l"+n:"")+'"></i>';return s+"</span>"}
+$("#sp-bands").innerHTML=S.bandas.map(function(x){return '<li><button type="button" data-b="'+x.id+'" aria-pressed="'+(x.id===band)+'" title="'+x.nome+'">'+short[x.id]+"</button></li>"}).join("");
+function render(){
+  var B=S.bandas.filter(function(x){return x.id===band})[0],v=B.v,h="";
+  Array.prototype.forEach.call(document.querySelectorAll("#sp-bands button"),function(b){b.setAttribute("aria-pressed",b.dataset.b===band)});
+  if(v.nr||v.desc){h='<div class="nr">'+(v.nr||v.desc)+"</div>"}
+  else{
+    var mn=v[0],rc=v[1],mx=v[2],u=v[3],iv=v[4]||[],teto=v[5],cap=v[7],kg=u.indexOf("/kg")>-1;
+    var ivt=iv.length?"a cada "+(iv.length>1?Math.min.apply(null,iv)+" a "+Math.max.apply(null,iv):iv[0])+" h":"";
+    var top=mx*1.12,p=function(x){return Math.max(0,Math.min(100,x/top*100))};
+    h='<div class="dose"><span class="lbl">Dose recomendada por tomada</span><span class="big">'+nf(rc)+"<small>"+u+'</small></span><span class="iv">'+ivt+"</span></div>"
+     +'<div class="scale"><span class="rng"><span class="span" style="left:'+p(mn)+"%;width:"+(p(mx)-p(mn))+'%"></span><span class="rec" style="left:'+p(rc)+'%"></span></span>'
+     +'<div class="ticks"><span>mínima <b>'+nf(mn)+"</b></span><span>recomendada <b>"+nf(rc)+"</b></span><span>máxima <b>"+nf(mx)+"</b></span></div></div>";
+    if(kg){var d=rc*peso,capped=false;if(cap!=null&&d>cap){d=cap;capped=true}
+      h+='<div class="calc"><label>Peso <input id="sp-peso" inputmode="decimal" value="'+nf(peso,1)+'" aria-label="Peso em quilos"> kg</label><output aria-live="polite">Para <b>'+nf(peso,1)+" kg</b>: <b>"+nf(d)+" "+u.split("/")[0]+"</b> por tomada"+(capped?" (limitado ao teto)":"")+(teto!=null?"; teto de "+nf(teto)+" "+u+"/dia":"")+".</output></div>"}
+    else if(teto!=null){h+='<div class="calc"><output>Teto diário: <b>'+nf(teto)+" "+u+"/dia</b>.</output></div>"}
+  }
+  $("#sp-dose").innerHTML=h;
+  var r="";
+  [["Fígado",S.h,4],["Rim",S.k,3]].forEach(function(o){var x=o[1];if(!x)return;
+    r+="<div><b>"+o[0]+"</b><span>"+mt(x.l,o[2])+" "+x.nome+'</span><span class="why">'+(o[0]==="Fígado"?"LiverTox "+x.s+(x.m?"["+x.m+"]":"")+(x.cap?", limitado a Moderado":""):"rótulo FDA e revisão")+"</span></div>"});
+  $("#sp-risk").innerHTML=r;
+  $("#sp-src").innerHTML='Fonte do fígado: <a href="'+S.h.u+'" target="_blank" rel="noopener noreferrer">LiverTox</a>';
 }
+$("#sp-bands").addEventListener("click",function(e){var b=e.target.closest("[data-b]");if(!b)return;band=b.dataset.b;render()});
+$("#sp-dose").addEventListener("input",function(e){if(e.target.id!=="sp-peso")return;var n=parseFloat(e.target.value.replace(",","."));if(n>0&&n<400){peso=n;var o=$(".calc output");var B=S.bandas.filter(function(x){return x.id===band})[0].v,u=B[3],d=B[1]*peso,c=B[7]!=null&&d>B[7];if(c)d=B[7];o.innerHTML="Para <b>"+nf(peso,1)+" kg</b>: <b>"+nf(d)+" "+u.split("/")[0]+"</b> por tomada"+(c?" (limitado ao teto)":"")+(B[5]!=null?"; teto de "+nf(B[5])+" "+u+"/dia":"")+"."}});
+render();
+if("serviceWorker" in navigator&&location.protocol.indexOf("http")===0){
+  navigator.serviceWorker.register("sw.js").catch(function(){});
+  navigator.serviceWorker.register("guia/sw.js",{scope:"guia/"}).catch(function(){});
+  navigator.serviceWorker.register("estoque/sw.js",{scope:"estoque/"}).catch(function(){});}
+})();
 </script>
 </body>
 </html>

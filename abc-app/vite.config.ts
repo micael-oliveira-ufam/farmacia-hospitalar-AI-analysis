@@ -29,5 +29,5 @@ e.respondWith(caches.match(r,{ignoreSearch:true}).then(m=>m||fetch(r).then(x=>{i
 export default defineConfig({
   plugins: [react(), tailwindcss(), offlineSw()],
   resolve: { alias: { '@': path.resolve(__dirname, '.') } },
-  server: { proxy: { '/guia': 'http://localhost:8080' } },
+  server: { fs: { allow: ['..'] }, proxy: { '/guia': 'http://localhost:8080' } },
 });

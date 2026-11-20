@@ -13,7 +13,7 @@ const store={get(k,def){try{const v=localStorage.getItem(k);return v==null?def:J
 /* ---------- estado ---------- */
 const st={tab:"meds",age:store.get("icam-age","ped"),
   fav:new Set(store.get("icam-fav",[])),cart:new Set(store.get("icam-cart",[])),cmp:[],favOnly:false,
-  tc:"",fc:"",more:false,dr:0};
+  tc:"",fc:"",flag:"",more:false,dr:0};
 if(!AGE[st.age])st.age="ped";
 const byId=new Map(ITEMS.map(i=>[i.id,i]));
 const keyMap={}; // índice: chave da monografia -> itens
@@ -154,15 +154,17 @@ function doseHtml(it){const m=M[it.key];
 const PO=window.POSO||{itens:{},extras:[],bandas:{}};
 const poFor=it=>{const d=DOSEBY[it.key];return d&&PO.itens[d.id]?PO.itens[d.id]:null};
 const poQ=x=>x==null?"":String(Math.round(x*1000)/1000).replace(".",",");
+function poScale(v){const mn=v[0],rc=v[1],mx=v[2];if(!(mx>0))return"";const top=mx*1.12,p=x=>Math.max(0,Math.min(100,x/top*100));
+  return'<span class="rng" aria-hidden="true"><span class="span" style="left:'+p(mn).toFixed(1)+"%;width:"+(p(mx)-p(mn)).toFixed(1)+'%"></span><span class="rec" style="left:'+p(rc).toFixed(1)+'%"></span></span>'}
 function poTable(rec,cur){if(!rec)return"";
   const rows=Object.keys(PO.bandas).filter(b=>rec.b[b]).map(b=>{const v=rec.b[b],nm=esc(PO.bandas[b]),ped=(b==="pre"||b==="neo"||b==="lac"||b==="cri"?" pedrow":"")+(b===cur?" cur":"");
-    if(v.nr)return'<tr class="'+ped+'"><td>'+nm+'</td><td colspan="4" class="nr">'+esc(v.nr)+"</td></tr>";
-    if(v.desc)return'<tr class="'+ped+'"><td>'+nm+'</td><td colspan="4">'+esc(v.desc)+"</td></tr>";
+    if(v.nr)return'<tr class="'+ped+'"><td>'+nm+'</td><td colspan="5" class="nr">'+esc(v.nr)+"</td></tr>";
+    if(v.desc)return'<tr class="'+ped+'"><td>'+nm+'</td><td colspan="5">'+esc(v.desc)+"</td></tr>";
     const u=esc(v[3]),iv=v[4]&&v[4].length?"a cada "+v[4].join("/")+" h":"";
     const lim=[v[7]!=null?"dose máx. absoluta "+poQ(v[7])+" "+u.split("/")[0]:"",v[8]!=null?"máx. diária absoluta "+poQ(v[8])+" "+u.split("/")[0]:"",v[5]!=null?"teto diário "+poQ(v[5])+" "+u.replace(/\/(kg|dia|h|min)$/,""):""].filter(Boolean).join(" · ");
-    return'<tr class="'+ped+'"><td>'+nm+'</td><td>'+poQ(v[0])+'</td><td><b>'+poQ(v[1])+'</b></td><td>'+poQ(v[2])+'</td><td>'+u+(iv?"<br><small>"+iv+"</small>":"")+"</td></tr>"
-     +(v[6]||lim?'<tr class="ponote"><td></td><td colspan="4"><small>'+esc(v[6]||"")+(lim?(v[6]?" · ":"")+esc(lim):"")+"</small></td></tr>":"")});
-  return'<div class="tbl"><table class="potbl"><thead><tr><th>Faixa etária</th><th>Mínima</th><th>Recomendada</th><th>Máxima</th><th>Unidade / intervalo</th></tr></thead><tbody>'+rows.join("")+"</tbody></table></div>"+(rec.nota?'<p class="note">'+esc(rec.nota)+"</p>":"")+'<p class="note">Compilado por IA a partir das fontes citadas: confirme com a referência e o farmacêutico responsável (atenção redobrada em prematuros, neonatos e idosos).</p>'}
+    return'<tr class="'+ped+'"><td>'+nm+'</td><td>'+poQ(v[0])+'</td><td><b>'+poQ(v[1])+'</b></td><td>'+poQ(v[2])+'</td><td>'+poScale(v)+'</td><td>'+u+(iv?"<br><small>"+iv+"</small>":"")+"</td></tr>"
+     +(v[6]||lim?'<tr class="ponote"><td></td><td colspan="5"><small>'+esc(v[6]||"")+(lim?(v[6]?" · ":"")+esc(lim):"")+"</small></td></tr>":"")});
+  return'<div class="tbl"><table class="potbl"><thead><tr><th>Faixa etária</th><th>Mínima</th><th>Recomendada</th><th>Máxima</th><th>Escala</th><th>Unidade / intervalo</th></tr></thead><tbody>'+rows.join("")+"</tbody></table></div>"+(rec.nota?'<p class="note">'+esc(rec.nota)+"</p>":"")+'<p class="note">Compilado por IA a partir das fontes citadas: confirme com a referência e o farmacêutico responsável (atenção redobrada em prematuros, neonatos e idosos).</p>'}
 function moaHtml(m,f){m=m||{};f=f||{};
   const moa=m.moa||f.moa,acao=m.farma||f.acao,fk=m.fk||f.fk,fis=m.fisio||f.fisio,ae=f.ae||"",pa=f.pa||"";
   if(!moa&&!acao&&!fk&&!fis)return"";
@@ -286,22 +288,30 @@ function calcDose(f){const p=num(f,"p"),d=num(f,"d"),x=num(f,"x"),c=num(f,"c"),o
 /* ---------- aba Medicamentos: classes → lista → detalhe ---------- */
 let view=[];
 const MATCH=(m,s,c,it)=>!c||(c==="mav"&&!!s.ismp)||(c==="n2"&&(txLv(it).k||0)>=2)||(c==="n1"&&(txLv(it).k||0)>=1)||(c==="h2"&&(txLv(it).h||0)>=3)||(c==="h1"&&(txLv(it).h||0)>=2)||(c==="pa"&&!!m.pa)||(c==="ctl"&&CTRL.has(it.sec));
-const inResults=()=>!!($("#q").value.trim()||st.tc||st.fc||st.favOnly);
+const inResults=()=>!!($("#q").value.trim()||st.tc||st.fc||st.favOnly||st.flag);
+function riskMini(it){const l=txLv(it);
+  const one=(lab,n,mx,nm)=>'<span class="rm" title="'+lab+': '+(n==null?"sem classificação verificada":nm[n])+'"><em>'+lab+"</em>"+meter(n==null?-1:n,mx)+"</span>";
+  return '<span class="ri-risk">'+one("Fígado",l.h,4,HN)+one("Rim",l.k,3,KN)+"</span>"}
 function row(it,withCls){const m=M[it.key],s=S[it.key];
-  return '<button class="ri" type="button" data-open="'+it.id+'"><span class="ri-main"><span class="ri-name">'+esc(it.desc)+"</span>"+(withCls?'<span class="ri-sub">'+esc(m.fc)+"</span>":"")+"</span>"+(s.ismp?'<span class="bdg mav">Alta vigilância</span>':"")+txBadges(it)+'<span class="ri-go" aria-hidden="true">›</span></button>'}
+  return '<button class="ri" type="button" data-open="'+it.id+'"><span class="ri-main"><span class="ri-name">'+esc(it.desc)+"</span>"+(withCls?'<span class="ri-sub">'+esc(m.fc)+"</span>":"")+"</span>"+(s.ismp?'<span class="bdg mav">Alta vigilância</span>':"")+riskMini(it)+'<span class="ri-go" aria-hidden="true">›</span></button>'}
+const FLAGS=[["mav","Alta vigilância","ISMP Brasil"],["h2","Fígado: risco alto","LiverTox, nível 3 ou 4"],["n2","Rim: risco moderado ou alto","rótulos FDA, nível 2 ou 3"],["pa","Alerta pediátrico","neonatos e crianças"],["ctl","Controlados","Portaria 344/98"]];
+const FLAGN=Object.fromEntries(FLAGS.map(f=>[f[0],f[1]]));
 function renderBrowse(){
   const rec=store.get("icam-rec",[]).map(id=>byId.get(id)).filter(it=>it&&inUni(it));
-  $("#browse").innerHTML='<h2 class="pick">'+(rec.length?"Consultados recentemente":"Busque um medicamento")+"</h2>"
-   +(rec.length?'<div class="reclist">'+rec.map(it=>row(it,true)).join("")+"</div>":'<p class="note">Digite o nome acima. Os últimos medicamentos que você abrir aparecem aqui.</p>')
-   +'<details class="bycls"><summary>Ver por classe terapêutica'+(st.fav.size?" ou favoritos":"")+'</summary><div class="tiles">'
+  const total=nOf(()=>true);
+  $("#browse").innerHTML='<p class="lead"><b>'+total+"</b> medicamentos"+(uni==="all"?"":" nesta unidade")+". Busque pelo nome ou comece por um atalho.</p>"
+   +'<h2 class="pick">Atalhos de segurança</h2><div class="kpis">'+FLAGS.map(f=>'<button type="button" class="kpi" data-flag="'+f[0]+'"><b>'+nOf(it=>MATCH(M[it.key],S[it.key],f[0],it))+"</b><span>"+f[1]+"</span><small>"+f[2]+"</small></button>").join("")+"</div>"
+   +(rec.length?'<h2 class="pick">Consultados recentemente</h2><div class="reclist">'+rec.map(it=>row(it,true)).join("")+"</div>":"")
+   +'<h2 class="pick">Classes terapêuticas</h2><div class="tiles">'
    +(st.fav.size?'<button type="button" class="tile favt" data-fav="1"><b>★ Meus favoritos</b><small>'+st.fav.size+(st.fav.size===1?" item":" itens")+"</small></button>":"")
-   +TCS.filter(t=>nOf(i=>M[i.key].tc===t)>0).map(t=>'<button type="button" class="tile" data-tc="'+esc(t)+'" style="--h:'+hue(t)+'"><b>'+esc(t)+"</b><small>"+nOf(i=>M[i.key].tc===t)+" itens</small></button>").join("")+"</div></details>"}
+   +TCS.filter(t=>nOf(i=>M[i.key].tc===t)>0).map(t=>'<button type="button" class="tile" data-tc="'+esc(t)+'" style="--h:'+hue(t)+'"><b>'+esc(t)+"</b><small>"+nOf(i=>M[i.key].tc===t)+" itens</small></button>").join("")+"</div>"}
 function renderMeds(){
   renderUni();
   const qv=$("#q").value.trim(),q=norm(qv);$("#clearq").hidden=!qv;
   const sc=new Map();
   view=ITEMS.filter(it=>{const m=M[it.key];
     if(!inUni(it))return false;if(st.tc&&m.tc!==st.tc)return false;if(st.fc&&m.fc!==st.fc)return false;if(st.favOnly&&!st.fav.has(it.id))return false;
+    if(st.flag&&!MATCH(m,S[it.key],st.flag,it))return false;
     if(!q)return true;const h=HAY[it.id];
     const s0=h.name.startsWith(q)?0:h.name.includes(" "+q)?0:h.name.includes(q)?1:h.cls.includes(q)?2:h.oth.includes(q)?3:-1;
     if(s0<0)return false;sc.set(it.id,s0);return true});
@@ -310,7 +320,7 @@ function renderMeds(){
   const res=inResults();$("#browse").hidden=res;$("#crumb").hidden=!res;
   const out=$("#out");
   if(!res){renderBrowse();out.innerHTML="";return}
-  const title=st.favOnly?"Meus favoritos":st.fc?st.fc:st.tc?st.tc:"Resultados da busca";
+  const title=st.flag?FLAGN[st.flag]:st.favOnly?"Meus favoritos":st.fc?st.fc:st.tc?st.tc:"Resultados da busca";
   let c='<div class="crumb-row"><button class="btn" type="button" data-crumb="reset">← Classes</button><span class="count">'+view.length+(view.length===1?" item":" itens")+"</span></div><h2 class=\"cl-title\">"+esc(title)+"</h2>";
   if(st.tc&&!st.fc){const fs=[...new Set(ITEMS.filter(i=>M[i.key].tc===st.tc).map(i=>M[i.key].fc))];if(fs.length>1)c+='<div class="chips sub">'+fs.map(f=>'<button type="button" class="chip" data-fc="'+esc(f)+'">'+esc(f)+"</button>").join("")+"</div>"}
   if(st.tc&&st.fc)c+='<div class="chips sub"><button type="button" class="chip" data-fc="">Mostrar toda a classe '+esc(st.tc)+"</button></div>";
@@ -527,10 +537,8 @@ const TABS=[["meds","Medicamentos"],["dose","Dose do paciente"],["calc","Calcula
 const PRIM=["meds"],SHORT={};
 function renderTabs(){
   const lab=t=>t[0]==="cart"&&st.cart.size?t[1]+'<span class="n">'+st.cart.size+"</span>":t[0]==="cmp"&&st.cmp.length?t[1]+'<span class="n">'+st.cmp.length+"</span>":t[1];
-  const inMore=!PRIM.includes(st.tab),nm=st.cart.size+st.cmp.length;
-  $("#tabs").innerHTML=TABS.filter(t=>PRIM.includes(t[0])).map(t=>'<button type="button" role="tab" data-t="'+t[0]+'" aria-selected="'+(st.tab===t[0])+'" title="'+t[1]+'">'+(SHORT[t[0]]||t[1])+"</button>").join("")
-   +'<span class="morewrap"><button type="button" data-more="1" aria-haspopup="true" aria-expanded="'+st.more+'" aria-selected="'+inMore+'">'+(inMore?TABS.find(t=>t[0]===st.tab)[1]:"Ferramentas")+(nm&&!inMore?'<span class="n">'+nm+"</span>":"")+' ▾</button>'
-   +'<span class="menu" '+(st.more?"":"hidden")+' role="menu">'+TABS.filter(t=>!PRIM.includes(t[0])).map(t=>'<button type="button" role="menuitem" data-t="'+t[0]+'" aria-current="'+(st.tab===t[0])+'">'+lab(t)+"</button>").join("")+"</span></span>";
+  $("#tabs").innerHTML='<div class="tabs-in" role="tablist">'+TABS.map(t=>'<button type="button" role="tab" data-t="'+t[0]+'" aria-selected="'+(st.tab===t[0])+'">'+lab(t)+"</button>").join("")+"</div>";
+  const at=$('#tabs [aria-selected="true"]');if(at&&at.scrollIntoView)try{at.scrollIntoView({inline:"center",block:"nearest"})}catch(e){}
   $$(".panel").forEach(p=>p.hidden=p.id!=="p-"+st.tab);
   if(st.tab==="any")renderAny();
   if(st.tab==="mine")renderMine();
@@ -556,10 +564,11 @@ function init(){
   $("#clearq").addEventListener("click",()=>{$("#q").value="";renderMeds();$("#q").focus()});
   const nav=e=>{const b=e.target.closest("button");if(!b)return;const d=b.dataset;
     if(d.imp){importList(d.imp);return}
-    if(d.fav){st.favOnly=true;st.tc=st.fc="";$("#q").value="";renderMeds();window.scrollTo({top:0});return}
-    if(d.tc!==undefined){st.tc=d.tc;st.fc="";st.favOnly=false}
+    if(d.flag!==undefined){st.flag=d.flag;st.tc=st.fc="";st.favOnly=false;$("#q").value="";renderMeds();return}
+    if(d.fav){st.favOnly=true;st.flag="";st.tc=st.fc="";$("#q").value="";renderMeds();window.scrollTo({top:0});return}
+    if(d.tc!==undefined){st.tc=d.tc;st.fc="";st.favOnly=false;st.flag=""}
     else if(d.fc!==undefined){st.fc=d.fc}
-    else if(d.crumb){st.tc=st.fc="";st.favOnly=false;$("#q").value="";renderMeds();window.scrollTo({top:0});return}
+    else if(d.crumb){st.tc=st.fc=st.flag="";st.favOnly=false;$("#q").value="";renderMeds();window.scrollTo({top:0});return}
     else return;
     if(d.clearq)$("#q").value="";
     renderMeds();window.scrollTo({top:0})};
@@ -578,9 +587,10 @@ function init(){
   $("#anycalc").addEventListener("input",runAny);
   $("#any-refs").innerHTML=refChip("ANSEL")+" "+refChip("ANV");
   document.addEventListener("click",e=>{
+    const gt=e.target.closest("[data-gotab]");if(gt){st.tab=gt.dataset.gotab;st.more=false;renderTabs();window.scrollTo({top:0});return}
     const fi=e.target.closest("[data-ficha]");if(fi){openFicha(fi.dataset.ficha);return}
     const an=e.target.closest("[data-anyn]");if(an){$("#any-pt").value=an.dataset.anyn.replace(/\s+\d.*$/,"");$("#any-en").value="";st.tab="any";renderTabs();renderAny();window.scrollTo({top:0});return}
-    const u=e.target.closest("[data-uni]");if(u){uni=u.dataset.uni;store.set("icam-uni",uni);st.tc=st.fc="";renderMeds();return}
+    const u=e.target.closest("[data-uni]");if(u){uni=u.dataset.uni;store.set("icam-uni",uni);st.tc=st.fc=st.flag="";renderMeds();return}
     const o=e.target.closest("[data-open]");if(o){e.preventDefault();const it=byId.get(+o.dataset.open);if(it)openItem(it);return}
     const dz=e.target.closest("[data-dz]");if(dz){closeDrawer();openDose(dz.dataset.dz);return}
     if(e.target.closest("[data-close]")){closeDrawer();return}
@@ -589,6 +599,7 @@ function init(){
   window.addEventListener("popstate",()=>closeDrawer(true));
   $("#out").addEventListener("click",e=>{if(e.target.id==="goany"){$("#any-pt").value=$("#q").value.trim();st.tab="any";renderTabs();renderAny();window.scrollTo({top:0})}});
   const pb=$("#print");if(pb)pb.addEventListener("click",()=>window.print());
+  const th=$("#theme");if(th)th.addEventListener("click",()=>{const r=document.documentElement,cur=r.getAttribute("data-theme")||(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"),n=cur==="dark"?"light":"dark";r.setAttribute("data-theme",n);try{localStorage.setItem("fl-theme",n)}catch(e){}});
   renderTabs();renderMeds();
   const hm=location.hash.match(/caf=([^&]+)/);if(hm){const it=ITEMS.find(i=>i.code===decodeURIComponent(hm[1]));if(it)openItem(it)}
   if("serviceWorker" in navigator&&location.protocol.startsWith("http")){navigator.serviceWorker.register("sw.js").catch(()=>{})}
