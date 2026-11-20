@@ -110,7 +110,20 @@ function copy(txt){const ok=()=>toast("Copiado para a área de transferência");
 const TCS=[...new Set(ITEMS.map(i=>M[i.key].tc))].sort((a,b)=>a.localeCompare(b,"pt"));
 const FCS=[...new Set(ITEMS.map(i=>M[i.key].fc))].sort((a,b)=>a.localeCompare(b,"pt"));
 const hue=t=>(TCS.indexOf(t)*47+160)%360;
-const nOf=f=>ITEMS.filter(f).length;
+/* unidade: Todas | ICAM | Policlínica Codajás */
+const UNIS=[["all","Todas as unidades"],["icam","ICAM"],["cod","Policlínica Codajás"]];
+const CODK=(()=>{const k=new Set();((window.LISTAS&&window.LISTAS.codajas.itens)||[]).forEach(n=>matchMine(n).forEach(x=>k.add(x)));return k})();
+let uni=store.get("icam-uni","all");if(!UNIS.some(u=>u[0]===uni))uni="all";
+const inUni=it=>uni==="all"||uni==="icam"||CODK.has(it.key);
+const uniN=u=>ITEMS.filter(it=>u==="cod"?CODK.has(it.key):true).length;
+function renderUni(){const el=$("#uni");if(!el)return;
+  el.innerHTML='<span class="agelbl">Unidade:</span>'+UNIS.map(u=>'<button type="button" class="chip" data-uni="'+u[0]+'" aria-pressed="'+(uni===u[0])+'">'+u[1]+" <small>"+uniN(u[0])+"</small></button>").join("")}
+const COD_NO=((window.LISTAS&&window.LISTAS.codajas.itens)||[]).filter(n=>!matchMine(n).length);
+function renderUniRest(q){const el=$("#uni-rest");if(!el)return;
+  if(uni!=="cod"){el.innerHTML="";return}
+  const l=COD_NO.filter(n=>!q||norm(n).includes(q));
+  el.innerHTML=l.length?'<details class="bycls" '+(q?"open":"")+'><summary>Na lista da Policlínica, ainda sem monografia no guia ('+l.length+')</summary><div class="rows" style="padding:0 12px 12px">'+l.map(n=>'<div class="mrow"><span class="mname">'+esc(n)+'</span><span class="macts"><button type="button" class="btn" data-anyn="'+esc(n)+'">Buscar em qualquer medicamento</button></span></div>').join("")+"</div></details>":""}
+const nOf=f=>ITEMS.filter(it=>inUni(it)&&f(it)).length;
 const AGES={neo:"Neonato",ped:"Lactente / criança",adu:"Adulto",ido:"Idoso"};
 const HAY={};ITEMS.forEach(i=>{const m=M[i.key];HAY[i.id]={name:norm([i.desc,m.n,m.en].join(" ")),cls:norm([m.c,m.tc,m.fc].join(" ")),oth:norm([i.code,S[i.key].ae].join(" "))}});
 const NL=["","Nefro: atenção","Nefrotóxico"],HL=["","Hepato: atenção","Hepatotóxico"];
@@ -261,21 +274,23 @@ const inResults=()=>!!($("#q").value.trim()||st.tc||st.fc||st.favOnly);
 function row(it,withCls){const m=M[it.key],s=S[it.key];
   return '<button class="ri" type="button" data-open="'+it.id+'"><span class="ri-main"><span class="ri-name">'+esc(it.desc)+"</span>"+(withCls?'<span class="ri-sub">'+esc(m.fc)+"</span>":"")+"</span>"+(s.ismp?'<span class="bdg mav">Alta vigilância</span>':"")+txBadges(it)+'<span class="ri-go" aria-hidden="true">›</span></button>'}
 function renderBrowse(){
-  const rec=store.get("icam-rec",[]).map(id=>byId.get(id)).filter(Boolean);
+  const rec=store.get("icam-rec",[]).map(id=>byId.get(id)).filter(it=>it&&inUni(it));
   $("#browse").innerHTML='<h2 class="pick">'+(rec.length?"Consultados recentemente":"Busque um medicamento")+"</h2>"
    +(rec.length?'<div class="reclist">'+rec.map(it=>row(it,true)).join("")+"</div>":'<p class="note">Digite o nome acima. Os últimos medicamentos que você abrir aparecem aqui.</p>')
    +'<details class="bycls"><summary>Ver por classe terapêutica'+(st.fav.size?" ou favoritos":"")+'</summary><div class="tiles">'
    +(st.fav.size?'<button type="button" class="tile favt" data-fav="1"><b>★ Meus favoritos</b><small>'+st.fav.size+(st.fav.size===1?" item":" itens")+"</small></button>":"")
-   +TCS.map(t=>'<button type="button" class="tile" data-tc="'+esc(t)+'" style="--h:'+hue(t)+'"><b>'+esc(t)+"</b><small>"+nOf(i=>M[i.key].tc===t)+" itens</small></button>").join("")+"</div></details>"}
+   +TCS.filter(t=>nOf(i=>M[i.key].tc===t)>0).map(t=>'<button type="button" class="tile" data-tc="'+esc(t)+'" style="--h:'+hue(t)+'"><b>'+esc(t)+"</b><small>"+nOf(i=>M[i.key].tc===t)+" itens</small></button>").join("")+"</div></details>"}
 function renderMeds(){
+  renderUni();
   const qv=$("#q").value.trim(),q=norm(qv);$("#clearq").hidden=!qv;
   const sc=new Map();
   view=ITEMS.filter(it=>{const m=M[it.key];
-    if(st.tc&&m.tc!==st.tc)return false;if(st.fc&&m.fc!==st.fc)return false;if(st.favOnly&&!st.fav.has(it.id))return false;
+    if(!inUni(it))return false;if(st.tc&&m.tc!==st.tc)return false;if(st.fc&&m.fc!==st.fc)return false;if(st.favOnly&&!st.fav.has(it.id))return false;
     if(!q)return true;const h=HAY[it.id];
     const s0=h.name.startsWith(q)?0:h.name.includes(" "+q)?0:h.name.includes(q)?1:h.cls.includes(q)?2:h.oth.includes(q)?3:-1;
     if(s0<0)return false;sc.set(it.id,s0);return true});
   if(q)view.sort((a,b)=>sc.get(a.id)-sc.get(b.id));
+  renderUniRest(q);
   const res=inResults();$("#browse").hidden=res;$("#crumb").hidden=!res;
   const out=$("#out");
   if(!res){renderBrowse();out.innerHTML="";return}
@@ -547,6 +562,8 @@ function init(){
   $("#anycalc").addEventListener("input",runAny);
   $("#any-refs").innerHTML=refChip("ANSEL")+" "+refChip("ANV");
   document.addEventListener("click",e=>{
+    const an=e.target.closest("[data-anyn]");if(an){$("#any-pt").value=an.dataset.anyn.replace(/\s+\d.*$/,"");$("#any-en").value="";st.tab="any";renderTabs();renderAny();window.scrollTo({top:0});return}
+    const u=e.target.closest("[data-uni]");if(u){uni=u.dataset.uni;store.set("icam-uni",uni);st.tc=st.fc="";renderMeds();return}
     const o=e.target.closest("[data-open]");if(o){e.preventDefault();const it=byId.get(+o.dataset.open);if(it)openItem(it);return}
     const dz=e.target.closest("[data-dz]");if(dz){closeDrawer();openDose(dz.dataset.dz);return}
     if(e.target.closest("[data-close]")){closeDrawer();return}

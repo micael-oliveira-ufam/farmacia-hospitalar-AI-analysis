@@ -2,6 +2,11 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.11.0 - 2026-11-19
+
+- **Filtro por unidade** na busca: "Todas as unidades", "ICAM" e "Policlínica Codajás", com contagem em cada botão; a escolha fica guardada no navegador e vale para a busca, as classes e os recentes.
+- Na visão Policlínica Codajás, os itens da lista que ainda **não têm monografia** no guia aparecem num bloco recolhido (162 de 188), cada um com atalho para "Buscar em qualquer medicamento". A lista de Codajás é de dispensação ambulatorial (insulinas, biológicos, inalatórios, imunossupressores), diferente do universo hospitalar do ICAM; criar monografias para esses itens é a etapa seguinte.
+
 ## 4.10.1 - 2026-11-19
 
 - **Tela inicial só com busca e recentes**: "Consultados recentemente" (os 8 últimos medicamentos abertos, guardados só no navegador); as classes terapêuticas e os favoritos ficam recolhidos em "Ver por classe terapêutica".

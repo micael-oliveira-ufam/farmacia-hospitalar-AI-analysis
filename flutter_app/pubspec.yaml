@@ -1,7 +1,7 @@
 name: farmacia_integrada
 description: "Farmácia Hospitalar Integrada (Android, offline) - CicloDose (posologia pediátrica) e FarmaGestão (estoque e curva ABC)."
 publish_to: "none"
-version: 4.10.1+41001
+version: 4.11.0+41100
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
