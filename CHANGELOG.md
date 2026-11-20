@@ -2,6 +2,9 @@
 
 Formato: [Versionamento Semântico](https://semver.org/lang/pt-BR/) (MAIOR.MENOR.CORREÇÃO). A versão vigente fica no arquivo `VERSION`; `python3 tools/release.py` sincroniza os demais arquivos e gera o pacote `farmacia-hospitalar-integrada-vX.Y.Z.zip`.
 
+## 4.24.1
+- **Página inicial:** nova seção **Quem orienta**, com a Profa. Dra. Clarice Veloso, o Prof. Dr. Evandro Silva e a Dra. Juliana Carvalho (preceptora). O Prof. Dr. Evandro saiu da seção Quem faz. Novo item *Orientação* no menu.
+
 ## 4.24.0
 - **Estoque:** dois inventários separados, **Medicamentos na Farmácia Clínica** e **Medicamentos no CAF**, cada um com seus itens, quantidades, análise ABC, pedido semanal e backup. Os itens que já existiam ficam no CAF; a Farmácia Clínica começa vazia.
 - **Estoque:** removidas a janela *Inserção Manual de Medicamento* e a lista *Itens Cadastrados*. Adicionar e excluir medicamentos (com confirmação) agora é feito em **Gerenciar quantidade em estoque**.

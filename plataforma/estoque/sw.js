@@ -1,4 +1,4 @@
-const V='abc-mwp8uaxd';
+const V='abc-mwp8vwqj';
 const FILES=["./","index.html","manifest.json","icon.svg","icon-gestao.svg","ufam.png","data/catalog.json","data/codajas.json","assets/bricolage-DLoelf7F.woff2","assets/publicsans-DdeTHZLK.woff2","assets/index-BW_kSPxa.css","assets/index-N8ybhxK6.js"];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==V).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
