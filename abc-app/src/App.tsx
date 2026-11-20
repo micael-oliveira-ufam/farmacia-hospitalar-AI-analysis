@@ -193,9 +193,11 @@ function FlBar() {
   useEffect(() => { document.documentElement.dataset.theme = dark ? 'dark' : 'light'; try { localStorage.setItem('fl-theme', dark ? 'dark' : 'light'); } catch {} }, [dark]);
   return (
     <div className="fl-bar"><div className="fl-bar-in">
-      <a className="fl-brand" href={HOME_URL} aria-label="FarmaLink, início">
-        <svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><g transform="rotate(-28 16 16)" strokeWidth="3.4"><rect x="2" y="11" width="17" height="10" rx="5" stroke="#0A7C86"/><rect x="13" y="11" width="17" height="10" rx="5" stroke="#3157D5"/></g></svg>
-        <span>Farma<b>Link</b></span>
+      <a className="fl-brand" href={HOME_URL} aria-label="PharmaCentral, início">
+        <svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><defs><mask id="pcm1"><rect width="64" height="64" fill="#fff"/><circle cx="32" cy="32" r="11.5" fill="#000"/></mask></defs>
+<g transform="rotate(-45 32 32)"><g mask="url(#pcm1)"><path d="M31 21H18a11 11 0 0 0 0 22h13Z" fill="#0A7C86"/><path d="M33 21h13a11 11 0 0 1 0 22H33Z" fill="#3157D5"/><path d="M16 26.5h13M35 26.5h13" strokeLinecap="round" strokeWidth="2.4" stroke="#fff" strokeOpacity=".28"/></g></g>
+<circle cx="32" cy="32" r="9.6" fill="none" stroke="#F2B33D" strokeWidth="2.4"/><path d="M32 27v10M27 32h10" stroke="#F2B33D" strokeWidth="3" strokeLinecap="round"/></svg>
+        <span>Pharma<b>Central</b></span>
       </a>
       <nav className="fl-mods" aria-label="Módulos">
         <a href={GUIDE_URL}><i />Controle terapêutico</a>
@@ -1621,7 +1623,7 @@ export default function App() {
         <footer className="max-w-7xl mx-auto mt-12 pt-12 border-t border-slate-200 pb-12">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
             <div className="space-y-4">
-              <p className="text-xs text-slate-400 font-medium leading-relaxed max-w-xs">Estoque · módulo de estoque e curva ABC da FarmaLink.</p>
+              <p className="text-xs text-slate-400 font-medium leading-relaxed max-w-xs">Estoque · módulo de estoque e curva ABC da PharmaCentral.</p>
             </div>
             
             <div className="space-y-4">
@@ -1642,7 +1644,7 @@ export default function App() {
               <h5 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tecnologia</h5>
               <p className="text-xs text-slate-500 leading-relaxed">
                 Desenvolvido com React e Recharts.<br />
-                © 2026 Estoque · FarmaLink
+                © 2026 Estoque · PharmaCentral
               </p>
             </div>
           </div>

@@ -1,4 +1,4 @@
-/* FarmaLink · sistema visual compartilhado (landing, Controle terapêutico e Estoque).
+/* PharmaCentral · sistema visual compartilhado (landing, Controle terapêutico e Estoque).
    Conceito: ficha farmacêutica. Réguas finas, números tabulares, e duas peças de assinatura:
    a barra de dose (.rng) e o medidor de risco (.mtr). Tema claro e escuro. Sem fontes externas. */
 @font-face{font-family:"Bricolage";src:url(fonts/bricolage.woff2) format("woff2");font-weight:200 800;font-display:swap}
@@ -65,7 +65,7 @@ img,svg{max-width:100%}
 .fl-bar{position:sticky;top:0;z-index:50;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
 .fl-bar-in{display:flex;align-items:center;gap:14px;max-width:1320px;margin:0 auto;padding:9px 20px;min-height:56px}
 .fl-brand{display:flex;align-items:center;gap:9px;color:var(--ink);text-decoration:none;font:700 1.22rem/1 var(--f-display);letter-spacing:-.02em}
-.fl-brand svg{width:30px;height:30px;flex:none}
+.fl-brand svg{width:36px;height:36px;flex:none}
 .fl-brand span{color:var(--ink)}
 .fl-brand b{color:var(--brand);font-weight:700}
 .fl-mods{display:flex;gap:2px;padding:3px;background:var(--sunk);border-radius:999px;margin-left:6px}

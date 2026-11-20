@@ -1,4 +1,4 @@
-/* Controle terapêutico · interface FarmaLink. Os tokens (cores, fontes, .btn, .chip, .mtr, .rng) vêm de design/farmalink.css. */
+/* Controle terapêutico · interface PharmaCentral. Os tokens (cores, fontes, .btn, .chip, .mtr, .rng) vêm de design/pharmacentral.css. */
 :root{--bar-h:57px;--tabs-h:50px}
 [hidden]{display:none!important}
 body.noscroll{overflow:hidden}

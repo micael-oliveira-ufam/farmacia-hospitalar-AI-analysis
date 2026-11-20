@@ -21,7 +21,7 @@ python3 tools/mklanding.py
 cp pages/index.html pages/manifest.json pages/sw.js "$OUT/"
 cp design/icon.svg "$OUT/icon.svg"
 mkdir -p "$OUT/shared/fonts"
-cp design/farmalink.css "$OUT/shared/farmalink.css"
+cp design/pharmacentral.css "$OUT/shared/pharmacentral.css"
 cp design/fonts/*.woff2 "$OUT/shared/fonts/"
 touch "$OUT/.nojekyll"
 echo "ok: $OUT"

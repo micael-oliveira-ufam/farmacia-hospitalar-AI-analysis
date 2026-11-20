@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FarmaLink · posologia e estoque da farmácia hospitalar</title>
-<meta name="description" content="FarmaLink reúne dois módulos gratuitos para a farmácia hospitalar: Controle terapêutico (dose por faixa etária, do prematuro ao idoso, com nível de toxicidade e fonte) e Estoque (curva ABC, estoque de emergência e pedido semanal). Sem conta, funciona offline.">
+<title>PharmaCentral · posologia e estoque da farmácia hospitalar</title>
+<meta name="description" content="PharmaCentral reúne dois módulos gratuitos para a farmácia hospitalar: Controle terapêutico (dose por faixa etária, do prematuro ao idoso, com nível de toxicidade e fonte) e Estoque (curva ABC, estoque de emergência e pedido semanal). Sem conta, funciona offline.">
 <meta name="theme-color" content="#102A43">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg">
-<link rel="stylesheet" href="shared/farmalink.css">
+<link rel="stylesheet" href="shared/pharmacentral.css">
 <style>
 .wrap{max-width:1240px;margin:0 auto;padding:0 24px}
 /* ---- abertura ---- */
@@ -140,7 +140,9 @@ main .wrap{padding-top:0}
 </head>
 <body>
 <header class="fl-bar"><div class="fl-bar-in">
-  <a class="fl-brand" href="./" aria-label="FarmaLink, página inicial"><svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><g transform="rotate(-28 16 16)" stroke-width="3.4"><rect x="2" y="11" width="17" height="10" rx="5" stroke="var(--brand)"/><rect x="13" y="11" width="17" height="10" rx="5" stroke="var(--est)"/></g></svg><span>Farma<b>Link</b></span></a>
+  <a class="fl-brand" href="./" aria-label="PharmaCentral, página inicial"><svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><defs><mask id="pcm1"><rect width="64" height="64" fill="#fff"/><circle cx="32" cy="32" r="11.5" fill="#000"/></mask></defs>
+<g transform="rotate(-45 32 32)"><g mask="url(#pcm1)"><path d="M31 21H18a11 11 0 0 0 0 22h13Z" fill="#0A7C86"/><path d="M33 21h13a11 11 0 0 1 0 22H33Z" fill="#3157D5"/><path d="M16 26.5h13M35 26.5h13" stroke-linecap="round" stroke-width="2.4" stroke="#fff" stroke-opacity=".28"/></g></g>
+<circle cx="32" cy="32" r="9.6" fill="none" stroke="#F2B33D" stroke-width="2.4"/><path d="M32 27v10M27 32h10" stroke="#F2B33D" stroke-width="3" stroke-linecap="round"/></svg><span>Pharma<b>Central</b></span></a>
   <nav class="fl-mods" aria-label="Módulos"><a href="guia/"><i></i>Controle terapêutico</a><a class="est" href="estoque/"><i></i>Estoque</a></nav>
   <span class="fl-sp"></span>
   <div class="fl-tools"><a class="fl-lnk hide-s" href="#fontes">Fontes</a><a class="fl-lnk hide-s" href="#autores">Autores</a><button class="fl-ic" id="theme" type="button" aria-label="Alternar tema claro e escuro" title="Alternar tema"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" /><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button></div>
@@ -267,7 +269,7 @@ main .wrap{padding-top:0}
 </div></main>
 
 <footer class="foot"><div class="wrap">
-  <span><b>FarmaLink</b> versão 4.15.0 · os dados do estoque ficam só neste navegador</span>
+  <span><b>PharmaCentral</b> versão 4.16.0 · os dados do estoque ficam só neste navegador</span>
   <span><a href="https://github.com/micael-oliveira-ufam/farmacia-hospitalar-AI-analysis">Código no GitHub</a> · Triagem de interações inspirada no <a href="https://github.com/noharm-ai">NoHarm.ai</a> (MIT)</span>
 </div></footer>
 

@@ -1,6 +1,6 @@
 // Página inicial offline. Só trata os arquivos da própria página inicial; /guia/ e /estoque/ têm seus próprios service workers.
 const V = 'icam-home-5';
-const OWN = ['/', '/index.html', '/manifest.json', '/icon.svg', '/shared/farmalink.css', '/shared/fonts/bricolage.woff2', '/shared/fonts/publicsans.woff2'];
+const OWN = ['/', '/index.html', '/manifest.json', '/icon.svg', '/shared/pharmacentral.css', '/shared/fonts/bricolage.woff2', '/shared/fonts/publicsans.woff2'];
 self.addEventListener('install', e => e.waitUntil(caches.open(V).then(c => c.addAll(OWN)).then(() => self.skipWaiting())));
 self.addEventListener('activate', e => e.waitUntil(caches.keys().then(k => Promise.all(k.filter(x => x.startsWith('icam-home-') && x !== V).map(x => caches.delete(x)))).then(() => self.clients.claim())));
 self.addEventListener('fetch', e => {

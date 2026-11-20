@@ -1,7 +1,7 @@
 @import "tailwindcss";
-@import "../../design/farmalink.css";
+@import "../../design/pharmacentral.css";
 
-/* Tailwind passa a ler as cores do sistema FarmaLink (claro e escuro). */
+/* Tailwind passa a ler as cores do sistema PharmaCentral (claro e escuro). */
 @theme{
 --color-white:var(--surface);
 --color-slate-50:var(--ground);--color-slate-100:var(--sunk);--color-slate-200:var(--line);--color-slate-300:var(--line-2);

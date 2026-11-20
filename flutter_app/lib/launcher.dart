@@ -39,7 +39,7 @@ class Launcher extends StatelessWidget {
         child: ListView(padding: const EdgeInsets.all(16), children: [
           const Text('PLATAFORMA PARA QUALQUER HOSPITAL', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, letterSpacing: 1)),
           const SizedBox(height: 4),
-          const Text('FarmaLink', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800)),
+          const Text('PharmaCentral', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800)),
           const SizedBox(height: 4),
           const Text('Dois módulos em um só aplicativo, para qualquer hospital. Gratuito, sem cadastro e sem conta. Funciona offline: os dados ficam dentro do aplicativo.'),
           const SizedBox(height: 14),

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gera a página inicial do FarmaLink a partir de pages/index.tpl.html e dos dados reais do projeto.
+"""Gera a página inicial do PharmaCentral a partir de pages/index.tpl.html e dos dados reais do projeto.
 Saídas: pages/index.html (caminhos relativos, GitHub Pages) e server/landing/index.html (caminhos absolutos, Docker).
 Uso: python3 tools/mklanding.py"""
 import json, os, re

@@ -9,7 +9,7 @@ class GuiaApp extends StatelessWidget {
   const GuiaApp({super.key});
   @override
   Widget build(BuildContext context) => MaterialApp(
-        title: 'FarmaLink',
+        title: 'PharmaCentral',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           useMaterial3: true,

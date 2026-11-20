@@ -1,4 +1,4 @@
-# FarmaLink
+# PharmaCentral
 
 Plataforma para **qualquer hospital** (nenhum hospital específico), com dois módulos:
 
